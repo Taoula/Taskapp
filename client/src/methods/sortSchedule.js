@@ -1,140 +1,112 @@
 import axios from "axios"
+import moment from "moment"
+
+moment().format();
 
 async function sortSchedule(setSchedule, options){
+
+    
     //get active tasks from db
-    const timeBlockLength = 5
     const taskReq = await axios.get("http://localhost:5000/task/")
 
-    const tasks = taskReq.data.filter(task => task.isActive);
+    // Store active tasks in a new tasks array
+    let tasks = taskReq.data.filter(task => task.isActive);
+    
+    // Sort the tasks array in ascending order by the priority value
+    tasks.sort((a, b) => parseFloat(a.priority) - parseFloat(b.priority));
 
+    let priorityOne = [];
+    let priorityTwo = [];
+    let priorityThree = [];
+    let priorityFour = [];
+    let priorityFive = [];
 
+    for (let i = 0; i < tasks.length; i++) {
+
+        if (tasks[i].priority == 1) {
+
+            priorityOne.push(tasks[i]);
+        }
+
+        else if (tasks[i].priority == 2) {
+
+            priorityTwo.push(tasks[i]);
+        }
+
+        else if (tasks[i].priority == 3) {
+
+            priorityThree.push(tasks[i]);
+        }
+
+        else if (tasks[i].priority == 4) {
+
+            priorityFour.push(tasks[i]);
+        }
+
+        else if (tasks[i].priority == 4) {
+
+            priorityFive.push(tasks[i]);
+        }
+    }
+
+    priorityOne.sort((a, b) => parseFloat(a.duration) - parseFloat(b.duration));
+    priorityTwo.sort((a, b) => parseFloat(a.duration) - parseFloat(b.duration));
+    priorityThree.sort((a, b) => parseFloat(a.duration) - parseFloat(b.duration));
+    priorityFour.sort((a, b) => parseFloat(a.duration) - parseFloat(b.duration));
+    priorityFive.sort((a, b) => parseFloat(a.duration) - parseFloat(b.duration));
+
+    tasks = [];
+
+    tasks = priorityOne.concat(priorityTwo).concat(priorityThree).concat(priorityFour).concat(priorityFive);
 
     //Set Start & End Hours (Manual right now)
 
-    const start = 7 // 7 AM
-    const end = 23 // 11 PM
+    let add_minutes = function(dt, minutes){
+        return new Date(dt.getTime() + minutes*60000);
+    }
 
-    //total time
-    let totalTime = ((end-start) * 60)
+    let wake = new Date();  
+    wake.setHours(7);
+    wake.setMinutes(0);
+    wake.setSeconds(0);
 
-    //calculate amount of minutes for all tasks
-    let totalTaskTime = 0
-    tasks.forEach(task => {
-        totalTaskTime += task.duration
-    })
 
-    //calculate total number of time blocks, free time blocks
-    let freeTime = (totalTime - totalTaskTime)
-    console.log("freetime: " + freeTime)
-    let freeTimeLength = Math.floor(Math.floor(freeTime/tasks.length)/5)*5
-    console.log("avg ft length: " + freeTimeLength)
-    let freeTimeRemainder = (freeTime % tasks.length + (Math.floor(freeTime/tasks.length)%5))*5
-    console.log("freetimeremainder:" + freeTimeRemainder)
-    const timeBlocks = Math.floor(totalTime/timeBlockLength)
+    //const sleep = 23 // 11 PM
+    const tempSchedule = [];
 
-    //calculate length of each break, remainder
-   /* const freeTimeLength = Math.floor(freeTimeBlocks / tasks.length)
-    const freeTimeRemainder = freeTimeBlocks % tasks.length*/
-
-    
-    let newTasks = []
-
-    /*tasks.forEach(task => {
-        newTasks.push(task)
-        newTasks.push({_id: null, name: "Free Time", duration:freeTimeLength})
-    })*/
-
-    for (let i = 0; i < tasks.length; i++){
-        newTasks.push(tasks[i])
-        if (i + 1 < tasks.length){
-            newTasks.push({_id: null, name: "Free Time", duration:freeTimeLength})
+    for (let i = 0; i < tasks.length; i++) {
+        if (i === 0) {
+            let {_id, name, duration} = tasks[i];
+            let end = add_minutes(wake, duration);
+            let toAdd = {"_id": _id, "name": name, "start": wake, "end": end}
+            tempSchedule.push(toAdd);
         } else {
-            newTasks.push({_id: null, name: "Free Time", duration:freeTimeLength + freeTimeRemainder})
+            let {_id, name, duration} = tasks[i];
+            let lastTaskEnd = tempSchedule[i - 1].end;
+            add_minutes(lastTaskEnd, duration);
+            let toAdd = {"_id": _id, "name": name, "start": lastTaskEnd, "end": add_minutes(lastTaskEnd, duration)}
+            tempSchedule.push(toAdd);
         }
     }
 
-    //initialize schedule
-    let tempSchedule = []
-
-    for (let i = 0; i < timeBlocks; i++){
-        tempSchedule.push({block: i, name: null})
-    }
-
-    let blockIndex = 0;
-
-    for (let i = 0; i < newTasks.length;i++){
-        const {_id, name, duration} = newTasks[i]
-        let blockDuration = Math.floor(duration/timeBlockLength)
-        
-        while (blockDuration > 0){
-            if (tempSchedule[blockIndex].name === null){
-                tempSchedule[blockIndex].name = name
-                blockDuration--
-            }
-            blockIndex++
+    let convert12 = function(dt) {
+        let hours = dt.getHours();
+        let amOrPm = hours >= 12 ? 'pm' : 'am';
+        hours = (hours % 12) || 12;
+        let minutes = dt.getMinutes();
+        if (minutes === 0) {
+            minutes = "00"
         }
+        return hours + ":" + minutes + " " + amOrPm;
     }
-    
-
-    //scheduling loop
-    let currentBlock = 0;
-    /*tasks.forEach(task => {
-        const {_id, name, duration} = task
-        const blockDuration = Math.floor(duration / timeBlockLength)
-        tempSchedule.push({_id, name, start: currentBlock, end: currentBlock + blockDuration})
-        currentBlock += (blockDuration + 1)
-    })*/
-
-    /*for (let i=0; i<tasks.length; i++){
-        let task = tasks[i]
-        const {_id, name, duration} = task
-        const blockDuration = Math.floor(duration / timeBlockLength)
-        tempSchedule.push({_id, name, start: currentBlock, end: currentBlock + blockDuration-1})
-        currentBlock += (blockDuration-1)
-
-        //add free time
-        console.log(freeTimeBlocks)
-        if (freeTimeBlocks - (freeTimeLength) > 0){
-            tempSchedule.push({_id: null, name: "Free Time", start: currentBlock, end: currentBlock + freeTimeLength-1})
-            currentBlock += (freeTimeLength )
-            freeTimeBlocks -= freeTimeLength;
-            console.log("remaining free time blocks: " + freeTimeBlocks)
-        } else if (freeTimeBlocks > 0) {
-            tempSchedule.push({_id: null, name: "Free Time", start: currentBlock, end:currentBlock + freeTimeBlocks-1})
-            freeTimeBlocks = 0;
-        } 
-    }*/
-
-
-    console.log(tempSchedule)
-    /* 
-        The hard part
-
-        ---Stage 1---
-
-        1. Calculate # of 5 minute time blocks between start and end hours
-        2. Calculate # of 5 minute time blocks for all tasks combined, subtract this from step 1 to get amount of freetime
-        3. Divide freetime blocks based on the number of desired free time periods (options). Determine either an interval of tasks or time to place these.
-        4. In a new schedule array, add tasks in the format {taskId, timeBlockStart, timeBlockEnd}. Free time will have a taskId of null.
         
-        ---Stage 2---
-
-        1. Add options for preferred time of day.
-        2. If there isn't enough time left for all tasks, shorten tasks based on priority until the overall task time <= remaining time in the day
-
-        ---Stage 3---
-
-        1. Monitor 
-    */
-    //TEMP display tasks in order
-    const schedule = tasks.map((task) => {
-        const {_id, name} = task
-        return {/*_id: _id,*/ name: name}
+    const schedule = tempSchedule.map((task) => {
+        const {_id, name, start, end} = task
+        return {_id: _id, name: name, start: convert12(start), end: end}
     })
 
     const updatedSchedule = await axios.patch("http://localhost:5000/schedule/", {schedule})
     setSchedule(schedule)
-    //console.log(schedule);
 }
 
 export default sortSchedule;
