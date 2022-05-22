@@ -3,7 +3,7 @@ import moment from "moment"
 
 moment().format();
 
-async function sortSchedule(setSchedule, options){
+async function sortSchedule(setSchedule){
 
     
     //get active tasks from db
@@ -76,15 +76,15 @@ async function sortSchedule(setSchedule, options){
 
     for (let i = 0; i < tasks.length; i++) {
         if (i === 0) {
-            let {_id, name, duration} = tasks[i];
+            let {_id, name, duration, completed} = tasks[i];
             let end = add_minutes(wake, duration);
-            let toAdd = {"_id": _id, "name": name, "start": wake, "end": end}
+            let toAdd = {"_id": _id, "name": name, "start": wake, "end": end, "completed": completed}
             tempSchedule.push(toAdd);
         } else {
-            let {_id, name, duration} = tasks[i];
+            let {_id, name, duration, completed} = tasks[i];
             let lastTaskEnd = tempSchedule[i - 1].end;
             add_minutes(lastTaskEnd, duration);
-            let toAdd = {"_id": _id, "name": name, "start": lastTaskEnd, "end": add_minutes(lastTaskEnd, duration)}
+            let toAdd = {"_id": _id, "name": name, "start": lastTaskEnd, "end": add_minutes(lastTaskEnd, duration), "completed": completed}
             tempSchedule.push(toAdd);
         }
     }
@@ -101,8 +101,8 @@ async function sortSchedule(setSchedule, options){
     }
         
     const schedule = tempSchedule.map((task) => {
-        const {_id, name, start, end} = task
-        return {_id: _id, name: name, start: convert12(start), end: end}
+        const {_id, name, start, end, completed} = task
+        return {_id: _id, name: name, start: convert12(start), end: end, completed: completed}
     })
 
     const updatedSchedule = await axios.patch("http://localhost:5000/schedule/", {schedule})

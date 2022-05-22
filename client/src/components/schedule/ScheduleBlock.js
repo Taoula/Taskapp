@@ -1,8 +1,11 @@
 import React from "react"
 import styled from "styled-components"
+import {Square, CheckSquare } from "phosphor-react"
+import useToggle from "../../hooks/useToggle"
+import axios from 'axios'
 
 const BlockContainer = styled.div`
-background-color: rgb(242, 240, 253);
+background-color: ${props => props.color || "pink"};
 border: 3px solid rgb(123, 113, 189);
 padding: 10px;
 border-radius: 10px;
@@ -28,10 +31,19 @@ font-family: Lora;
 font-weight: 600;
 `
 
-function ScheduleBlock({task}) {
-    const {name, start} = task;
+function ScheduleBlock({task, getSchedule}) {
+
+    const {name, start, _id, completed} = task;
+
+    async function toggleCompleted(){
+        const taskReq = await axios.get(`http://localhost:5000/task/${_id}`)
+        const {priority, duration, isActive, completed} = taskReq.data
+        await axios.patch(`http://localhost:5000/task/${_id}`, {name, priority, duration, isActive, completed: !completed})
+        getSchedule();
+    }
+
     return (
-        <BlockContainer>
+        <BlockContainer color={completed ? "#a7c4ab" : "#F0FDF2"}>
             <BlockHeader>
                 {name}
             </BlockHeader>
@@ -39,6 +51,7 @@ function ScheduleBlock({task}) {
             <BlockStart>
                 {start}
             </BlockStart>
+            {completed ? <CheckSquare size={20} onClick={toggleCompleted}/> : <Square size={20} onClick={toggleCompleted}/>}
         </BlockContainer>
     )
 }

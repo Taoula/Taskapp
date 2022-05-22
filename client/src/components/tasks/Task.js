@@ -24,7 +24,7 @@ font-size:.75rem;
 
 function Task({task, getTasks, setCurrent}) {
 
-    const {name, priority, duration, _id, isActive} = task
+    const {name, priority, duration, _id, isActive, completed} = task
     const [isExpanded, toggle] = useToggle(false)
     const colors = ["#76a371", "#f5c540", "#e67839"]
 
@@ -35,7 +35,7 @@ function Task({task, getTasks, setCurrent}) {
     }
 
     async function toggleActive(){
-        await axios.patch(`http://localhost:5000/task/${_id}`, {name, priority, duration, isActive: !isActive})
+        await axios.patch(`http://localhost:5000/task/${_id}`, {name, priority, duration, isActive: !isActive, completed})
         getTasks()
     }
 

@@ -10,6 +10,13 @@ const ScheduleButton = styled.button`
     border-radius: 10px;
 `
 
+const SubHeading = styled.h3`
+    font-family: Lola;
+    text-transform: lowercase;
+    font-weight: 400;
+    margin-left:20px;
+    `
+
 const ScheduleText = styled.p`
     font-family: Nunito;
     text-transform: uppercase;
@@ -20,9 +27,11 @@ const ScheduleText = styled.p`
 `
 
 const PageTitle = styled.h1`
+    font-size: 2.5rem;
     font-family: Nunito;
     text-transform: uppercase;
-    font-weight: 700;
+    font-weight: 800;
+    margin-left:20px;
 `
 
 
@@ -36,7 +45,7 @@ function ScheduleDisplay(){
 
     function renderSchedule(){
         return schedule.map((task) => {
-            return <ScheduleBlock task={task}></ScheduleBlock>
+            return <ScheduleBlock task={task} getSchedule={() => sortSchedule(setSchedule)}></ScheduleBlock>
         })
     }
 
@@ -46,9 +55,10 @@ function ScheduleDisplay(){
 
     return( 
         <div>
-            <PageTitle>Dynamic Schedule</PageTitle>
+            <PageTitle>Wampum</PageTitle>
+            <SubHeading>a dynamic scheduling app</SubHeading>
             <div>{renderSchedule()}</div>
-            <ScheduleButton onClick={()=> sortSchedule(setSchedule, {})}><ScheduleText>Generate Schedule</ScheduleText></ScheduleButton>
+            <ScheduleButton onClick={()=> sortSchedule(setSchedule)}><ScheduleText>Generate Schedule</ScheduleText></ScheduleButton>
         </div>
     )
 }

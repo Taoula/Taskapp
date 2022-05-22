@@ -24,7 +24,7 @@ function TaskForm({ getTasks, _id, disableTaskForm}){
         e.preventDefault();
         const taskData = {
             name, duration, priority,
-            isActive,
+            isActive
         }
 
         await axios.patch(`http://localhost:5000/task/${_id}/`, taskData)

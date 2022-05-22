@@ -11,6 +11,7 @@ function TaskForm({ getTasks }){
         const taskData = {
             name, duration, priority,
             isActive: false,
+            completed: false
         }
 
         await axios.post("http://localhost:5000/task/", taskData)
@@ -21,7 +22,7 @@ function TaskForm({ getTasks }){
         <form onSubmit={(e) => onSubmit(e)}>
             <input type="text" placeholder="Task Name" value={name} onChange={(e) => setName(e.target.value)}/>
             <input type="number" placeholder="Duration (minutes)" min="5" value={duration} onChange={(e) => setDuration(e.target.value)}/>
-            <input type="number" placeholder="Priority (1-3)" min="1" max="3" value={priority} onChange={(e) => setPriority(e.target.value)}/>
+            <input type="number" placeholder="Priority (1-3)" min="1" max="5" value={priority} onChange={(e) => setPriority(e.target.value)}/>
             <input type="submit" value="submit"/>
         </form>
     )
