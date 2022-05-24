@@ -3,12 +3,11 @@ import moment from "moment"
 
 moment().format();
 
-async function sortSchedule(setSchedule){
+async function sortSchedule(setSchedule, wakeDate, sleepDate){
 
     
     //get active tasks from db
     const taskReq = await axios.get("http://localhost:5000/task/")
-
     // Store active tasks in a new tasks array
     let tasks = taskReq.data.filter(task => task.isActive);
     
@@ -65,20 +64,14 @@ async function sortSchedule(setSchedule){
         return new Date(dt.getTime() + minutes*60000);
     }
 
-    let wake = new Date();  
-    wake.setHours(7);
-    wake.setMinutes(0);
-    wake.setSeconds(0);
-
-
     //const sleep = 23 // 11 PM
     const tempSchedule = [];
 
     for (let i = 0; i < tasks.length; i++) {
         if (i === 0) {
             let {_id, name, duration, completed} = tasks[i];
-            let end = add_minutes(wake, duration);
-            let toAdd = {"_id": _id, "name": name, "start": wake, "end": end, "completed": completed}
+            let end = add_minutes(wakeDate, duration);
+            let toAdd = {"_id": _id, "name": name, "start": wakeDate, "end": end, "completed": completed}
             tempSchedule.push(toAdd);
         } else {
             let {_id, name, duration, completed} = tasks[i];

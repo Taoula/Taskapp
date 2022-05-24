@@ -37,16 +37,54 @@ const PageTitle = styled.h1`
 
 function ScheduleDisplay(){
     const [schedule, setSchedule] = useState([])
+    const [wake, setWake] = useState([])
+    const [sleep, setSleep] = useState([])
 
     async function getSchedule(){
         const scheduleReq = await axios.get("http://localhost:5000/schedule/")
         setSchedule(scheduleReq.data.schedule)
     }
 
+    async function updateSchedule(){
+        const taskReq = await axios.get("http://localhost:5000/task/")
+        let tasks = taskReq.data.filter(task => task.isActive)
+        if (schedule.length != tasks.length){
+            sortSchedule(setSchedule, toDate(wake), toDate(sleep))
+        }
+    }
+
     function renderSchedule(){
+        updateSchedule()
         return schedule.map((task) => {
-            return <ScheduleBlock task={task} getSchedule={() => sortSchedule(setSchedule)}></ScheduleBlock>
+            return <ScheduleBlock task={task}></ScheduleBlock>
         })
+    }
+
+    async function updateHours(e){
+        try {
+            e.preventDefault();
+            
+            // Create Date objects for updated wake & start time (convert from hh:mm)
+            let wakeDate = toDate(wake);
+            let sleepDate = toDate(sleep);
+            console.log(wakeDate);
+            console.log(sleepDate);
+
+            //Push new date objects to schedule
+            await axios.patch(`http://localhost:5000/schedule/`, {schedule, start:wakeDate, end:sleepDate})
+            sortSchedule(setSchedule, wakeDate, sleepDate);
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+
+    function toDate(time) {
+        let newDate = new Date();
+        newDate.setHours(time.slice(null, 2));
+        newDate.setMinutes(time.slice(3, 5));
+        newDate.setSeconds(0);
+        return newDate;
     }
 
     useEffect(() => {
@@ -55,10 +93,15 @@ function ScheduleDisplay(){
 
     return( 
         <div>
-            <PageTitle>Wampum</PageTitle>
-            <SubHeading>a dynamic scheduling app</SubHeading>
+            <PageTitle>Name</PageTitle>
+            <SubHeading>A scheduling app</SubHeading>
+            <form onSubmit={(e) => updateHours(e)}>
+                <input type="time" placeholder="Wake Time" value={wake} onChange={(e) => setWake(e.target.value)}></input>
+                <input type="time" placeholder="Sleep Time" value={sleep} onChange={(e) => setSleep(e.target.value)}></input>
+                <input type="submit" value="Update Hours"></input>
+            </form>
             <div>{renderSchedule()}</div>
-            <ScheduleButton onClick={()=> sortSchedule(setSchedule)}><ScheduleText>Generate Schedule</ScheduleText></ScheduleButton>
+            <ScheduleButton onClick={()=> sortSchedule(setSchedule, toDate(wake), toDate(sleep))}><ScheduleText>Generate Schedule</ScheduleText></ScheduleButton>
         </div>
     )
 }

@@ -2,6 +2,28 @@ import React, { useState, useContext } from "react"
 import { useHistory } from "react-router-dom"
 import axios from "axios"
 import AuthContext from "../../context/AuthContext"
+import styled from "styled-components"
+
+const StylizedForm = styled.form`
+    width:30%;
+    margin:auto;
+`
+
+const StylizedInput = styled.input` 
+    width:100%;
+    padding: 1em;
+    margin:0px 0px 0.5rem 0px;
+`
+
+const StylizedButton = styled.input`
+    background-color: rgb(48, 128, 242);
+    border: none;
+    border-radius: 10px;
+    display:block;
+    margin:auto;
+    padding:1em 5em 1em 5em;
+    color:white;
+`
 
 function RegisterForm(){
     const [email, setEmail] = useState("");
@@ -19,9 +41,9 @@ function RegisterForm(){
             }
 
             const schedule = []
-        
+            
             await axios.post("http://localhost:5000/auth/", userData, {})
-            await axios.post("http://localhost:5000/schedule/", {schedule}, {})
+            await axios.post("http://localhost:5000/schedule/", {schedule, start: null, end: null}, {})
             getLoggedIn()
             history.push("/")
         } catch (err) {
@@ -31,30 +53,30 @@ function RegisterForm(){
 
     return(
         <div>
-            <form onSubmit={(e) => registerUser(e)}>
-                <input 
+            <StylizedForm onSubmit={(e) => registerUser(e)}>
+                <StylizedInput 
                     type="email" 
                     placeholder="email" 
                     value={email}
                     onChange={(e) => {setEmail(e.target.value)}}
-                ></input>
+                ></StylizedInput>
 
-                <input 
+                <StylizedInput 
                     type="password" 
                     placeholder="password"
                     value={password}
                     onChange={(e) => {setPassword(e.target.value)}}
-                ></input>
+                ></StylizedInput>
 
-                <input 
+                <StylizedInput 
                     type="password" 
                     placeholder="re-enter password"
                     value={passwordVerify}
                     onChange={(e) => {setPasswordVerify(e.target.value)}}
-                ></input>
+                ></StylizedInput>
 
-                <input type="submit" value="submit"></input>
-            </form>
+                <StylizedButton type="submit" value="register"></StylizedButton>
+            </StylizedForm>
         </div>
     )
 }
