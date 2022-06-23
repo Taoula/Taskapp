@@ -2,6 +2,10 @@ import React, { useState, useContext } from "react"
 import { useHistory } from "react-router-dom"
 import axios from "axios"
 import AuthContext from "../../context/AuthContext"
+import StylizedInput from "../forms/StylizedInput"
+import StylizedForm from "../forms/StylizedForm"
+import StylizedButton from "../forms/StylizedButton"
+import StylizedHeading from "../generic/StylizedHeading"
 
 function LoginForm(){
     const [email, setEmail] = useState("");
@@ -17,9 +21,9 @@ function LoginForm(){
                 email, password
             }
         
-            await axios.post("http://localhost:5000/auth/login", userData, {})
+            await axios.post("http://localhost:8282/auth/login", userData, {})
             getLoggedIn()
-            history.push("/")
+            history.push("/schedule")
         } catch (err) {
             console.error(err);
         }
@@ -27,23 +31,24 @@ function LoginForm(){
 
     return(
         <div>
-            <form onSubmit={(e) => loginUser(e)}>
-                <input 
+            <StylizedHeading>Login To TaskApp</StylizedHeading>
+            <StylizedForm onSubmit={(e) => loginUser(e)}>
+                <StylizedInput 
                     type="email" 
                     placeholder="email" 
                     value={email}
                     onChange={(e) => {setEmail(e.target.value)}}
-                ></input>
+                ></StylizedInput>
 
-                <input 
+                <StylizedInput 
                     type="password" 
                     placeholder="password"
                     value={password}
                     onChange={(e) => {setPassword(e.target.value)}}
-                ></input>
+                ></StylizedInput>
 
-                <input type="submit" value="submit"></input>
-            </form>
+                <StylizedButton input = {true} type="submit" value="submit"></StylizedButton>
+            </StylizedForm>
         </div>
     )
 }

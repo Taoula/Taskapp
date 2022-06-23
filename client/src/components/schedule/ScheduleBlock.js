@@ -44,9 +44,9 @@ function ScheduleBlock({task}) {
     const [isCompleted, setIsCompleted] = useState();
 
     async function toggleCompleted(){
-        const taskReq = await axios.get(`http://localhost:5000/task/${_id}`)
+        const taskReq = await axios.get(`http://localhost:8282/task/${_id}`)
         const {priority, duration, isActive, completed} = taskReq.data
-        await axios.patch(`http://localhost:5000/task/${_id}`, {name, priority, duration, isActive, completed: !completed})
+        await axios.patch(`http://localhost:8282/task/${_id}`, {name, priority, duration, isActive, completed: !completed})
         setIsCompleted(completed);
     }
 

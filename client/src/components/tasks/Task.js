@@ -9,6 +9,11 @@ background-color: ${props => props.color || "pink"};
 padding:1em 1em;
 box-sizing:border-box;
 border-radius:1em;
+transition:0.2s;
+&:hover {
+    transform: scale(1.025);
+    cursor: pointer;
+};
 `
 const TaskHeader = styled.div`
 display:flex;
@@ -22,36 +27,38 @@ margin:0.1em 0;
 font-size:.75rem;
 `
 
-function Task({task, getTasks, setCurrent}) {
+function Task({task, getTasks, enableTaskForm, disableTaskForm}) {
 
     const {name, priority, duration, _id, isActive, completed} = task
     const [isExpanded, toggle] = useToggle(false)
     const colors = ["#76a371", "#f5c540", "#e67839"]
 
     async function deleteTask(){
-        const url = `http://localhost:5000/task/${_id}/`
+        if(isExpanded){
+            disableTaskForm("update");
+        }
+        const url = `http://localhost:8282/task/${_id}/`
         await axios.delete(url)
         getTasks()
     }
 
     async function toggleActive(){
-        await axios.patch(`http://localhost:5000/task/${_id}`, {name, priority, duration, isActive: !isActive, completed})
+        await axios.patch(`http://localhost:8282/task/${_id}`, {name, priority, duration, isActive: !isActive, completed})
         getTasks()
     }
 
     useEffect(()=> {
         if (isExpanded){
-            setCurrent(_id)
+            enableTaskForm("update", _id)
         } else {
-            setCurrent("")
+            disableTaskForm("update")
         }
     }, [isExpanded])
 
     return (
-        <TaskContainer color={colors[priority-1]}>
+        <TaskContainer color={colors[priority-1]} onClick={toggle}>
             <TaskHeader>
                 <h3>{name}</h3>
-                <Pencil size={20} onClick={toggle}/>
                 <Trash size={20} onClick={deleteTask}/>
                 {isActive ? <CheckSquare size={20} onClick={toggleActive}/> : <Square size={20} onClick={toggleActive}/>}
             </TaskHeader>

@@ -41,12 +41,12 @@ function ScheduleDisplay(){
     const [sleep, setSleep] = useState([])
 
     async function getSchedule(){
-        const scheduleReq = await axios.get("http://localhost:5000/schedule/")
+        const scheduleReq = await axios.get("http://localhost:8282/schedule/")
         setSchedule(scheduleReq.data.schedule)
     }
 
     async function updateSchedule(){
-        const taskReq = await axios.get("http://localhost:5000/task/")
+        const taskReq = await axios.get("http://localhost:8282/task/")
         let tasks = taskReq.data.filter(task => task.isActive)
         if (schedule.length != tasks.length){
             sortSchedule(setSchedule, toDate(wake), toDate(sleep))
@@ -71,7 +71,7 @@ function ScheduleDisplay(){
             console.log(sleepDate);
 
             //Push new date objects to schedule
-            await axios.patch(`http://localhost:5000/schedule/`, {schedule, start:wakeDate, end:sleepDate})
+            await axios.patch(`http://localhost:8282/schedule/`, {schedule, start:wakeDate, end:sleepDate})
             sortSchedule(setSchedule, wakeDate, sleepDate);
         }
         catch (err) {

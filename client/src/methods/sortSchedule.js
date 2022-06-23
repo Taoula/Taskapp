@@ -7,7 +7,7 @@ async function sortSchedule(setSchedule, wakeDate, sleepDate){
 
     
     //get active tasks from db
-    const taskReq = await axios.get("http://localhost:5000/task/")
+    const taskReq = await axios.get("http://localhost:8282/task/")
     // Store active tasks in a new tasks array
     let tasks = taskReq.data.filter(task => task.isActive);
     
@@ -98,7 +98,7 @@ async function sortSchedule(setSchedule, wakeDate, sleepDate){
         return {_id: _id, name: name, start: convert12(start), end: end, completed: completed}
     })
 
-    const updatedSchedule = await axios.patch("http://localhost:5000/schedule/", {schedule})
+    const updatedSchedule = await axios.patch("http://localhost:8282/schedule/", {schedule})
     setSchedule(schedule)
 }
 
