@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const Schedule = require("../models/scheduleModel");
+const Schedule = require("../models/schedule.model");
 const auth = require("../middleware/auth");
 
 router.post("/", auth, async(req, res) => {

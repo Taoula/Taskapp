@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import TaskForm from './TaskForm'
-import UpdateTaskForm from './UpdateTaskForm'
-import useToggle from '../../hooks/useToggle'
-import Task from './Task'
+import TaskForm from './task-form'
+import UpdateTaskForm from './update-task-form'
+import useToggle from '../../hooks/use-toggle'
+import Task from './task'
 import styled from 'styled-components'
 import { PlusCircle } from "phosphor-react"
 

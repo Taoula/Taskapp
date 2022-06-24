@@ -1,18 +1,18 @@
 import React, { useState, useContext } from "react"
-import { useHistory } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import axios from "axios"
-import AuthContext from "../../context/AuthContext"
-import StylizedInput from "../forms/StylizedInput"
-import StylizedForm from "../forms/StylizedForm"
-import StylizedButton from "../forms/StylizedButton"
-import StylizedHeading from "../generic/StylizedHeading"
+import AuthContext from "../../context/auth-context"
+import StylizedInput from "../forms/stylized-input"
+import StylizedForm from "../forms/stylized-form"
+import StylizedButton from "../forms/stylized-button"
+import StylizedHeading from "../generic/stylized-heading"
 
 function LoginForm(){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const {getLoggedIn} = useContext(AuthContext)
 
-    const history = useHistory()
+    const history = useNavigate()
 
     async function loginUser(e) {
         try {
@@ -23,7 +23,7 @@ function LoginForm(){
         
             await axios.post("http://localhost:8282/auth/login", userData, {})
             getLoggedIn()
-            history.push("/schedule")
+            history("/schedule")
         } catch (err) {
             console.error(err);
         }

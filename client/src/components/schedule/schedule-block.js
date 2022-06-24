@@ -1,7 +1,7 @@
 import React, {useState} from "react"
 import styled from "styled-components"
 import {Square, CheckSquare } from "phosphor-react"
-import useToggle from "../../hooks/useToggle"
+import useToggle from "../../hooks/use-toggle"
 import axios from 'axios'
 
 const BlockContainer = styled.div`

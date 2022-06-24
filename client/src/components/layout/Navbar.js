@@ -1,8 +1,8 @@
 import React, { useContext } from "react"
 import styled from 'styled-components'
 import {Link} from "react-router-dom"
-import AuthContext from "../../context/AuthContext"
-import LogoutBtn from "../auth/LogoutBtn"
+import AuthContext from "../../context/auth-context"
+import LogoutBtn from "../auth/logout-button"
 
 const NavContainer = styled.div`
     width:100%;

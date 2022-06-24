@@ -32,6 +32,6 @@ mongoose.connect(process.env.MDB_CONNECT, {
 
 //set up routes
 
-app.use("/auth", require("./routers/userRouter"));
-app.use("/task", require("./routers/taskRouter"));
-app.use("/schedule", require("./routers/scheduleRouter"));
+app.use("/auth", require("./routers/user-router"));
+app.use("/task", require("./routers/task-router"));
+app.use("/schedule", require("./routers/schedule-router"));

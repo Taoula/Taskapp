@@ -1,9 +1,9 @@
 import React, { useState } from "react"
 import styled from "styled-components"
 import axios from 'axios'
-import StylizedInput from "../forms/StylizedInput"
-import StylizedButton from "../forms/StylizedButton"
-import StylizedForm from "../forms/StylizedForm"
+import StylizedInput from "../forms/stylized-input"
+import StylizedButton from "../forms/stylized-button"
+import StylizedForm from "../forms/stylized-form"
 
 const ExpandableContainer = styled.div`
   position: fixed;
