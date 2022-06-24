@@ -10,7 +10,6 @@ import HomePage from "./pages/home-page"
 function Router(...restParams){
     return (
         <BrowserRouter>
-            <Navbar/>
             <Routes>
                 <Route exact path ="/" element={<HomePage />} />
                 <Route exact path="/schedule" element={<SchedulePage/>} />

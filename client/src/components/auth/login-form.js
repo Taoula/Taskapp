@@ -7,7 +7,7 @@ import StylizedForm from "../forms/stylized-form"
 import StylizedButton from "../forms/stylized-button"
 import StylizedHeading from "../generic/stylized-heading"
 
-function LoginForm(){
+export default function LoginForm(){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const {getLoggedIn} = useContext(AuthContext)
@@ -52,5 +52,3 @@ function LoginForm(){
         </div>
     )
 }
-
-export default LoginForm

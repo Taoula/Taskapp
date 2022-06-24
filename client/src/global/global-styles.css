@@ -6,6 +6,6 @@
 @tailwind utilities;
 
 * {
-    font-family: Lexend;
+    font-family: Arial, Helvetica, sans-serif;
     letter-spacing:1.5px;
 }
