@@ -107,14 +107,14 @@ export default function RegisterForm() {
       {/* navbar */}
       <nav class="flex items-center justify-between max-w-3xl p-4 mx-auto">
         {/* logo */}
-        <a class="inline-flex items-center justify-center rounded-lg" href="/">
+        <a class="inline-flex items-center justify-center rounded-lg text-indigo-600 font-semibold" id="title" href="/">
           Task App
         </a>
 
         {/* login button */}
         <ul class="flex items-center space-x-2 font-light text-gray-500">
           <li>
-            <p class="inline-flex items-center text-xs px-3 py-2 rounded-lg">
+            <p class="inline-flex items-center text-xs px-3 py-2 rounded-lg hidden sm:inline">
               Already have an account?
             </p>
             <button className="inline-flex px-2 py-1 text-xs font-xs text-white bg-indigo-600 border border-indigo-600 rounded active:text-indigo-500 hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring">
@@ -286,6 +286,8 @@ export default function RegisterForm() {
             >
               <span className="text-xl font-light">Create Free Account</span>
             </button>
+
+            <p className="text-xs font-light">Signing up signifies that you have read and agree to the <a className="underline text-indigo-600" href="">Terms of Service</a> and our <a className="underline text-indigo-600" href="">Privacy Policy</a>.</p>
           </form>
         </div>
       </div>
