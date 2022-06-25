@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import axios from 'axios'
 import AuthContext from "../../context/auth-context"
 
-function LogoutBtn() {
+export default function LogoutBtn() {
     const { getLoggedIn } = useContext(AuthContext)
     const history = useNavigate()
 
@@ -13,9 +13,5 @@ function LogoutBtn() {
         history("/")
     }
 
-    return <button onClick={logOut}>
-                Log Out
-            </button>
+    return <a class="flex-shrink-0 pl-4 text-gray-900 hover:underline" onClick={logOut}>Log Out</a>
 }
-
-export default LogoutBtn
