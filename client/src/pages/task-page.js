@@ -8,7 +8,7 @@ export default function TaskPage() {
 
         <>
             <Navbar />
-            <TaskDisplay/>
+            <TaskDisplay />
         </>
     )
 }
