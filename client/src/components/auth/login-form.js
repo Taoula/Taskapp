@@ -88,10 +88,9 @@ export default function LoginForm() {
         <div className="max-w-lg mx-auto">
           {/* header */}
           <h1
-            className="text-2xl font-bold text-center text-indigo-600 sm:text-3xl"
-            id="title"
+            className="text-2xl font-bold text-center sm:text-3xl"
           >
-            Task App
+            <a href="/" className="text-indigo-600" id="title">Task App</a>
           </h1>
 
           {/* subheader */}
@@ -203,7 +202,7 @@ export default function LoginForm() {
             <div className="p-6 bg-gray-100 rounded-b-lg border-t-2 border-gray-200">
               <p className="text-md text-light text-center text-gray-500">
                 New to Task App?{" "}
-                <a className="underline text-indigo-600" href="">
+                <a className="underline text-indigo-600" href="" onClick={() => history("/register")}>
                   Sign Up
                 </a>
               </p>

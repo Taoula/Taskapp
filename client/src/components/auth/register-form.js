@@ -117,7 +117,7 @@ export default function RegisterForm() {
             <p class="inline-flex items-center text-xs px-3 py-2 rounded-lg hidden sm:inline">
               Already have an account?
             </p>
-            <button className="inline-flex px-2 py-1 text-xs font-xs text-white bg-indigo-600 border border-indigo-600 rounded active:text-indigo-500 hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring">
+            <button className="inline-flex px-2 py-1 text-xs font-xs text-white bg-indigo-600 border border-indigo-600 rounded active:text-indigo-500 hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring" onClick={() => history("/login")}>
               Log in
             </button>
           </li>
@@ -284,7 +284,7 @@ export default function RegisterForm() {
               value="register"
               className="block w-full px-5 py-3 text-sm font-medium text-white bg-indigo-600 rounded-lg"
             >
-              <span className="text-xl font-light">Create Free Account</span>
+              <span className="text-xl font-light">Create Account</span>
             </button>
 
             <p className="text-xs font-light">Signing up signifies that you have read and agree to the <a className="underline text-indigo-600" href="">Terms of Service</a> and our <a className="underline text-indigo-600" href="">Privacy Policy</a>.</p>
