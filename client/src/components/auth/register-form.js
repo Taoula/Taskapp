@@ -70,6 +70,8 @@ import axios from "axios";
 import AuthContext from "../../context/auth-context";
 
 export default function RegisterForm() {
+  const [fName, setFirstName] = useState("");
+  const [lName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordVerify, setPasswordVerify] = useState("");
@@ -82,6 +84,8 @@ export default function RegisterForm() {
       e.preventDefault();
 
       const userData = {
+        fName,
+        lName,
         email,
         password,
         passwordVerify,
@@ -105,16 +109,16 @@ export default function RegisterForm() {
   return (
     <div>
       {/* navbar */}
-      <nav class="flex items-center justify-between max-w-3xl p-4 mx-auto">
+      <nav className="flex items-center justify-between max-w-3xl p-4 mx-auto">
         {/* logo */}
-        <a class="inline-flex items-center justify-center rounded-lg text-indigo-600 font-semibold" id="title" href="/">
+        <a className="inline-flex items-center justify-center rounded-lg text-indigo-600 font-semibold" id="title" href="/">
           Task App
         </a>
 
         {/* login button */}
-        <ul class="flex items-center space-x-2 font-light text-gray-500">
+        <ul className="flex items-center space-x-2 font-light text-gray-500">
           <li>
-            <p class="inline-flex items-center text-xs px-3 py-2 rounded-lg hidden sm:inline">
+            <p className="inline-flex items-center text-xs px-3 py-2 rounded-lg hidden sm:inline">
               Already have an account?
             </p>
             <button className="inline-flex px-2 py-1 text-xs font-xs text-white bg-indigo-600 border border-indigo-600 rounded active:text-indigo-500 hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring" onClick={() => history("/login")}>
@@ -145,10 +149,13 @@ export default function RegisterForm() {
 
               <div className="relative mt-1">
                 <input
-                  type="email"
-                  id="email"
+                  type="text"
                   className="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg border-2 border-gray-200"
                   placeholder="First name"
+                  value={fName}
+                  onChange={(e) => {
+                    setFirstName(e.target.value);
+                  }}
                 />
               </div>
             </div>
@@ -161,10 +168,13 @@ export default function RegisterForm() {
 
               <div className="relative mt-1">
                 <input
-                  type="email"
-                  id="email"
+                  type="text"
                   className="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg border-2 border-gray-200"
                   placeholder="Last name"
+                  value={lName}
+                  onChange={(e) => {
+                    setLastName(e.target.value);
+                  }}
                 />
               </div>
             </div>
@@ -179,7 +189,7 @@ export default function RegisterForm() {
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3.5">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6 stroke-gray-400"
+                    className="h-6 w-6 stroke-gray-400"
                     fill="none"
                     viewBox="0 0 25 25"
                     stroke-width="1"
@@ -215,7 +225,7 @@ export default function RegisterForm() {
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3.5">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6 stroke-gray-400"
+                    className="h-6 w-6 stroke-gray-400"
                     fill="none"
                     viewBox="0 0 25 25"
                     stroke-width="1"
@@ -251,7 +261,7 @@ export default function RegisterForm() {
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3.5">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6 stroke-gray-400"
+                    className="h-6 w-6 stroke-gray-400"
                     fill="none"
                     viewBox="0 0 25 25"
                     stroke-width="1"

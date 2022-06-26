@@ -6,9 +6,9 @@ const jwt = require('jsonwebtoken');
 //register
 router.post("/", async (req, res) => {
     try{
-        const {email, password, passwordVerify} = req.body;
+        const {fName, lName, email, password, passwordVerify} = req.body;
 
-        if (!email || !password || !passwordVerify)
+        if (!fName || !lName || !email || !password || !passwordVerify)
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields"})
@@ -38,6 +38,8 @@ router.post("/", async (req, res) => {
         //save new user
 
         const newUser = new User({
+            fName,
+            lName,
             email, 
             passwordHash
         });
