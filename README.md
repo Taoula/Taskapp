@@ -1,8 +1,9 @@
 # Todo
-1. make this branch the main branch
-2. use modals for the task creation/update dailogue
-3. fix active/inactive tasks
+1. use modals for the task creation/update dialogue
+2. fix active/inactive tasks
+3. Custom time input component
 4. time of day parameter for ordering tasks
+
 # Taskapp
 ## Backend
 To run the backend, open the server folder and run the "nodemon server" command
