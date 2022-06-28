@@ -1,69 +1,3 @@
-// import React, { useState, useContext } from "react"
-// import { useNavigate } from "react-router-dom"
-// import axios from "axios"
-// import AuthContext from "../../context/auth-context"
-// import StylizedInput from "../forms/stylized-input"
-// import StylizedForm from "../forms/stylized-form"
-// import StylizedButton from "../forms/stylized-button"
-// import StylizedHeading from "../generic/stylized-heading"
-
-// export default function RegisterForm(){
-//     const [email, setEmail] = useState("");
-//     const [password, setPassword] = useState("");
-//     const [passwordVerify, setPasswordVerify] = useState("");
-
-//     const { getLoggedIn } = useContext(AuthContext)
-//     const history = useNavigate()
-
-//     async function registerUser(e) {
-//         try {
-//             e.preventDefault()
-//             const userData = {
-//                 email, password, passwordVerify
-//             }
-
-//             const schedule = []
-
-//             await axios.post("http://localhost:8282/auth/", userData, {})
-//             await axios.post("http://localhost:8282/schedule/", {schedule, start: null, end: null}, {})
-//             getLoggedIn()
-//             history("/schedule")
-//         } catch (err) {
-//             console.error(err);
-//         }
-//     }
-
-//     return(
-//         <div>
-//             <StylizedHeading>Register for TaskApp</StylizedHeading>
-//             <StylizedForm onSubmit={(e) => registerUser(e)}>
-//                 <StylizedInput
-//                 type="email"
-//                 placeholder="email"
-//                 value={email}
-//                 onChange={(e) => {setEmail(e.target.value)}}
-//                 />
-
-//                 <StylizedInput
-//                     type="password"
-//                     placeholder="password"
-//                     value={password}
-//                     onChange={(e) => {setPassword(e.target.value)}}
-//                 />
-
-//                 <StylizedInput
-//                     type="password"
-//                     placeholder="re-enter password"
-//                     value={passwordVerify}
-//                     onChange={(e) => {setPasswordVerify(e.target.value)}}
-//                 />
-
-//                 <StylizedButton input={true} type="submit" value="register"></StylizedButton>
-//             </StylizedForm>
-//         </div>
-//     )
-// }
-
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -111,7 +45,11 @@ export default function RegisterForm() {
       {/* navbar */}
       <nav className="flex items-center justify-between max-w-3xl p-4 mx-auto">
         {/* logo */}
-        <a className="inline-flex items-center justify-center rounded-lg text-indigo-600 font-semibold" id="title" href="/">
+        <a
+          className="inline-flex items-center justify-center rounded-lg text-indigo-600 font-semibold"
+          id="title"
+          href="/"
+        >
           Task App
         </a>
 
@@ -121,7 +59,10 @@ export default function RegisterForm() {
             <p className="inline-flex items-center text-xs px-3 py-2 rounded-lg hidden sm:inline">
               Already have an account?
             </p>
-            <button className="inline-flex px-2 py-1 text-xs font-xs text-white bg-indigo-600 border border-indigo-600 rounded active:text-indigo-500 hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring" onClick={() => history("/login")}>
+            <button
+              className="inline-flex px-2 py-1 text-xs font-xs text-white bg-indigo-600 border border-indigo-600 rounded active:text-indigo-500 hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring"
+              onClick={() => history("/login")}
+            >
               Log in
             </button>
           </li>
@@ -150,7 +91,7 @@ export default function RegisterForm() {
               <div className="relative mt-1">
                 <input
                   type="text"
-                  className="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg border-2 border-gray-200"
+                  className="w-full p-4 pr-12 text-sm rounded-lg border-2 border-gray-200"
                   placeholder="First name"
                   value={fName}
                   onChange={(e) => {
@@ -169,13 +110,35 @@ export default function RegisterForm() {
               <div className="relative mt-1">
                 <input
                   type="text"
-                  className="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg border-2 border-gray-200"
+                  className="w-full p-4 pr-12 text-sm rounded-lg border-2 border-gray-200"
                   placeholder="Last name"
                   value={lName}
                   onChange={(e) => {
                     setLastName(e.target.value);
                   }}
                 />
+              </div>
+            </div>
+
+            {/* role */}
+            <div className="pb-2">
+              <label htmlFor="userRole" className="text-sm font-medium">
+                Role <span className="text-red-500">*</span>
+              </label>
+
+              <div className="relative mt-1">
+                <select
+                  id="role"
+                  class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+                >
+                  <option defaultValue>Select role</option>
+                  <option value="student">Student</option>
+                  <option value="teacher">Teacher</option>
+                  <option value="manager">Manager</option>
+                  <option value="business-owner">Business Owner</option>
+                  <option value="developer">Developer</option>
+                  <option value="designer">Designer</option>
+                </select>
               </div>
             </div>
 
@@ -192,11 +155,11 @@ export default function RegisterForm() {
                     className="h-6 w-6 stroke-gray-400"
                     fill="none"
                     viewBox="0 0 25 25"
-                    stroke-width="1"
+                    strokeWidth="1"
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                     />
                   </svg>
@@ -205,7 +168,7 @@ export default function RegisterForm() {
                 <input
                   type="email"
                   id="email"
-                  className="w-full pl-11 p-4 pr-12 text-sm border-gray-200 rounded-lg border-2 border-gray-200"
+                  className="w-full pl-11 p-4 pr-12 text-sm rounded-lg border-2 border-gray-200"
                   placeholder="Email address"
                   value={email}
                   onChange={(e) => {
@@ -228,11 +191,11 @@ export default function RegisterForm() {
                     className="h-6 w-6 stroke-gray-400"
                     fill="none"
                     viewBox="0 0 25 25"
-                    stroke-width="1"
+                    strokeWidth="1"
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
                     />
                   </svg>
@@ -241,7 +204,7 @@ export default function RegisterForm() {
                 <input
                   type="password"
                   id="password"
-                  className="w-full pl-11 p-4 pr-12 text-sm border-gray-200 rounded-lg border-2 border-gray-200"
+                  className="w-full pl-11 p-4 pr-12 text-sm rounded-lg border-2 border-gray-200"
                   placeholder="Password"
                   value={password}
                   onChange={(e) => {
@@ -264,11 +227,11 @@ export default function RegisterForm() {
                     className="h-6 w-6 stroke-gray-400"
                     fill="none"
                     viewBox="0 0 25 25"
-                    stroke-width="1"
+                    strokeWidth="1"
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
                     />
                   </svg>
@@ -277,7 +240,7 @@ export default function RegisterForm() {
                 <input
                   type="password"
                   id="password"
-                  className="w-full pl-11 p-4 pr-12 text-sm border-gray-200 rounded-lg border-2 border-gray-200"
+                  className="w-full pl-11 p-4 pr-12 text-sm rounded-lg border-2 border-gray-200"
                   placeholder="Confirm password"
                   value={passwordVerify}
                   onChange={(e) => {
@@ -297,7 +260,17 @@ export default function RegisterForm() {
               <span className="text-xl font-light">Create Account</span>
             </button>
 
-            <p className="text-xs font-light">Signing up signifies that you have read and agree to the <a className="underline text-indigo-600" href="">Terms of Service</a> and our <a className="underline text-indigo-600" href="">Privacy Policy</a>.</p>
+            <p className="text-xs font-light">
+              Signing up signifies that you have read and agree to the{" "}
+              <a className="underline text-indigo-600" href="">
+                Terms of Service
+              </a>{" "}
+              and our{" "}
+              <a className="underline text-indigo-600" href="">
+                Privacy Policy
+              </a>
+              .
+            </p>
           </form>
         </div>
       </div>
