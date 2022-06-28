@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react"
 import axios from "axios"
-import ScheduleBlock from './ScheduleBlock'
-import sortSchedule from "../../methods/sortSchedule"
+import ScheduleBlock from './schedule-block'
+import sortSchedule from "../../methods/sort-schedule"
 import styled from "styled-components"
 
 const ScheduleButton = styled.button`
