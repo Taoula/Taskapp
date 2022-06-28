@@ -6,6 +6,7 @@ import AuthContext from "../../context/auth-context";
 export default function RegisterForm() {
   const [fName, setFirstName] = useState("");
   const [lName, setLastName] = useState("");
+  const [userRole, setUserRole] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordVerify, setPasswordVerify] = useState("");
@@ -20,6 +21,7 @@ export default function RegisterForm() {
       const userData = {
         fName,
         lName,
+        userRole,
         email,
         password,
         passwordVerify,
@@ -128,14 +130,18 @@ export default function RegisterForm() {
 
               <div className="relative mt-1">
                 <select
-                  id="role"
-                  class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+                  id="userRole"
+                  className="w-full p-4 pr-12 text-sm rounded-lg border-2 border-gray-200"
+                  value={userRole}
+                  onChange={(e) => {
+                    setUserRole(e.target.value);
+                  }}
                 >
-                  <option defaultValue>Select role</option>
+                  <option defaultValue>Your role</option>
                   <option value="student">Student</option>
                   <option value="teacher">Teacher</option>
                   <option value="manager">Manager</option>
-                  <option value="business-owner">Business Owner</option>
+                  <option value="business owner">Business Owner</option>
                   <option value="developer">Developer</option>
                   <option value="designer">Designer</option>
                 </select>
