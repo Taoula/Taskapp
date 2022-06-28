@@ -1,6 +1,6 @@
 import React from "react"
 import ScheduleDisplay from "../components/schedule/schedule-display"
-import Navbar from "../components/layout/navbar"
+import Navbar from "../components/layout/Navbar"
 
 
 export default function SchedulePage() {

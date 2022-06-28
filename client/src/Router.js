@@ -2,12 +2,11 @@ import React from "react"
 import  {BrowserRouter, Routes, Route } from "react-router-dom"
 import LoginForm from "./components/auth/login-form"
 import RegisterForm from "./components/auth/register-form"
-import Navbar from "./components/layout/navbar"
 import TaskPage from "./pages/task-page"
 import SchedulePage from "./pages/schedule-page"
 import HomePage from "./pages/home-page"
 
-function Router(...restParams){
+export default function Router(...restParams){
     return (
         <BrowserRouter>
             <Routes>
@@ -20,5 +19,3 @@ function Router(...restParams){
         </BrowserRouter>
     )  
 }
-
-export default Router

@@ -117,7 +117,7 @@ import axios from "axios";
 import TaskForm from "./task-form";
 import UpdateTaskForm from "./update-task-form";
 import useToggle from "../../hooks/use-toggle";
-import Task from "./task";
+import Task from "./Task";
 import styled from "styled-components";
 
 const DisplayContainer = styled.div`

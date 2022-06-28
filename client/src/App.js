@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import Router from './router';
+import Router from './Router';
 import { AuthContextProvider } from './context/auth-context';
 
 axios.defaults.withCredentials = true;
