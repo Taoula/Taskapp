@@ -13,18 +13,6 @@ const TaskContainer = styled.div`
   }
 `;
 
-const TaskHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  text-transform: capitalize;
-`;
-
-const TaskDescription = styled.p`
-  margin: 0.1em 0;
-  font-size: 0.75rem;
-`;
-
 export default function Task({
   task,
   getTasks,
@@ -96,9 +84,9 @@ export default function Task({
           </div>
 
           {isActive ? (
-            <CheckSquare size={20} onClick={toggleActive} />
-          ) : (
             <Square size={20} onClick={toggleActive} />
+          ) : (
+            <CheckSquare size={20} onClick={toggleActive} />
           )}
         </div>
       </TaskContainer>
