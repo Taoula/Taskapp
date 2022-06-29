@@ -1,5 +1,5 @@
 /* Baloo & Montserrat font imports */
-@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 /* Tailwind imports */
 @tailwind base;
@@ -8,11 +8,16 @@
 
 /* Global styles */
 * {
-
-    font-family: Montserrat;
+  font-family: Montserrat;
 }
 
 #title {
+  font-family: "Baloo 2";
+}
 
-    font-family: 'Baloo 2';
+/* navbar mini user icon animation */
+#miniIcon:hover {
+    transition: 0.2s;
+    transform: scale(0.75);
+    cursor: pointer;
 }
