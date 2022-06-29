@@ -13,5 +13,6 @@ export default function LogoutBtn() {
         history("/")
     }
 
-    return <a class="flex-shrink-0 pl-4 text-gray-900 hover:underline" onClick={logOut}>Log Out</a>
+    // return <a class="flex-shrink-0 pl-4 text-gray-900 hover:underline" onClick={logOut}>Log Out</a>
+    return <a onClick={logOut}>Log Out</a>
 }

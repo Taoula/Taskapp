@@ -29,7 +29,7 @@ export default function HomePage() {
   return (
     <div>
       <header class="shadow-sm">
-        <div class="max-w-screen-xl p-4 mx-auto">
+        <div class="max-w-screen p-4 mx-auto">
           <div class="flex items-center justify-between space-x-4 lg:space-x-10">
             <div class="flex lg:w-0 lg:flex-1">
               <a href="/" className="text-indigo-600 font-semibold text-lg" id="title">Task App</a>
