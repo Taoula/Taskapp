@@ -2,6 +2,7 @@
 1. use modals for the task creation/update dialogue
 3. Custom time input component
 4. time of day parameter for ordering tasks
+5. render home-page components based on loggedIn
 
 # Taskapp
 ## Backend
