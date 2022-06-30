@@ -1,6 +1,5 @@
 # Todo
 1. use modals for the task creation/update dialogue
-2. fix active/inactive tasks
 3. Custom time input component
 4. time of day parameter for ordering tasks
 
