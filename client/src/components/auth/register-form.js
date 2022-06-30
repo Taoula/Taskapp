@@ -58,7 +58,7 @@ export default function RegisterForm() {
         {/* login button */}
         <ul className="flex items-center space-x-2 font-light text-gray-500">
           <li>
-            <p className="inline-flex items-center text-xs px-3 py-2 rounded-lg hidden sm:inline">
+            <p className="inline-flex items-center text-xs px-3 py-2 rounded-lg">
               Already have an account?
             </p>
             <button

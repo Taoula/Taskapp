@@ -43,13 +43,13 @@ export default function Task({
     getTasks();
   }
 
-  useEffect(() => {
-    if (isExpanded) {
-      enableTaskForm("update", _id);
-    } else {
-      disableTaskForm("update");
-    }
-  }, [isExpanded]);
+  // useEffect(() => {
+  //   if (isExpanded) {
+  //     enableTaskForm("update", _id);
+  //   } else {
+  //     disableTaskForm("update");
+  //   }
+  // }, [isExpanded]);
 
   return (
     <div>
@@ -58,7 +58,7 @@ export default function Task({
         onClick={toggle}
         className="text-left mt-1 mb-2 ml-2 mr-2 rounded-lg p-2"
       >
-        <div className="grid grid-cols-3">
+        <div className="grid grid-cols-4">
           <p className="capitalize font-medium text-md">
             {name}:{" "}
             <span className="text-md font-light">{duration} minutes</span>
@@ -83,11 +83,17 @@ export default function Task({
             </svg>
           </div>
 
-          {isActive ? (
-            <Square size={20} onClick={toggleActive} />
-          ) : (
-            <CheckSquare size={20} onClick={toggleActive} />
-          )}
+          <div>
+            {isActive ? (
+              <Square size={20} onClick={toggleActive} />
+            ) : (
+              <CheckSquare size={20} onClick={toggleActive} />
+            )}
+          </div>
+
+          <div>
+            <p>Edit Task</p>
+          </div>
         </div>
       </TaskContainer>
     </div>

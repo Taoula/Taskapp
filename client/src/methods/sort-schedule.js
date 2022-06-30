@@ -22,27 +22,27 @@ async function sortSchedule(setSchedule, wakeDate, sleepDate){
 
     for (let i = 0; i < tasks.length; i++) {
 
-        if (tasks[i].priority == 1) {
+        if (tasks[i].priority === 1) {
 
             priorityOne.push(tasks[i]);
         }
 
-        else if (tasks[i].priority == 2) {
+        else if (tasks[i].priority === 2) {
 
             priorityTwo.push(tasks[i]);
         }
 
-        else if (tasks[i].priority == 3) {
+        else if (tasks[i].priority === 3) {
 
             priorityThree.push(tasks[i]);
         }
 
-        else if (tasks[i].priority == 4) {
+        else if (tasks[i].priority === 4) {
 
             priorityFour.push(tasks[i]);
         }
 
-        else if (tasks[i].priority == 4) {
+        else if (tasks[i].priority === 4) {
 
             priorityFive.push(tasks[i]);
         }
