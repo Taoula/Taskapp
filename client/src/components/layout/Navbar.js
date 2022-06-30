@@ -1,10 +1,17 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState} from "react";
 import AuthContext from "../../context/auth-context";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function Navbar() {
   const { loggedIn } = useContext(AuthContext);
+  const [fName, setfName] = useState([]);
+  const [lName, setlName] = useState([]);
+  const [email, setEmail] = useState([]);
+
+  useEffect(()=> {
+    getUserData()
+  }, [])
 
   function myDropdown() {
     let dropdown = document.getElementById("dropdown");
@@ -18,6 +25,14 @@ export default function Navbar() {
     await axios.get("http://localhost:8282/auth/logout");
     getLoggedIn();
     history("/");
+  }
+
+  async function getUserData() {
+    const userReq = await axios.get("http://localhost:8282/auth/")
+    console.log(userReq.data)
+    setfName(userReq.data.fName)
+    setlName(userReq.data.lName)
+    setEmail(userReq.data.email)
   }
 
   return (
@@ -58,20 +73,20 @@ export default function Navbar() {
                 <img
                   className="object-cover w-8 h-8 rounded-full hidden sm:block"
                   src="https://www.hyperui.dev/photos/man-4.jpeg"
-                  alt="Simon Lewis"
+                  alt="John Doe"
                 />
                 <img
                   className="object-cover w-8 h-8 rounded-full sm:hidden"
                   src="https://www.hyperui.dev/photos/man-4.jpeg"
-                  alt="Simon Lewis"
+                  alt="John Doe"
                   onClick={myDropdown}
                   id="miniIcon"
                 />
 
                 <p className="hidden ml-2 text-xs text-left sm:block">
-                  <strong className="block font-medium">John Doe</strong>
+                  <strong className="block font-medium">{fName} {lName}</strong>
 
-                  <span className="text-gray-500"> johndoe@fakemail.com </span>
+                  <span className="text-gray-500">{email}</span>
                 </p>
 
                 <svg
