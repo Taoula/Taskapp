@@ -12,19 +12,23 @@ function TimeInput(props) {
       document.getElementById("end-minutes").value
     } ${document.getElementById("endampm").value}`;
     update(startTime, endTime);
+
+    if (props.close != null){
+        props.close(false)
+    }
   }
 
   return (
     <form onSubmit={(e) => formatTime(e)}>
-        <input type="number" placeholder="12" id="start-hours" className=" bg-transparent text-xl appearance-none outline-none" />
-        <input type="number" placeholder="00" id="start-minutes" className="border-none" />
+        <input type="number" min="1" max="12" placeholder="12" id="start-hours" className=" bg-transparent text-xl appearance-none outline-none" required/>
+        <input type="number" min="0" max="59" placeholder="00" id="start-minutes" className="border-none" required/>
         <select id="startampm">
             <option value="AM">AM</option>
             <option value="PM">PM</option>
         </select>
         <br />
-        <input type="number" placeholder="12" id="end-hours"/>
-        <input type="number" placeholder="00" id="end-minutes"/>
+        <input type="number" min="1" max="12" placeholder="12" id="end-hours" required/>
+        <input type="number" min="0" max="59" placeholder="00" id="end-minutes" required/>
         <select id="endampm">
             <option value="AM">AM</option>
             <option value="PM">PM</option>

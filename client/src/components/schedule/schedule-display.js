@@ -5,6 +5,8 @@ import sortSchedule from "../../methods/sort-schedule"
 import convertTime from "../../methods/convert-time"
 import styled from "styled-components"
 import TimeInput from "../generic/time-input"
+import StylizedButton from "../forms/stylized-button"
+import ExpandableContainer from "../generic/expandable-container"
 
 const ScheduleButton = styled.button`
     background-color: rgb(48, 128, 242);
@@ -39,8 +41,9 @@ const PageTitle = styled.h1`
 
 function ScheduleDisplay(){
     const [schedule, setSchedule] = useState([])
-    const [wake, setWake] = useState([])
-    const [sleep, setSleep] = useState([])
+    const [wake, setWake] = useState("")
+    const [sleep, setSleep] = useState("")
+    const [hoursExpanded, setHoursExpanded] = useState(false)
 
     async function getSchedule(){
         const scheduleReq = await axios.get("http://localhost:8282/schedule/")
@@ -92,7 +95,8 @@ function ScheduleDisplay(){
             <PageTitle>Name</PageTitle>
             <SubHeading>A scheduling app</SubHeading>
 
-            <TimeInput update={updateHours} wake={convertTime(wake, "utc")} sleep={convertTime(sleep, "utc")}/>
+            {<button onClick={()=>setHoursExpanded(!hoursExpanded)}>Edit Hours</button>}
+            {hoursExpanded && <ExpandableContainer><TimeInput update={updateHours} wake={convertTime(wake, "utc")} sleep={convertTime(sleep, "utc")} close={setHoursExpanded}/></ExpandableContainer>}
 
             <div>{renderSchedule()}</div>
             <ScheduleButton onClick={()=> sortSchedule(setSchedule, wake, sleep)}><ScheduleText>Generate Schedule</ScheduleText></ScheduleButton>
