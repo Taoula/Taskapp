@@ -85,9 +85,9 @@ export default function Task({
 
           <div>
             {isActive ? (
-              <Square size={20} onClick={toggleActive} />
-            ) : (
               <CheckSquare size={20} onClick={toggleActive} />
+            ) : (
+              <Square size={20} onClick={toggleActive} />
             )}
           </div>
 

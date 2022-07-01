@@ -132,30 +132,30 @@ export default function TaskDisplay() {
               />
             </svg>
           </button>
-          {renderTasks(true)}
+          {renderTasks(false)}
         </div>
 
         <div className="bg-stone-100 rounded-lg shadow-lg ml-1 mr-1 mt-2 sm:mt-2 sm:ml-1 sm:mr-2 text-center border-solid border-2 border-stone-200">
           <h1 className="p-2">Active Tasks</h1>
-          {renderTasks(false)}
+          {renderTasks(true)}
         </div>
       </div>
 
       {taskFormId === "" && newTask && (
-          <TaskForm
-            getTasks={getTasks}
-            disableTaskForm={disableTaskForm}
-            scale={createFormScale}
-          />
-        )}
-        {!newTask && taskFormId !== "" && (
-          <UpdateTaskForm
-            getTasks={getTasks}
-            disableTaskForm={disableTaskForm}
-            _id={taskFormId}
-            scale={updateFormScale}
-          />
-        )}
+        <TaskForm
+          getTasks={getTasks}
+          disableTaskForm={disableTaskForm}
+          scale={createFormScale}
+        />
+      )}
+      {!newTask && taskFormId !== "" && (
+        <UpdateTaskForm
+          getTasks={getTasks}
+          disableTaskForm={disableTaskForm}
+          _id={taskFormId}
+          scale={updateFormScale}
+        />
+      )}
     </div>
   );
 }
