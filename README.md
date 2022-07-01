@@ -1,7 +1,12 @@
 # Todo
 1. use modals for the task creation/update dialogue
-3. Custom time input component
-4. time of day parameter for ordering tasks
+2. Fix time change error on schedule page reload
+3. add time editing component to task creation/update menu
+4. implement time of day into scheduling algorithm
+5. Render time component conditionally with button press (schedule page)
+
+# Completed
+Custom time input component
 
 # Taskapp
 ## Backend
