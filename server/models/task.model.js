@@ -6,7 +6,8 @@ const taskSchema = new mongoose.Schema({
     priority: {type: Number, required:true},
     isActive: {type: Boolean, required:true},
     completed: {type: Boolean, required:true},
-    user: {type: mongoose.ObjectId, required:true}
+    user: {type: mongoose.ObjectId, required:true},
+    time: {type: mongoose.Date, required:false}
 })
 
 const Task = mongoose.model("task", taskSchema);

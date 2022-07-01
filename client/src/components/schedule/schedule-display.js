@@ -2,7 +2,9 @@ import React, {useState, useEffect} from "react"
 import axios from "axios"
 import ScheduleBlock from './schedule-block'
 import sortSchedule from "../../methods/sort-schedule"
+import convertTime from "../../methods/convert-time"
 import styled from "styled-components"
+import TimeInput from "../generic/time-input"
 
 const ScheduleButton = styled.button`
     background-color: rgb(48, 128, 242);
@@ -43,13 +45,15 @@ function ScheduleDisplay(){
     async function getSchedule(){
         const scheduleReq = await axios.get("http://localhost:8282/schedule/")
         setSchedule(scheduleReq.data.schedule)
+        setWake(scheduleReq.data.startDate)
+        setSleep(scheduleReq.data.endDate)
     }
 
     async function updateSchedule(){
         const taskReq = await axios.get("http://localhost:8282/task/")
         let tasks = taskReq.data.filter(task => task.isActive)
         if (schedule.length != tasks.length){
-            sortSchedule(setSchedule, toDate(wake), toDate(sleep))
+            sortSchedule(setSchedule, convertTime(wake, "date"), convertTime(sleep, "date"))
         }
     }
 
@@ -60,31 +64,21 @@ function ScheduleDisplay(){
         })
     }
 
-    async function updateHours(e){
+    async function updateHours(start, end){
         try {
-            e.preventDefault();
-            
             // Create Date objects for updated wake & start time (convert from hh:mm)
-            let wakeDate = toDate(wake);
-            let sleepDate = toDate(sleep);
-            console.log(wakeDate);
-            console.log(sleepDate);
+            let startDate = convertTime(start, "date");
+            let endDate = convertTime(end, "date");
+            console.log(startDate);
+            console.log(endDate);
 
             //Push new date objects to schedule
-            await axios.patch(`http://localhost:8282/schedule/`, {schedule, start:wakeDate, end:sleepDate})
-            sortSchedule(setSchedule, wakeDate, sleepDate);
+            await axios.patch(`http://localhost:8282/schedule/`, {schedule, startDate, endDate})
+            sortSchedule(setSchedule, startDate, endDate);
         }
         catch (err) {
             console.log(err);
         }
-    }
-
-    function toDate(time) {
-        let newDate = new Date();
-        newDate.setHours(time.slice(null, 2));
-        newDate.setMinutes(time.slice(3, 5));
-        newDate.setSeconds(0);
-        return newDate;
     }
 
     useEffect(() => {
@@ -95,13 +89,11 @@ function ScheduleDisplay(){
         <div>
             <PageTitle>Name</PageTitle>
             <SubHeading>A scheduling app</SubHeading>
-            <form onSubmit={(e) => updateHours(e)}>
-                <input type="time" placeholder="Wake Time" value={wake} onChange={(e) => setWake(e.target.value)}></input>
-                <input type="time" placeholder="Sleep Time" value={sleep} onChange={(e) => setSleep(e.target.value)}></input>
-                <input type="submit" value="Update Hours"></input>
-            </form>
+
+            <TimeInput update={updateHours}/>
+
             <div>{renderSchedule()}</div>
-            <ScheduleButton onClick={()=> sortSchedule(setSchedule, toDate(wake), toDate(sleep))}><ScheduleText>Generate Schedule</ScheduleText></ScheduleButton>
+            <ScheduleButton onClick={()=> sortSchedule(setSchedule, convertTime(wake, "date"), convertTime(sleep, "date"))}><ScheduleText>Generate Schedule</ScheduleText></ScheduleButton>
         </div>
     )
 }
