@@ -1,4 +1,3 @@
-import { Input } from "postcss"
 import React from "react"
 
 function TimeInput(props){
@@ -12,14 +11,14 @@ function TimeInput(props){
 
     return(
         <form onSubmit={(e) => formatTime(e)}>
-            <input type="number" placeholder="12" id="start-hours"/>
-            <input type="number" placeholder="00" id="start-minutes"/>
+            <input type="number" placeholder="Hours" value={parseInt(props.wake.slice(null,2))} id="start-hours"/>
+            <input type="number" placeholder="Minutes" value={parseInt(props.wake.slice(3,5))} id="start-minutes"/>
             <select id="startampm">
                 <option value="AM">AM</option>
                 <option value="PM">PM</option>
             </select>
-            <input type="number" placeholder="12" id="end-hours"/>
-            <input type="number" placeholder="00" id="end-minutes"/>
+            <input type="number" placeholder="Hours" value={parseInt(props.wake.slice(null,2))} id="end-hours"/>
+            <input type="number" placeholder="Minutes" value={parseInt(props.wake.slice(3,5))} id="end-minutes"/>
             <select id="endampm">
                 <option value="AM">AM</option>
                 <option value="PM">PM</option>

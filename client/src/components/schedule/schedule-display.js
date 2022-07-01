@@ -92,7 +92,7 @@ function ScheduleDisplay(){
             <PageTitle>Name</PageTitle>
             <SubHeading>A scheduling app</SubHeading>
 
-            <TimeInput update={updateHours}/>
+            <TimeInput update={updateHours} wake={convertTime(wake, "utc")} sleep={convertTime(sleep, "utc")}/>
 
             <div>{renderSchedule()}</div>
             <ScheduleButton onClick={()=> sortSchedule(setSchedule, wake, sleep)}><ScheduleText>Generate Schedule</ScheduleText></ScheduleButton>
