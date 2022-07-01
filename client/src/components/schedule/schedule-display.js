@@ -45,20 +45,21 @@ function ScheduleDisplay(){
     async function getSchedule(){
         const scheduleReq = await axios.get("http://localhost:8282/schedule/")
         setSchedule(scheduleReq.data.schedule)
-        setWake(scheduleReq.data.startDate)
-        setSleep(scheduleReq.data.endDate)
-    }
+        const {start, end} = scheduleReq.data
+        setWake(start)
+        setSleep(end)
 
-    async function updateSchedule(){
         const taskReq = await axios.get("http://localhost:8282/task/")
         let tasks = taskReq.data.filter(task => task.isActive)
-        if (schedule.length != tasks.length){
-            sortSchedule(setSchedule, convertTime(wake, "date"), convertTime(sleep, "date"))
+
+        if (scheduleReq.data.schedule.length != tasks.length) {
+            sortSchedule(setSchedule, start, end)
+            //await axios.patch(`http://localhost:8282/schedule/`, {schedule})
+
         }
     }
 
     function renderSchedule(){
-        updateSchedule()
         return schedule.map((task) => {
             return <ScheduleBlock task={task}></ScheduleBlock>
         })
@@ -69,11 +70,12 @@ function ScheduleDisplay(){
             // Create Date objects for updated wake & start time (convert from hh:mm)
             let startDate = convertTime(start, "date");
             let endDate = convertTime(end, "date");
+            setWake(startDate)
+            setSleep(endDate)
             console.log(startDate);
             console.log(endDate);
 
             //Push new date objects to schedule
-            await axios.patch(`http://localhost:8282/schedule/`, {schedule, startDate, endDate})
             sortSchedule(setSchedule, startDate, endDate);
         }
         catch (err) {
@@ -93,7 +95,7 @@ function ScheduleDisplay(){
             <TimeInput update={updateHours}/>
 
             <div>{renderSchedule()}</div>
-            <ScheduleButton onClick={()=> sortSchedule(setSchedule, convertTime(wake, "date"), convertTime(sleep, "date"))}><ScheduleText>Generate Schedule</ScheduleText></ScheduleButton>
+            <ScheduleButton onClick={()=> sortSchedule(setSchedule, wake, sleep)}><ScheduleText>Generate Schedule</ScheduleText></ScheduleButton>
         </div>
     )
 }

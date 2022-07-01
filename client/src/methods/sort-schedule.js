@@ -61,6 +61,8 @@ async function sortSchedule(setSchedule, wakeDate, sleepDate){
     //Set Start & End Hours (Manual right now)
 
     let add_minutes = function(dt, minutes){
+        console.log(dt)
+        dt = new Date(dt)
         return new Date(dt.getTime() + minutes*60000);
     }
 
@@ -83,12 +85,13 @@ async function sortSchedule(setSchedule, wakeDate, sleepDate){
     }
 
     let convert12 = function(dt) {
+        dt = new Date(dt)
         let hours = dt.getHours();
         let amOrPm = hours >= 12 ? 'pm' : 'am';
         hours = (hours % 12) || 12;
         let minutes = dt.getMinutes();
-        if (minutes === 0) {
-            minutes = "00"
+        if (minutes < 10) {
+            minutes = "0" + minutes
         }
         return hours + ":" + minutes + " " + amOrPm;
     }
@@ -98,7 +101,7 @@ async function sortSchedule(setSchedule, wakeDate, sleepDate){
         return {_id: _id, name: name, start: convert12(start), end: end, completed: completed}
     })
 
-    const updatedSchedule = await axios.patch("http://localhost:8282/schedule/", {schedule})
+    const updatedSchedule = await axios.patch("http://localhost:8282/schedule/", {schedule, start:wakeDate, end:sleepDate})
     setSchedule(schedule)
 }
 
