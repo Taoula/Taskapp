@@ -3,6 +3,7 @@
 2. Fix time change error on schedule page reload
 3. add time editing component to task creation/update menu
 4. implement time of day into scheduling algorithm
+5. Render time component conditionally with button press (schedule page)
 
 # Completed
 Custom time input component
