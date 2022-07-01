@@ -1,77 +1,19 @@
-// import React, { useState } from "react"
-// import styled from "styled-components"
-// import axios from 'axios'
-// import StylizedInput from "../forms/stylized-input"
-// import StylizedButton from "../forms/stylized-button"
-// import StylizedForm from "../forms/stylized-form"
-
-// const ExpandableContainer = styled.div`
-//   position: fixed;
-//   width:30%;
-//   height:45%;
-//   background-color: #f0f0f0;
-//   border: 1px solid gray;
-//   padding: 3em;
-//   box-sizing: border-box;
-//   left:35%;
-//   top:30%;
-//   border-radius:2em;
-//   transition: 0.4s;
-//   transform: scale(${props => props.scale});
-//   text-transform: Capitalize;
-// `
-
-// function TaskForm({ getTasks, disableTaskForm, scale}){
-//     const [name, setName] = useState("")
-//     const [duration, setDuration] = useState("")
-//     const [priority, setPriority] = useState("")
-
-//     async function onSubmit (e) {
-//         disableTaskForm("create")
-//         e.preventDefault();
-//         const taskData = {
-//             name, duration, priority,
-//             isActive: false,
-//             completed: false
-//         }
-
-//         await axios.post("http://localhost:8282/task/", taskData)
-//         getTasks()
-//     }
-
-//     return (
-//         <ExpandableContainer scale={scale}>
-//             <p>New Task</p>
-//             <StylizedForm onSubmit={(e) => onSubmit(e)}>
-//                 <StylizedInput type="text" placeholder="Task Name" value={name} onChange={(e) => setName(e.target.value)}/>
-//                 <StylizedInput type="number" placeholder="Duration (minutes)" min="5" value={duration} onChange={(e) => setDuration(e.target.value)}/>
-//                 <StylizedInput type="number" placeholder="Priority (1-3)" min="1" max="5" value={priority} onChange={(e) => setPriority(e.target.value)}/>
-//                 <StylizedButton input={true} type="submit" value="submit"/>
-//             </StylizedForm>
-//         </ExpandableContainer>
-//     )
-// }
-
-// export default TaskForm
-
 import React, { useState } from "react";
-import styled from "styled-components";
 import axios from "axios";
 
-const ExpandableContainer = styled.div`
-  position: absolute;
-  transition: 0.4s;
-  transform: scale(${(props) => props.scale});
-  text-transform: Capitalize;
-`;
-
-export default function TaskForm({ getTasks, disableTaskForm, scale }) {
+export default function TaskForm({ getTasks, visible, onClose }) {
   const [name, setName] = useState("");
   const [duration, setDuration] = useState("");
   const [priority, setPriority] = useState("");
 
+  // is not visible is true then nothing will be returned
+  if (!visible) return null;
+
+  // function handles form submission
   async function onSubmit(e) {
-    disableTaskForm("create");
+    // closes the form
+    onClose();
+
     e.preventDefault();
     const taskData = {
       name,
@@ -85,13 +27,24 @@ export default function TaskForm({ getTasks, disableTaskForm, scale }) {
     getTasks();
   }
 
+  // functions handles form closure
+  const handleOnClose = (e) => {
+    // the form will close if the user clicks on the background
+    if (e.target.id === "formBackground") {
+      onClose();
+    }
+  };
+
   return (
-    <ExpandableContainer scale={scale}>
-      <div className="max-w-screen-xl px-4 py-16 mx-auto sm:px-6 lg:px-8">
-        <div className="max-w-lg mx-auto"></div>
+    <div
+      onClick={handleOnClose}
+      className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm"
+      id="formBackground"
+    >
+      <div className="max-w-md px-4 py-16 mx-auto">
         <form
           action=""
-          class="p-8 mt-6 mb-0 space-y-4 rounded-lg shadow-2xl"
+          class="p-8 mt-6 mb-0 space-y-4 rounded-lg shadow-2xl bg-white"
           onSubmit={(e) => onSubmit(e)}
         >
           <p class="text-lg font-medium text-center">Create a new task</p>
@@ -151,8 +104,14 @@ export default function TaskForm({ getTasks, disableTaskForm, scale }) {
           >
             Create
           </button>
+          <button
+            class="block w-full px-5 py-3 text-sm font-medium text-white bg-red-600 rounded-lg"
+            onClick={onClose}
+          >
+            Cancel
+          </button>
         </form>
       </div>
-    </ExpandableContainer>
+    </div>
   );
 }

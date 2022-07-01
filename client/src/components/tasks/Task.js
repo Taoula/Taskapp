@@ -43,13 +43,13 @@ export default function Task({
     getTasks();
   }
 
-  // useEffect(() => {
-  //   if (isExpanded) {
-  //     enableTaskForm("update", _id);
-  //   } else {
-  //     disableTaskForm("update");
-  //   }
-  // }, [isExpanded]);
+  useEffect(() => {
+    if (isExpanded) {
+      enableTaskForm("update", _id);
+    } else {
+      disableTaskForm("update");
+    }
+  }, [isExpanded]);
 
   return (
     <div>
@@ -92,7 +92,7 @@ export default function Task({
           </div>
 
           <div>
-            <p>Edit Task</p>
+            <p className="hover:underline">Edit Task</p>
           </div>
         </div>
       </TaskContainer>

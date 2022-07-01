@@ -33,7 +33,7 @@ export default function LoginForm() {
         <div className="max-w-lg mx-auto">
           {/* header */}
           <h1
-            className="text-2xl font-bold text-center sm:text-3xl"
+            className="text-2xl font-bold text-center"
           >
             <a href="/" className="text-indigo-600" id="title">Task App</a>
           </h1>
