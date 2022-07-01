@@ -10,6 +10,7 @@ export default function TaskDisplay() {
   const [tasks, setTasks] = useState([]);
   const [taskFormId, setTaskFormId] = useState("");
   const [updateFormScale, setUpdateFormScale] = useState(0);
+  const [createFormScale, setCreateFormScale] = useState(0);
   const [newTask, toggle] = useToggle(false);
 
   const [showCreateTask, setShowCreateTask] = useState(false);
@@ -21,32 +22,35 @@ export default function TaskDisplay() {
     setTasks(taskReq.data);
   }
 
-  // function enableTaskForm(type, id) {
-  //   if (type === "update") {
-  //     setTaskFormId(id);
-  //     setTimeout(() => {
-  //     }, 1);
-  //   } else {
-  //     toggle();
-  //     setTimeout(() => {
+  function enableTaskForm(type, id) {
+    if (type === "update") {
+      setUpdateFormScale(0);
+      setTaskFormId(id);
+      setTimeout(() => {
+        setUpdateFormScale(1);
+      }, 1);
+    } else {
+      setCreateFormScale(0);
+      toggle();
+      setTimeout(() => {
+        setCreateFormScale(1);
+      }, 1);
+    }
+  }
 
-  //     }, 1);
-  //   }
-  // }
-
-  // function disableTaskForm(type) {
-  //   if (type === "update") {
-  //     setUpdateFormScale(0);
-  //     setTimeout(() => {
-  //       setTaskFormId("");
-  //     }, 400);
-  //   } else {
-  //     setCreateFormScale(0);
-  //     setTimeout(() => {
-  //       toggle();
-  //     }, 400);
-  //   }
-  // }
+  function disableTaskForm(type) {
+    if (type === "update") {
+      setUpdateFormScale(0);
+      setTimeout(() => {
+        setTaskFormId("");
+      }, 400);
+    } else {
+      setCreateFormScale(0);
+      setTimeout(() => {
+        toggle();
+      }, 400);
+    }
+  }
 
   //renders tasks based on active bool
   function renderTasks(active) {
@@ -107,12 +111,14 @@ export default function TaskDisplay() {
             {renderTasks(true)}
           </div>
         </div>
-        <TaskForm
+
+          <TaskForm
             getTasks={getTasks}
+            disableTaskForm={disableTaskForm}
             visible={showCreateTask}
             onClose={handleOnClose}
           />
-        {/* {taskFormId === "" && newTask && (
+        {taskFormId === "" && newTask && (
           <TaskForm
             getTasks={getTasks}
             disableTaskForm={disableTaskForm}
@@ -128,7 +134,7 @@ export default function TaskDisplay() {
             scale={updateFormScale}
             onClose={handleOnClose}
           />
-        )} */}
+        )}
       </div>
   );
 }
