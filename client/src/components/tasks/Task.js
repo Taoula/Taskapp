@@ -15,9 +15,7 @@ const TaskContainer = styled.div`
 
 export default function Task({
   task,
-  getTasks,
-  enableTaskForm,
-  disableTaskForm,
+  getTasks
 }) {
   const { name, priority, duration, _id, isActive, completed } = task;
   const [isExpanded, toggle] = useToggle(false);
@@ -25,7 +23,7 @@ export default function Task({
 
   async function deleteTask() {
     if (isExpanded) {
-      disableTaskForm("update");
+      
     }
     const url = `http://localhost:8282/task/${_id}/`;
     await axios.delete(url);
@@ -42,14 +40,6 @@ export default function Task({
     });
     getTasks();
   }
-
-  useEffect(() => {
-    if (isExpanded) {
-      enableTaskForm("update", _id);
-    } else {
-      disableTaskForm("update");
-    }
-  }, [isExpanded]);
 
   return (
     <div>

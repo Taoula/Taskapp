@@ -3,11 +3,12 @@
 2. add time editing component to task creation/update menu
 3. implement time of day into scheduling algorithm
 4. Style time component & edit hours button (paul)
+5. re-implement task editing with modals
 
 # Completed
-Custom time input component
-Render time component conditionally with button press (schedule page)
-Fix time change error on schedule page reload
+1. Custom time input component
+2. Render time component conditionally with button press (schedule page)
+3. Fix time change error on schedule page reload
 
 # Taskapp
 ## Backend

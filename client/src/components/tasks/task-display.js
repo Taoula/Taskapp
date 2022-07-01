@@ -61,8 +61,6 @@ export default function TaskDisplay() {
             key={i}
             task={task}
             getTasks={getTasks}
-            enableTaskForm={enableTaskForm}
-            disableTaskForm={disableTaskForm}
           >
             {task.name}
           </Task>
