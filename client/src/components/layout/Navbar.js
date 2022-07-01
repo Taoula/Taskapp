@@ -122,10 +122,10 @@ export default function Navbar() {
                 <div className="p-2">
                   <a
                     href="#"
-                    className="flex gap-1.5 w-full items-center px-4 py-2 text-sm text-gray-500 rounded-lg hover:bg-gray-50 hover:text-gray-700"
+                    className="flex gap-1 w-full items-center px-4 py-2 text-sm text-gray-500 rounded-lg hover:bg-gray-50 hover:text-gray-700"
                     role="menuitem"
                   >
-                    Account Settings
+                    Account settings
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       class="h-5 w-5"
