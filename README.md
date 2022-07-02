@@ -9,6 +9,7 @@
 1. Custom time input component
 2. Render time component conditionally with button press (schedule page)
 3. Fix time change error on schedule page reload
+4. Create task form values reset after submission/cancelation
 
 # Taskapp
 ## Backend
