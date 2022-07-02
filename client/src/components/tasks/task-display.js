@@ -15,8 +15,11 @@ export default function TaskDisplay() {
 
   const [showCreateTask, setShowCreateTask] = useState(false);
 
-  const handleOnClose = () => setShowCreateTask(false);
+  const handleOnClose = () => {
 
+    setShowCreateTask(false);
+  }
+  
   async function getTasks() {
     const taskReq = await axios.get("http://localhost:8282/task/");
     setTasks(taskReq.data);

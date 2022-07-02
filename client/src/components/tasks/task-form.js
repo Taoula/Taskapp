@@ -11,9 +11,6 @@ export default function TaskForm({ getTasks, visible, onClose }) {
 
   // function handles form submission
   async function onSubmit(e) {
-    // closes the form
-    onClose();
-
     e.preventDefault();
     const taskData = {
       name,
@@ -25,12 +22,33 @@ export default function TaskForm({ getTasks, visible, onClose }) {
 
     await axios.post("http://localhost:8282/task/", taskData);
     getTasks();
+
+    setName("");
+    setDuration("");
+    setPriority("");
+
+    // closes the form
+    onClose();
   }
 
   // functions handles form closure
   const handleOnClose = (e) => {
     // the form will close if the user clicks on the background
     if (e.target.id === "formBackground") {
+
+      setName("");
+      setDuration("");
+      setPriority("");
+
+      onClose();
+    }
+
+    else if (e.target.id === "cancelButton") {
+
+      setName("");
+      setDuration("");
+      setPriority("");
+
       onClose();
     }
   };
@@ -106,7 +124,8 @@ export default function TaskForm({ getTasks, visible, onClose }) {
           </button>
           <button
             class="block w-full px-5 py-3 text-sm font-medium text-white bg-red-600 rounded-lg"
-            onClick={onClose}
+            onClick={handleOnClose}
+            id="cancelButton"
           >
             Cancel
           </button>
