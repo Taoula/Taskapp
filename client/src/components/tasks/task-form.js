@@ -23,11 +23,12 @@ export default function TaskForm({ getTasks, visible, onClose }) {
     await axios.post("http://localhost:8282/task/", taskData);
     getTasks();
 
+    // input fields are reset to empty
     setName("");
     setDuration("");
     setPriority("");
 
-    // closes the form
+    // prop is passed from task-display to give access to form closure function
     onClose();
   }
 
@@ -35,20 +36,22 @@ export default function TaskForm({ getTasks, visible, onClose }) {
   const handleOnClose = (e) => {
     // the form will close if the user clicks on the background
     if (e.target.id === "formBackground") {
-
+      // input fields are reset to empty
       setName("");
       setDuration("");
       setPriority("");
 
+      // prop is passed from task-display to give access to form closure function
       onClose();
     }
-
+    // the form will close if the user clicks on the cancel button
     else if (e.target.id === "cancelButton") {
-
+      // input fields are reset to empty
       setName("");
       setDuration("");
       setPriority("");
 
+      // prop is passed from task-display to give access to form closure function
       onClose();
     }
   };

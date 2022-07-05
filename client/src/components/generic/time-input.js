@@ -13,28 +13,82 @@ function TimeInput(props) {
     } ${document.getElementById("endampm").value}`;
     update(startTime, endTime);
 
-    if (props.close != null){
-        props.close(false)
+    if (props.close != null) {
+      props.close(false);
     }
   }
 
   return (
-    <form onSubmit={(e) => formatTime(e)}>
-        <input type="number" min="1" max="12" placeholder="12" id="start-hours" className=" bg-transparent text-xl appearance-none outline-none" required/>
-        <input type="number" min="0" max="59" placeholder="00" id="start-minutes" className="border-none" required/>
-        <select id="startampm">
-            <option value="AM">AM</option>
-            <option value="PM">PM</option>
-        </select>
-        <br />
-        <input type="number" min="1" max="12" placeholder="12" id="end-hours" required/>
-        <input type="number" min="0" max="59" placeholder="00" id="end-minutes" required/>
-        <select id="endampm">
-            <option value="AM">AM</option>
-            <option value="PM">PM</option>
-        </select>
-        <br />
-        <button type="submit" value="submit" className="bg-indigo-600 rounded-lg px-5 py-3 font-medium text-white">Submit</button>
+    <form
+      className="p-8 mt-6 mb-0 space-y-4 rounded-lg shadow-2xl bg-red-500 max-w-xs"
+      onSubmit={(e) => formatTime(e)}
+    >
+      {/* start hours input */}
+      <div>
+        <label class="text-lg font-light">Start hours</label>
+        <div className="relative mt-1 flex bg-white shadow-lg rounded-sm">
+          <input
+            min="1"
+            max="12"
+            id="start-hours"
+            placeholder="12"
+            className="w-10 border-none rounded-sm p-2 timeInput"
+            required
+          />
+          <p className="text-3xl">:</p>
+          <input
+            placeholder="00"
+            min="0"
+            max="59"
+            id="start-minutes"
+            required
+            className="w-10 border-none rounded-sm p-2"
+          />
+          <select className="w-15 ml-1 border-none rounded-sm" id="startampm">
+            <option value="AM">am</option>
+            <option value="PM">pm</option>
+          </select>
+        </div>
+      </div>
+
+      {/* end hours input */}
+      <div>
+        <label class="text-lg font-light">End hours</label>
+        <div className="relative mt-1 flex bg-white shadow-lg rounded-sm">
+          <input
+            placeholder="12"
+            className="w-10 border-none rounded-sm p-2 timeInput"
+            min="1"
+            max="12"
+            id="end-hours"
+            required
+          />
+          <p className="text-3xl">:</p>
+          <input
+            placeholder="00"
+            min="0"
+            max="59"
+            id="end-minutes"
+            required
+            className="w-10 border-none rounded-sm p-2"
+          />
+          <select className="w-15 ml-1 border-none rounded-sm" id="endampm">
+            <option value="AM">am</option>
+            <option value="PM">pm</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button
+          type="submit"
+          input={+true}
+          value="submit"
+          className="block w-full px-5 py-3 text-sm font-medium text-white bg-indigo-600 rounded-sm"
+        >
+          <span className="text-xl font-light">Log In</span>
+        </button>
+      </div>
     </form>
   );
 }
