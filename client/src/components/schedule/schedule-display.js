@@ -39,7 +39,7 @@ const PageTitle = styled.h1`
 `
 
 
-function ScheduleDisplay(){
+export default function ScheduleDisplay(){
     const [schedule, setSchedule] = useState([])
     const [wake, setWake] = useState("")
     const [sleep, setSleep] = useState("")
@@ -103,5 +103,3 @@ function ScheduleDisplay(){
         </div>
     )
 }
-
-export default ScheduleDisplay

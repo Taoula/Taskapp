@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Square, CheckSquare } from "phosphor-react";
 import useToggle from "../../hooks/use-toggle";
 import styled from "styled-components";
 import axios from "axios";
+import UpdateTaskForm from "./update-task-form";
 
 const TaskContainer = styled.div`
   background-color: ${(props) => props.color || "pink"};
@@ -20,6 +21,12 @@ export default function Task({
   const { name, priority, duration, _id, isActive, completed } = task;
   const [isExpanded, toggle] = useToggle(false);
   const colors = ["#f87171", "#fcd34d", "#4ade80"];
+  const [showUpdateTask, setShowUpdateTask] = useState(false);
+
+  const handleUpdateOnClose = () => {
+
+    setShowUpdateTask(false);
+  }
 
   async function deleteTask() {
     if (isExpanded) {
@@ -54,7 +61,7 @@ export default function Task({
             <span className="text-md font-light">{duration} minutes</span>
           </p>
 
-          <div className="inline flex">
+          <div className="flex">
             <p>Delete:</p>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -82,10 +89,12 @@ export default function Task({
           </div>
 
           <div>
-            <p className="hover:underline">Edit Task</p>
+            <p className="hover:underline" onClick={() => setShowUpdateTask(true)}>Edit Task</p>
           </div>
         </div>
       </TaskContainer>
+
+      <UpdateTaskForm visible={showUpdateTask} onClose={handleUpdateOnClose}/>
     </div>
   );
 }
