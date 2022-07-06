@@ -13,18 +13,12 @@ export default function TaskDisplay() {
   const [createFormScale, setCreateFormScale] = useState(0);
   const [newTask, toggle] = useToggle(false);
   const [showCreateTask, setShowCreateTask] = useState(false);
-  // const [showUpdateTask, setShowUpdateTask] = useState(false);
 
   // handles form closure
   const handleOnClose = () => {
     // sets showCreateTask value to false which is passed to the visible prop in task and disables the create task form
     setShowCreateTask(false);
   };
-
-  // const handleUpdateOnClose = () => {
-
-  //   setShowUpdateTask(false);
-  // }
 
   async function getTasks() {
     const taskReq = await axios.get("http://localhost:8282/task/");
@@ -139,8 +133,6 @@ export default function TaskDisplay() {
           onClose={handleOnClose}
         />
       )}
-      {/* <button className="bg-red-500 p-3" onClick={() => setShowUpdateTask(true)}>Edit task</button>
-      <UpdateTaskForm visible={showUpdateTask} onClose={handleUpdateOnClose}/> */}
     </div>
   );
 }
