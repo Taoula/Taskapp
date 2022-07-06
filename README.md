@@ -10,6 +10,7 @@
 4. Create task form values reset after submission/cancelation
 5. Style time component & edit hours button (paul)
 6. use modals for the task creation/update dialogue
+7. navbar drop down converted to modal element
 
 # Taskapp
 ## Backend
