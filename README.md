@@ -2,6 +2,8 @@
 1. add time editing component to task creation/update menu
 2. implement time of day into scheduling algorithm
 3. re-implement task editing with modals
+4. redesign & re-implement schedule dashboard
+5. create account settings page
 
 # Completed
 1. Custom time input component
