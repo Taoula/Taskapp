@@ -1,5 +1,6 @@
-/* Baloo & Montserrat font imports */
-@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+/* Font imports */
+/* Montserrat for headers, Lora for subheaders, Hind Madurai for paragraphs */
+@import url('https://fonts.googleapis.com/css2?family=Hind+Madurai:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 /* Tailwind imports */
 @tailwind base;
@@ -8,7 +9,7 @@
 
 /* Global styles */
 * {
-  font-family: Montserrat;
+  font-family: 'Montserrat';
 }
 
 #hero-section {
@@ -23,19 +24,29 @@
     radial-gradient(at 87% 75%, rgb(129, 140, 248) 0, transparent 74%),
     radial-gradient(at 78% 1%, rgb(13, 148, 136) 0, transparent 21%),
     radial-gradient(at 80% 13%, rgb(124, 45, 18) 0, transparent 86%); */
-
     background: #10182a;
   }
 
-#title {
-  font-family: "Baloo 2";
+  /* hero section curve styles */
+  .curve {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
 }
 
-/* navbar mini user icon animation */
-#miniIcon:hover {
-  transition: 0.2s;
-  transform: scale(0.75);
-  cursor: pointer;
+.curve svg {
+    position: relative;
+    display: block;
+    width: calc(119% + 1.3px);
+    height: 93px;
+}
+
+.curve .shape-fill {
+    fill: white;
 }
 
 .timeInput {

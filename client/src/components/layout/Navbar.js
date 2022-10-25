@@ -8,9 +8,9 @@ export default function Navbar() {
   return (
     <>
       {/* navbar */}
-      <nav className="flex items-center justify-between max-w-4xl p-4 mx-auto transparent text-white">
+      <nav className="flex items-center justify-between max-w-4xl p-4 pt-3 sm:p-4 mx-auto transparent text-white">
         {/* logo */}
-        <a className="rounded-lg font-semibold" id="title" href="/">
+        <a className="rounded-lg font-semibold font-lora italic" href="/">
           Task App
         </a>
 
