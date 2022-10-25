@@ -7,27 +7,26 @@ export default function HeroSection() {
 
   return (
     <>
-    <div class="min-w-min">
-      <section id="hero-section" class="bg-blue-100 text-white relative">
+      <section id="hero-section" class="bg-blue-100 text-white relative min-w-0">
         <div>
           <Navbar />
-          <div class="sm:max-w-xl max-w-md flex flex-col mx-auto text-center mt-10 sm:mt-20">
-            <p class="sm:text-6xl font-semibold mb-5 text-5xl tracking-tight leading-none font-montserrat">
+          <div class="flex flex-col mx-auto max-w-sm xs:max-w-md sm:max-w-xl mt-20 sm:mt-30 text-center">
+            <p class="sm:text-6xl font-semibold mb-6 xs:text-5xl text-4xl leading-none font-montserrat">
               A powerful tool to organize your day
             </p>
-            <p class="text-gray-400 font-lora font-normal italic">
+            <p class="text-gray-400 font-lora text-md xs:text-lg font-thin italic">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore
               facilis aut nobis amet vitae.
             </p>
-            <div class="space-x-3 pt-7">
+            <div class="xs:space-x-3 space-y-3 xs:space-y-0 pt-8 flex flex-col mx-auto xs:flex-row font-light text-sm text-white">
               <button
-                className="inline-flex px-5 py-2 text-sm text-white bg-indigo-500 border border-indigo-500 rounded-sm hover:bg-indigo-600 hover:border-indigo-600"
+                className="px-20 xs:px-5 py-2 bg-indigo-500 border border-indigo-500 rounded-sm hover:bg-indigo-600 hover:border-indigo-600"
                 onClick={() => history("/register")}
               >
                 Create an account
               </button>
               <button
-                className="inline-flex px-4 py-2 text-sm text-white bg-gray-600 border border-gray-500 rounded-sm hover:bg-gray-500 text-gray-300"
+                className="xs:px-5 py-2 bg-gray-600 border border-gray-500 rounded-sm hover:bg-gray-500 text-gray-300"
                 onClick={() => history("/login")}
               >
                 Sign in
@@ -35,7 +34,8 @@ export default function HeroSection() {
             </div>
           </div>
         </div>
-        <div class="pt-40 sm:pt-60">
+        <div class="pt-60">
+        {/* Curve SVG */}
         <div class="curve">
         <svg
           data-name="Layer 1"
@@ -51,7 +51,6 @@ export default function HeroSection() {
       </div>
       </div>
       </section>
-      </div>
     </>
   );
 }
