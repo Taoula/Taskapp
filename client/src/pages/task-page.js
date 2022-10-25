@@ -8,7 +8,7 @@ export default function TaskPage() {
 
         <>
             <Sidebar />
-            {/* <TaskDisplay /> */}
+            <TaskDisplay />
         </>
     )
 }

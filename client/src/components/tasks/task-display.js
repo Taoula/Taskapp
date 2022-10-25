@@ -74,6 +74,55 @@ export default function TaskDisplay() {
   }, []);
 
   return (
-    <Sidebar />
+<div>
+      <div className="grid grid-cols-1 mt-2 sm:grid-cols-2 sm:mt-3">
+        <div className="bg-stone-100 rounded-lg shadow-lg ml-1 mr-1 sm:mt-2 sm:ml-2 sm:mr-1 text-center border-solid border-2 border-stone-200">
+          <h1 className="p-2">Inactive Tasks</h1>
+
+          <button
+            onClick={() => {
+              newTask ? disableTaskForm("create") : enableTaskForm("create");
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6 hover:fill-neutral-900 hover:stroke-neutral-50"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="1"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </button>
+          {renderTasks(true)}
+        </div>
+
+        <div className="bg-stone-100 rounded-lg shadow-lg ml-1 mr-1 mt-2 sm:mt-2 sm:ml-1 sm:mr-2 text-center border-solid border-2 border-stone-200">
+          <h1 className="p-2">Active Tasks</h1>
+          {renderTasks(false)}
+        </div>
+      </div>
+
+      {taskFormId === "" && newTask && (
+          <TaskForm
+            getTasks={getTasks}
+            disableTaskForm={disableTaskForm}
+            scale={createFormScale}
+          />
+        )}
+        {!newTask && taskFormId !== "" && (
+          <UpdateTaskForm
+            getTasks={getTasks}
+            disableTaskForm={disableTaskForm}
+            _id={taskFormId}
+            scale={updateFormScale}
+          />
+        )}
+    </div>
   );
 }
