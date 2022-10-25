@@ -1,6 +1,6 @@
 import React from "react"
 import ScheduleDisplay from "../components/schedule/schedule-display"
-import Navbar from "../components/layout/Navbar"
+import Sidebar from "../components/layout/sidebar"
 
 
 export default function SchedulePage() {
@@ -8,7 +8,7 @@ export default function SchedulePage() {
     return (
 
         <>
-            <Navbar />
+            <Sidebar />
             <ScheduleDisplay />
         </>
     )

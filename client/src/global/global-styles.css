@@ -11,15 +11,31 @@
   font-family: Montserrat;
 }
 
+#hero-section {
+  /* background-color: rgb(88, 28, 135);
+  background-image: radial-gradient(
+      at 69% 15%,
+      rgb(79, 70, 229) 0,
+      transparent 76%
+    ),
+    radial-gradient(at 24% 48%, rgb(120, 113, 108) 0, transparent 73%),
+    radial-gradient(at 7% 35%, rgb(6, 95, 70) 0, transparent 85%),
+    radial-gradient(at 87% 75%, rgb(129, 140, 248) 0, transparent 74%),
+    radial-gradient(at 78% 1%, rgb(13, 148, 136) 0, transparent 21%),
+    radial-gradient(at 80% 13%, rgb(124, 45, 18) 0, transparent 86%); */
+
+    background: #10182a;
+  }
+
 #title {
   font-family: "Baloo 2";
 }
 
 /* navbar mini user icon animation */
 #miniIcon:hover {
-    transition: 0.2s;
-    transform: scale(0.75);
-    cursor: pointer;
+  transition: 0.2s;
+  transform: scale(0.75);
+  cursor: pointer;
 }
 
 .timeInput {
