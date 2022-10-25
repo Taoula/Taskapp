@@ -1,46 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
-import AuthContext from "../../context/auth-context";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 export default function Navbar() {
-  const [fName, setFirstName] = useState("");
-  const [lName, setLastName] = useState("");
-  const [userRole, setUserRole] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordVerify, setPasswordVerify] = useState("");
 
-  const { getLoggedIn } = useContext(AuthContext);
   const history = useNavigate();
-
-  async function registerUser(e) {
-    try {
-      e.preventDefault();
-
-      const userData = {
-        fName,
-        lName,
-        userRole,
-        email,
-        password,
-        passwordVerify,
-      };
-
-      const schedule = [];
-
-      await axios.post("http://localhost:8282/auth/", userData, {});
-      await axios.post(
-        "http://localhost:8282/schedule/",
-        { schedule, start: null, end: null },
-        {}
-      );
-      getLoggedIn();
-      history("/schedule");
-    } catch (err) {
-      console.error(err);
-    }
-  }
 
   return (
     <>
@@ -56,7 +19,6 @@ export default function Navbar() {
           <li>
             <p className="text-sm py-2 rounded-lg text-gray-400 font-normal tracking-tight">
               <a
-                href=""
                 className="hover:text-white"
                 onClick={() => history("/login")}
               >

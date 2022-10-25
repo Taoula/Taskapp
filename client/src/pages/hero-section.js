@@ -1,7 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/layout/navbar";
 
 export default function HeroSection() {
+  const history = useNavigate();
 
   return (
     <section id="hero-section" class="bg-blue-100 text-white">
@@ -18,13 +20,13 @@ export default function HeroSection() {
           <div class="space-x-3 pb-10 pt-7">
             <button
               className="inline-flex px-5 py-2 text-sm text-white bg-indigo-500 border border-indigo-500 rounded-sm hover:bg-indigo-600 hover:border-indigo-600"
-            //   onClick={() => history("/login")}
+              onClick={() => history("/register")}
             >
               Create an account
             </button>
             <button
               className="inline-flex px-4 py-2 text-sm text-white bg-gray-600 border border-gray-500 rounded-sm hover:bg-gray-500 text-gray-300"
-            //   onClick={() => history("/register")}
+              onClick={() => history("/login")}
             >
               Sign in
             </button>
