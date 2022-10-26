@@ -2,39 +2,21 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
-
   const history = useNavigate();
 
   return (
     <>
-      {/* navbar */}
-      <nav className="flex items-center justify-between max-w-4xl p-3 xs:px-4 xs:pt-3 sm:p-4 mx-auto transparent text-white">
-        {/* logo */}
-        <a className="rounded-lg font-semibold font-lora italic" href="/">
-          Task App
+      <nav class="transparent max-w-4xl flex items-center mx-auto p-3 xs:px-4 xs:pt-3 sm:p-4 justify-between">
+        <a href="/" class="inline-flex items-center space-x-3">
+          <img alt="logo" src="https://flowbite.com/docs/images/logo.svg" />
+          <span className="font-lora italic font-semibold hidden xs:block">
+            Task App
+          </span>
         </a>
-
-        {/* login button */}
-        <ul className="flex space-x-4 md:space-x-6 text-sm font-light">
-          <li>
-            <p className="py-2 text-gray-400 tracking-tight">
-              <a
-                className="hover:text-white"
-                onClick={() => history("/login")}
-              >
-                Sign in
-              </a>
-            </p>
-          </li>
-          <li>
-            <button
-              className="px-3.5 py-1.5 tracking-tight text-white bg-indigo-500 border border-indigo-500 rounded-sm hover:bg-indigo-600 hover:border-indigo-600"
-              onClick={() => history("/register")}
-            >
-              Get Started
-            </button>
-          </li>
-        </ul>
+        <div class="space-x-4 md:space-x-5 font-light text-sm">
+          <button class="tracking-tight text-gray-400 hover:text-white" onClick={() => history("/login")}>Sign in</button>
+          <button class="px-3.5 py-1.5 tracking-tight bg-indigo-500 border border-indigo-500 rounded-sm hover:bg-indigo-600 hover:border-indigo-600" onClick={() => history("/register")}>Get Started</button>
+        </div>
       </nav>
     </>
   );
