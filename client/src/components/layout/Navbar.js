@@ -6,7 +6,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav class="transparent max-w-4xl flex items-center mx-auto p-3 xs:px-4 xs:pt-3 sm:p-4 justify-between">
+      <nav class="max-w-4xl flex items-center mx-auto p-3 xs:px-4 xs:pt-3 sm:p-4 justify-between xs:mb-10">
         <a href="/" class="inline-flex items-center space-x-3">
           <img alt="logo" src="https://flowbite.com/docs/images/logo.svg" />
           <span className="font-lora italic font-semibold hidden xs:block">
