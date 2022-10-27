@@ -31,7 +31,7 @@ export default function LoginForm() {
   return (
     <>
       <div className="bg-gray-900">
-        <nav className="transparent p-4 w-full max-w-4xl mx-auto fixed-top">
+        <nav className="transparent w-full max-w-4xl mx-auto fixed-top p-3 xs:px-4 xs:pt-3 sm:p-4">
           <a href="/" className="inline-flex items-center space-x-3 text-white">
             <img alt="logo" src="https://flowbite.com/docs/images/logo.svg" />{" "}
             <span className="font-lora italic font-semibold hidden xs:block">

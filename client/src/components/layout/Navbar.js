@@ -14,18 +14,8 @@ export default function Navbar() {
           </span>
         </a>
         <div class="space-x-4 md:space-x-5 font-light text-sm">
-          <button
-            class="tracking-tight text-gray-400 hover:text-white"
-            onClick={() => history("/login")}
-          >
-            Sign in
-          </button>
-          <button
-            class="px-3.5 py-1.5 tracking-tight bg-indigo-500 border border-indigo-500 rounded-sm hover:bg-indigo-600 hover:border-indigo-600"
-            onClick={() => history("/register")}
-          >
-            Get Started
-          </button>
+          <button class="tracking-tight text-gray-400 hover:text-white" onClick={() => history("/login")}>Sign in</button>
+          <button class="px-3.5 py-1.5 tracking-tight bg-indigo-500 border border-indigo-500 rounded-sm hover:bg-indigo-600 hover:border-indigo-600" onClick={() => history("/register")}>Get Started</button>
         </div>
       </nav>
     </>
