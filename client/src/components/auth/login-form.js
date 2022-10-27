@@ -30,15 +30,24 @@ export default function LoginForm() {
 
   return (
     <>
-      <div class="bg-gray-900 min-h-screen flex items-center">
-        <div className="flex flex-col mx-auto max-w-md w-full ">
-          <h1 class="text-center text-4xl sm:text-5xl font-semibold text-white">
-            Welcome back!
-          </h1>
-          <p class="mt-4 mb-4 text-center text-gray-400 font-lora italic">
-            Sign into your account
-          </p>
-          <div class="mx-auto p-8 pt-0 max-w-sm w-full">
+      <div className="bg-gray-900">
+        <nav className="transparent p-4 w-full max-w-4xl mx-auto fixed-top">
+          <a href="/" className="inline-flex items-center space-x-3 text-white">
+            <img alt="logo" src="https://flowbite.com/docs/images/logo.svg" />{" "}
+            <span className="font-lora italic font-semibold hidden xs:block">
+              Task App
+            </span>
+          </a>
+        </nav>
+
+        <div class="min-h-screen flex items-center">
+          <div class="mx-auto p-8 max-w-sm w-full flex flex-col">
+            <h1 class="text-center text-4xl font-semibold text-white">
+              Welcome back!
+            </h1>
+            <p class="mt-4 mb-4 text-center text-gray-400 font-lora italic">
+              Sign into your account
+            </p>
             <form
               action=""
               class="space-y-4 text-white"
