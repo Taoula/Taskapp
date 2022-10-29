@@ -1,15 +1,10 @@
-import React from "react"
-import ScheduleDisplay from "../components/schedule/schedule-display"
-import Sidebar from "../components/layout/sidebar"
-
+import React from "react";
+import ScheduleDisplay from "../components/schedule/schedule-display";
 
 export default function SchedulePage() {
-
-    return (
-
-        <>
-            <Sidebar />
-            <ScheduleDisplay />
-        </>
-    )
+  return (
+    <>
+      <ScheduleDisplay />
+    </>
+  );
 }

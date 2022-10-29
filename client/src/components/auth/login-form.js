@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../../context/auth-context";
-import Navbar from "../layout/navbar";
+import Navbar from "../layout/Navbar";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -22,7 +22,7 @@ export default function LoginForm() {
 
       await axios.post("http://localhost:8282/auth/login", userData, {});
       getLoggedIn();
-      history("/schedule");
+      history("/dashboard/schedule");
     } catch (err) {
       console.error(err);
     }

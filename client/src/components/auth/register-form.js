@@ -36,7 +36,7 @@ export default function RegisterForm() {
         {}
       );
       getLoggedIn();
-      history("/schedule");
+      history("/dashboard/schedule");
     } catch (err) {
       console.error(err);
     }

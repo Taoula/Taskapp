@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import TaskForm from "./task-form";
-import UpdateTaskForm from "./update-task-form";
+import TaskForm from "./TaskForm";
+import UpdateTaskForm from "./UpdateTaskForm";
 import useToggle from "../../hooks/use-toggle";
 import Task from "./Task";
-import "tw-elements";
-import Sidebar from "../layout/sidebar";
 
 export default function TaskDisplay() {
   const [tasks, setTasks] = useState([]);
@@ -74,7 +72,7 @@ export default function TaskDisplay() {
   }, []);
 
   return (
-<div>
+    <div>
       <div className="grid grid-cols-1 mt-2 sm:grid-cols-2 sm:mt-3">
         <div className="bg-stone-100 rounded-lg shadow-lg ml-1 mr-1 sm:mt-2 sm:ml-2 sm:mr-1 text-center border-solid border-2 border-stone-200">
           <h1 className="p-2">Inactive Tasks</h1>
@@ -109,20 +107,20 @@ export default function TaskDisplay() {
       </div>
 
       {taskFormId === "" && newTask && (
-          <TaskForm
-            getTasks={getTasks}
-            disableTaskForm={disableTaskForm}
-            scale={createFormScale}
-          />
-        )}
-        {!newTask && taskFormId !== "" && (
-          <UpdateTaskForm
-            getTasks={getTasks}
-            disableTaskForm={disableTaskForm}
-            _id={taskFormId}
-            scale={updateFormScale}
-          />
-        )}
+        <TaskForm
+          getTasks={getTasks}
+          disableTaskForm={disableTaskForm}
+          scale={createFormScale}
+        />
+      )}
+      {!newTask && taskFormId !== "" && (
+        <UpdateTaskForm
+          getTasks={getTasks}
+          disableTaskForm={disableTaskForm}
+          _id={taskFormId}
+          scale={updateFormScale}
+        />
+      )}
     </div>
   );
 }

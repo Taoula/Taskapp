@@ -3,7 +3,7 @@ import { Square, CheckSquare } from "phosphor-react";
 import useToggle from "../../hooks/use-toggle";
 import styled from "styled-components";
 import axios from "axios";
-import UpdateTaskForm from "./update-task-form";
+import UpdateTaskForm from "./UpdateTaskForm";
 
 const TaskContainer = styled.div`
   background-color: ${(props) => props.color || "pink"};
