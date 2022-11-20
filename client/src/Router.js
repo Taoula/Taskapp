@@ -6,6 +6,8 @@ import TaskPage from "./pages/task-page"
 import SchedulePage from "./pages/schedule-page"
 import HomePage from "./pages/home-page"
 import Dashboard from "./components/layout/Dashboard"
+import AccountSettings from "./components/AccountSettings/AccountSettings"
+import Help from "./components/Help/Help"
 
 export default function Router(...restParams){
     return (
@@ -26,6 +28,8 @@ export default function Router(...restParams){
                 <Route path="/dashboard" element={<Dashboard />}>
                     <Route path="schedule" element={<SchedulePage />} />
                     <Route path="tasks" element={<TaskPage />} />
+                    <Route path="accountSettings" element={<AccountSettings />} />
+                    <Route path="help" element={<Help />} />
                 </Route>
             </Routes>
         </BrowserRouter>

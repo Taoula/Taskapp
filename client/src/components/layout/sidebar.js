@@ -14,6 +14,17 @@ export default function Sidebar() {
   const { getLoggedIn } = useContext(AuthContext);
   const history = useNavigate();
 
+  // verify logout function launches an alert if user wants to log out
+  function verifyLogout() {
+    if (window.confirm("Are you sure you want to log out?")) {
+      console.log("logging out...");
+      logOut();
+    } else {
+      console.log("Canceled log out.");
+    }
+  }
+
+  // logout function is called if user confirms they want to logout
   async function logOut() {
     await axios.get("http://localhost:8282/auth/logout");
     getLoggedIn();
@@ -56,28 +67,30 @@ export default function Sidebar() {
         {/* Tabs separated by a divider */}
         <div>
           <ul class="pt-5 space-y-2 border-t border-tabHoverColor">
+            {/* Account Settings Tab */}
             <li class="navbarTab">
-              <a
-                href="/"
+              <Link
+                to="/dashboard/accountSettings"
                 class="flex items-center rounded-md p-2 text-base font-normal text-white hover:bg-tabHoverColor"
               >
                 <GearSix size={25} weight="duotone" />
-              </a>
+              </Link>
             </li>
 
+            {/* Help Tab */}
             <li class="navbarTab">
-              <a
-                href="/"
+              <Link
+                to="/dashboard/help"
                 class="flex items-center rounded-md p-2 text-base font-normal text-white hover:bg-tabHoverColor"
               >
                 <Question size={25} weight="duotone" />
-              </a>
+              </Link>
             </li>
 
             <li class="navbarTab">
               <span
                 class="flex items-center rounded-md p-2 text-base font-normal text-white hover:bg-rose-100 hover:text-red-500"
-                onClick={logOut}
+                onClick={verifyLogout}
               >
                 <SignOut size={25} weight="duotone" />
               </span>

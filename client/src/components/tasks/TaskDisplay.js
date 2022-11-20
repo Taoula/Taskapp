@@ -182,14 +182,6 @@ export default function TaskDisplay() {
           <h1 className="p-2">Inactive Tasks</h1>
 
           <button
-<<<<<<< HEAD
-=======
-            // onClick={() => {
-            //   newTask ? disableTaskForm("create") : enableTaskForm("create");
-            // }}
-
-            // sets showCreateTask value to true which is passed to the visible prop in task and enables the task form
->>>>>>> 78f0c87ca90df44d9bc50119c503bbeff8f22dbf
             onClick={() => setShowCreateTask(true)}
           >
             <svg
@@ -218,33 +210,14 @@ export default function TaskDisplay() {
 
       <TaskForm
         getTasks={getTasks}
-<<<<<<< HEAD
-=======
-        disableTaskForm={disableTaskForm}
->>>>>>> 78f0c87ca90df44d9bc50119c503bbeff8f22dbf
         visible={showCreateTask}
         onClose={handleOnClose}
       />
       {taskFormId === "" && newTask && (
         <TaskForm
           getTasks={getTasks}
-<<<<<<< HEAD
           visible={showCreateTask}
           onClose={handleOnClose}
-=======
-          disableTaskForm={disableTaskForm}
-          visible={showCreateTask}
-          onClose={handleOnClose}
-        />
-      )}
-      {!newTask && taskFormId !== "" && (
-        <UpdateTaskForm
-          getTasks={getTasks}
-          disableTaskForm={disableTaskForm}
-          _id={taskFormId}
-          scale={updateFormScale}
-          onClose={handleOnClose}
->>>>>>> 78f0c87ca90df44d9bc50119c503bbeff8f22dbf
         />
       )}
       {/* <button className="bg-red-500 p-3" onClick={() => setShowUpdateTask(true)}>Edit task</button>
