@@ -14,7 +14,6 @@ export default function Router(...restParams){
 
                 {/* Landing page route */}
                 <Route exact path ="/" element={<HomePage />} />
-
                 
                 {/* <Route exact path="/schedule" element={<SchedulePage/>} /> */}
                 {/* <Route path="/tasks" element={<TaskPage/>} /> */}

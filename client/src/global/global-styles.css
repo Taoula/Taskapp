@@ -12,6 +12,11 @@
   font-family: 'Montserrat';
 }
 
+.active {
+
+  background-color: #3c414d;
+}
+
 #hero-section {
   /* background-color: rgb(88, 28, 135);
   background-image: radial-gradient(
