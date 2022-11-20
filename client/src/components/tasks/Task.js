@@ -94,7 +94,11 @@ export default function Task({
         </div>
       </TaskContainer>
 
-      <UpdateTaskForm visible={showUpdateTask} onClose={handleUpdateOnClose}/>
+      <UpdateTaskForm 
+      getTasks={getTasks}
+      _id={_id}
+      visible={showUpdateTask}
+      onClose={handleUpdateOnClose}/>
     </div>
   );
 }

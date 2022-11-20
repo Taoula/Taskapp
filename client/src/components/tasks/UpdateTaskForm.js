@@ -21,12 +21,12 @@ const ExpandableContainer = styled.div`
   text-transform: Capitalize;
 `;
 
-export default function UpdateTaskForm({ getTasks, _id, disableTaskForm, visible, onClose }) {
+export default function UpdateTaskForm({ getTasks, _id, visible, onClose }) {
   const [name, setName] = useState("");
   const [duration, setDuration] = useState("");
   const [priority, setPriority] = useState("");
   const [isActive, setIsActive] = useState(false);
-
+  console.log("\n\n\nTHE ID IS" + _id + "\n\n\n")
   async function loadData() {
     const task = await axios.get(`http://localhost:8282/task/${_id}/`);
     const {
@@ -47,7 +47,6 @@ export default function UpdateTaskForm({ getTasks, _id, disableTaskForm, visible
 
   async function onSubmit(e) {
     e.preventDefault();
-    disableTaskForm("update");
     const taskData = {
       name,
       duration,
@@ -57,6 +56,7 @@ export default function UpdateTaskForm({ getTasks, _id, disableTaskForm, visible
 
     await axios.patch(`http://localhost:8282/task/${_id}/`, taskData);
     getTasks();
+    onClose();
   }
 
   const handleUpdateOnClose = (e) => {
