@@ -210,7 +210,7 @@ export default function UpdateTaskForm({ getTasks, _id, visible, onClose }) {
   const [duration, setDuration] = useState("");
   const [priority, setPriority] = useState("");
   const [isActive, setIsActive] = useState(false);
-  console.log("\n\n\nTHE ID IS" + _id + "\n\n\n")
+
   async function loadData() {
     const task = await axios.get(`http://localhost:8282/task/${_id}/`);
     const {
