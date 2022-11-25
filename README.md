@@ -5,6 +5,7 @@
 4. redesign & re-implement schedule dashboard
 5. create account settings page
 6. Use moment for time
+7. highlight active tab in the sidebar
 
 # Completed
 1. Custom time input component
