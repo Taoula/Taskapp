@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import AuthContext from "../../context/auth-context";
 import axios from "axios";
@@ -44,15 +44,17 @@ export default function Sidebar() {
 
           {/* Navbar Tabs */}
           <ul class="space-y-2">
+            {/* Schedule Tab */}
             <li class="navbarTab">
               <Link
                 to="/dashboard/schedule"
-                class="flex items-center rounded-md p-2 text-base font-normal text-white hover:bg-tabHoverColor active"
+                class="flex items-center rounded-md p-2 text-base font-normal text-white hover:bg-tabHoverColor"
               >
                 <Calendar size={25} weight="duotone" />
               </Link>
             </li>
 
+            {/* Tasks Tab */}
             <li class="navbarTab">
               <Link
                 to="/dashboard/tasks"
@@ -87,6 +89,7 @@ export default function Sidebar() {
               </Link>
             </li>
 
+            {/* Log out tab */}
             <li class="navbarTab">
               <span
                 class="flex items-center rounded-md p-2 text-base font-normal text-white hover:bg-rose-100 hover:text-red-500"
