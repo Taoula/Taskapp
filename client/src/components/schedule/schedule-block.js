@@ -38,16 +38,20 @@ font-family: Lora;
 font-weight: 600;
 `
 
-function ScheduleBlock({task}) {
+function ScheduleBlock({task, refreshSchedule}) {
 
     const {name, start, _id, completed} = task;
-    const [isCompleted, setIsCompleted] = useState();
+    const [isCompleted, setIsCompleted] = useState(completed);
+    
 
     async function toggleCompleted(){
-        const taskReq = await axios.get(`http://localhost:8282/task/${_id}`)
-        const {priority, duration, isActive, completed} = taskReq.data
+        const taskReq = await axios.get(`http://localhost:8282/task/${_id}/`)
+        console.log(taskReq)
+        const {priority, duration, isActive, completed} = await taskReq.data
+    
         await axios.patch(`http://localhost:8282/task/${_id}`, {name, priority, duration, isActive, completed: !completed})
-        setIsCompleted(completed);
+        refreshSchedule();
+        setIsCompleted(!isCompleted);
     }
 
     return (

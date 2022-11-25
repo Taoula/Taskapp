@@ -58,13 +58,25 @@ export default function ScheduleDisplay(){
         if (scheduleReq.data.schedule.length != tasks.length) {
             sortSchedule(setSchedule, start, end)
             //await axios.patch(`http://localhost:8282/schedule/`, {schedule})
-
         }
+    }
+
+    async function refreshSchedule(){
+        //Loop through JSON tasks in schedule
+        for (let i = 0; i < schedule.length; i++){
+            // Update completed value of each task (only refresh value currently)
+            let currentID = schedule[i]._id;
+            let cTaskReq = await axios.get(`http://localhost:8282/task/${currentID}`)
+            let cTask = cTaskReq.data;
+            schedule[i].completed = cTask.completed;
+        }
+        //Patch updated schedule to server
+        await axios.patch(`http://localhost:8282/schedule/`, {schedule, wake, sleep})
     }
 
     function renderSchedule(){
         return schedule.map((task) => {
-            return <ScheduleBlock task={task}></ScheduleBlock>
+            return <ScheduleBlock task={task} refreshSchedule={refreshSchedule}></ScheduleBlock>
         })
     }
 
