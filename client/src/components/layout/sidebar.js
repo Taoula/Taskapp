@@ -36,8 +36,8 @@ export default function Sidebar() {
       {/* collapsed navbar */}
       <aside className="text-white bg-navbarBackgroundColor hidden sm:flex flex-col justify-between p-2 m-2.5 rounded-xl">
         <div>
-          {/* Throw alert if user wants to return to landing page and exit dashboard */}
-          <Link to="/" class="flex items-center p-2 mt-5 mb-5">
+          {/* Logo */}
+          <Link to="/dashboard/schedule" class="flex items-center p-2 mt-5 mb-5">
             {/* Header Title */}
             <Calendar size={25} weight="duotone" />
           </Link>

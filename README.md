@@ -4,7 +4,9 @@
 3. re-implement task editing with modals
 4. redesign & re-implement schedule dashboard
 5. create account settings page
-6. Use moment for time
+6. create a help feature
+7. Use moment for time
+8. highlight active tab in the sidebar
 
 # Completed
 1. Custom time input component

@@ -1,11 +1,20 @@
 import axios from "axios"
 import moment from "moment"
+import addMinutes from "./add-minutes"
 
 moment().format();
 
 async function sortSchedule(setSchedule, wakeDate, sleepDate){
 
-    
+    //test this?
+    if (wakeDate == null){
+        wakeDate = new Date();
+    } 
+
+    if (sleepDate == null){
+        sleepDate = addMinutes(wakeDate, 16*60)
+    }
+
     //get active tasks from db
     const taskReq = await axios.get("http://localhost:8282/task/")
     // Store active tasks in a new tasks array
@@ -60,26 +69,20 @@ async function sortSchedule(setSchedule, wakeDate, sleepDate){
 
     //Set Start & End Hours (Manual right now)
 
-    let add_minutes = function(dt, minutes){
-        console.log(dt)
-        dt = new Date(dt)
-        return new Date(dt.getTime() + minutes*60000);
-    }
-
     //const sleep = 23 // 11 PM
     const tempSchedule = [];
 
     for (let i = 0; i < tasks.length; i++) {
         if (i === 0) {
             let {_id, name, duration, completed} = tasks[i];
-            let end = add_minutes(wakeDate, duration);
+            let end = addMinutes(wakeDate, duration);
             let toAdd = {"_id": _id, "name": name, "start": wakeDate, "end": end, "completed": completed}
             tempSchedule.push(toAdd);
         } else {
             let {_id, name, duration, completed} = tasks[i];
             let lastTaskEnd = tempSchedule[i - 1].end;
-            add_minutes(lastTaskEnd, duration);
-            let toAdd = {"_id": _id, "name": name, "start": lastTaskEnd, "end": add_minutes(lastTaskEnd, duration), "completed": completed}
+            addMinutes(lastTaskEnd, duration);
+            let toAdd = {"_id": _id, "name": name, "start": lastTaskEnd, "end": addMinutes(lastTaskEnd, duration), "completed": completed}
             tempSchedule.push(toAdd);
         }
     }
