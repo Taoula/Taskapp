@@ -22,7 +22,7 @@ export default function LoginForm() {
 
       await axios.post("http://localhost:8282/auth/login", userData, {});
       getLoggedIn();
-      history("/dashboard/schedule");
+      history("/dashboard/overview");
     } catch (err) {
       console.error(err);
     }

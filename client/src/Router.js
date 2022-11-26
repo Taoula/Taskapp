@@ -8,6 +8,7 @@ import HomePage from "./pages/home-page"
 import Dashboard from "./components/layout/Dashboard"
 import AccountSettings from "./components/AccountSettings/AccountSettings"
 import Help from "./components/Help/Help"
+import Overview from "./components/Overview/Overview"
 
 export default function Router(...restParams){
     return (
@@ -30,6 +31,7 @@ export default function Router(...restParams){
                     <Route path="tasks" element={<TaskPage />} />
                     <Route path="accountSettings" element={<AccountSettings />} />
                     <Route path="help" element={<Help />} />
+                    <Route path="overview" element={<Overview />} />
                 </Route>
             </Routes>
         </BrowserRouter>

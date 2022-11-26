@@ -37,13 +37,26 @@ export default function Sidebar() {
       <aside className="text-white bg-navbarBackgroundColor hidden sm:flex flex-col justify-between p-2 m-2.5 rounded-xl">
         <div>
           {/* Logo */}
-          <Link to="/dashboard/schedule" class="flex items-center p-2 mt-5 mb-5">
+          <Link
+            to="/dashboard/overview"
+            class="flex items-center p-2 mt-5 mb-5"
+          >
             {/* Header Title */}
             <Calendar size={25} weight="duotone" />
           </Link>
 
           {/* Navbar Tabs */}
           <ul class="space-y-2">
+            {/* Overview Tab */}
+            <li class="navbarTab">
+              <Link
+                to="/dashboard/overview"
+                class="flex items-center rounded-md p-2 text-base font-normal text-white hover:bg-tabHoverColor"
+              >
+                <Calendar size={25} weight="duotone" />
+              </Link>
+            </li>
+
             {/* Schedule Tab */}
             <li class="navbarTab">
               <Link
