@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react"
 import axios from "axios"
 import ScheduleBlock from './schedule-block'
 import sortSchedule from "../../methods/sort-schedule"
+import resortSchedule from "../../methods/resort-schedule"
 import convertTime from "../../methods/convert-time"
 import styled from "styled-components"
 import TimeInput from "../generic/time-input"
@@ -51,6 +52,7 @@ export default function ScheduleDisplay(){
         const {start, end} = scheduleReq.data
         setWake(start)
         setSleep(end)
+
 
         const taskReq = await axios.get("http://localhost:8282/task/")
         let tasks = taskReq.data.filter(task => task.isActive)
@@ -112,6 +114,7 @@ export default function ScheduleDisplay(){
 
             <div>{renderSchedule()}</div>
             <ScheduleButton onClick={()=> sortSchedule(setSchedule, wake, sleep)}><ScheduleText>Generate Schedule</ScheduleText></ScheduleButton>
+            <ScheduleButton onClick={()=> resortSchedule(setSchedule, wake, sleep)}><ScheduleText>Resort Schedule</ScheduleText></ScheduleButton>
         </div>
     )
 }
