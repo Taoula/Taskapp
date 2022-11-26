@@ -50,3 +50,16 @@
 .timeInput {
   text-align: right;
 }
+
+.content {
+  display: none;
+}
+
+.active-content {
+  display: block;
+}
+
+.active-tab {
+
+  color:red;
+}

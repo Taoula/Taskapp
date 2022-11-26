@@ -20,9 +20,8 @@ export default function Header() {
 
   return (
     <>
-      <div className="px-4 h-16 items-center flex justify-between">
+      <div className="h-16 items-center flex justify-between">
         <p className="text-3xl font-semibold">Welcome back, {fName}</p>
-        <div>something</div>
       </div>
     </>
   );
