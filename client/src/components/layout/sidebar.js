@@ -8,6 +8,8 @@ import {
   Question,
   GearSix,
   SignOut,
+  SquareLogo,
+  House,
 } from "phosphor-react";
 
 export default function Sidebar() {
@@ -42,7 +44,7 @@ export default function Sidebar() {
             class="flex items-center p-2 mt-5 mb-5"
           >
             {/* Header Title */}
-            <Calendar size={25} weight="duotone" />
+            <SquareLogo size={25} weight="duotone" />
           </Link>
 
           {/* Navbar Tabs */}
@@ -53,7 +55,7 @@ export default function Sidebar() {
                 to="/dashboard/overview"
                 class="flex items-center rounded-md p-2 text-base font-normal text-white hover:bg-tabHoverColor"
               >
-                <Calendar size={25} weight="duotone" />
+                <House size={25} weight="duotone" />
               </Link>
             </li>
 

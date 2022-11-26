@@ -22,7 +22,7 @@ export default function Header() {
     <>
       <div className="px-4 h-16 items-center flex justify-between">
         <p className="text-3xl font-semibold">Welcome back, {fName}</p>
-        <div>account settings</div>
+        <div>something</div>
       </div>
     </>
   );
