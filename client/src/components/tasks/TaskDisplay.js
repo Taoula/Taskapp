@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import TaskForm from "./TaskForm";
-import UpdateTaskForm from "./UpdateTaskForm";
 import useToggle from "../../hooks/use-toggle";
 import Task from "./Task";
 import "tw-elements";
@@ -10,12 +9,10 @@ import { Plus } from "phosphor-react";
 export default function TaskDisplay() {
   const [tasks, setTasks] = useState([]);
   const [taskFormId, setTaskFormId] = useState("");
-  const [updateFormScale, setUpdateFormScale] = useState(0);
-  const [createFormScale, setCreateFormScale] = useState(0);
   const [newTask, toggle] = useToggle(false);
   const [showCreateTask, setShowCreateTask] = useState(false);
 
-  // toggle for tasks menu
+  // state for task menu
   const [toggleState, setToggleState] = useState(1);
 
   // sets state value to the index of the clicked tab
@@ -23,18 +20,11 @@ export default function TaskDisplay() {
     setToggleState(index);
   };
 
-  // const [showUpdateTask, setShowUpdateTask] = useState(false);
-
   // handles form closure
   const handleOnClose = () => {
     // sets showCreateTask value to false which is passed to the visible prop in task and disables the create task form
     setShowCreateTask(false);
   };
-
-  // const handleUpdateOnClose = () => {
-
-  //   setShowUpdateTask(false);
-  // }
 
   async function getTasks() {
     const taskReq = await axios.get("http://localhost:8282/task/");
@@ -175,8 +165,6 @@ export default function TaskDisplay() {
           onClose={handleOnClose}
         />
       )}
-      {/* <button className="bg-red-500 p-3" onClick={() => setShowUpdateTask(true)}>Edit task</button>
-      <UpdateTaskForm visible={showUpdateTask} onClose={handleUpdateOnClose}/> */}
     </>
   );
 }
