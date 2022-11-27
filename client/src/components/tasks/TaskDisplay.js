@@ -14,6 +14,15 @@ export default function TaskDisplay() {
   const [createFormScale, setCreateFormScale] = useState(0);
   const [newTask, toggle] = useToggle(false);
   const [showCreateTask, setShowCreateTask] = useState(false);
+
+  // toggle for tasks menu
+  const [toggleState, setToggleState] = useState(1);
+
+  // sets state value to the index of the clicked tab
+  const toggleTab = (index) => {
+    setToggleState(index);
+  };
+
   // const [showUpdateTask, setShowUpdateTask] = useState(false);
 
   // handles form closure
@@ -49,11 +58,6 @@ export default function TaskDisplay() {
     getTasks();
   }, []);
 
-  const [toggleState, setToggleState] = useState(1);
-
-  const toggleTab = (index) => {
-    setToggleState(index);
-  };
   return (
     <>
       {/* Tasks menu */}
@@ -63,7 +67,7 @@ export default function TaskDisplay() {
           <li
             className={
               toggleState === 1
-                ? "bg-gray-300 py-2 px-3 rounded hover:bg-gray-400 active-tab"
+                ? "bg-gray-500 py-2 px-3 rounded hover:bg-gray-500"
                 : "bg-gray-300 py-2 px-3 rounded hover:bg-gray-400"
             }
             onClick={() => toggleTab(1)}
@@ -73,7 +77,7 @@ export default function TaskDisplay() {
           <li
             className={
               toggleState === 2
-                ? "bg-gray-300 py-2 px-3 rounded hover:bg-gray-400 active-tab"
+                ? "bg-gray-500 py-2 px-3 rounded hover:bg-gray-500"
                 : "bg-gray-300 py-2 px-3 rounded hover:bg-gray-400"
             }
             onClick={() => toggleTab(2)}
@@ -83,7 +87,7 @@ export default function TaskDisplay() {
           <li
             className={
               toggleState === 3
-                ? "bg-gray-300 py-2 px-3 rounded hover:bg-gray-400 active-tab"
+                ? "bg-gray-500 py-2 px-3 rounded hover:bg-gray-500"
                 : "bg-gray-300 py-2 px-3 rounded hover:bg-gray-400"
             }
             onClick={() => toggleTab(3)}
@@ -91,7 +95,7 @@ export default function TaskDisplay() {
             Active
           </li>
           <li className="bg-gray-300 py-2 px-3 rounded hover:bg-gray-400">
-            Completed
+            Complete
           </li>
           <li className="bg-gray-300 py-2 px-3 rounded hover:bg-gray-400">
             Incomplete
@@ -99,13 +103,16 @@ export default function TaskDisplay() {
         </ul>
       </div>
 
+      {/* both fields are visible if all tab is clicked */}
       <div className={toggleState === 1 ? "active-content content" : "content"}>
-        <div className="grid grid-cols-1 space-x-2 sm:grid-cols-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 space-y-2 md:space-y-0 md:space-x-2">
           {/* Inactive tasks field */}
           <div className="bg-stone-100 rounded-lg shadow-lg text-center border-solid border-2 border-stone-200">
             {/* Title and add button inline */}
             <div className="flex justify-between p-6 items-center">
               <h1 className="">Inactive Tasks</h1>
+
+              {/* add task button */}
               <Plus
                 size={20}
                 onClick={() => setShowCreateTask(true)}
@@ -125,8 +132,9 @@ export default function TaskDisplay() {
         </div>
       </div>
 
+      {/* inactive tasks field is only visible if inactive tab is clicked */}
       <div className={toggleState === 2 ? "active-content content" : "content"}>
-        <div className="grid grid-cols-1 space-x-2 sm:grid-cols-2">
+        <div className="grid grid-cols-1">
           {/* Inactive tasks field */}
           <div className="bg-stone-100 rounded-lg shadow-lg text-center border-solid border-2 border-stone-200">
             {/* Title and add button inline */}
@@ -140,20 +148,12 @@ export default function TaskDisplay() {
             </div>
             {renderTasks(false)}
           </div>
-
-          {/* active tasks field
-        <div className="bg-stone-100 rounded-lg shadow-lg text-center border-solid border-2 border-stone-200">
-          <div className="flex p-6 items-center">
-            <h1>Active Tasks</h1>
-          </div>
-          {renderTasks(true)}
-        </div> */}
         </div>
       </div>
 
+      {/* active tasks field only visible if visible tab is clicked */}
       <div className={toggleState === 3 ? "active-content content" : "content"}>
-        <div className="grid grid-cols-1 space-x-2 sm:grid-cols-2">
-          {/* active tasks field */}
+        <div className="grid grid-cols-1">
           <div className="bg-stone-100 rounded-lg shadow-lg text-center border-solid border-2 border-stone-200">
             <div className="flex p-6 items-center">
               <h1>Active Tasks</h1>
