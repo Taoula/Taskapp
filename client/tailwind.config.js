@@ -19,8 +19,9 @@ module.exports = {
     },
     extend: {
       colors: {
-        'tabHoverColor':'#3c414d',
-        'navbarBackgroundColor':'#121927',
+        'tabHoverColor':'#161d31',
+        'navbarBackgroundColor':'#283046',
+        'sidebarIconColor':'#b3b7bd',
       }
     },
   },
