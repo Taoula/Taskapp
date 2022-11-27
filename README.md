@@ -23,3 +23,6 @@
 To run the backend, open the server folder and run the "nodemon server" command
 ## Frontend
 To run the frontend, open the client folder and run the "npm start" command
+
+# Optimization
+1. use flex to display task fields in task display instead of grid to reduce code redundancy
