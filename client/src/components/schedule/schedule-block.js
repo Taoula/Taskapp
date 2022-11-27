@@ -3,6 +3,7 @@ import styled from "styled-components"
 import {Square, CheckSquare } from "phosphor-react"
 import useToggle from "../../hooks/use-toggle"
 import axios from 'axios'
+import { useEffect } from "react"
 
 const BlockContainer = styled.div`
 background-color: ${props => props.color[0] || "pink"};
@@ -38,21 +39,36 @@ font-family: Lora;
 font-weight: 600;
 `
 
-function ScheduleBlock({task, refreshSchedule}) {
+function ScheduleBlock({task, getSchedule}) {
 
     const {name, start, _id, completed} = task;
     const [isCompleted, setIsCompleted] = useState(completed);
     
 
     async function toggleCompleted(){
+        // Pull task and schedule data
         const taskReq = await axios.get(`http://localhost:8282/task/${_id}/`)
-        console.log(taskReq)
+        const scheduleReq = await axios.get("http://localhost:8282/schedule/")
+        let {schedule, start, end} = scheduleReq.data;
         const {priority, duration, isActive, completed} = await taskReq.data
-    
+        
+        //Patch task with updated completed value
         await axios.patch(`http://localhost:8282/task/${_id}`, {name, priority, duration, isActive, completed: !completed})
-        refreshSchedule();
-        setIsCompleted(!isCompleted);
+
+        //Sort through schedule and update modified task
+        schedule.forEach(task => {
+            if (task._id == _id){
+                task.completed = !task.completed;
+            }
+        });
+
+        await axios.patch('http://localhost:8282/schedule/', {schedule, start, end})
+        getSchedule();
     }
+
+    useEffect(() => {
+        setIsCompleted(completed)
+    })
 
     return (
         <BlockContainer color={isCompleted ? ["#c4c4c4", "#b3b3b3"] : ["#F0FDF2", "#addbba"]} onClick={toggleCompleted}>
