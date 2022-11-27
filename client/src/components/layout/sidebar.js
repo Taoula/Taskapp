@@ -44,12 +44,12 @@ export default function Sidebar() {
   return (
     <>
       {/* collapsed navbar */}
-      <aside className="text-white bg-navbarBackgroundColor hidden sm:flex flex-col justify-between p-2 m-2.5 rounded-xl">
+      <aside className="text-white bg-navbarBackgroundColor hidden sm:flex flex-col justify-between p-5 m-2.5 rounded-xl">
         <div>
           {/* Logo */}
           <Link
             to="/dashboard/overview"
-            class="flex items-center p-2 mt-5 mb-5"
+            class="flex items-center mt-5 p-2 mb-5 rounded-md text-base font-normal border-2 border-navbarBackgroundColor"
           >
             {/* Header Title */}
             <SquareLogo size={25} weight="duotone" />
@@ -63,8 +63,8 @@ export default function Sidebar() {
                 to="/dashboard/overview"
                 className={
                   toggleState === 1
-                    ? "flex items-center rounded-md p-2 text-base font-normal text-white bg-tabHoverColor"
-                    : "flex items-center rounded-md p-2 text-base font-normal text-white hover:bg-tabHoverColor"
+                    ? "flex items-center rounded-md p-2 text-base font-normal text-white bg-tabHoverColor border-2 border-gray-500 hover:bg-tabHoverColor hover:border-gray-500 hover:border-2"
+                    : "flex items-center rounded-md p-2 text-base font-normal text-white border-2 border-navbarBackgroundColor hover:bg-tabHoverColor hover:border-gray-500 hover:border-2"
                 }
                 onClick={() => toggleTab(1)}
               >
@@ -78,8 +78,8 @@ export default function Sidebar() {
                 to="/dashboard/schedule"
                 className={
                   toggleState === 2
-                    ? "flex items-center rounded-md p-2 text-base font-normal text-white bg-tabHoverColor"
-                    : "flex items-center rounded-md p-2 text-base font-normal text-white hover:bg-tabHoverColor"
+                  ? "flex items-center rounded-md p-2 text-base font-normal text-white bg-tabHoverColor border-2 border-gray-500 hover:bg-tabHoverColor hover:border-gray-500 hover:border-2"
+                    : "flex items-center rounded-md p-2 text-base font-normal text-white border-2 border-navbarBackgroundColor hover:bg-tabHoverColor hover:border-gray-500 hover:border-2"
                 }
                 onClick={() => toggleTab(2)}
               >
@@ -93,8 +93,8 @@ export default function Sidebar() {
                 to="/dashboard/tasks"
                 className={
                   toggleState === 3
-                    ? "flex items-center rounded-md p-2 text-base font-normal text-white bg-tabHoverColor"
-                    : "flex items-center rounded-md p-2 text-base font-normal text-white hover:bg-tabHoverColor"
+                  ? "flex items-center rounded-md p-2 text-base font-normal text-white bg-tabHoverColor border-2 border-gray-500 hover:bg-tabHoverColor hover:border-gray-500 hover:border-2"
+                    : "flex items-center rounded-md p-2 text-base font-normal text-white border-2 border-navbarBackgroundColor hover:bg-tabHoverColor hover:border-gray-500 hover:border-2"
                 }
                 onClick={() => toggleTab(3)}
               >
@@ -113,8 +113,8 @@ export default function Sidebar() {
                 to="/dashboard/accountSettings"
                 className={
                   toggleState === 4
-                    ? "flex items-center rounded-md p-2 text-base font-normal text-white bg-tabHoverColor"
-                    : "flex items-center rounded-md p-2 text-base font-normal text-white hover:bg-tabHoverColor"
+                  ? "flex items-center rounded-md p-2 text-base font-normal text-white bg-tabHoverColor border-2 border-gray-500 hover:bg-tabHoverColor hover:border-gray-500 hover:border-2"
+                    : "flex items-center rounded-md p-2 text-base font-normal text-white border-2 border-navbarBackgroundColor hover:bg-tabHoverColor hover:border-gray-500 hover:border-2"
                 }
                 onClick={() => toggleTab(4)}
               >
@@ -128,8 +128,8 @@ export default function Sidebar() {
                 to="/dashboard/help"
                 className={
                   toggleState === 5
-                    ? "flex items-center rounded-md p-2 text-base font-normal text-white bg-tabHoverColor"
-                    : "flex items-center rounded-md p-2 text-base font-normal text-white hover:bg-tabHoverColor"
+                  ? "flex items-center rounded-md p-2 text-base font-normal text-white bg-tabHoverColor border-2 border-gray-500 hover:bg-tabHoverColor hover:border-gray-500 hover:border-2"
+                    : "flex items-center rounded-md p-2 text-base font-normal text-white border-2 border-navbarBackgroundColor hover:bg-tabHoverColor hover:border-gray-500 hover:border-2"
                 }
                 onClick={() => toggleTab(5)}
               >
@@ -140,7 +140,7 @@ export default function Sidebar() {
             {/* Log out tab */}
             <li class="navbarTab">
               <span
-                class="flex items-center rounded-md p-2 text-base font-normal text-white hover:bg-rose-100 hover:text-red-500"
+                class="flex items-center rounded-md p-2 text-base font-normal text-white border-2 border-navbarBackgroundColor hover:bg-rose-100 hover:border-2 hover:border-rose-100 hover:text-red-500"
                 onClick={verifyLogout}
               >
                 <SignOut size={25} weight="duotone" />
