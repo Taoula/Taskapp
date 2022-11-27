@@ -7,6 +7,7 @@
 6. create a help feature
 7. Use moment for time
 9. overview page
+10. resort schedule
 
 # Completed
 1. Custom time input component
