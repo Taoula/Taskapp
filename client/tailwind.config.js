@@ -22,6 +22,7 @@ module.exports = {
         'tabHoverColor':'#161d31',
         'navbarBackgroundColor':'#283046',
         'sidebarIconColor':'#b3b7bd',
+        'dashboardBackgroundColor':'#f8f8f8',
       }
     },
   },

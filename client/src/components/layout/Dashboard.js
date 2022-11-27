@@ -6,7 +6,7 @@ import Header from "./Header";
 export default function Dashboard() {
   return (
     <>
-      <div className="flex flex-row bg-neutral-100 h-screen w-screen overflow-hidden">
+      <div className="flex flex-row bg-dashboardBackgroundColor h-screen w-screen overflow-hidden">
         <Sidebar />
         <div className="p-2.5 flex-1">
           <Header />
