@@ -44,7 +44,7 @@ export default function Sidebar() {
   return (
     <>
       {/* collapsed navbar */}
-      <aside className="text-sidebarIconColor bg-navbarBackgroundColor hidden sm:flex flex-col justify-between p-4 m-2.5 rounded-xl">
+      <aside className="text-sidebarIconColor bg-navbarBackgroundColor hidden sm:flex flex-col justify-between p-4 m-2.5 rounded-md">
         <div>
           {/* Logo */}
           <Link

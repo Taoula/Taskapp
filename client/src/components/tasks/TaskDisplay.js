@@ -97,7 +97,7 @@ export default function TaskDisplay() {
       <div className={toggleState === 1 ? "active-content content" : "content"}>
         <div className="grid grid-cols-1 md:grid-cols-2 space-y-2 md:space-y-0 md:space-x-2">
           {/* Inactive tasks field */}
-          <div className="bg-stone-100 rounded-lg shadow-lg text-center border-solid border-2 border-stone-200">
+          <div className="bg-white rounded-md shadow-lg text-center border-solid border-2 border-white">
             {/* Title and add button inline */}
             <div className="flex justify-between p-6 items-center">
               <h1 className="">Inactive Tasks</h1>
@@ -113,7 +113,7 @@ export default function TaskDisplay() {
           </div>
 
           {/* active tasks field */}
-          <div className="bg-stone-100 rounded-lg shadow-lg text-center border-solid border-2 border-stone-200">
+          <div className="bg-white rounded-md shadow-lg text-center border-solid border-2 border-white">
             <div className="flex p-6 items-center">
               <h1>Active Tasks</h1>
             </div>
