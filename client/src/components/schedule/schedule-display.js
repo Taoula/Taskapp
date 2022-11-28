@@ -47,8 +47,10 @@ export default function ScheduleDisplay(){
     const [hoursExpanded, setHoursExpanded] = useState(false)
 
     async function getSchedule(){
+        console.log("running")
         const scheduleReq = await axios.get("http://localhost:8282/schedule/")
         setSchedule(scheduleReq.data.schedule)
+        console.log(scheduleReq.data.schedule)
         const {start, end} = scheduleReq.data
         setWake(start)
         setSleep(end)
@@ -78,7 +80,7 @@ export default function ScheduleDisplay(){
 
     function renderSchedule(){
         return schedule.map((task) => {
-            return <ScheduleBlock task={task} refreshSchedule={refreshSchedule}></ScheduleBlock>
+            return <ScheduleBlock task={task} refreshSchedule={refreshSchedule} getSchedule = {getSchedule}></ScheduleBlock>
         })
     }
 
@@ -89,8 +91,8 @@ export default function ScheduleDisplay(){
             let endDate = convertTime(end, "date");
             setWake(startDate)
             setSleep(endDate)
-            console.log(startDate);
-            console.log(endDate);
+           // console.log(startDate);
+            //console.log(endDate);
 
             //Push new date objects to schedule
             sortSchedule(setSchedule, startDate, endDate);

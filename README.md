@@ -1,3 +1,6 @@
+# Bugs
+1. side bar tab highlighting
+
 # Todo
 1. add time editing component to task creation/update menu
 2. implement time of day into scheduling algorithm
@@ -7,6 +10,7 @@
 6. create a help feature
 7. Use moment for time
 9. overview page
+10. resort schedule
 
 # Completed
 1. Custom time input component
@@ -21,6 +25,7 @@
 # Optimization
 1. use flex to display task fields in task display instead of grid to reduce code redundancy
 2. use tailwind for loops to apply the same styles to multiple elements and reduce code redundancy
+3. use tailwind to set task color
 
 # Taskapp
 ## Backend

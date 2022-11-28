@@ -18,13 +18,13 @@ async function resortSchedule(setSchedule, wakeDate, sleepDate){
     let sleep = new Date(sleepDate)
     let timeRemaining = (sleep.getTime() - dt.getTime())/60000;
 
-    //NOTE: turn this into an on screen error code
-    if (timeRemaining > 0){
-        console.log("ERROR: no time remaining")
-    }
     //calculate time remaining
     let minutesRemaining = Math.floor(timeRemaining + (24*60))
     console.log(minutesRemaining + "minutes remaining")
+
+    if (minutesRemaining <= 0){
+        console.log("No time remaining. Change your schedule hours or fuck off.")
+    } else {}
 
     if (taskTime < minutesRemaining){
         // SORT AS USUAL
