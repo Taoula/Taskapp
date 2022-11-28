@@ -84,6 +84,19 @@ export default function ScheduleDisplay(){
         })
     }
 
+    async function updateStats(){
+        schedule.forEach(async task => {
+            let {_id, duration} = task;
+            let taskStatReq = await axios.get(`http://localhost:8282/taskStat/${_id}/`)
+            let {entries, timesCompleted, netTime} = taskStatReq.data;
+            console.log(taskStatReq.data);
+            //CHECK TO MAKE SURE TASK HAS NOT BEEN COMPLETED TODAY
+            let entryToPush = {date: wake, duration: duration}
+            entries.push(entryToPush)
+            await axios.patch(`http://localhost:8282/taskStat/${_id}/`, {entries: entries, timesCompleted: timesCompleted + 1, netTime: netTime + duration, averageDuration: ((netTime + duration)/(timesCompleted + 1))})
+        })
+    }
+
     async function updateHours(start, end){
         try {
             // Create Date objects for updated wake & start time (convert from hh:mm)
@@ -117,6 +130,7 @@ export default function ScheduleDisplay(){
             <div>{renderSchedule()}</div>
             <ScheduleButton onClick={()=> sortSchedule(setSchedule, wake, sleep)}><ScheduleText>Generate Schedule</ScheduleText></ScheduleButton>
             <ScheduleButton onClick={()=> resortSchedule(setSchedule, wake, sleep)}><ScheduleText>Resort Schedule</ScheduleText></ScheduleButton>
+            <ScheduleButton onClick={()=> updateStats()}><ScheduleText>Call It A Day</ScheduleText></ScheduleButton>
         </div>
     )
 }

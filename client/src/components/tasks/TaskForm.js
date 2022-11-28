@@ -21,7 +21,13 @@ export default function TaskForm({ getTasks, visible, onClose }) {
       completed: false,
     };
 
-    await axios.post("http://localhost:8282/task/", taskData);
+    await axios.post("http://localhost:8282/task/", taskData)
+    .then(res => res.data)
+    .then(async res => {
+      let _id = res._id
+      let newTaskStat = {task: _id, entries: []}
+      await axios.post(`http://localhost:8282/taskStat/`, newTaskStat );
+    });
     getTasks();
 
     // input fields are reset to empty

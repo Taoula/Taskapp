@@ -9,7 +9,7 @@ const BlockContainer = styled.div`
 background-color: ${props => props.color[0] || "pink"};
 border: 3px solid rgb(123, 113, 189);
 padding: ${props => props.duration /10 + 1}px 10px ${props => props.duration /10 + 1}px 10px;
-height: ${props => props.duration*2 + 10}px;
+height: ${props => props.completed ? 40 : props => props.duration*2 + 10}px;
 border-radius: 10px;
 margin: 10px;
 width: 30%;
@@ -78,7 +78,7 @@ function ScheduleBlock({task, getSchedule}) {
     })
 
     return (
-        <BlockContainer duration={duration} color={isCompleted ? ["#c4c4c4", "#b3b3b3"] : ["#F0FDF2", "#addbba"]} onClick={toggleCompleted}>
+        <BlockContainer duration={duration} completed={isCompleted} color={isCompleted ? ["#c4c4c4", "#b3b3b3"] : ["#F0FDF2", "#addbba"]} onClick={toggleCompleted}>
             <BlockHeader duration={duration}>
                 
                 <div className="flex justify-between">
