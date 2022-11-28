@@ -1,3 +1,6 @@
+# Bugs
+1. side bar tab highlighting
+
 # Todo
 1. add time editing component to task creation/update menu
 2. implement time of day into scheduling algorithm
