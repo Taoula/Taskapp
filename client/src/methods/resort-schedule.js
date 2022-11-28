@@ -1,5 +1,4 @@
 import axios from "axios"
-import { TrademarkRegistered } from "phosphor-react";
 import addMinutes from "./add-minutes"
 
 async function resortSchedule(setSchedule, wakeDate, sleepDate){
@@ -19,7 +18,7 @@ async function resortSchedule(setSchedule, wakeDate, sleepDate){
     let timeRemaining = (sleep.getTime() - dt.getTime())/60000;
 
     //calculate time remaining
-    let minutesRemaining = Math.floor(timeRemaining + (24*60))
+    let minutesRemaining = Math.floor(timeRemaining /*+ (24*60)*/)
     console.log(minutesRemaining + "minutes remaining")
 
     if (minutesRemaining <= 0){
@@ -70,61 +69,73 @@ async function resortSchedule(setSchedule, wakeDate, sleepDate){
             //let cutTime = taskTime - timeRemaining;
             let cB = 1;
         while(taskTime > minutesRemaining) {
-            priorityThree.forEach(task => task.duration -= Math.floor(5))
-            taskTime -= Math.floor(cB*3)
-            priorityTwo.forEach(task => task.duration -= Math.floor(3))
-            taskTime -= Math.floor(cB*2)
-            priorityOne.forEach(task => task.duration-= Math.floor(1))
-            taskTime -= Math.floor(cB)
+            console.log(taskTime);
+            console.log(priorityOne)
+            console.log(priorityTwo)
+            console.log(priorityThree)
+            priorityThree.forEach(task => task.duration -= Math.floor(3*cB))
+            taskTime -= Math.floor(priorityThree.length * cB*3)
+            if (taskTime < minutesRemaining){
+                break;
+            }
+            priorityTwo.forEach(task => task.duration -= Math.floor(2*cB))
+            taskTime -= Math.floor(priorityTwo.length * cB*2)
+            if (taskTime < minutesRemaining){
+                break;
+            }
+            priorityOne.forEach(task => task.duration-= Math.floor(1*cB))
+            taskTime -= Math.floor(priorityOne.length * cB)
             cB += 1;
+
         }
 
-        tasks = []
+        let nztasks = []
         let temptasks = []
         temptasks = priorityOne.concat(priorityTwo).concat(priorityThree);
         temptasks.forEach(task => {
             if (task.duration > 0){
-                tasks.push(task);
+                nztasks.push(task);
             }
         })
-    }
 
-    const tempSchedule = [];
+        const tempSchedule = [];
 
-    for (let i = 0; i < tasks.length; i++) {
-        if (i === 0) {
-            let {_id, name, duration, completed} = tasks[i];
-            let end = addMinutes(dt, duration);
-            let toAdd = {"_id": _id, "name": name, "start": dt, "end": end, "completed": completed}
-            tempSchedule.push(toAdd);
-        } else {
-            let {_id, name, duration, completed} = tasks[i];
-            let lastTaskEnd = tempSchedule[i - 1].end;
-            addMinutes(lastTaskEnd, duration);
-            let toAdd = {"_id": _id, "name": name, "start": lastTaskEnd, "end": addMinutes(lastTaskEnd, duration), "completed": completed}
-            tempSchedule.push(toAdd);
+        for (let i = 0; i < nztasks.length; i++) {
+            if (i === 0) {
+                let {_id, name, duration, completed} = nztasks[i];
+                let end = addMinutes(dt, duration);
+                let toAdd = {"_id": _id, "name": name, "start": dt, "end": end, "completed": completed, "duration": duration}
+                tempSchedule.push(toAdd);
+            } else {
+                let {_id, name, duration, completed} = nztasks[i];
+                console.log("adding " + name + " with a duration of " + duration);
+                let lastTaskEnd = tempSchedule[i - 1].end;
+                addMinutes(lastTaskEnd, duration);
+                let toAdd = {"_id": _id, "name": name, "start": lastTaskEnd, "end": addMinutes(lastTaskEnd, duration), "completed": completed, "duration": duration}
+                tempSchedule.push(toAdd);
+            }
         }
-    }
-
-    let convert12 = function(dt) {
-        dt = new Date(dt)
-        let hours = dt.getHours();
-        let amOrPm = hours >= 12 ? 'pm' : 'am';
-        hours = (hours % 12) || 12;
-        let minutes = dt.getMinutes();
-        if (minutes < 10) {
-            minutes = "0" + minutes
+    
+        let convert12 = function(dt) {
+            dt = new Date(dt)
+            let hours = dt.getHours();
+            let amOrPm = hours >= 12 ? 'pm' : 'am';
+            hours = (hours % 12) || 12;
+            let minutes = dt.getMinutes();
+            if (minutes < 10) {
+                minutes = "0" + minutes
+            }
+            return hours + ":" + minutes + " " + amOrPm;
         }
-        return hours + ":" + minutes + " " + amOrPm;
+            
+        const schedule = tempSchedule.map((task) => {
+            const {_id, name, start, end, completed, duration} = task
+            return {_id: _id, name: name, start: convert12(start), end: end, completed: completed, duration: duration}
+        })
+    
+        const updatedSchedule = await axios.patch("http://localhost:8282/schedule/", {schedule, start:dt, end:sleepDate})
+        setSchedule(schedule)
     }
-        
-    const schedule = tempSchedule.map((task) => {
-        const {_id, name, start, end, completed} = task
-        return {_id: _id, name: name, start: convert12(start), end: end, completed: completed}
-    })
-
-    const updatedSchedule = await axios.patch("http://localhost:8282/schedule/", {schedule, start:dt, end:sleepDate})
-    setSchedule(schedule)
 
     //5. push new schedule to database
 }

@@ -8,10 +8,11 @@ import { useEffect } from "react"
 const BlockContainer = styled.div`
 background-color: ${props => props.color[0] || "pink"};
 border: 3px solid rgb(123, 113, 189);
-padding: 10px;
+padding: ${props => props.duration /10 + 1}px 10px ${props => props.duration /10 + 1}px 10px;
+height: ${props => props.duration*2 + 10}px;
 border-radius: 10px;
 margin: 10px;
-width: 25%;
+width: 30%;
 transition:0.2s;
 &:hover {
     transform: scale(1.05);
@@ -27,7 +28,7 @@ text-transform: uppercase;
 color: rgb(61, 57, 96);
 margin: 0;
 padding: 0;
-font-size: 1.25rem;
+font-size: ${props=>props.duration * 0 + 1.1}rem;
 font-weight: 700;
 `
 
@@ -39,9 +40,15 @@ font-family: Lora;
 font-weight: 600;
 `
 
+const DurationText = styled.p`
+font-family: Lora;
+text-transform: lowercase;
+font-size: 15px;
+`
+
 function ScheduleBlock({task, getSchedule}) {
 
-    const {name, start, _id, completed} = task;
+    const {name, start, _id, completed, duration} = task;
     const [isCompleted, setIsCompleted] = useState(completed);
     
 
@@ -71,14 +78,23 @@ function ScheduleBlock({task, getSchedule}) {
     })
 
     return (
-        <BlockContainer color={isCompleted ? ["#c4c4c4", "#b3b3b3"] : ["#F0FDF2", "#addbba"]} onClick={toggleCompleted}>
-            <BlockHeader>
-                {name}
+        <BlockContainer duration={duration} color={isCompleted ? ["#c4c4c4", "#b3b3b3"] : ["#F0FDF2", "#addbba"]} onClick={toggleCompleted}>
+            <BlockHeader duration={duration}>
+                
+                <div className="flex justify-between">
+                    <span>{name}</span>
+                    <DurationText duration={duration}>{duration} minutes</DurationText>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <BlockStart duration={duration}>
+                        {start}
+                    </BlockStart>
+                </div>
             </BlockHeader>
 
-            <BlockStart>
-                {start}
-            </BlockStart>
         </BlockContainer>
     )
 }

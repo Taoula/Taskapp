@@ -76,13 +76,13 @@ async function sortSchedule(setSchedule, wakeDate, sleepDate){
         if (i === 0) {
             let {_id, name, duration, completed} = tasks[i];
             let end = addMinutes(wakeDate, duration);
-            let toAdd = {"_id": _id, "name": name, "start": wakeDate, "end": end, "completed": completed}
+            let toAdd = {"_id": _id, "name": name, "start": wakeDate, "end": end, "completed": completed, "duration": duration}
             tempSchedule.push(toAdd);
         } else {
             let {_id, name, duration, completed} = tasks[i];
             let lastTaskEnd = tempSchedule[i - 1].end;
             addMinutes(lastTaskEnd, duration);
-            let toAdd = {"_id": _id, "name": name, "start": lastTaskEnd, "end": addMinutes(lastTaskEnd, duration), "completed": completed}
+            let toAdd = {"_id": _id, "name": name, "start": lastTaskEnd, "end": addMinutes(lastTaskEnd, duration), "completed": completed, "duration": duration}
             tempSchedule.push(toAdd);
         }
     }
@@ -100,8 +100,8 @@ async function sortSchedule(setSchedule, wakeDate, sleepDate){
     }
         
     const schedule = tempSchedule.map((task) => {
-        const {_id, name, start, end, completed} = task
-        return {_id: _id, name: name, start: convert12(start), end: end, completed: completed}
+        const {_id, name, start, end, completed, duration} = task
+        return {_id: _id, name: name, start: convert12(start), end: end, completed: completed, duration: duration}
     })
 
     const updatedSchedule = await axios.patch("http://localhost:8282/schedule/", {schedule, start:wakeDate, end:sleepDate})
