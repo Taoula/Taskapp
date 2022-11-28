@@ -25,6 +25,7 @@
 # Optimization
 1. use flex to display task fields in task display instead of grid to reduce code redundancy
 2. use tailwind for loops to apply the same styles to multiple elements and reduce code redundancy
+3. use tailwind to set task color
 
 # Taskapp
 ## Backend
