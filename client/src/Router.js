@@ -26,7 +26,7 @@ export default function Router(...restParams){
                 <Route path="/register" element={<RegisterForm/>} />
 
                 {/* Dashboard routes */}
-                <Route path="/dashboard" element={<Dashboard />}>
+                <Route path="/dashboard/" element={<Dashboard />}>
                     <Route path="schedule" element={<SchedulePage />} />
                     <Route path="tasks" element={<TaskPage />} />
                     <Route path="accountSettings" element={<AccountSettings />} />

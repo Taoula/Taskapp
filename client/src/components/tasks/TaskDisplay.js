@@ -51,14 +51,13 @@ export default function TaskDisplay() {
   return (
     <>
       {/* Tasks menu */}
-      <div className="flex justify-between items-center mb-8 mt-8">
-        <h1 className="text-2xl">My Tasks</h1>
-        <ul className="flex space-x-1 p-1 rounded border-2 border-gray-300">
+      <div className="flex justify-between items-center mb-4 mt-8">
+        <ul className="flex space-x-1 p-2 rounded border-2 border-indigo-500 shadow-sm text-white">
           <li
             className={
               toggleState === 1
-                ? "bg-gray-500 py-2 px-3 rounded hover:bg-gray-500"
-                : "bg-gray-300 py-2 px-3 rounded hover:bg-gray-400"
+                ? "bg-indigo-900 py-2 px-3 rounded hover:bg-indigo-900"
+                : "bg-indigo-500 py-2 px-3 rounded hover:bg-indigo-800"
             }
             onClick={() => toggleTab(1)}
           >
@@ -67,8 +66,8 @@ export default function TaskDisplay() {
           <li
             className={
               toggleState === 2
-                ? "bg-gray-500 py-2 px-3 rounded hover:bg-gray-500"
-                : "bg-gray-300 py-2 px-3 rounded hover:bg-gray-400"
+              ? "bg-indigo-900 py-2 px-3 rounded hover:bg-indigo-900"
+                : "bg-indigo-500 py-2 px-3 rounded hover:bg-indigo-800"
             }
             onClick={() => toggleTab(2)}
           >
@@ -77,17 +76,17 @@ export default function TaskDisplay() {
           <li
             className={
               toggleState === 3
-                ? "bg-gray-500 py-2 px-3 rounded hover:bg-gray-500"
-                : "bg-gray-300 py-2 px-3 rounded hover:bg-gray-400"
+              ? "bg-indigo-900 py-2 px-3 rounded hover:bg-indigo-900"
+                : "bg-indigo-500 py-2 px-3 rounded hover:bg-indigo-800"
             }
             onClick={() => toggleTab(3)}
           >
             Active
           </li>
-          <li className="bg-gray-300 py-2 px-3 rounded hover:bg-gray-400">
+          <li className="bg-indigo-500 py-2 px-3 rounded hover:bg-indigo-900">
             Complete
           </li>
-          <li className="bg-gray-300 py-2 px-3 rounded hover:bg-gray-400">
+          <li className="bg-indigo-500 py-2 px-3 rounded hover:bg-indigo-900">
             Incomplete
           </li>
         </ul>
@@ -97,25 +96,26 @@ export default function TaskDisplay() {
       <div className={toggleState === 1 ? "active-content content" : "content"}>
         <div className="grid grid-cols-1 md:grid-cols-2 space-y-2 md:space-y-0 md:space-x-2">
           {/* Inactive tasks field */}
-          <div className="bg-white rounded-md shadow-lg text-center border-solid border-2 border-white">
+          <div className="bg-white rounded-md shadow-lg text-center border-solid border-2 border-white p-5">
             {/* Title and add button inline */}
-            <div className="flex justify-between p-6 items-center">
-              <h1 className="">Inactive Tasks</h1>
+            <div className="flex justify-between items-center pb-3">
+              <h1 className="font-semibold text-lg">Inactive Tasks</h1>
 
               {/* add task button */}
+              <span className="p-2 rounded-md bg-indigo-200 bg-opacity-50 hover:bg-opacity-80 text-indigo-600 hover:text-white hover:bg-indigo-500">
               <Plus
                 size={20}
                 onClick={() => setShowCreateTask(true)}
-                className="hover:text-blue-500"
               />
+              </span>
             </div>
             {renderTasks(false)}
           </div>
 
           {/* active tasks field */}
-          <div className="bg-white rounded-md shadow-lg text-center border-solid border-2 border-white">
-            <div className="flex p-6 items-center">
-              <h1>Active Tasks</h1>
+          <div className="bg-white rounded-md shadow-lg text-center border-solid border-2 border-white p-5">
+            <div className="flex pb-3 items-center">
+              <h1 className="font-semibold text-lg">Active Tasks</h1>
             </div>
             {renderTasks(true)}
           </div>
@@ -126,15 +126,18 @@ export default function TaskDisplay() {
       <div className={toggleState === 2 ? "active-content content" : "content"}>
         <div className="grid grid-cols-1">
           {/* Inactive tasks field */}
-          <div className="bg-stone-100 rounded-lg shadow-lg text-center border-solid border-2 border-stone-200">
+          <div className="bg-white rounded-md shadow-lg text-center border-solid border-2 border-white p-5">
             {/* Title and add button inline */}
-            <div className="flex justify-between p-6 items-center">
-              <h1 className="">Inactive Tasks</h1>
+            <div className="flex justify-between items-center pb-3">
+              <h1 className="font-semibold text-lg">Inactive Tasks</h1>
+
+              {/* add task button */}
+              <span className="p-2 rounded-md bg-indigo-200 bg-opacity-50 hover:bg-opacity-80 text-indigo-600 hover:text-white hover:bg-indigo-500">
               <Plus
                 size={20}
                 onClick={() => setShowCreateTask(true)}
-                className="hover:text-blue-500"
               />
+              </span>
             </div>
             {renderTasks(false)}
           </div>
@@ -144,9 +147,10 @@ export default function TaskDisplay() {
       {/* active tasks field only visible if visible tab is clicked */}
       <div className={toggleState === 3 ? "active-content content" : "content"}>
         <div className="grid grid-cols-1">
-          <div className="bg-stone-100 rounded-lg shadow-lg text-center border-solid border-2 border-stone-200">
-            <div className="flex p-6 items-center">
-              <h1>Active Tasks</h1>
+          {/* active tasks field */}
+          <div className="bg-white rounded-md shadow-lg text-center border-solid border-2 border-white p-5">
+            <div className="flex pb-3 items-center">
+              <h1 className="font-semibold text-lg">Active Tasks</h1>
             </div>
             {renderTasks(true)}
           </div>

@@ -18,10 +18,16 @@ export default function Header() {
     setEmail(userReq.data.email);
   }
 
+  // capitalizes user's name
+  // const capitalizeName = str => {
+
+  //   return str.charAt(0).toUpperCase() + str.slice(1);
+  // };
+
   return (
     <>
-      <div className="h-16 items-center flex justify-between">
-        <p className="text-3xl font-semibold">Welcome back, {fName}</p>
+      <div className="h-16 items-center flex justify-start">
+        <p className="text-4xl font-semibold text-slate-900">Welcome back, {fName}</p>
       </div>
     </>
   );

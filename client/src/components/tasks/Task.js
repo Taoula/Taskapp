@@ -16,11 +16,11 @@ const TaskContainer = styled.div`
 
 export default function Task({
   task,
-  getTasks
-}) {
+  getTasks,}) {
   const { name, priority, duration, _id, isActive, completed } = task;
   const [isExpanded, toggle] = useToggle(false);
-  const colors = ["#f87171", "#fcd34d", "#4ade80"];
+  const colors = ["#fecdd3", "#fef3c7", "#bbf7d0"];
+  const borderColors = ["#e11d48", "#fbbf24", "#22c55e"];
   const [showUpdateTask, setShowUpdateTask] = useState(false);
 
   const handleUpdateOnClose = () => {
@@ -49,11 +49,12 @@ export default function Task({
   }
 
   return (
-    <div>
+    <>
       <TaskContainer
         color={colors[priority - 1]}
+        style={{border:`solid ${borderColors[priority - 1]} 2px`}}
         onClick={toggle}
-        className="text-left mt-1 mb-2 ml-2 mr-2 rounded-lg p-2"
+        className="text-left mt-1 mb-2 rounded-md p-2"
       >
         <div className="grid grid-cols-4">
           <p className="capitalize font-medium text-md">
@@ -99,6 +100,6 @@ export default function Task({
       _id={_id}
       visible={showUpdateTask}
       onClose={handleUpdateOnClose}/>
-    </div>
+    </>
   );
 }
