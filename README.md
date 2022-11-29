@@ -19,6 +19,7 @@ Chart.js: https://www.chartjs.org
 9. overview page
 10. resort schedule
 11. display welcome for user's first session & welcome back for every session afterwards
+12. set max height for task display fields and add scroll for each field
 
 # Completed
 1. Custom time input component
