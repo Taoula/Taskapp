@@ -1,3 +1,7 @@
+# Libraries
+Calendar: https://www.npmjs.com/package/react-awesome-calendar
+Phosophor Icons: https://phosphoricons.com
+
 # Bugs
 1. side bar tab highlighting
 
