@@ -37,7 +37,7 @@ Chart.js: https://www.chartjs.org
 7. Task attachments (e.g. a "pay bills" task might have hotlinks to electric, water, internet company websites)
 8. Theme options (light, dark, etc.)
 
-#Todo 3 (Implement during & after beta testing)
+# Todo 3 (Implement during & after beta testing)
 1. Linear Regression on user data to provide insights, reccomendations
 2. Expand social capabilities of the app
    2a. Users can attach some kind of evidence of their progress upon task completion. Shared with friends as a post on their feed.
