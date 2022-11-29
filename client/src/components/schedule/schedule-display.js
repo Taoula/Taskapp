@@ -93,10 +93,10 @@ export default function ScheduleDisplay(){
                 let taskStatReq = await axios.get(`http://localhost:8282/taskStat/${_id}/`)
                 let {entries, timesCompleted, netTime} = taskStatReq.data;
                 console.log(taskStatReq.data);
-                let entryDate = new Date(entries[entries.length - 1].date)
+                let entryDate = new Date(entries[entries.length].date)
 
                 //CHECK TO MAKE SURE TASK HAS NOT BEEN COMPLETED TODAY, then push stats
-                if(entries.length == 0 || !(entryDate.getMonth() == today.getMonth() && entryDate.getDate() == today.getDate())){
+                if(entries.length == 0 || !(entryDate.getMonth() == today.getMonth() && entryDate.getDate == today.getDate())){
                     let entryToPush = {date: wake, duration: duration}
                     entries.push(entryToPush)
                     await axios.patch(`http://localhost:8282/taskStat/${_id}/`, {entries: entries, timesCompleted: timesCompleted + 1, netTime: netTime + duration, averageDuration: ((netTime + duration)/(timesCompleted + 1))})

@@ -1,5 +1,6 @@
 # Bugs
 1. side bar tab highlighting
+2. scroll doesn't reset on route change
 
 # Todo
 1. add time editing component to task creation/update menu
@@ -11,6 +12,7 @@
 7. Use moment for time
 9. overview page
 10. resort schedule
+11. display welcome for user's first session & welcome back for every session afterwards
 
 # Completed
 1. Custom time input component
@@ -21,6 +23,7 @@
 6. use modals for the task creation/update dialogue
 7. navbar drop down converted to modal element
 8. highlight active tab in the sidebar
+9. outlet content scrolls
 
 # Optimization
 1. use flex to display task fields in task display instead of grid to reduce code redundancy

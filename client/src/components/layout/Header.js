@@ -19,15 +19,15 @@ export default function Header() {
   }
 
   // capitalizes user's name
-  // const capitalizeName = str => {
+  const capitalizeName = str => {
 
-  //   return str.charAt(0).toUpperCase() + str.slice(1);
-  // };
+    return str.toString().charAt(0).toUpperCase() + str.slice(1);
+  };
 
   return (
     <>
-      <div className="h-16 items-center flex justify-start">
-        <p className="text-4xl font-semibold text-slate-900">Welcome back, {fName}</p>
+      <div className="p-8 items-center flex justify-start bg-headerColor shadow-md sticky-top">
+        <p className="text-3xl font-medium text-slate-900">Welcome back, {capitalizeName(fName)}</p>
       </div>
     </>
   );

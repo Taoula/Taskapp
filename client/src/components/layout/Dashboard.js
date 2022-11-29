@@ -6,14 +6,12 @@ import Header from "./Header";
 export default function Dashboard() {
   return (
     <>
-    <div className="p-5 bg-slate-900 h-screen">
-      <div className="flex flex-row rounded-md h-full bg-slate-50 p-5 shadow-lg">
+      <div className="flex flex-row h-screen bg-dashboardBackgroundColor">
         <Sidebar />
-        <div className="flex-1">
+        <div className="flex-1 overflow-scroll remove-scrollbar">
           <Header />
-          <div>{<Outlet />}</div>
+          <div className="m-5">{<Outlet />}</div>
         </div>
-      </div>
       </div>
     </>
   );
