@@ -57,7 +57,7 @@ export default function TaskDisplay() {
   return (
     <>
       {/* Tasks menu */}
-      <div className="flex justify-between items-center mb-5">
+      <div className="flex justify-end items-center mb-5">
         <ul className="flex space-x-1 p-2 rounded border-2 border-indigo-500 shadow-sm text-white">
           <li
             className={
