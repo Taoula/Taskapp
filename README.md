@@ -2,6 +2,8 @@
 Calendar: https://www.npmjs.com/package/react-awesome-calendar
 <br />
 Phosophor Icons: https://phosphoricons.com
+<br />
+Chart.js: https://www.chartjs.org
 
 # Bugs
 1. side bar tab highlighting
