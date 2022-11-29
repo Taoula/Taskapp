@@ -1,5 +1,5 @@
 /* Font imports */
-@import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@200;300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 /* Tailwind imports */
 @tailwind base;
@@ -8,7 +8,7 @@
 
 /* Global styles */
 * {
-  font-family: 'Oxanium';
+  font-family: 'Lexend';
 }
 
 #hero-section {
@@ -45,10 +45,22 @@
   text-align: right;
 }
 
+/* hide and show content for corresponding tabs in task display */
 .content {
   display: none;
 }
 
 .active-content {
   display: block;
+}
+
+/* remove scrollbar for chrome, safari, opera*/
+.remove-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* remove scrollbar for IE, edge, firefox */
+.remove-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }

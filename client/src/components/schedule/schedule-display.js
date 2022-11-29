@@ -121,9 +121,6 @@ export default function ScheduleDisplay(){
 
     return( 
         <div>
-            <PageTitle>Name</PageTitle>
-            <SubHeading>A scheduling app</SubHeading>
-
             {<button onClick={()=>setHoursExpanded(!hoursExpanded)}>Edit Hours</button>}
             {hoursExpanded && <ExpandableContainer><TimeInput update={updateHours} wake={convertTime(wake, "utc")} sleep={convertTime(sleep, "utc")} close={setHoursExpanded}/></ExpandableContainer>}
 

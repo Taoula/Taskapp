@@ -19,10 +19,9 @@ module.exports = {
     },
     extend: {
       colors: {
-        'tabHoverColor':'#161d31',
-        'navbarBackgroundColor':'#283046',
-        'sidebarIconColor':'#b3b7bd',
-        'dashboardBackgroundColor':'#f8f8f8',
+        'headerColor':'#f9f9f9',
+        'dashboardBackgroundColor':'#f2f2f4',
+        'tabHighlightColor':'#f2f2f4'
       }
     },
   },
