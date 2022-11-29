@@ -1,5 +1,6 @@
 # Libraries
-Calendar: https://www.npmjs.com/package/react-awesome-calendar \n
+Calendar: https://www.npmjs.com/package/react-awesome-calendar
+<br />
 Phosophor Icons: https://phosphoricons.com
 
 # Bugs
