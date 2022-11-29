@@ -85,15 +85,27 @@ export default function ScheduleDisplay(){
     }
 
     async function updateStats(){
+        let today = new Date(wake)
         schedule.forEach(async task => {
-            let {_id, duration} = task;
-            let taskStatReq = await axios.get(`http://localhost:8282/taskStat/${_id}/`)
-            let {entries, timesCompleted, netTime} = taskStatReq.data;
-            console.log(taskStatReq.data);
-            //CHECK TO MAKE SURE TASK HAS NOT BEEN COMPLETED TODAY
-            let entryToPush = {date: wake, duration: duration}
-            entries.push(entryToPush)
-            await axios.patch(`http://localhost:8282/taskStat/${_id}/`, {entries: entries, timesCompleted: timesCompleted + 1, netTime: netTime + duration, averageDuration: ((netTime + duration)/(timesCompleted + 1))})
+            //loop through completed tasks
+            if (task.completed){
+                let {_id, duration} = task;
+                let taskStatReq = await axios.get(`http://localhost:8282/taskStat/${_id}/`)
+                let {entries, timesCompleted, netTime} = taskStatReq.data;
+                console.log(taskStatReq.data);
+                let entryDate = new Date(entries[entries.length - 1].date)
+
+                //CHECK TO MAKE SURE TASK HAS NOT BEEN COMPLETED TODAY, then push stats
+                if(entries.length == 0 || !(entryDate.getMonth() == today.getMonth() && entryDate.getDate() == today.getDate())){
+                    let entryToPush = {date: wake, duration: duration}
+                    entries.push(entryToPush)
+                    await axios.patch(`http://localhost:8282/taskStat/${_id}/`, {entries: entries, timesCompleted: timesCompleted + 1, netTime: netTime + duration, averageDuration: ((netTime + duration)/(timesCompleted + 1))})
+                } else {
+                    console.log("task already completed today")
+                }
+            } else{
+                console.log("task not completed")
+            }
         })
     }
 
