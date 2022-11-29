@@ -1,6 +1,5 @@
 # Bugs
 1. side bar tab highlighting
-2. scroll doesn't reset on route change
 
 # Todo
 1. add time editing component to task creation/update menu
