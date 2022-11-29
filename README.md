@@ -21,6 +21,7 @@
 6. use modals for the task creation/update dialogue
 7. navbar drop down converted to modal element
 8. highlight active tab in the sidebar
+9. outlet content scrolls
 
 # Optimization
 1. use flex to display task fields in task display instead of grid to reduce code redundancy
