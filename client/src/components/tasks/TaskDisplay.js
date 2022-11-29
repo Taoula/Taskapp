@@ -208,6 +208,10 @@ export default function TaskDisplay() {
         </div>
       </div>
 
+      <footer className="mt-8 text-center">
+        <h1 className="text-xs font-light text-gray-400">copyright Jigsaw @ 2022</h1>
+      </footer>
+
       <TaskForm
         getTasks={getTasks}
         visible={showCreateTask}
