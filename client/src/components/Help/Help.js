@@ -6,7 +6,7 @@ export default function Help() {
 
   return (
     <>
-    Help page
+        <h1 className="text-3xl font-normal">Help Page</h1>
     </>
   );
 }

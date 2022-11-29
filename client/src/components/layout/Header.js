@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { UserCircle, CaretDown } from "phosphor-react";
 
 export default function Header() {
   const [fName, setfName] = useState([]);
@@ -19,15 +20,20 @@ export default function Header() {
   }
 
   // capitalizes user's name
-  const capitalizeName = str => {
-
+  const capitalizeName = (str) => {
     return str.toString().charAt(0).toUpperCase() + str.slice(1);
   };
 
   return (
     <>
-      <div className="p-8 items-center flex justify-start bg-headerColor shadow-md sticky-top">
-        <p className="text-3xl font-medium text-slate-900">Welcome back, {capitalizeName(fName)}</p>
+      <div className="pl-8 pt-5 pr-8 pb-5 items-center flex justify-between bg-white border-b border-gray-200 sticky-top">
+        <p className="text-xl font-normal text-slate-900">
+          Welcome back, {capitalizeName(fName)}
+        </p>
+        <div className="flex items-center space-x-1">
+          <UserCircle size={28} weight="light" />
+          <CaretDown size={15} />
+        </div>
       </div>
     </>
   );

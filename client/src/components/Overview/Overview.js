@@ -3,7 +3,11 @@ import TaskStatGraph from "../statistics/TaskStatGraph";
 import "tw-elements";
 
 export default function Overview() {
-  return <>Overview page
-    <TaskStatGraph></TaskStatGraph>
-  </>;
+  return (
+    <>
+      {" "}
+      <h1 className="text-3xl font-normal">Overview</h1>
+      <TaskStatGraph></TaskStatGraph>
+    </>
+  );
 }

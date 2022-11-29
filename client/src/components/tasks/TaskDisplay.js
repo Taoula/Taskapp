@@ -57,13 +57,14 @@ export default function TaskDisplay() {
   return (
     <>
       {/* Tasks menu */}
-      <div className="flex justify-end items-center mb-5">
-        <ul className="flex space-x-1 p-2 rounded border-2 border-indigo-500 shadow-sm text-white">
+      <div className="flex justify-between items-center mb-5">
+        <h1 className="text-3xl font-normal">My Tasks</h1>
+        <ul className="flex text-gray-500">
           <li
             className={
               toggleState === 1
-                ? "bg-indigo-900 py-2 px-3 rounded hover:bg-indigo-900"
-                : "bg-indigo-500 py-2 px-3 rounded hover:bg-indigo-800"
+                ? "bg-gray-300 pt-2 pb-2 pr-4 pl-4 text-gray-900 hover:bg-gray-300 font-normal text-xs rounded-l-md border"
+                : "pt-2 pb-2 pr-4 pl-4 hover:bg-gray-300 hover:text-gray-900 font-normal text-xs rounded-l-md border"
             }
             onClick={() => toggleTab(1)}
           >
@@ -72,8 +73,8 @@ export default function TaskDisplay() {
           <li
             className={
               toggleState === 2
-                ? "bg-indigo-900 py-2 px-3 rounded hover:bg-indigo-900"
-                : "bg-indigo-500 py-2 px-3 rounded hover:bg-indigo-800"
+                ? "bg-gray-300 pt-2 pb-2 pr-4 pl-4 hover:bg-gray-300 text-gray-900 font-normal text-xs border-t border-b"
+                : "pt-2 pb-2 pr-4 pl-4 hover:bg-gray-300 hover:text-gray-900 font-normal text-xs border-t border-b"
             }
             onClick={() => toggleTab(2)}
           >
@@ -82,8 +83,8 @@ export default function TaskDisplay() {
           <li
             className={
               toggleState === 3
-                ? "bg-indigo-900 py-2 px-3 rounded hover:bg-indigo-900"
-                : "bg-indigo-500 py-2 px-3 rounded hover:bg-indigo-800"
+                ? "bg-gray-300 pt-2 pb-2 pr-4 pl-4 hover:bg-gray-300 text-gray-900 font-normal text-xs rounded-r-md border"
+                : "pt-2 pb-2 pr-4 pl-4 hover:bg-gray-300 hover:text-gray-900 font-normal text-xs rounded-r-md border"
             }
             onClick={() => toggleTab(3)}
           >
@@ -94,27 +95,31 @@ export default function TaskDisplay() {
 
       {/* both fields are visible if all tab is clicked */}
       <div className={toggleState === 1 ? "active-content content" : "content"}>
-        <div className="grid grid-cols-1 md:grid-cols-2 space-y-2 md:space-y-0 md:space-x-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 space-y-2 md:space-y-0 md:space-x-4">
           {/* Inactive tasks field */}
-          <div className="bg-white rounded-md shadow-lg text-center border-solid border-2 border-white p-5">
+          <div className="rounded-md text-center p-5 border">
             {/* Title and add button inline */}
-            <div className="flex justify-between items-center pb-3">
-              <h1 className="font-semibold text-lg">Inactive Tasks</h1>
+            <div className="flex justify-between items-center pb-5">
+              <h1 className="font-normal text-lg">Inactive Tasks</h1>
 
               {/* add task button */}
-              <span className="p-2 rounded-md bg-indigo-200 bg-opacity-50 hover:bg-opacity-80 text-indigo-600 hover:text-white hover:bg-indigo-500">
-                <Plus size={20} onClick={() => setShowCreateTask(true)} />
+              <span
+                className="rounded-md text-gray-500 border hover:text-gray-900 hover:bg-sidebarColor font-normal pl-4 pr-4 text-xs pt-2 pb-2"
+                onClick={() => setShowCreateTask(true)}
+              >
+                Add Task
               </span>
             </div>
-            {renderTasks(false)}
+            <div className="space-y-3">{renderTasks(false)}</div>
           </div>
 
           {/* active tasks field */}
-          <div className="bg-white rounded-md shadow-lg text-center border-solid border-2 border-white p-5">
-            <div className="flex pb-3 items-center">
-              <h1 className="font-semibold text-lg">Active Tasks</h1>
+          <div className="rounded-md text-center p-5 border">
+            {/* Title and add button inline */}
+            <div className="flex justify-start items-center pb-5">
+              <h1 className="font-normal text-lg">Active Tasks</h1>
             </div>
-            {renderTasks(true)}
+            <div className="space-y-3">{renderTasks(true)}</div>
           </div>
         </div>
       </div>
@@ -122,17 +127,20 @@ export default function TaskDisplay() {
       {/* inactive tasks field is only visible if inactive tab is clicked */}
       <div className={toggleState === 2 ? "active-content content" : "content"}>
         <div className="grid grid-cols-1">
-          <div className="bg-white rounded-md shadow-lg text-center border-solid border-2 border-white p-5">
+          <div className="rounded-md text-center p-5 border">
             {/* Title and add button inline */}
-            <div className="flex justify-between items-center pb-3">
-              <h1 className="font-semibold text-lg">Inactive Tasks</h1>
+            <div className="flex justify-between items-center pb-5">
+              <h1 className="font-normal text-lg">Inactive Tasks</h1>
 
               {/* add task button */}
-              <span className="p-2 rounded-md bg-indigo-200 bg-opacity-50 hover:bg-opacity-80 text-indigo-600 hover:text-white hover:bg-indigo-500">
-                <Plus size={20} onClick={() => setShowCreateTask(true)} />
+              <span
+                className="rounded-md text-gray-500 border hover:text-gray-900 hover:bg-sidebarColor font-normal pl-4 pr-4 text-xs pt-2 pb-2"
+                onClick={() => setShowCreateTask(true)}
+              >
+                Add Task
               </span>
             </div>
-            {renderTasks(false)}
+            <div className="space-y-3">{renderTasks(false)}</div>
           </div>
         </div>
       </div>
@@ -140,53 +148,64 @@ export default function TaskDisplay() {
       {/* active tasks field only visible if visible tab is clicked */}
       <div className={toggleState === 3 ? "active-content content" : "content"}>
         <div className="grid grid-cols-1">
-          <div className="bg-white rounded-md shadow-lg text-center border-solid border-2 border-white p-5">
-            <div className="flex pb-3 items-center">
-              <h1 className="font-semibold text-lg">Active Tasks</h1>
+          <div className="rounded-md text-center p-5 border">
+            {/* Title and add button inline */}
+            <div className="flex justify-start items-center pb-5">
+              <h1 className="font-normal text-lg">Active Tasks</h1>
             </div>
-            {renderTasks(true)}
+            <div className="space-y-3">{renderTasks(true)}</div>
           </div>
         </div>
       </div>
 
-      <h1 className="text-lg font-semibold mt-10 mb-5">Task Status</h1>
+      <h1 className="text-3xl font-normal mt-8 mb-5">Task Status</h1>
 
       {/* Task status tabs */}
-      <div class="text-sm mb-5 font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
-        <ul class="flex flex-wrap -mb-px">
-          <li class="mr-2">
-            <span
-              className={
-                secondToggleState === 1
-                  ? "inline-block p-4 text-blue-600 rounded-t-lg border-b-2 border-blue-600 active dark:text-blue-500 dark:border-blue-500"
-                  : "inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
-              }
-              onClick={() => secondToggleTab(1)}
-            >
-              Complete
-            </span>
-          </li>
-          <li class="mr-2">
-            <span
-              className={
-                secondToggleState === 2
-                  ? "inline-block p-4 text-blue-600 rounded-t-lg border-b-2 border-blue-600 active dark:text-blue-500 dark:border-blue-500"
-                  : "inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
-              }
-              onClick={() => secondToggleTab(2)}
-            >
-              Incomplete
-            </span>
-          </li>
-        </ul>
-      </div>
+      <div className="rounded-md text-center p-5 border">
+        <div class="text-sm mb-5 font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
+          <ul class="flex flex-wrap -mb-px">
+            <li class="mr-2">
+              <span
+                className={
+                  secondToggleState === 1
+                    ? "inline-block p-4 text-blue-600 rounded-t-lg border-b-2 border-blue-600 active dark:text-blue-500 dark:border-blue-500"
+                    : "inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                }
+                onClick={() => secondToggleTab(1)}
+              >
+                Complete
+              </span>
+            </li>
+            <li class="mr-2">
+              <span
+                className={
+                  secondToggleState === 2
+                    ? "inline-block p-4 text-blue-600 rounded-t-lg border-b-2 border-blue-600 active dark:text-blue-500 dark:border-blue-500"
+                    : "inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                }
+                onClick={() => secondToggleTab(2)}
+              >
+                Incomplete
+              </span>
+            </li>
+          </ul>
+        </div>
 
-      <div className={secondToggleState === 1 ? "active-content content" : "content"}>
-        <div>Complete tasks</div>
-      </div>
+        <div
+          className={
+            secondToggleState === 1 ? "active-content content" : "content"
+          }
+        >
+          <div>Complete tasks</div>
+        </div>
 
-      <div className={secondToggleState === 2 ? "active-content content" : "content"}>
-        <div>Incomplete tasks</div>
+        <div
+          className={
+            secondToggleState === 2 ? "active-content content" : "content"
+          }
+        >
+          <div>Incomplete tasks</div>
+        </div>
       </div>
 
       <TaskForm
