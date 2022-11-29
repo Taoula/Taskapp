@@ -26,6 +26,7 @@ Chart.js: https://www.chartjs.org
 15. Optimize Sort & Resort algorithms
 16. Calendar view (set events days or weeks ahead of time)
 17. Optional productivity value in tasks, task stats
+18. sort tasks in task display from newest to oldest by default
 
 # Todo 2 (Implement before & during beta testing)
 1. Google, Apple calendar integration
