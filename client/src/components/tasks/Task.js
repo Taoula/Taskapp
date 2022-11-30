@@ -3,8 +3,10 @@ import { Square, CheckSquare } from "phosphor-react";
 import useToggle from "../../hooks/use-toggle";
 import styled from "styled-components";
 import axios from "axios";
-import UpdateTaskForm from "./UpdateTaskForm";
-import { Pencil, Pen, Trash, DotsThree } from "phosphor-react";
+import UpdateTaskForm from "./UpdateTaskForm1";
+import { Pencil, Pen, Trash, DotsThree, PencilSimple } from "phosphor-react";
+import { useNavigate, Link } from "react-router-dom";
+
 const TaskContainer = styled.div`
   background-color: ${(props) => props.color || "pink"};
   transition: 0.2s;
@@ -52,13 +54,24 @@ export default function Task({ task, getTasks }) {
         onClick={toggle}
         className="rounded-md pl-5 pr-5 pt-4 pb-4 flex items-center justify-between"
       >
-          <h1 className="capitalize font-normal text-md">
-            {name}:{" "}
-            <span className="font-light">{duration} minutes</span>
-          </h1>
-          <DotsThree size={32} />
+        <h1 className="capitalize font-normal text-md">
+          {name}: <span className="font-light">{duration} minutes</span>
+        </h1>
+        {/* <DotsThree size={32} /> */}
+        <div className="flex space-x-1">
+          <span className="hover:text-indigo-600">
+            <PencilSimple
+              size={20}
+              weight="light"
+              onClick={() => setShowUpdateTask(true)}
+            />
+          </span>
+          <span className="hover:text-red-500">
+            <Trash size={20} weight="light" onClick={deleteTask} />
+          </span>
+        </div>
 
-          {/* <div className="flex">
+        {/* <div className="flex">
             <p>Delete:</p>
             <Trash size={25} weight="fill" onClick={deleteTask} />
           </div>
@@ -71,7 +84,7 @@ export default function Task({ task, getTasks }) {
             )}
           </div> */}
 
-          {/* <div>
+        {/* <div>
             <p
               className="hover:underline"
               onClick={() => setShowUpdateTask(true)}

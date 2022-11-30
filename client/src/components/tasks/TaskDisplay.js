@@ -5,12 +5,15 @@ import useToggle from "../../hooks/use-toggle";
 import Task from "./Task";
 import "tw-elements";
 import { Plus } from "phosphor-react";
+import DashboardFooter from "../layout/DashboardFooter";
+import Slideover from "../layout/Slideover";
 
 export default function TaskDisplay() {
   const [tasks, setTasks] = useState([]);
   const [taskFormId, setTaskFormId] = useState("");
   const [newTask, toggle] = useToggle(false);
   const [showCreateTask, setShowCreateTask] = useState(false);
+  const [open, setOpen] = useState(false);
 
   // state for task menu
   const [toggleState, setToggleState] = useState(1);
@@ -49,6 +52,8 @@ export default function TaskDisplay() {
       }
     });
   }
+
+  // const handleOnClose = () => setOpen(false);
 
   useEffect(() => {
     getTasks();
@@ -95,7 +100,7 @@ export default function TaskDisplay() {
 
       {/* both fields are visible if all tab is clicked */}
       <div className={toggleState === 1 ? "active-content content" : "content"}>
-        <div className="grid grid-cols-1 md:grid-cols-2 space-y-2 md:space-y-0 md:space-x-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 space-y-4 lg:space-y-0 lg:space-x-4">
           {/* Inactive tasks field */}
           <div className="rounded-md text-center p-5 border">
             {/* Title and add button inline */}
@@ -105,7 +110,8 @@ export default function TaskDisplay() {
               {/* add task button */}
               <span
                 className="rounded-md text-gray-500 border hover:text-gray-900 hover:bg-sidebarColor font-normal pl-4 pr-4 text-xs pt-2 pb-2"
-                onClick={() => setShowCreateTask(true)}
+                // onClick={() => setShowCreateTask(true)}
+                onClick={() => setOpen(true)}
               >
                 Add Task
               </span>
@@ -162,14 +168,14 @@ export default function TaskDisplay() {
 
       {/* Task status tabs */}
       <div className="rounded-md text-center p-5 border">
-        <div class="text-sm mb-5 font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
+        <div class="text-sm mb-5 text-center text-gray-500 border-b border-gray-500">
           <ul class="flex flex-wrap -mb-px">
             <li class="mr-2">
               <span
                 className={
                   secondToggleState === 1
-                    ? "inline-block p-4 text-blue-600 rounded-t-lg border-b-2 border-blue-600 active dark:text-blue-500 dark:border-blue-500"
-                    : "inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                    ? "inline-block p-4 text-indigo-500 rounded-t-lg border-b-2 border-indigo-500 active"
+                    : "inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-900 hover:border-gray-900 font-normal"
                 }
                 onClick={() => secondToggleTab(1)}
               >
@@ -180,8 +186,8 @@ export default function TaskDisplay() {
               <span
                 className={
                   secondToggleState === 2
-                    ? "inline-block p-4 text-blue-600 rounded-t-lg border-b-2 border-blue-600 active dark:text-blue-500 dark:border-blue-500"
-                    : "inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                    ? "inline-block p-4 text-indigo-500 rounded-t-lg border-b-2 border-indigo-500 active"
+                    : "inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-900 hover:border-gray-900 font-normal"
                 }
                 onClick={() => secondToggleTab(2)}
               >
@@ -208,9 +214,9 @@ export default function TaskDisplay() {
         </div>
       </div>
 
-      <footer className="mt-8 text-center">
-        <h1 className="text-xs font-light text-gray-400">copyright Jigsaw @ 2022</h1>
-      </footer>
+      <DashboardFooter></DashboardFooter>
+
+      <Slideover open={open} setOpen={setOpen}></Slideover>
 
       <TaskForm
         getTasks={getTasks}

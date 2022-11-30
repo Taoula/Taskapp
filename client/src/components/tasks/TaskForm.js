@@ -64,18 +64,19 @@ export default function TaskForm({ getTasks, visible, onClose }) {
   };
 
   return (
+    <>
+    <h1>Create a Task</h1>
     <div
       onClick={handleOnClose}
       className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm"
       id="formBackground"
     >
-      <div className="max-w-md px-4 py-16 mx-auto">
+      <div className="max-w-4xl py-16 mx-auto">
         <form
-          action=""
-          class="p-8 mt-6 mb-0 space-y-4 rounded-lg shadow-2xl bg-white"
+          class="px-8 py-5 space-y-4 rounded-md bg-white"
           onSubmit={(e) => onSubmit(e)}
         >
-          <p class="text-lg font-medium text-center">Create a new task</p>
+          <p class="text-lg font-normal text-left">Create a new task</p>
 
           <div>
             <label class="text-sm font-medium">Task Name</label>
@@ -124,23 +125,26 @@ export default function TaskForm({ getTasks, visible, onClose }) {
             </div>
           </div>
 
+        <div className="space-x-2">
           <button
             type="submit"
-            class="block w-full px-5 py-3 text-sm font-medium text-white bg-indigo-600 rounded-lg"
+            class="px-4 py-2 text-xs font-normal text-white bg-indigo-600 rounded-md"
             input={+true}
             value="submit"
           >
-            Create
+            Save
           </button>
           <button
-            class="block w-full px-5 py-3 text-sm font-medium text-white bg-red-600 rounded-lg"
+            class="px-4 py-2 text-xs font-normal text-white bg-red-600 rounded-md"
             onClick={handleOnClose}
             id="cancelButton"
           >
             Cancel
           </button>
+          </div>
         </form>
       </div>
     </div>
+    </>
   );
 }
