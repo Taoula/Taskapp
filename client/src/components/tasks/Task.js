@@ -5,8 +5,8 @@ import styled from "styled-components";
 import axios from "axios";
 import UpdateTaskForm from "./UpdateTaskForm1";
 import { Trash, PencilSimple } from "phosphor-react";
-import UpdateTaskSlideover from "../layout/UpdateTaskSlideover";
-import DeleteTaskDialogue from "../layout/DeleteTaskDialogue";
+import UpdateTaskSlideover from "./UpdateTaskSlideover";
+import DeleteTaskDialogue from "./DeleteTaskDialogue";
 
 const TaskContainer = styled.div`
   background-color: ${(props) => props.color || "pink"};

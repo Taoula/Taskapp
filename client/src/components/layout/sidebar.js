@@ -11,10 +11,12 @@ import {
   House,
   PuzzlePiece,
 } from "phosphor-react";
+import LogoutDialogue from "./LogoutDialogue";
 
 export default function Sidebar() {
   const { getLoggedIn } = useContext(AuthContext);
   const history = useNavigate();
+  const [logoutDialogue, setLogoutDialogue] = useState(false);
 
   // state for task menu
   const [toggleState, setToggleState] = useState(1);
@@ -43,6 +45,7 @@ export default function Sidebar() {
 
   return (
     <>
+    <LogoutDialogue logoutDialogue={logoutDialogue} setLogoutDialogue={setLogoutDialogue}></LogoutDialogue>
       {/* collapsed navbar */}
       <aside className="text-gray-500 bg-sidebarColor border-r border-gray-200 hidden sm:flex flex-col justify-between pr-4 pl-4">
         <div className="mt-5">
@@ -180,7 +183,8 @@ export default function Sidebar() {
             <li class="navbarTab">
               <span
                 class="flex items-center rounded-md p-2 text-base font-normal border-2 border-sidebarColor hover:bg-rose-100 hover:border-2 hover:border-rose-100 hover:text-red-500"
-                onClick={verifyLogout}
+                // onClick={verifyLogout}
+                onClick={() => setLogoutDialogue(true)}
               >
                 <SignOut size={25} weight="light" />
               </span>

@@ -5,7 +5,7 @@ import useToggle from "../../hooks/use-toggle";
 import Task from "./Task";
 import "tw-elements";
 import DashboardFooter from "../layout/DashboardFooter";
-import CreateTaskSlideover from "../layout/CreateTaskSlideover";
+import CreateTaskSlideover from "./CreateTaskSlideover";
 
 export default function TaskDisplay() {
   const [tasks, setTasks] = useState([]);
@@ -56,7 +56,7 @@ export default function TaskDisplay() {
   // renders tasks based on completed bool
   function renderCompletedTasks(isComplete) {
     return tasks.map((task, i) => {
-      if (task.completed === isComplete) {
+      if (task.completed === isComplete && task.isActive === true) {
         return (
           <Task key={i} task={task} getTasks={getTasks}>
             {task.name}
