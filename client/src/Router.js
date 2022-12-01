@@ -36,8 +36,6 @@ export default function Router(...restParams){
                     <Route path="accountSettings" element={<AccountSettings />} />
                     <Route path="help" element={<Help />} />
                     <Route path="overview" element={<Overview />} />
-                    <Route path="createTask" element={<CreateTaskForm />} />
-                    <Route path="updateTask" element={<UpdateTaskForm />} />
                 </Route>
             </Routes>
         </BrowserRouter>

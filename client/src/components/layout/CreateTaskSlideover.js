@@ -1,17 +1,14 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { X } from "phosphor-react";
-import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
-export default function Slideover({ open, setOpen, getTasks }) {
+export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
   const [name, setName] = useState("");
   const [duration, setDuration] = useState("");
   const [priority, setPriority] = useState("");
 
   // function handles form submission
   async function onSubmit(e) {
-    
     e.preventDefault();
     const taskData = {
       name,
@@ -35,6 +32,16 @@ export default function Slideover({ open, setOpen, getTasks }) {
     setName("");
     setDuration("");
     setPriority("");
+
+    setOpen(false);
+  }
+
+  function closeSlideover() {
+    setName("");
+    setDuration("");
+    setPriority("");
+
+    setOpen(false);
   }
 
   return (
@@ -73,10 +80,7 @@ export default function Slideover({ open, setOpen, getTasks }) {
                     </div>
                     <div className="mt-8 px-8 block">
                       {/* Replace with your content */}
-                      <form
-                        className="space-y-5"
-                        onSubmit={(e) => onSubmit(e)}
-                      >
+                      <form className="space-y-5" onSubmit={(e) => onSubmit(e)}>
                         <div>
                           <label className="block text-sm text-gray-500 mb-2 font-normal">
                             Task Name
@@ -113,15 +117,16 @@ export default function Slideover({ open, setOpen, getTasks }) {
                             placeholder="priority (1-3)"
                             className="border rounded-sm px-4 py-3 text-sm font-light text-gray-500 w-full"
                             min="1"
-                            max="5"
+                            max="3"
                             value={priority}
                             onChange={(e) => setPriority(e.target.value)}
                           ></input>
                         </div>
                         <div className="space-x-2 flex justify-end">
                           <button
+                            type="button"
                             className="border px-4 py-2 rounded-md text-xs font-normal bg-opacity-50 border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
-                            onClick={() => setOpen(false)}
+                            onClick={closeSlideover}
                           >
                             Cancel
                           </button>

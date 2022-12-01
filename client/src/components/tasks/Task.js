@@ -6,6 +6,7 @@ import axios from "axios";
 import UpdateTaskForm from "./UpdateTaskForm1";
 import { Pencil, Pen, Trash, DotsThree, PencilSimple } from "phosphor-react";
 import { useNavigate, Link } from "react-router-dom";
+import UpdateTaskSlideover from "../layout/UpdateTaskSlideover";
 
 const TaskContainer = styled.div`
   background-color: ${(props) => props.color || "pink"};
@@ -22,6 +23,7 @@ export default function Task({ task, getTasks }) {
   const colors = ["#fecdd3", "#fef3c7", "#bbf7d0"];
   const borderColors = ["#e11d48", "#fbbf24", "#22c55e"];
   const [showUpdateTask, setShowUpdateTask] = useState(false);
+  const [open2, setOpen2] = useState(false);
 
   const handleUpdateOnClose = () => {
     setShowUpdateTask(false);
@@ -54,9 +56,20 @@ export default function Task({ task, getTasks }) {
         onClick={toggle}
         className="rounded-md pl-5 pr-5 pt-4 pb-4 flex items-center justify-between"
       >
-        <h1 className="capitalize font-normal text-md">
+        <div className="flex items-center space-x-2">
+          <span>
+          {isActive ? (
+            <CheckSquare size={20} onClick={toggleActive} />
+          ) : (
+            <Square size={20} onClick={toggleActive} />
+          )}
+          </span>
+          <span>
+                  <h1 className="capitalize font-normal text-md">
           {name}: <span className="font-light">{duration} minutes</span>
         </h1>
+        </span>
+        </div>
         {/* <DotsThree size={32} /> */}
         <div className="flex space-x-1">
           <span className="hover:text-indigo-600">
@@ -64,6 +77,7 @@ export default function Task({ task, getTasks }) {
               size={20}
               weight="light"
               onClick={() => setShowUpdateTask(true)}
+              // onClick={() => setOpen2(true)}
             />
           </span>
           <span className="hover:text-red-500">
@@ -94,6 +108,8 @@ export default function Task({ task, getTasks }) {
             <Pencil size={25} weight="fill" />
           </div> */}
       </TaskContainer>
+      <UpdateTaskSlideover open2={open2} setOpen2={setOpen2} getTasks={getTasks}></UpdateTaskSlideover>
+
 
       <UpdateTaskForm
         getTasks={getTasks}

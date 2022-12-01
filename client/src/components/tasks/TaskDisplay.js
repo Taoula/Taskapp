@@ -4,9 +4,8 @@ import TaskForm from "./TaskForm";
 import useToggle from "../../hooks/use-toggle";
 import Task from "./Task";
 import "tw-elements";
-import { Plus } from "phosphor-react";
 import DashboardFooter from "../layout/DashboardFooter";
-import Slideover from "../layout/Slideover";
+import CreateTaskSlideover from "../layout/CreateTaskSlideover";
 
 export default function TaskDisplay() {
   const [tasks, setTasks] = useState([]);
@@ -23,6 +22,7 @@ export default function TaskDisplay() {
     setToggleState(index);
   };
 
+  // state for task status menu
   const [secondToggleState, setSecondToggleState] = useState(1);
 
   const secondToggleTab = (index) => {
@@ -216,7 +216,7 @@ export default function TaskDisplay() {
 
       <DashboardFooter></DashboardFooter>
 
-      <Slideover open={open} setOpen={setOpen}></Slideover>
+      <CreateTaskSlideover open={open} setOpen={setOpen} getTasks={getTasks}></CreateTaskSlideover>
 
       <TaskForm
         getTasks={getTasks}
