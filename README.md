@@ -13,7 +13,6 @@ Chart.js: https://www.chartjs.org
 # Todo (Implement before beta testing)
 1. add time editing component to task creation/update menu (exists on updateHours, needs to be refactored)
 2. implement time of day into scheduling algorithm
-3. re-implement task editing with modals
 4. redesign & re-implement schedule dashboard
 5. create account settings page
 6. create a help feature
@@ -58,6 +57,7 @@ Chart.js: https://www.chartjs.org
 8. highlight active tab in the sidebar
 9. outlet content scrolls
 10. Statistics (task) front end & back end.
+11. re-implement task editing with modals
 
 # Optimization
 1. use flex to display task fields in task display instead of grid to reduce code redundancy
