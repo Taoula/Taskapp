@@ -53,8 +53,6 @@ export default function TaskDisplay() {
     });
   }
 
-  // const handleOnClose = () => setOpen(false);
-
   useEffect(() => {
     getTasks();
   }, []);
@@ -141,7 +139,8 @@ export default function TaskDisplay() {
               {/* add task button */}
               <span
                 className="rounded-md text-gray-500 border hover:text-gray-900 hover:bg-sidebarColor font-normal pl-4 pr-4 text-xs pt-2 pb-2"
-                onClick={() => setShowCreateTask(true)}
+                // onClick={() => setShowCreateTask(true)}
+                onClick={() => setOpen(true)}
               >
                 Add Task
               </span>

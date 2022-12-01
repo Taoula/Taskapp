@@ -244,12 +244,16 @@ export default function UpdateTaskForm({ getTasks, _id, visible, onClose }) {
   }
 
   const handleUpdateOnClose = (e) => {
+
     if (e.target.id === "updateFormBackground") {
       onClose();
-    } else if (e.target.id === "cancelButton") {
+    }
+
+    else if (e.target.id === "cancelButton") {
+
       onClose();
     }
-  };
+  }
 
   if (!visible) return null;
 
@@ -293,10 +297,8 @@ export default function UpdateTaskForm({ getTasks, _id, visible, onClose }) {
           onSubmit={(e) => onSubmit(e)}
         >
           <div>
-            <p class="text-lg font-medium text-center">Update task</p>
-            <p className="mt-2 text-center text-gray-600">
-              Enter new values for this task
-            </p>
+          <p class="text-lg font-medium text-center">Update task</p>
+          <p className="mt-2 text-center text-gray-600">Enter new values for this task</p>
           </div>
           <div>
             <label class="text-sm font-medium">Task Name</label>

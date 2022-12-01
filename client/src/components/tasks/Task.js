@@ -76,8 +76,8 @@ export default function Task({ task, getTasks }) {
             <PencilSimple
               size={20}
               weight="light"
-              onClick={() => setShowUpdateTask(true)}
-              // onClick={() => setOpen2(true)}
+              // onClick={() => setShowUpdateTask(true)}
+              onClick={() => setOpen2(true)}
             />
           </span>
           <span className="hover:text-red-500">
@@ -108,7 +108,7 @@ export default function Task({ task, getTasks }) {
             <Pencil size={25} weight="fill" />
           </div> */}
       </TaskContainer>
-      <UpdateTaskSlideover open2={open2} setOpen2={setOpen2} getTasks={getTasks}></UpdateTaskSlideover>
+      <UpdateTaskSlideover open2={open2} setOpen2={setOpen2} getTasks={getTasks} _id={_id}></UpdateTaskSlideover>
 
 
       <UpdateTaskForm
