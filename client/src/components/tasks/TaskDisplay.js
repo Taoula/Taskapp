@@ -53,6 +53,19 @@ export default function TaskDisplay() {
     });
   }
 
+  // renders tasks based on completed bool
+  function renderCompletedTasks(isComplete) {
+    return tasks.map((task, i) => {
+      if (task.completed === isComplete) {
+        return (
+          <Task key={i} task={task} getTasks={getTasks}>
+            {task.name}
+          </Task>
+        );
+      }
+    });
+  }
+
   useEffect(() => {
     getTasks();
   }, []);
@@ -173,24 +186,24 @@ export default function TaskDisplay() {
               <span
                 className={
                   secondToggleState === 1
-                    ? "inline-block p-4 text-indigo-500 rounded-t-lg border-b-2 border-indigo-500 active"
+                    ? "inline-block p-4 text-gray-900 rounded-t-lg border-b-2 border-gray-900 active"
                     : "inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-900 hover:border-gray-900 font-normal"
                 }
                 onClick={() => secondToggleTab(1)}
               >
-                Complete
+                Incomplete
               </span>
             </li>
             <li class="mr-2">
               <span
                 className={
                   secondToggleState === 2
-                    ? "inline-block p-4 text-indigo-500 rounded-t-lg border-b-2 border-indigo-500 active"
+                    ? "inline-block p-4 text-gray-900 rounded-t-lg border-b-2 border-gray-900 active"
                     : "inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-900 hover:border-gray-900 font-normal"
                 }
                 onClick={() => secondToggleTab(2)}
               >
-                Incomplete
+                Complete
               </span>
             </li>
           </ul>
@@ -201,7 +214,9 @@ export default function TaskDisplay() {
             secondToggleState === 1 ? "active-content content" : "content"
           }
         >
-          <div>Complete tasks</div>
+          <div className="space-y-3">
+          {renderCompletedTasks(false)}
+          </div>
         </div>
 
         <div
@@ -209,13 +224,19 @@ export default function TaskDisplay() {
             secondToggleState === 2 ? "active-content content" : "content"
           }
         >
-          <div>Incomplete tasks</div>
+          <div className="space-y-3">
+          {renderCompletedTasks(true)}
+          </div>
         </div>
       </div>
 
       <DashboardFooter></DashboardFooter>
 
-      <CreateTaskSlideover open={open} setOpen={setOpen} getTasks={getTasks}></CreateTaskSlideover>
+      <CreateTaskSlideover
+        open={open}
+        setOpen={setOpen}
+        getTasks={getTasks}
+      ></CreateTaskSlideover>
 
       <TaskForm
         getTasks={getTasks}

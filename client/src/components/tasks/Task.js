@@ -4,9 +4,9 @@ import useToggle from "../../hooks/use-toggle";
 import styled from "styled-components";
 import axios from "axios";
 import UpdateTaskForm from "./UpdateTaskForm1";
-import { Pencil, Pen, Trash, DotsThree, PencilSimple } from "phosphor-react";
-import { useNavigate, Link } from "react-router-dom";
+import { Trash, PencilSimple } from "phosphor-react";
 import UpdateTaskSlideover from "../layout/UpdateTaskSlideover";
+import DeleteTaskDialogue from "../layout/DeleteTaskDialogue";
 
 const TaskContainer = styled.div`
   background-color: ${(props) => props.color || "pink"};
@@ -24,6 +24,7 @@ export default function Task({ task, getTasks }) {
   const borderColors = ["#e11d48", "#fbbf24", "#22c55e"];
   const [showUpdateTask, setShowUpdateTask] = useState(false);
   const [open2, setOpen2] = useState(false);
+  const [deleteTaskDialogue, setDeleteTaskDialogueOpen] = useState(false);
 
   const handleUpdateOnClose = () => {
     setShowUpdateTask(false);
@@ -58,17 +59,17 @@ export default function Task({ task, getTasks }) {
       >
         <div className="flex items-center space-x-2">
           <span>
-          {isActive ? (
-            <CheckSquare size={20} onClick={toggleActive} />
-          ) : (
-            <Square size={20} onClick={toggleActive} />
-          )}
+            {isActive ? (
+              <CheckSquare size={20} onClick={toggleActive} />
+            ) : (
+              <Square size={20} onClick={toggleActive} />
+            )}
           </span>
           <span>
-                  <h1 className="capitalize font-normal text-md">
-          {name}: <span className="font-light">{duration} minutes</span>
-        </h1>
-        </span>
+            <h1 className="capitalize font-normal text-md">
+              {name}: <span className="font-light">{duration} minutes</span>
+            </h1>
+          </span>
         </div>
         {/* <DotsThree size={32} /> */}
         <div className="flex space-x-1">
@@ -81,7 +82,12 @@ export default function Task({ task, getTasks }) {
             />
           </span>
           <span className="hover:text-red-500">
-            <Trash size={20} weight="light" onClick={deleteTask} />
+            <Trash
+              size={20}
+              weight="light"
+              // onClick={deleteTask}
+              onClick={() => setDeleteTaskDialogueOpen(true)}
+            />
           </span>
         </div>
 
@@ -108,8 +114,20 @@ export default function Task({ task, getTasks }) {
             <Pencil size={25} weight="fill" />
           </div> */}
       </TaskContainer>
-      <UpdateTaskSlideover open2={open2} setOpen2={setOpen2} getTasks={getTasks} _id={_id}></UpdateTaskSlideover>
 
+      <DeleteTaskDialogue
+        deleteTaskDialogue={deleteTaskDialogue}
+        setDeleteTaskDialogue={setDeleteTaskDialogueOpen}
+        getTasks={getTasks}
+        task={task}
+      ></DeleteTaskDialogue>
+
+      <UpdateTaskSlideover
+        open2={open2}
+        setOpen2={setOpen2}
+        getTasks={getTasks}
+        _id={_id}
+      ></UpdateTaskSlideover>
 
       <UpdateTaskForm
         getTasks={getTasks}
