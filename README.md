@@ -4,6 +4,8 @@ Calendar: https://www.npmjs.com/package/react-awesome-calendar
 Phosophor Icons: https://phosphoricons.com
 <br />
 Chart.js: https://www.chartjs.org
+<br />
+HeadlessUI: https://headlessui.com/react/combobox
 
 # Bugs
 2. Conditional schedule refresh
