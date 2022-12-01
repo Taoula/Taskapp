@@ -182,7 +182,7 @@ export default function TaskDisplay() {
       <div className="rounded-md text-center p-5 border">
         <div class="text-sm mb-5 text-center text-gray-500 border-b border-gray-500">
           <ul class="flex flex-wrap -mb-px">
-            <li class="mr-2">
+            <li>
               <span
                 className={
                   secondToggleState === 1
@@ -194,7 +194,7 @@ export default function TaskDisplay() {
                 Incomplete
               </span>
             </li>
-            <li class="mr-2">
+            <li>
               <span
                 className={
                   secondToggleState === 2

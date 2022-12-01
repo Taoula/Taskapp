@@ -60,7 +60,7 @@ export default function LogoutDialogue({ logoutDialogue, setLogoutDialogue }) {
                         as="h3"
                         className="text-lg font-normal text-gray-900"
                       >
-                        Logout
+                        Confirm logout
                       </Dialog.Title>
                       <p className="text-sm font-normal text-gray-500">
                         Are you sure you want to log out?
@@ -82,7 +82,7 @@ export default function LogoutDialogue({ logoutDialogue, setLogoutDialogue }) {
                     className="border px-4 py-2 rounded-md text-xs font-normal bg-opacity-50 border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
                     onClick={() => logOut()}
                   >
-                    Delete
+                    Logout
                   </button>
                 </div>
               </Dialog.Panel>
