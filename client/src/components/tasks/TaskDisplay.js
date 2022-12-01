@@ -6,6 +6,7 @@ import Task from "./Task";
 import "tw-elements";
 import DashboardFooter from "../layout/DashboardFooter";
 import CreateTaskSlideover from "./CreateTaskSlideover";
+import CompletedTask from "./CompletedTask";
 
 export default function TaskDisplay() {
   const [tasks, setTasks] = useState([]);
@@ -13,6 +14,7 @@ export default function TaskDisplay() {
   const [newTask, toggle] = useToggle(false);
   const [showCreateTask, setShowCreateTask] = useState(false);
   const [open, setOpen] = useState(false);
+  const [completedTasks, setCompletedTasks] = useState([]);
 
   // state for task menu
   const [toggleState, setToggleState] = useState(1);
@@ -58,9 +60,9 @@ export default function TaskDisplay() {
     return tasks.map((task, i) => {
       if (task.completed === isComplete && task.isActive === true) {
         return (
-          <Task key={i} task={task} getTasks={getTasks}>
+          <CompletedTask key={i} task={task} getTasks={getTasks}>
             {task.name}
-          </Task>
+          </CompletedTask>
         );
       }
     });
