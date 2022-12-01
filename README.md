@@ -8,7 +8,9 @@ Chart.js: https://www.chartjs.org
 # Bugs
 1. side bar tab highlighting
 2. Conditional schedule refresh
-3. logout button stays highlighted after clicking
+
+# Fixed Bugs
+1. logout button stays highlighted after clicking
 
 # Todo (Implement before beta testing)
 1. add time editing component to task creation/update menu (exists on updateHours, needs to be refactored)
