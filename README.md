@@ -35,6 +35,9 @@ HeadlessUI: https://headlessui.com/react/combobox
 19. create and update task form validation
 20. search bars in task display to search for a specific task
 
+## Tasks Page
+1. somethign
+
 # Todo 2 (Implement before & during beta testing)
 1. Google, Apple calendar integration
 2. Friend system
