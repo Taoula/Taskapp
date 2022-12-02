@@ -19,24 +19,31 @@ HeadlessUI: https://headlessui.com/react/combobox
 1. add time editing component to task creation/update menu (exists on updateHours, needs to be refactored)
 2. implement time of day into scheduling algorithm
 4. redesign & re-implement schedule dashboard
-5. create account settings page
 6. create a help feature
 7. Refactor time to use momentjs instead of Datejs
 9. overview page
 10. resort schedule
 11. display welcome for user's first session & welcome back for every session afterwards
-12. set max height for task display fields and add scroll for each field
 13. User Statistics & Streaks (front & back end)
 14. Tasks completed out of order should float to the top, schedule resort.
 15. Optimize Sort & Resort algorithms
 16. Calendar view (set events days or weeks ahead of time)
 17. Optional productivity value in tasks, task stats
-18. sort tasks in task display from newest to oldest by default
-19. create and update task form validation
-20. search bars in task display to search for a specific task
 
 ## Tasks Page
-1. somethign
+1. Search bars in task display to search for specific task
+2. Apply tags to tasks for specific focuses (work, school, etc.)
+3. Filters for tags
+4. Set fixed height for task displays and implement scrolling
+5. sort tasks in task display from newest to oldest by default
+6. create and update task form validation
+
+## Account settings pages
+1. populate fields with current values
+2. implement update values
+3. implement change password
+4. Upload profile picture
+5. Change profile picure
 
 # Todo 2 (Implement before & during beta testing)
 1. Google, Apple calendar integration
