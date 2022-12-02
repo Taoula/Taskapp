@@ -9,6 +9,7 @@ HeadlessUI: https://headlessui.com/react/combobox
 
 # Bugs
 2. Conditional schedule refresh
+3. task remains active when marked as complete
 
 # Fixed Bugs
 1. logout button stays highlighted after clicking
