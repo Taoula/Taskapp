@@ -86,7 +86,7 @@ function TimeInput(props) {
           value="submit"
           className="block w-full px-5 py-3 text-sm font-medium text-white bg-indigo-600 rounded-sm"
         >
-          <span className="text-xl font-light">Log In</span>
+          <span className="text-xl font-light">Update Hours</span>
         </button>
       </div>
     </form>

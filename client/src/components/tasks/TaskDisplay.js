@@ -18,7 +18,7 @@ export default function TaskDisplay() {
 
   // state for task menu
   const [toggleState, setToggleState] = useState(1);
-
+ 
   // sets state value to the index of the clicked tab
   const toggleTab = (index) => {
     setToggleState(index);

@@ -1,11 +1,17 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import modifyTime from "../../methods/modify-time";
+import convertTime from "../../methods/convert-time";
+import { Square, CheckSquare } from "phosphor-react";
+import getTimeValue from "../../methods/get-time-value";
 import axios from "axios";
 
 export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
   const [name, setName] = useState("");
   const [duration, setDuration] = useState("");
   const [priority, setPriority] = useState("");
+  const [fixed, setFixed] = useState(false);
+  const [time, setTime] = useState("12:00 AM")
 
   // function handles form submission
   async function onSubmit(e) {
@@ -16,6 +22,7 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
       priority,
       isActive: false,
       completed: false,
+      time: fixed ? convertTime(time, "date") : null
     };
 
     await axios
@@ -32,7 +39,7 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
     setName("");
     setDuration("");
     setPriority("");
-
+    setTime("12:00 AM")
     setOpen(false);
   }
 
@@ -40,7 +47,7 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
     setName("");
     setDuration("");
     setPriority("");
-
+    setTime("12:00 AM");
     setOpen(false);
   }
 
@@ -122,6 +129,64 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                             onChange={(e) => setPriority(e.target.value)}
                           ></input>
                         </div>
+
+                        <span>
+                          {fixed? (
+                            <CheckSquare size={20} onClick={() => setFixed(false)} />
+                          ) : (
+                            <Square size={20} onClick={() => setFixed(true)} />
+                          )}
+                        </span>
+                      
+                      {fixed &&                   
+                      <div>
+                        <p>{time}</p>
+                      <div>
+                          <label className="block text-sm text-gray-500 mb-2 font-normal">
+                            Start Hour
+                          </label>
+                          <input
+                            type="number"
+                            placeholder="0-23"
+                            className="border rounded-sm px-4 py-3 text-sm font-light text-gray-500 w-full"
+                            min="1"
+                            max="12"
+                            value={getTimeValue(time, "hours")}
+                            onChange={(e) => setTime(modifyTime(time, "hours", e.target.value))}
+                          ></input>
+                        </div>
+                                                <div>
+                                                <label className="block text-sm text-gray-500 mb-2 font-normal">
+                                                  Start Minutes
+                                                </label>
+                                                <input
+                                                  type="number"
+                                                  placeholder="0-59"
+                                                  className="border rounded-sm px-4 py-3 text-sm font-light text-gray-500 w-full"
+                                                  min="0"
+                                                  max="59"
+                                                  value={getTimeValue(time, "minutes")}
+                                                  onChange={(e) => setTime(modifyTime(time, "minutes", e.target.value))}
+                                                ></input>
+                                              </div>
+                      
+                                              <div>
+                                                <label className="block text-sm text-gray-500 mb-2 font-normal">
+                                                  AM or PM
+                                                </label>
+                                                <select
+                                                  placeholder=""
+                                                  className="border rounded-sm px-4 py-3 text-sm font-light text-gray-500 w-full"
+                                                  value={getTimeValue(time, "amorpm")}
+                                                  onChange={(e) => setTime(modifyTime(time, "amorpm", e.target.value))}
+                                                >
+                                                  <option value="AM">AM</option>
+                                                  <option value="PM">PM</option>
+                                                </select>
+                                              </div>
+                                              </div>}
+                        
+
                         <div className="space-x-2 flex justify-end">
                           <button
                             type="button"

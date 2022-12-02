@@ -5,10 +5,10 @@ const auth = require("../middleware/auth");
 router.post("/", auth, async (req, res) => {
 
     try {
-        const {name, priority, duration, isActive, completed} = req.body
+        const {name, priority, duration, isActive, completed, time} = req.body
         const user = req.user
         const newTask = new Task({
-            name, priority, duration, isActive, completed, user
+            name, priority, duration, isActive, completed, user, time
         });
 
         const savedTask = await newTask.save();
@@ -56,8 +56,8 @@ router.get("/:id/", auth, async (req, res) => {
 router.patch("/:id/", auth, async (req, res) => {
     try {
         const _id = req.params.id
-        const {name, priority, duration, isActive, completed} = req.body
-        const updatedTask = await Task.findOneAndUpdate({_id}, {name, priority, duration, isActive, completed}, {new: true})
+        const {name, priority, duration, isActive, completed, time} = req.body
+        const updatedTask = await Task.findOneAndUpdate({_id}, {name, priority, duration, isActive, completed, time}, {new: true})
         res.json(updatedTask)
     } catch (err) {
         console.error(err)

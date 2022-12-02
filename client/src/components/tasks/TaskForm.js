@@ -1,10 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function TaskForm({ getTasks, visible, onClose }) {
   const [name, setName] = useState("");
   const [duration, setDuration] = useState("");
   const [priority, setPriority] = useState("");
+  const [time, setTime] = useState("");
+
+  useEffect(() => {
+    if (time == ""){
+      let tempTime = new Date();
+      tempTime.setHours(0);
+      tempTime.setMinutes(0);
+      tempTime.setSeconds(0);
+      setTime(tempTime)
+    }
+  })
 
   // is not visible is true then nothing will be returned
   if (!visible) return null;
@@ -16,10 +27,11 @@ export default function TaskForm({ getTasks, visible, onClose }) {
       name,
       duration,
       priority,
+      time,
       isActive: false,
       completed: false,
     };
-
+ 
     await axios
       .post("http://localhost:8282/task/", taskData)
       .then((res) => res.data)
@@ -34,6 +46,7 @@ export default function TaskForm({ getTasks, visible, onClose }) {
     setName("");
     setDuration("");
     setPriority("");
+    setTime("");
 
     // prop is passed from task-display to give access to form closure function
     onClose();
@@ -62,6 +75,27 @@ export default function TaskForm({ getTasks, visible, onClose }) {
       onClose();
     }
   };
+
+  function updateTimeState(e, type){
+    e.preventDefault()
+    let tempTime = new Date(time);
+    if (type == "hours"){
+      tempTime.setHours(e.target.value)
+    } else if(type == "minutes") {
+      tempTime.setMinutes(e.target.value)
+    }
+
+    setTime(tempTime)
+  }
+
+  function getTimeStateValue(type){
+    if(type == "hours"){
+
+    } else if (type == "minutes"){
+
+    }
+  }
+
 
   return (
     <>
@@ -116,7 +150,7 @@ export default function TaskForm({ getTasks, visible, onClose }) {
                 <input
                   type="number"
                   class="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-sm"
-                  placeholder="Priority (1 - 3)"
+                  placeholder="Hours (0-24)"
                   min="1"
                   max="5"
                   value={priority}
@@ -125,6 +159,36 @@ export default function TaskForm({ getTasks, visible, onClose }) {
               </div>
             </div>
 
+            <div>
+              <label class="text-sm font-medium">Hours</label>
+
+              <div class="relative mt-1">
+                <input
+                  type="number"
+                  class="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-sm"
+                  placeholder="Priority (1 - 3)"
+                  min="1"
+                  max="5"
+                  
+                  onChange={(e) => updateTimeState(e, "hours")}
+                />
+              </div>
+            </div>
+
+            
+              <label class="text-sm font-medium">Minutes</label>
+
+              
+                <input
+                  type="number"
+                  class="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-sm"
+                  placeholder="Priority (1 - 3)"
+                  min="1"
+                  max="5"
+                
+                  onChange={(e) => updateTimeState(e, "minutes")}
+                />
+            
             <div className="space-x-2">
               <button
                 type="submit"

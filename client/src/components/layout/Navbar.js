@@ -10,7 +10,7 @@ export default function Navbar() {
         <a href="/" class="inline-flex items-center space-x-3">
           <img alt="logo" src="https://flowbite.com/docs/images/logo.svg" />
           <span className="font-lora italic font-semibold hidden xs:block">
-            Task App
+            Jigsaw
           </span>
         </a>
         <div class="space-x-4 md:space-x-5 font-light text-sm">

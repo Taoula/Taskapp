@@ -7,6 +7,7 @@ import UpdateTaskForm from "./UpdateTaskForm1";
 import { Trash, PencilSimple } from "phosphor-react";
 import UpdateTaskSlideover from "./UpdateTaskSlideover";
 import DeleteTaskDialogue from "./DeleteTaskDialogue";
+import convertTime from "../../methods/convert-time";
 
 const TaskContainer = styled.div`
   background-color: ${(props) => props.color || "pink"};
@@ -18,7 +19,7 @@ const TaskContainer = styled.div`
 `;
 
 export default function Task({ task, getTasks }) {
-  const { name, priority, duration, _id, isActive, completed } = task;
+  const { name, priority, duration, _id, isActive, completed, time} = task;
   const [isExpanded, toggle] = useToggle(false);
   const colors = ["#fecdd3", "#fef3c7", "#bbf7d0"];
   const borderColors = ["#e11d48", "#fbbf24", "#22c55e"];
@@ -29,7 +30,7 @@ export default function Task({ task, getTasks }) {
   const handleUpdateOnClose = () => {
     setShowUpdateTask(false);
   };
-
+ 
   async function deleteTask() {
     if (isExpanded) {
     }
@@ -45,6 +46,7 @@ export default function Task({ task, getTasks }) {
       duration,
       isActive: !isActive,
       completed,
+      time
     });
     getTasks();
   }
@@ -89,6 +91,7 @@ export default function Task({ task, getTasks }) {
               onClick={() => setDeleteTaskDialogueOpen(true)}
             />
           </span>
+          {time != null && <span>{convertTime(time, "utc")}</span>}
         </div>
 
         {/* <div className="flex">
