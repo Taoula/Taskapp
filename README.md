@@ -33,6 +33,7 @@ HeadlessUI: https://headlessui.com/react/combobox
 17. Optional productivity value in tasks, task stats
 18. sort tasks in task display from newest to oldest by default
 19. create and update task form validation
+20. search bars in task display to search for a specific task
 
 # Todo 2 (Implement before & during beta testing)
 1. Google, Apple calendar integration
