@@ -3,7 +3,6 @@ import { Square, CheckSquare } from "phosphor-react";
 import useToggle from "../../hooks/use-toggle";
 import styled from "styled-components";
 import axios from "axios";
-import UpdateTaskForm from "./UpdateTaskForm1";
 import { Trash, PencilSimple } from "phosphor-react";
 import UpdateTaskSlideover from "./UpdateTaskSlideover";
 import DeleteTaskDialogue from "./DeleteTaskDialogue";
@@ -132,12 +131,12 @@ export default function Task({ task, getTasks }) {
         _id={_id}
       ></UpdateTaskSlideover>
 
-      <UpdateTaskForm
+      {/* <UpdateTaskForm
         getTasks={getTasks}
         _id={_id}
         visible={showUpdateTask}
         onClose={handleUpdateOnClose}
-      />
+      /> */}
     </>
   );
 }

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import TaskForm from "./TaskForm";
 import useToggle from "../../hooks/use-toggle";
 import Task from "./Task";
 import "tw-elements";
@@ -240,7 +239,7 @@ export default function TaskDisplay() {
         getTasks={getTasks}
       ></CreateTaskSlideover>
 
-      <TaskForm
+      {/* <TaskForm
         getTasks={getTasks}
         visible={showCreateTask}
         onClose={handleOnClose}
@@ -251,7 +250,7 @@ export default function TaskDisplay() {
           visible={showCreateTask}
           onClose={handleOnClose}
         />
-      )}
+      )} */}
     </>
   );
 }
