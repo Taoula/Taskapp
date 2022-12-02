@@ -9,9 +9,6 @@ import Dashboard from "./components/layout/Dashboard"
 import AccountSettings from "./components/AccountSettings/AccountSettings"
 import Help from "./components/Help/Help"
 import Overview from "./components/Overview/Overview"
-import TaskForm from "./components/tasks/TaskForm"
-import CreateTaskForm from "./components/tasks/CreateTaskForm"
-import UpdateTaskForm from "./components/tasks/UpdateTaskForm"
 
 export default function Router(...restParams){
 
