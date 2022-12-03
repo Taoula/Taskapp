@@ -5,16 +5,21 @@ import axios from "axios";
 
 export default function AccountSettings() {
   const [settingsTabsToggle, setSettingsTabToggle] = useState(1);
-  const [name, setName] = useState("");
+  const [fName, setFirstName] = useState("");
   const [email, setEmail] = useState("");
-  const [role, setRole] = useState("");
+  const [userRole, setUserRole] = useState("");
 
   async function loadData() {
     const user = await axios.get(`http://localhost:8282/auth/`);
+    const {
+      fName: loadFirstName,
+      email: loadEmail,
+      userRole: loadUserRole,
+    } = user.data;
     console.log(user.data);
-    setName(user.data.fName);
-    setEmail(user.data.email);
-    setRole(user.data.userRole);
+    setFirstName(loadFirstName);
+    setEmail(loadEmail);
+    setUserRole(loadUserRole);
   }
 
   useEffect(() => {
@@ -75,7 +80,8 @@ export default function AccountSettings() {
                     type="text"
                     placeholder="name"
                     className="border rounded-sm px-4 py-3 text-sm font-light text-gray-500 w-96"
-                    value={name}
+                    value={fName}
+                    onChange={(e) => setFirstName(e.target.value)}
                   ></input>
                 </span>
               </div>
@@ -87,6 +93,7 @@ export default function AccountSettings() {
                     placeholder="email"
                     className="border rounded-sm px-4 py-3 text-sm font-light text-gray-500 w-96"
                     value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   ></input>
                 </span>
               </div>
@@ -104,8 +111,10 @@ export default function AccountSettings() {
                   type="text"
                   placeholder="role"
                   className="border rounded-sm px-4 py-3 text-sm font-light text-gray-500 w-96"
+                  value={userRole}
+                  onChange={(e) => setUserRole(e.target.value)}
                 >
-                  <option value={role}>{role}</option>
+                  <option defaultValue>{userRole}</option>
                   <option value="student">Student</option>
                   <option value="teacher">Teacher</option>
                   <option value="manager">Manager</option>

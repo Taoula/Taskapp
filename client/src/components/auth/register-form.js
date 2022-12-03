@@ -123,12 +123,12 @@ export default function RegisterForm() {
                     }}
                   >
                     <option defaultValue>Your role</option>
-                    <option value="student">Student</option>
-                    <option value="teacher">Teacher</option>
-                    <option value="manager">Manager</option>
-                    <option value="business owner">Business Owner</option>
-                    <option value="developer">Developer</option>
-                    <option value="designer">Designer</option>
+                    <option value="Student">Student</option>
+                    <option value="Teacher">Teacher</option>
+                    <option value="Manager">Manager</option>
+                    <option value="Business Owner">Business Owner</option>
+                    <option value="Developer">Developer</option>
+                    <option value="Designer">Designer</option>
                   </select>
                 </div>
               </div>

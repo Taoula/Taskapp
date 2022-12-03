@@ -44,6 +44,7 @@ HeadlessUI: https://headlessui.com/react/combobox
 3. implement change password
 4. Upload profile picture
 5. Change profile picure
+6. Write user patch function to update account information
 
 # Todo 2 (Implement before & during beta testing)
 1. Google, Apple calendar integration
