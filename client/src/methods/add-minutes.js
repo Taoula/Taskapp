@@ -1,5 +1,4 @@
 function addMinutes(dt, minutes){
-        console.log(dt)
         dt = new Date(dt)
         return new Date(dt.getTime() + minutes*60000);
 }

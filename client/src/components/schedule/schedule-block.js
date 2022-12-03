@@ -48,37 +48,55 @@ font-size: 15px;
 
 function ScheduleBlock({task, getSchedule}) {
 
-    const {name, start, _id, completed, duration} = task;
+    const {name, start, _id, completed, duration, fixed} = task;
     const [isCompleted, setIsCompleted] = useState(completed);
     
 
     async function toggleCompleted(){
         // Pull task and schedule data
-        const taskReq = await axios.get(`http://localhost:8282/task/${_id}/`)
+
+        if (_id.slice(0, 8) != "freetime"){
+            const taskReq = await axios.get(`http://localhost:8282/task/${_id}/`)
+            const {priority, duration, isActive, completed} = await taskReq.data
+            
+            //Patch task with updated completed value
+            await axios.patch(`http://localhost:8282/task/${_id}`, {name, priority, duration, isActive, completed: !completed})
+        }
         const scheduleReq = await axios.get("http://localhost:8282/schedule/")
         let {schedule, start, end} = scheduleReq.data;
-        const {priority, duration, isActive, completed} = await taskReq.data
-        
-        //Patch task with updated completed value
-        await axios.patch(`http://localhost:8282/task/${_id}`, {name, priority, duration, isActive, completed: !completed})
-
-        //Sort through schedule and update modified task
+         //Sort through schedule and update modified task
         schedule.forEach(task => {
             if (task._id == _id){
                 task.completed = !task.completed;
             }
         });
-
+        
         await axios.patch('http://localhost:8282/schedule/', {schedule, start, end})
         getSchedule();
+        
     }
 
     useEffect(() => {
         setIsCompleted(completed)
     })
 
+
+    // Needs to be refactored
+    function getColors(){
+        if (isCompleted){
+            return ["#c4c4c4", "#b3b3b3"]
+        } else if (fixed){
+            return ["#ffc4b3", "#f7a892"]
+        } else if (_id.slice(0,8) == "freetime"){
+            return ["#c4d8f2", "#a1b6d1"]
+        } else {
+            return ["#F0FDF2", "#addbba"]
+        }
+        
+    }
+
     return (
-        <BlockContainer duration={duration} completed={isCompleted} color={isCompleted ? ["#c4c4c4", "#b3b3b3"] : ["#F0FDF2", "#addbba"]} onClick={toggleCompleted}>
+        <BlockContainer duration={duration} completed={isCompleted} color={getColors()} onClick={toggleCompleted}>
             <BlockHeader duration={duration}>
                 
                 <div className="flex justify-between">

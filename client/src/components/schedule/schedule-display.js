@@ -56,13 +56,15 @@ export default function ScheduleDisplay(){
         setSleep(end)
 
 
+        /* CONDITIONAL SCHEDULE RELOADING - IS IT NECESSARY? IF SO, NEEDS TO BE REDONE
+        
         const taskReq = await axios.get("http://localhost:8282/task/")
         let tasks = taskReq.data.filter(task => task.isActive)
 
         if (scheduleReq.data.schedule.length != tasks.length) {
             sortSchedule(setSchedule, start, end)
             //await axios.patch(`http://localhost:8282/schedule/`, {schedule})
-        }
+        }*/
     }
 
     async function refreshSchedule(){
