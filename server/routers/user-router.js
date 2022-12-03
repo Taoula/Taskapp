@@ -144,8 +144,8 @@ router.get("/loggedIn", (req, res) => {
 router.get("/", auth, async (req, res) => {
   try {
       const userId = req.user;
-      const {fName, lName, email} = await User.findById(userId);
-      res.json({fName, lName, email});
+      const {fName, lName, email, userRole} = await User.findById(userId);
+      res.json({fName, lName, email, userRole});
   } catch (err){
       console.error(err)
       res.status(500).send()
