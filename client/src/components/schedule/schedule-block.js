@@ -48,6 +48,7 @@ font-size: 15px;
 
 function ScheduleBlock({task, getSchedule}) {
 
+    //console.log(task)
     const {name, start, _id, completed, duration, fixed} = task;
     const [isCompleted, setIsCompleted] = useState(completed);
     

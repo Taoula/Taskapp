@@ -121,7 +121,7 @@ export default function ScheduleDisplay(){
             let endDate = convertTime(end, "date");
             setWake(startDate)
             setSleep(endDate)
-           // console.log(startDate);
+            // console.log(startDate);
             //console.log(endDate);
 
             //Push new date objects to schedule
