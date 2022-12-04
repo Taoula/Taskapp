@@ -13,9 +13,7 @@ module.exports = {
       ...defaultTheme.screens,
     },
     fontFamily: {
-      'lora': ['Lora'],
-      'hind': ['Hind Madurai'],
-      'montserrat': ['Montserrat'],
+      'lexend': ['Lexend'],
     },
     extend: {
       colors: {

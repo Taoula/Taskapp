@@ -10,10 +10,10 @@ export default function HeroSection() {
       <section id="hero-section" class="bg-blue-500 text-white">
         <Navbar />
         <div class="flex flex-col mx-auto text-center max-w-sm xs:max-w-md sm:max-w-xl pt-10 pb-20 sm:pb-40">
-          <p class="font-montserrat font-semibold text-4xl xs:text-5xl sm:text-6xl">
+          <p class="font-lexend font-semibold text-4xl xs:text-5xl sm:text-6xl">
             A powerful tool to organize your day
           </p>
-          <p class="pt-6 font-lora italic text-gray-400 text-md xs:text-lg">
+          <p class="pt-6 font-lexend font-light italic text-gray-400 text-md xs:text-lg">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore
             facilis aut nobis amet vitae.
           </p>
