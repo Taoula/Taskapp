@@ -22,6 +22,7 @@ HeadlessUI: https://headlessui.com/react/combobox
 4. display welcome for user's first session & welcome back for every session afterwards
 5. Tasks completed out of order should float to the top, schedule resort.
 6. Calendar view (set events days or weeks ahead of time, schedule several days in advance)
+7. Clean up functions on login (if it is a new day)
 
 
 ## Sorting Algorithm
@@ -38,7 +39,6 @@ HeadlessUI: https://headlessui.com/react/combobox
 2. Add fixed time editing to update task form
 
 ## Statistics
-1. User Statistics & Streaks (front & back end)
 2. Optional productivity value in tasks, task stats
 3. Add time completed to task stats
 4. Scatterplots between productivity & duration, productivity & time of day
@@ -95,6 +95,7 @@ HeadlessUI: https://headlessui.com/react/combobox
 11. re-implement task editing with modals
 12. add time editing component to task creation/update menu (exists on updateHours, needs to be refactored)
 13. implement time of day into scheduling algorithm
+14. User Statistics & Streaks (front & back end)
 
 # Optimization
 1. use flex to display task fields in task display instead of grid to reduce code redundancy
