@@ -4,7 +4,6 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 
 export default function Dashboard() {
-
   return (
     <>
       <div className="flex flex-row h-screen bg-white">

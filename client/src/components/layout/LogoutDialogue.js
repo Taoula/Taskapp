@@ -22,7 +22,7 @@ export default function LogoutDialogue({ logoutDialogue, setLogoutDialogue }) {
     <Transition.Root show={logoutDialogue} as={Fragment}>
       <Dialog
         as="div"
-        className="relative z-10"
+        className="relative z-30"
         initialFocus={cancelButtonRef}
         onClose={setLogoutDialogue}
       >

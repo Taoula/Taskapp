@@ -53,7 +53,7 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
 
   return (
     <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={setOpen}>
+      <Dialog as="div" className="relative z-30" onClose={setOpen}>
         <Transition.Child
           as={Fragment}
           enter="ease-in-out duration-500"
@@ -148,9 +148,48 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                         </div>
 
                         {fixed && (
-                          <div className="border rounded-md py-5 px-8 space-y-5">
-                            <p className="text-lg">{time}</p>
-                            <div className="">
+                          <div className="border rounded-md py-5 px-8 flex justify-between items-center">
+                            <p className="text-lg w-full">{time}</p>
+                            <div class="inline-flex text-sm font-light border rounded-md p-2">
+                              <input
+                                class="px-2 outline-none appearance-none bg-transparent w-full"
+                                placeholder="0-23"
+                                min="1"
+                                max="12"
+                                value={getTimeValue(time, "hours")}
+                                onChange={(e) =>
+                                  setTime(
+                                    modifyTime(time, "hours", e.target.value)
+                                  )
+                                }
+                              ></input>
+                              <span class="px-2">:</span>
+                              <input
+                                class="px-2 outline-none appearance-none bg-transparent w-full"
+                                placeholder="0-59"
+                                min="0"
+                                max="59"
+                                value={getTimeValue(time, "minutes")}
+                                onChange={(e) =>
+                                  setTime(
+                                    modifyTime(time, "minutes", e.target.value)
+                                  )
+                                }
+                              ></input>
+                              <select
+                                class="px-2 outline-none appearance-none bg-transparent"
+                                value={getTimeValue(time, "amorpm")}
+                                onChange={(e) =>
+                                  setTime(
+                                    modifyTime(time, "amorpm", e.target.value)
+                                  )
+                                }
+                              >
+                                <option value="AM">AM</option>
+                                <option value="PM">PM</option>
+                              </select>
+                            </div>
+                            {/* <div className="">
                               <label className="block text-sm text-gray-500 mb-2 font-normal">
                                 Start Hour
                               </label>
@@ -204,7 +243,7 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                                 <option value="AM">AM</option>
                                 <option value="PM">PM</option>
                               </select>
-                            </div>
+                            </div> */}
                           </div>
                         )}
 

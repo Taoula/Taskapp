@@ -26,7 +26,7 @@ export default function Header() {
 
   return (
     <>
-      <div className="pl-8 pt-5 pr-8 pb-5 items-center flex justify-between bg-white border-b border-gray-200 sticky top-0">
+      <div className="pl-8 pt-5 pr-8 pb-5 items-center flex justify-between bg-white border-b border-gray-200 sticky top-0 z-20">
         <div className="sm:hidden">
         <List size={25} />
         </div>

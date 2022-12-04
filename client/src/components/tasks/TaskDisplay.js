@@ -17,7 +17,7 @@ export default function TaskDisplay() {
 
   // state for task menu
   const [toggleState, setToggleState] = useState(1);
- 
+
   // sets state value to the index of the clicked tab
   const toggleTab = (index) => {
     setToggleState(index);
@@ -114,9 +114,9 @@ export default function TaskDisplay() {
       <div className={toggleState === 1 ? "active-content content" : "content"}>
         <div className="grid grid-cols-1 lg:grid-cols-2 space-y-4 lg:space-y-0 lg:space-x-4">
           {/* Inactive tasks field */}
-          <div className="rounded-md text-center p-5 border">
+          <div className="rounded-md text-center border remove-scrollbar overflow-scroll h-96">
             {/* Title and add button inline */}
-            <div className="flex justify-between items-center pb-5">
+            <div className="flex justify-between items-center p-5 sticky top-0 z-10 bg-white">
               <h1 className="font-normal text-lg">Inactive Tasks</h1>
 
               {/* add task button */}
@@ -128,16 +128,25 @@ export default function TaskDisplay() {
                 Add Task
               </span>
             </div>
-            <div className="space-y-3">{renderTasks(false)}</div>
+            <div className="space-y-3 p-5 pt-0">{renderTasks(false)}</div>
           </div>
 
           {/* active tasks field */}
-          <div className="rounded-md text-center p-5 border">
+          <div className="rounded-md text-center border remove-scrollbar overflow-scroll h-96">
             {/* Title and add button inline */}
-            <div className="flex justify-start items-center pb-5">
+            <div className="flex justify-between items-center p-5 sticky top-0 z-10 bg-white">
               <h1 className="font-normal text-lg">Active Tasks</h1>
+
+              {/* add task button */}
+              <span
+                className="rounded-md text-gray-500 border hover:text-gray-900 hover:bg-sidebarColor font-normal pl-4 pr-4 text-xs pt-2 pb-2 invisible"
+                // onClick={() => setShowCreateTask(true)}
+                onClick={() => setOpen(true)}
+              >
+                Add Task
+              </span>
             </div>
-            <div className="space-y-3">{renderTasks(true)}</div>
+            <div className="space-y-3 p-5 pt-0">{renderTasks(true)}</div>
           </div>
         </div>
       </div>
@@ -145,9 +154,9 @@ export default function TaskDisplay() {
       {/* inactive tasks field is only visible if inactive tab is clicked */}
       <div className={toggleState === 2 ? "active-content content" : "content"}>
         <div className="grid grid-cols-1">
-          <div className="rounded-md text-center p-5 border">
+          <div className="rounded-md text-center border remove-scrollbar overflow-scroll h-96">
             {/* Title and add button inline */}
-            <div className="flex justify-between items-center pb-5">
+            <div className="flex justify-between items-center p-5 sticky top-0 z-10 bg-white">
               <h1 className="font-normal text-lg">Inactive Tasks</h1>
 
               {/* add task button */}
@@ -159,7 +168,7 @@ export default function TaskDisplay() {
                 Add Task
               </span>
             </div>
-            <div className="space-y-3">{renderTasks(false)}</div>
+            <div className="space-y-3 p-5 pt-0">{renderTasks(false)}</div>
           </div>
         </div>
       </div>
@@ -167,21 +176,29 @@ export default function TaskDisplay() {
       {/* active tasks field only visible if visible tab is clicked */}
       <div className={toggleState === 3 ? "active-content content" : "content"}>
         <div className="grid grid-cols-1">
-          <div className="rounded-md text-center p-5 border">
+          <div className="rounded-md text-center border remove-scrollbar overflow-scroll h-96">
             {/* Title and add button inline */}
-            <div className="flex justify-start items-center pb-5">
+            <div className="flex justify-between items-center p-5 sticky top-0 z-10 bg-white">
               <h1 className="font-normal text-lg">Active Tasks</h1>
+
+              {/* add task button */}
+              <span
+                className="rounded-md text-gray-500 border hover:text-gray-900 hover:bg-sidebarColor font-normal pl-4 pr-4 text-xs pt-2 pb-2 invisible"
+                // onClick={() => setShowCreateTask(true)}
+                onClick={() => setOpen(true)}
+              >
+                Add Task
+              </span>
             </div>
-            <div className="space-y-3">{renderTasks(true)}</div>
+            <div className="space-y-3 p-5 pt-0">{renderTasks(true)}</div>
           </div>
         </div>
       </div>
 
       <h1 className="text-3xl font-normal mt-8 mb-5">Task Status</h1>
 
-      {/* Task status tabs */}
-      <div className="rounded-md text-center p-5 border">
-        <div class="text-sm mb-5 text-center text-gray-500 border-b border-gray-500">
+      <div className="rounded-md text-center border overflow-scroll h-96 remove-scrollbar">
+        <div class="text-sm px-5 bg-white pt-5 text-center text-gray-500 border-b border-gray-400 sticky top-0 z-10">
           <ul class="flex flex-wrap -mb-px">
             <li>
               <span
@@ -215,9 +232,7 @@ export default function TaskDisplay() {
             secondToggleState === 1 ? "active-content content" : "content"
           }
         >
-          <div className="space-y-3">
-          {renderCompletedTasks(false)}
-          </div>
+          <div className="space-y-3 p-5">{renderCompletedTasks(false)}</div>
         </div>
 
         <div
@@ -225,9 +240,7 @@ export default function TaskDisplay() {
             secondToggleState === 2 ? "active-content content" : "content"
           }
         >
-          <div className="space-y-3">
-          {renderCompletedTasks(true)}
-          </div>
+          <div className="space-y-3 p-5">{renderCompletedTasks(true)}</div>
         </div>
       </div>
 

@@ -49,7 +49,7 @@ export default function UpdateTaskSlideover({ open2, setOpen2, getTasks, _id }) 
 
   return (
     <Transition.Root show={open2} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={setOpen2}>
+      <Dialog as="div" className="relative z-30" onClose={setOpen2}>
         <Transition.Child
           as={Fragment}
           enter="ease-in-out duration-500"

@@ -28,7 +28,7 @@ export default function DeleteTaskDialogue({
     <Transition.Root show={deleteTaskDialogue} as={Fragment}>
       <Dialog
         as="div"
-        className="relative z-10"
+        className="relative z-30"
         initialFocus={cancelButtonRef}
         onClose={setDeleteTaskDialogue}
       >
