@@ -45,7 +45,7 @@ export default function TaskDisplay() {
     const taskReq = await axios.get("http://localhost:8282/task/");
     setTasks(taskReq.data);
 
-    tasks.map((task) => {
+    taskReq.data.map((task) => {
       if (task.isActive === false) {
         setNumberOfInactiveTasks(numberOfInactiveTasks + 1);
       }
