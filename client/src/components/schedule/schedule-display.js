@@ -87,7 +87,10 @@ export default function ScheduleDisplay(){
     }
 
     async function updateStats(){
+        //update task stats
         let today = new Date(wake)
+        let dayDurationToAdd = 0
+
         schedule.forEach(async task => {
             //loop through completed tasks
             if (task.completed){
@@ -103,6 +106,7 @@ export default function ScheduleDisplay(){
                 //CHECK TO MAKE SURE TASK HAS NOT BEEN COMPLETED TODAY, then push stats
                 if(entries.length == 0 || !(entryDate.getMonth() == today.getMonth() && entryDate.getDate() == today.getDate())){
                     let entryToPush = {date: wake, duration: duration}
+                    dayDurationToAdd += duration;
                     entries.push(entryToPush)
                     await axios.patch(`http://localhost:8282/taskStat/${_id}/`, {entries: entries, timesCompleted: timesCompleted + 1, netTime: netTime + duration, averageDuration: ((netTime + duration)/(timesCompleted + 1))})
                 } else {
@@ -112,6 +116,30 @@ export default function ScheduleDisplay(){
                 console.log("task not completed")
             }
         })
+
+        //update user stats
+        // Pull user stats
+
+        let userStatReq = await axios.get("http://localhost:8282/userStat/")
+        let {entries, daysCompleted, streak} = userStatReq.data;
+
+        let entryDate = new Date()
+        if (entries.length != 0){
+            let tempEntryDate = new Date(entries[entries.length-1].date)
+            entryDate = tempEntryDate;
+        }
+
+        if (entries.length == 0 || !(entryDate.getMonth() == today.getMonth() && entryDate.getDate() == today.getDate())){
+            //if no entry for today
+            let entryToPush = {date: wake, duration: dayDurationToAdd}
+            entries.push(entryToPush)
+            await axios.patch("http://localhost:8282/userStat/", {entries, daysCompleted: daysCompleted + 1, streak: streak + 1})
+        } else if (dayDurationToAdd > 0) {
+            let entryToPush = {date: wake, duration: entries[entries.length - 1].duration + dayDurationToAdd}
+            entries.push(entryToPush)
+            await axios.patch("http://localhost:8282/userStat/", {entries, daysCompleted, streak})
+        }
+
     }
 
     async function updateHours(start, end){

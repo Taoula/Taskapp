@@ -35,6 +35,8 @@ export default function RegisterForm() {
         { schedule, start: null, end: null },
         {}
       );
+
+      await axios.post("http://localhost:8282/userStat/", {});
       getLoggedIn();
       history("/dashboard/schedule");
     } catch (err) {

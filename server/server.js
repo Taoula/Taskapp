@@ -36,3 +36,4 @@ app.use("/auth", require("./routers/user-router"));
 app.use("/task", require("./routers/task-router"));
 app.use("/schedule", require("./routers/schedule-router"));
 app.use("/taskStat", require("./routers/taskStat-router"));
+app.use("/userStat", require("./routers/userStat-router"));
