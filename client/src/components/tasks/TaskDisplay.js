@@ -20,6 +20,11 @@ export default function TaskDisplay() {
   let numberOfCompleteTasks = 0;
   let numberOfIncompleteTasks = 0;
 
+  useEffect(() => {
+      getTasks()
+  }, []);
+
+
   // state for task menu
   const [toggleState, setToggleState] = useState(1);
 
@@ -45,7 +50,7 @@ export default function TaskDisplay() {
     const taskReq = await axios.get("http://localhost:8282/task/");
     setTasks(taskReq.data);
 
-    taskReq.data.map((task) => {
+    tasks.map((task) => {
       if (task.isActive === false) {
         setNumberOfInactiveTasks(numberOfInactiveTasks + 1);
       }
@@ -56,6 +61,7 @@ export default function TaskDisplay() {
       console.log("number of active tasks: " + numberOfActiveTasks);
       console.log("number of inactive tasks: " + numberOfInactiveTasks);
     });
+
   }
 
   //renders tasks based on active bool
@@ -83,10 +89,6 @@ export default function TaskDisplay() {
       }
     });
   }
-
-  useEffect(() => {
-    getTasks();
-  }, []);
 
   return (
     <>
@@ -151,6 +153,7 @@ export default function TaskDisplay() {
               <div className="space-y-3 p-5 pt-0">{renderTasks(false)}</div>
             )}
             {/* <div className="space-y-3 p-5 pt-0">{renderTasks(false)}</div> */}
+            {numberOfInactiveTasks}
           </div>
 
           {/* active tasks field */}
