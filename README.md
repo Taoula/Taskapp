@@ -34,9 +34,11 @@ HeadlessUI: https://headlessui.com/react/combobox
 1. Search bars in task display to search for specific task
 2. Apply tags to tasks for specific focuses (work, school, etc.)
 3. Filters for tags
-4. Set fixed height for task displays and implement scrolling
 5. sort tasks in task display from newest to oldest by default
 6. create and update task form validation
+
+## Completed Task Page To-Do
+1. Set fixed height for task displays and implement scrolling
 
 ## Account settings pages
 1. populate fields with current values
