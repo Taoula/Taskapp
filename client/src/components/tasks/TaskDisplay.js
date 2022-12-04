@@ -50,16 +50,21 @@ export default function TaskDisplay() {
     const taskReq = await axios.get("http://localhost:8282/task/");
     setTasks(taskReq.data);
 
-    setNumberOfActiveTasks(0)
-    setNumberOfInactiveTasks(0)
+    let inactiveIterator = 0;
+    let activeIterator = 0;
+
     taskReq.data.map((task) => {
       if (task.isActive === false) {
-        setNumberOfInactiveTasks(numberOfInactiveTasks + 1);
+        inactiveIterator += 1;
       }
 
       if (task.isActive === true) {
-        setNumberOfActiveTasks(numberOfActiveTasks + 1);
+        activeIterator += 1;
       }
+
+      setNumberOfInactiveTasks(inactiveIterator);
+      setNumberOfActiveTasks(activeIterator);
+
       console.log("number of active tasks: " + numberOfActiveTasks);
       console.log("number of inactive tasks: " + numberOfInactiveTasks);
     });
@@ -155,7 +160,6 @@ export default function TaskDisplay() {
               <div className="space-y-3 p-5 pt-0">{renderTasks(false)}</div>
             )}
             {/* <div className="space-y-3 p-5 pt-0">{renderTasks(false)}</div> */}
-            {numberOfInactiveTasks}
           </div>
 
           {/* active tasks field */}
