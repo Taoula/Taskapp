@@ -16,19 +16,32 @@ HeadlessUI: https://headlessui.com/react/combobox
 2. side bar tab highlighting
 
 # Todo (Implement before beta testing)
-1. add time editing component to task creation/update menu (exists on updateHours, needs to be refactored)
-2. implement time of day into scheduling algorithm
-4. redesign & re-implement schedule dashboard
-6. create a help feature
-7. Refactor time to use momentjs instead of Datejs
-9. overview page
-10. resort schedule
-11. display welcome for user's first session & welcome back for every session afterwards
-13. User Statistics & Streaks (front & back end)
-14. Tasks completed out of order should float to the top, schedule resort.
-15. Optimize Sort & Resort algorithms
-16. Calendar view (set events days or weeks ahead of time)
-17. Optional productivity value in tasks, task stats
+1. redesign & re-implement schedule dashboard
+2. create a help feature
+3. overview page
+4. display welcome for user's first session & welcome back for every session afterwards
+5. Tasks completed out of order should float to the top, schedule resort.
+6. Calendar view (set events days or weeks ahead of time, schedule several days in advance)
+
+
+## Sorting Algorithm
+1. Add a better free time system to sorting algorithm (divided somewhat equally throughout day)
+2. Implement chained tasks
+3. Add resort (shaving) functionality to revised sorting algorithm.
+
+## Schedule Page
+1. Clean up functions on day completion (mark all tasks as incomplete. Empty Schedule.
+2. Render "call it a day" button conditionally on task completion or nearing end hours
+
+## Time Component
+1. Fix the buggy time editing component in task form
+2. Add fixed time editing to update task form
+
+## Statistics
+1. User Statistics & Streaks (front & back end)
+2. Optional productivity value in tasks, task stats
+3. Add time completed to task stats
+4. Scatterplots between productivity & duration, productivity & time of day
 
 ## Tasks Page
 1. Search bars in task display to search for specific task
@@ -58,6 +71,7 @@ HeadlessUI: https://headlessui.com/react/combobox
 6. Some animation or sound effect when the day is marked as over (think NYT Crossword)
 7. Task attachments (e.g. a "pay bills" task might have hotlinks to electric, water, internet company websites)
 8. Theme options (light, dark, etc.)
+9. Refactor time to use momentjs instead of Datejs
 
 # Todo 3 (Implement during & after beta testing)
 1. Linear Regression on user data to provide insights, reccomendations
@@ -78,6 +92,8 @@ HeadlessUI: https://headlessui.com/react/combobox
 9. outlet content scrolls
 10. Statistics (task) front end & back end.
 11. re-implement task editing with modals
+12. add time editing component to task creation/update menu (exists on updateHours, needs to be refactored)
+13. implement time of day into scheduling algorithm
 
 # Optimization
 1. use flex to display task fields in task display instead of grid to reduce code redundancy
