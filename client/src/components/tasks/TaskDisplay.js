@@ -114,7 +114,7 @@ export default function TaskDisplay() {
       <div className={toggleState === 1 ? "active-content content" : "content"}>
         <div className="grid grid-cols-1 lg:grid-cols-2 space-y-4 lg:space-y-0 lg:space-x-4">
           {/* Inactive tasks field */}
-          <div className="rounded-md text-center border remove-scrollbar overflow-scroll h-96">
+          <div className="rounded-md text-center border remove-scrollbar overflow-scroll h-[32rem]">
             {/* Title and add button inline */}
             <div className="flex justify-between items-center p-5 sticky top-0 z-10 bg-white">
               <h1 className="font-normal text-lg">Inactive Tasks</h1>
@@ -132,7 +132,7 @@ export default function TaskDisplay() {
           </div>
 
           {/* active tasks field */}
-          <div className="rounded-md text-center border remove-scrollbar overflow-scroll h-96">
+          <div className="rounded-md text-center border remove-scrollbar overflow-scroll h-[32rem]">
             {/* Title and add button inline */}
             <div className="flex justify-between items-center p-5 sticky top-0 z-10 bg-white">
               <h1 className="font-normal text-lg">Active Tasks</h1>
@@ -154,7 +154,7 @@ export default function TaskDisplay() {
       {/* inactive tasks field is only visible if inactive tab is clicked */}
       <div className={toggleState === 2 ? "active-content content" : "content"}>
         <div className="grid grid-cols-1">
-          <div className="rounded-md text-center border remove-scrollbar overflow-scroll h-96">
+          <div className="rounded-md text-center border remove-scrollbar overflow-scroll h-[32rem]">
             {/* Title and add button inline */}
             <div className="flex justify-between items-center p-5 sticky top-0 z-10 bg-white">
               <h1 className="font-normal text-lg">Inactive Tasks</h1>
@@ -176,7 +176,7 @@ export default function TaskDisplay() {
       {/* active tasks field only visible if visible tab is clicked */}
       <div className={toggleState === 3 ? "active-content content" : "content"}>
         <div className="grid grid-cols-1">
-          <div className="rounded-md text-center border remove-scrollbar overflow-scroll h-96">
+          <div className="rounded-md text-center border remove-scrollbar overflow-scroll h-[32rem]">
             {/* Title and add button inline */}
             <div className="flex justify-between items-center p-5 sticky top-0 z-10 bg-white">
               <h1 className="font-normal text-lg">Active Tasks</h1>
@@ -197,7 +197,7 @@ export default function TaskDisplay() {
 
       <h1 className="text-3xl font-normal mt-8 mb-5">Task Status</h1>
 
-      <div className="rounded-md text-center border overflow-scroll h-96 remove-scrollbar">
+      <div className="rounded-md text-center border overflow-scroll h-[32rem] remove-scrollbar">
         <div class="text-sm px-5 bg-white pt-5 text-center text-gray-500 border-b border-gray-400 sticky top-0 z-10">
           <ul class="flex flex-wrap -mb-px">
             <li>

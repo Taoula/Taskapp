@@ -23,7 +23,10 @@ module.exports = {
         'dashboardBackgroundColor':'#f2f2f4',
         'tabHighlightColor':'#f2f2f4',
         'sidebarColor':'#f3f4f6'
-      }
+      },
+      height: {
+        '128': '32rem',
+      },
     },
   },
   plugins: [
