@@ -42,6 +42,7 @@ HeadlessUI: https://headlessui.com/react/combobox
 2. Optional productivity value in tasks, task stats
 3. Add time completed to task stats
 4. Scatterplots between productivity & duration, productivity & time of day
+5. Custom task stats
 
 ## Tasks Page
 1. Search bars in task display to search for specific task
