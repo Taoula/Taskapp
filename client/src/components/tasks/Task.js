@@ -90,7 +90,7 @@ export default function Task({ task, getTasks }) {
               onClick={() => setDeleteTaskDialogueOpen(true)}
             />
           </span>
-          {time != null && <span>{convertTime(time, "utc")}</span>}
+          {time != null && <span>{time}</span>}
         </div>
 
         {/* <div className="flex">
