@@ -155,7 +155,7 @@ export default function TaskDisplay() {
               </span>
             </div>
             {numberOfInactiveTasks === 0 ? (
-              <p>there are no inactive tasks</p>
+              <p className="font-light h-80 flex items-center text-sm justify-center text-gray-500">There are no inactive tasks <br /> Click add task to start</p>
             ) : (
               <div className="space-y-3 p-5 pt-0">{renderTasks(false)}</div>
             )}
