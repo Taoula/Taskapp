@@ -9,7 +9,7 @@ HeadlessUI: https://headlessui.com/react/combobox
 
 # Bugs
 2. Conditional schedule refresh
-3. task remains active when marked as complete
+3. text field message doesn't display after tasks are deleted
 
 # Fixed Bugs
 1. logout button stays highlighted after clicking
@@ -50,10 +50,10 @@ HeadlessUI: https://headlessui.com/react/combobox
 3. Filters for tags
 5. sort tasks in task display from newest to oldest by default
 6. create and update task form validation
-7. display text in field if there are no tasks to display
 
 ## Completed Task Page To-Do
 1. Set fixed height for task displays and implement scrolling
+2. display text in field if there are no tasks to display
 
 ## Account settings pages
 1. populate fields with current values
