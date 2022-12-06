@@ -50,6 +50,7 @@ HeadlessUI: https://headlessui.com/react/combobox
 3. Filters for tags
 5. sort tasks in task display from newest to oldest by default
 6. create and update task form validation
+7. multiselect tasks
 
 ## Completed Task Page To-Do
 1. Set fixed height for task displays and implement scrolling
