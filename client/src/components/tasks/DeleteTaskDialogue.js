@@ -58,40 +58,34 @@ export default function DeleteTaskDialogue({
               <Dialog.Panel className="relative transform overflow-hidden rounded-md bg-white text-left shadow-xl transition-all  sm:w-full sm:max-w-sm p-10">
                 <div>
                   <div className="justify-center flex">
-                    <span className="bg-red-200 bg-opacity-60 p-2 rounded-full text-red-500">
-                      <Trash size={32} weight="duotone" />
+                    <span className="bg-red-200 bg-opacity-60 p-2 rounded-full text-red-500 border border-red-500">
+                      <Trash size={30} weight="duotone" />
                     </span>
                   </div>
                   <div className="flex-col text-center">
-                  <h1 className="text-xl pt-5">Delete Task?</h1>
-                  <p className="text-sm text-gray-500 pt-1">
-                    This action cannot be undone.
-                  </p>
+                    <h1 className="text-xl pt-5">Delete Task?</h1>
+                    <p className="text-sm text-gray-500 pt-1">
+                      This action cannot be undone.
+                    </p>
                   </div>
                   <div className="flex space-x-2 pt-5">
-                    <button className="bg-gray-200 px-4 py-2 w-full rounded-md font-normal hover:bg-gray-300">
+                    <button
+                      type="button"
+                      className="bg-gray-200 px-4 py-2 w-full rounded-md font-normal hover:bg-gray-300"
+                      onClick={() => setDeleteTaskDialogue(false)}
+                      ref={cancelButtonRef}
+                    >
                       Cancel
                     </button>
-                    <button className="bg-red-500 text-white w-full px-4 py-2 rounded-md font-normal hover:bg-red-600">
+                    <button
+                      type="button"
+                      className="bg-red-500 text-white w-full px-4 py-2 rounded-md font-normal hover:bg-red-600"
+                      onClick={() => deleteTask()}
+                    >
                       Delete
                     </button>
                   </div>
                 </div>
-                {/* <button
-                  type="button"
-                  className="border px-4 py-2 rounded-md text-xs font-normal bg-opacity-50 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white"
-                  onClick={() => setDeleteTaskDialogue(false)}
-                  ref={cancelButtonRef}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  className="border px-4 py-2 rounded-md text-xs font-normal bg-opacity-50 border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
-                  onClick={() => deleteTask()}
-                >
-                  Delete
-                </button> */}
               </Dialog.Panel>
             </Transition.Child>
           </div>

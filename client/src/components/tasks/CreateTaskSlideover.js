@@ -130,18 +130,20 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                           ></input>
                         </div>
 
-                        <div className="flex items-center space-x-2 justify-end">
-                          <h1 className="font-light">Set time: </h1>
+                        <div className="flex items-center space-x-1 justify-end">
+                          <h1 className="font-light text-gray-500">Set time: </h1>
                           <span>
                             {fixed ? (
                               <CheckSquare
                                 size={20}
                                 onClick={() => setFixed(false)}
+                                className="text-gray-500"
                               />
                             ) : (
                               <Square
                                 size={20}
                                 onClick={() => setFixed(true)}
+                                className="text-gray-500"
                               />
                             )}
                           </span>

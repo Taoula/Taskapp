@@ -1,14 +1,13 @@
-import { Fragment, useRef, useState, useContext } from "react";
+import { Fragment, useRef, useContext } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useNavigate } from "react-router-dom";
-import { Warning } from "phosphor-react";
-import useToggle from "../../hooks/use-toggle";
+import { User } from "phosphor-react";
 import AuthContext from "../../context/auth-context";
 import axios from "axios";
 
 export default function LogoutDialogue({ logoutDialogue, setLogoutDialogue }) {
-    const { getLoggedIn } = useContext(AuthContext);
-    const history = useNavigate();
+  const { getLoggedIn } = useContext(AuthContext);
+  const history = useNavigate();
 
   const cancelButtonRef = useRef(null);
 
@@ -49,41 +48,36 @@ export default function LogoutDialogue({ logoutDialogue, setLogoutDialogue }) {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-md bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                <div className="bg-white px-8 py-5">
-                  <div className="flex items-center space-x-4">
-                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10 text-red-500">
-                      <Warning size={20} />
-                    </div>
-                    <div className="block">
-                      <Dialog.Title
-                        as="h3"
-                        className="text-lg font-normal text-gray-900"
-                      >
-                        Confirm logout
-                      </Dialog.Title>
-                      <p className="text-sm font-normal text-gray-500">
-                        Are you sure you want to log out?
-                      </p>
-                    </div>
+              <Dialog.Panel className="relative transform overflow-hidden rounded-md bg-white text-left shadow-xl transition-all sm:w-full sm:max-w-lg p-10">
+                <div>
+                  <div className="justify-center flex">
+                    <span className="bg-yellow-100 bg-opacity-50 p-2 rounded-full text-amber-500 border border-amber-500">
+                      <User size={32} />
+                    </span>
                   </div>
-                </div>
-                <div className="bg-gray-50 py-5 px-8 flex justify-end space-x-2">
-                  <button
-                    type="button"
-                    className="border px-4 py-2 rounded-md text-xs font-normal bg-opacity-50 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white"
-                    onClick={() => setLogoutDialogue(false)}
-                    ref={cancelButtonRef}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    className="border px-4 py-2 rounded-md text-xs font-normal bg-opacity-50 border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
-                    onClick={() => logOut()}
-                  >
-                    Logout
-                  </button>
+                  <div className="flex-col text-center">
+                    <h1 className="text-xl pt-5">Confirm Logout</h1>
+                    <p className="text-sm text-gray-500 pt-1">
+                      Are you sure you want to logout?
+                    </p>
+                  </div>
+                  <div className="flex space-x-2 pt-5">
+                    <button
+                      type="button"
+                      className="bg-gray-200 px-4 py-2 w-full rounded-md font-normal hover:bg-gray-300"
+                      onClick={() => setLogoutDialogue(false)}
+                      ref={cancelButtonRef}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      className="bg-yellow-500 text-white w-full px-4 py-2 rounded-md font-normal hover:bg-yellow-600"
+                      onClick={() => logOut()}
+                    >
+                      Logout
+                    </button>
+                  </div>
                 </div>
               </Dialog.Panel>
             </Transition.Child>
