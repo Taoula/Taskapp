@@ -48,7 +48,7 @@ export default function LogoutDialogue({ logoutDialogue, setLogoutDialogue }) {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-md bg-white text-left shadow-xl transition-all sm:w-full sm:max-w-lg p-10">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-md bg-white text-left shadow-xl transition-all sm:w-full sm:max-w-sm p-10">
                 <div>
                   <div className="justify-center flex">
                     <span className="bg-yellow-100 bg-opacity-50 p-2 rounded-full text-amber-500 border border-amber-500">

@@ -15,32 +15,37 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
 
   // function handles form submission
   async function onSubmit(e) {
-    e.preventDefault();
-    const taskData = {
-      name,
-      duration,
-      priority,
-      isActive: false,
-      completed: false,
-      time: fixed ? convertTime(time, "date") : null,
-    };
+    try {
+      e.preventDefault();
 
-    await axios
-      .post("http://localhost:8282/task/", taskData)
-      .then((res) => res.data)
-      .then(async (res) => {
-        let _id = res._id;
-        let newTaskStat = { task: _id, entries: [] };
-        await axios.post(`http://localhost:8282/taskStat/`, newTaskStat);
-      });
-    getTasks();
+      const taskData = {
+        name,
+        duration,
+        priority,
+        isActive: false,
+        completed: false,
+        time: fixed ? convertTime(time, "date") : null,
+      };
 
-    // input fields are reset to empty
-    setName("");
-    setDuration("");
-    setPriority("");
-    setTime("12:00 AM");
-    setOpen(false);
+      await axios
+        .post("http://localhost:8282/task/", taskData)
+        .then((res) => res.data)
+        .then(async (res) => {
+          let _id = res._id;
+          let newTaskStat = { task: _id, entries: [] };
+          await axios.post(`http://localhost:8282/taskStat/`, newTaskStat);
+        });
+      getTasks();
+
+      // input fields are reset to empty
+      setName("");
+      setDuration("");
+      setPriority("");
+      setTime("12:00 AM");
+      setOpen(false);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   function closeSlideover() {
@@ -131,7 +136,9 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                         </div>
 
                         <div className="flex items-center space-x-1 justify-end">
-                          <h1 className="font-light text-gray-500">Set time: </h1>
+                          <h1 className="font-light text-gray-500">
+                            Set time:{" "}
+                          </h1>
                           <span>
                             {fixed ? (
                               <CheckSquare
@@ -262,9 +269,9 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                             type="submit"
                             input={+true}
                             value="submit"
-                            className="border px-4 py-2 rounded-md text-xs font-normal text-white bg-indigo-500 border-indigo-500 hover:bg-indigo-800 hover:border-indigo-800"
+                            className="border px-4 py-2 rounded-md text-xs font-normal text-white bg-green-500 hover:bg-green-600"
                           >
-                            Save
+                            Create
                           </button>
                         </div>
                       </form>

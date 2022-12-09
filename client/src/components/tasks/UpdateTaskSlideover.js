@@ -2,31 +2,37 @@ import { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import axios from "axios";
 
-export default function UpdateTaskSlideover({ open2, setOpen2, getTasks, _id }) {
-    const [name, setName] = useState("");
-    const [duration, setDuration] = useState("");
-    const [priority, setPriority] = useState("");
-    const [isActive, setIsActive] = useState(false);
-  
-    async function loadData() {
-      const task = await axios.get(`http://localhost:8282/task/${_id}/`);
-      const {
-        name: loadName,
-        duration: loadDuration,
-        priority: loadPriority,
-        isActive: loadIsActive,
-      } = task.data;
-      setName(loadName);
-      setDuration(loadDuration);
-      setPriority(loadPriority);
-      setIsActive(loadIsActive);
-    }
-  
-    useEffect(() => {
-      loadData();
-    }, []);
-  
-    async function onSubmit(e) {
+export default function UpdateTaskSlideover({
+  open2,
+  setOpen2,
+  getTasks,
+  _id,
+}) {
+  const [name, setName] = useState("");
+  const [duration, setDuration] = useState("");
+  const [priority, setPriority] = useState("");
+  const [isActive, setIsActive] = useState(false);
+
+  async function loadData() {
+    const task = await axios.get(`http://localhost:8282/task/${_id}/`);
+    const {
+      name: loadName,
+      duration: loadDuration,
+      priority: loadPriority,
+      isActive: loadIsActive,
+    } = task.data;
+    setName(loadName);
+    setDuration(loadDuration);
+    setPriority(loadPriority);
+    setIsActive(loadIsActive);
+  }
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  async function onSubmit(e) {
+    try {
       e.preventDefault();
       const taskData = {
         name,
@@ -34,16 +40,17 @@ export default function UpdateTaskSlideover({ open2, setOpen2, getTasks, _id }) 
         priority,
         isActive,
       };
-  
+
       await axios.patch(`http://localhost:8282/task/${_id}/`, taskData);
       getTasks();
 
       setOpen2(false);
-    //   onClose();
+    } catch (err) {
+      console.error(err);
     }
+  }
 
   function closeSlideover() {
-
     setOpen2(false);
   }
 
@@ -137,7 +144,7 @@ export default function UpdateTaskSlideover({ open2, setOpen2, getTasks, _id }) 
                             type="submit"
                             input={+true}
                             value="submit"
-                            className="border px-4 py-2 rounded-md text-xs font-normal text-white bg-indigo-500 border-indigo-500 hover:bg-indigo-800 hover:border-indigo-800"
+                            className="border px-4 py-2 rounded-md text-xs font-normal text-white bg-green-500 hover:bg-green-600"
                           >
                             Save
                           </button>

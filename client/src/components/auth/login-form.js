@@ -40,29 +40,29 @@ export default function LoginForm() {
           </a>
         </nav>
 
-        <div class="min-h-screen flex items-center">
-          <div class="mx-auto p-8 max-w-sm w-full flex flex-col">
-            <h1 class="text-center text-4xl font-semibold text-white">
+        <div className="min-h-screen flex items-center">
+          <div className="mx-auto p-8 max-w-sm w-full flex flex-col">
+            <h1 className="text-center text-4xl font-semibold text-white">
               Welcome back!
             </h1>
-            <p class="mt-4 mb-4 text-center text-gray-400 font-lora italic">
+            <p className="mt-4 mb-4 text-center text-gray-400 font-lora italic">
               Sign into your account
             </p>
             <form
               action=""
-              class="space-y-4 text-white"
+              className="space-y-4 text-white"
               onSubmit={(e) => loginUser(e)}
             >
               <div>
-                <label for="email" class="text-sm font-light text-white">
+                <label htmlFor="email" className="text-sm font-light text-white">
                   Email
                 </label>
 
-                <div class="mt-1">
+                <div className="mt-1">
                   <input
                     type="email"
                     id="email"
-                    class="w-full rounded-sm border-gray-400 font-light bg-gray-800 py-3 px-4 text-sm"
+                    className="w-full rounded-sm border-gray-400 font-light bg-gray-800 py-3 px-4 text-sm"
                     value={email}
                     onChange={(e) => {
                       setEmail(e.target.value);
@@ -72,15 +72,15 @@ export default function LoginForm() {
               </div>
 
               <div className="pb-2">
-                <label for="password" class="text-sm font-light text-white">
+                <label htmlFor="password" className="text-sm font-light text-white">
                   Password
                 </label>
 
-                <div class="mt-1">
+                <div className="mt-1">
                   <input
                     type="password"
                     id="password"
-                    class="w-full rounded-sm border-gray-400 font-light bg-gray-800 py-3 px-4 text-sm"
+                    className="w-full rounded-sm border-gray-400 font-light bg-gray-800 py-3 px-4 text-sm"
                     value={password}
                     onChange={(e) => {
                       setPassword(e.target.value);
@@ -92,14 +92,14 @@ export default function LoginForm() {
                 type="submit"
                 input={+true}
                 value="submit"
-                class="block w-full rounded-sm bg-indigo-500 hover:bg-indigo-600 py-3 text-sm font-light text-white"
+                className="block w-full rounded-sm bg-indigo-500 hover:bg-indigo-600 py-3 text-sm font-light text-white"
               >
                 Sign in
               </button>
-              <p class="text-center text-xs pt-2 font-light text-gray-400">
+              <p className="text-center text-xs pt-2 font-light text-gray-400">
                 Don't have an account?{" "}
                 <button
-                  class="underline hover:text-white text-indigo-500"
+                  className="underline hover:text-white text-indigo-500"
                   onClick={() => history("/register")}
                 >
                   Sign up

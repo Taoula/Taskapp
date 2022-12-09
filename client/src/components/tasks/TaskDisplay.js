@@ -6,6 +6,7 @@ import "tw-elements";
 import DashboardFooter from "../layout/DashboardFooter";
 import CreateTaskSlideover from "./CreateTaskSlideover";
 import CompletedTask from "./CompletedTask";
+import { MagnifyingGlass } from "phosphor-react";
 
 export default function TaskDisplay() {
   const [tasks, setTasks] = useState([]);
@@ -60,17 +61,13 @@ export default function TaskDisplay() {
     taskReq.data.map((task) => {
       if (task.isActive === false) {
         inactiveIterator += 1;
-      }
-
-      else if (task.isActive === true) {
+      } else if (task.isActive === true) {
         activeIterator += 1;
       }
 
       if (task.completed === false && task.isActive === true) {
         incompleteIterator += 1;
-      }
-
-      else if (task.completed === true && task.isActive === true) {
+      } else if (task.completed === true && task.isActive === true) {
         completeIterator += 1;
       }
 
@@ -84,7 +81,6 @@ export default function TaskDisplay() {
 
       console.log("completed tasks " + completeIterator);
       console.log("incomplete tasks " + incompleteIterator);
-
     });
   }
 
@@ -161,7 +157,6 @@ export default function TaskDisplay() {
             {/* Title and add button inline */}
             <div className="flex justify-between items-center p-5 sticky top-0 z-10 bg-white">
               <h1 className="font-normal text-lg">Inactive Tasks</h1>
-
               {/* add task button */}
               <span
                 className="rounded-md text-gray-500 border hover:text-gray-900 hover:bg-sidebarColor font-normal pl-4 pr-4 text-xs pt-2 pb-2"
@@ -308,9 +303,7 @@ export default function TaskDisplay() {
               No incomplete tasks
             </p>
           ) : (
-            <div className="space-y-3 p-5">
-              {renderCompletedTasks(false)}
-            </div>
+            <div className="space-y-3 p-5">{renderCompletedTasks(false)}</div>
           )}
           {/* <div className="space-y-3 p-5">{renderCompletedTasks(false)}</div> */}
         </div>
@@ -325,9 +318,7 @@ export default function TaskDisplay() {
               No complete tasks
             </p>
           ) : (
-            <div className="space-y-3 p-5">
-              {renderCompletedTasks(true)}
-            </div>
+            <div className="space-y-3 p-5">{renderCompletedTasks(true)}</div>
           )}
           {/* <div className="space-y-3 p-5">{renderCompletedTasks(true)}</div> */}
         </div>
