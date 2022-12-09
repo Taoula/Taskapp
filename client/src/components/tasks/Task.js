@@ -56,7 +56,7 @@ export default function Task({ task, getTasks }) {
         color={colors[priority - 1]}
         style={{ border: `solid ${borderColors[priority - 1]} 1px` }}
         onClick={toggle}
-        className="rounded-md pl-5 pr-5 pt-4 pb-4 flex items-center justify-between"
+        className="rounded-md px-5 py-4 flex items-center justify-between"
       >
         <div className="flex items-center space-x-2">
           <span>

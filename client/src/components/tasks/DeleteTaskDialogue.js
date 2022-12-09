@@ -1,6 +1,6 @@
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useRef, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { Warning } from "phosphor-react";
+import { Trash } from "phosphor-react";
 import useToggle from "../../hooks/use-toggle";
 import axios from "axios";
 
@@ -55,42 +55,43 @@ export default function DeleteTaskDialogue({
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-md bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                <div className="bg-white px-8 py-5">
-                  <div className="flex items-center space-x-4">
-                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10 text-red-500">
-                      <Warning size={20} />
-                    </div>
-                    <div className="block">
-                    <Dialog.Title
-                      as="h3"
-                      className="text-lg font-normal text-gray-900"
-                    >
-                      Delete task
-                    </Dialog.Title>
-                    <p className="text-sm font-normal text-gray-500">
-                      Are you sure you want to delete this task?
-                    </p>
-                    </div>
+              <Dialog.Panel className="relative transform overflow-hidden rounded-md bg-white text-left shadow-xl transition-all  sm:w-full sm:max-w-sm p-10">
+                <div>
+                  <div className="justify-center flex">
+                    <span className="bg-red-200 bg-opacity-60 p-2 rounded-full text-red-500">
+                      <Trash size={32} weight="duotone" />
+                    </span>
+                  </div>
+                  <div className="flex-col text-center">
+                  <h1 className="text-xl pt-5">Delete Task?</h1>
+                  <p className="text-sm text-gray-500 pt-1">
+                    This action cannot be undone.
+                  </p>
+                  </div>
+                  <div className="flex space-x-2 pt-5">
+                    <button className="bg-gray-200 px-4 py-2 w-full rounded-md font-normal hover:bg-gray-300">
+                      Cancel
+                    </button>
+                    <button className="bg-red-500 text-white w-full px-4 py-2 rounded-md font-normal hover:bg-red-600">
+                      Delete
+                    </button>
                   </div>
                 </div>
-                <div className="bg-gray-50 py-5 px-8 flex justify-end space-x-2">
-                  <button
-                    type="button"
-                    className="border px-4 py-2 rounded-md text-xs font-normal bg-opacity-50 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white"
-                    onClick={() => setDeleteTaskDialogue(false)}
-                    ref={cancelButtonRef}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    className="border px-4 py-2 rounded-md text-xs font-normal bg-opacity-50 border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
-                    onClick={() => deleteTask()}
-                  >
-                    Delete
-                  </button>
-                </div>
+                {/* <button
+                  type="button"
+                  className="border px-4 py-2 rounded-md text-xs font-normal bg-opacity-50 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white"
+                  onClick={() => setDeleteTaskDialogue(false)}
+                  ref={cancelButtonRef}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="border px-4 py-2 rounded-md text-xs font-normal bg-opacity-50 border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
+                  onClick={() => deleteTask()}
+                >
+                  Delete
+                </button> */}
               </Dialog.Panel>
             </Transition.Child>
           </div>

@@ -22,7 +22,7 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
       priority,
       isActive: false,
       completed: false,
-      time: fixed ? convertTime(time, "date", true) : null,
+      time: fixed ? convertTime(time, "date") : null,
     };
 
     await axios
