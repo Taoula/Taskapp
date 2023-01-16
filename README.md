@@ -10,6 +10,7 @@ HeadlessUI: https://headlessui.com/react/combobox
 # Bugs
 2. Conditional schedule refresh
 3. text field message doesn't display after tasks are deleted
+4. Set time toggle stays active and doesn't disable when the create task slideover is closed
 
 # Fixed Bugs
 1. logout button stays highlighted after clicking
