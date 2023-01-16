@@ -172,7 +172,7 @@ export default function Sidebar() {
           <ul>
             <li class="navbarTab">
               <span
-                class="flex items-center rounded-md p-2 text-base font-normal border-2 border-sidebarColor hover:bg-rose-100 hover:border-2 hover:border-rose-100 hover:text-red-500"
+                class="flex items-center rounded-md p-2 text-base font-normal border-2 border-sidebarColor hover:bg-red-100 hover:border-2 hover:border-red-100 hover:text-red-600"
                 // onClick={verifyLogout}
                 onClick={() => setLogoutDialogue(true)}
               >

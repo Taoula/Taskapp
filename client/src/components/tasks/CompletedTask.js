@@ -64,7 +64,7 @@ export default function CompletedTask({ task, getTasks }) {
           {completed ? (
             <p className="bg-emerald-100 text-emerald-600 font-normal py-2 px-4 rounded-3xl text-xs">Complete</p>
           ) : (
-            <p className="bg-red-100 text-red-600 font-normal py-2 px-4 text-xs rounded-3xl">
+            <p className="bg-red-200 text-red-500 border-red-500 border font-normal py-1 px-2 text-xs rounded-3xl">
               Incomplete
             </p>
           )}

@@ -158,8 +158,18 @@ export default function TaskDisplay() {
             <div className="flex justify-between items-center p-5 sticky top-0 z-10 bg-white">
               <h1 className="font-normal text-lg">Inactive Tasks</h1>
               {/* add task button */}
-              <span
+              {/* grey add task button */}
+              {/* <span
                 className="rounded-md text-gray-500 border hover:text-gray-900 hover:bg-sidebarColor font-normal pl-4 pr-4 text-xs pt-2 pb-2"
+                // onClick={() => setShowCreateTask(true)}
+                onClick={() => setOpen(true)}
+              >
+                Add Task
+              </span> */}
+
+              {/* blue add task button */}
+              <span
+                className="rounded-md text-blue-600 border bg-sky-100 border-blue-600 hover:text-white hover:bg-blue-500 font-normal pl-4 pr-4 text-xs pt-2 pb-2"
                 // onClick={() => setShowCreateTask(true)}
                 onClick={() => setOpen(true)}
               >
@@ -261,7 +271,7 @@ export default function TaskDisplay() {
         </div>
       </div>
 
-      <h1 className="text-3xl font-normal mt-8 mb-5">Task Status</h1>
+      <h1 className="text-3xl font-normal mt-8 mb-5">Active Task Status</h1>
 
       <div className="rounded-md text-center border overflow-scroll h-[28rem] remove-scrollbar">
         <div class="text-sm px-5 bg-white pt-5 text-center text-gray-500 border-b border-gray-400 sticky top-0 z-10">

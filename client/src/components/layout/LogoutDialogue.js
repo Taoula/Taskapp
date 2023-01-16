@@ -1,7 +1,7 @@
 import { Fragment, useRef, useContext } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useNavigate } from "react-router-dom";
-import { User } from "phosphor-react";
+import { UserCircle } from "phosphor-react";
 import AuthContext from "../../context/auth-context";
 import axios from "axios";
 
@@ -48,35 +48,35 @@ export default function LogoutDialogue({ logoutDialogue, setLogoutDialogue }) {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-md bg-white text-left shadow-xl transition-all sm:w-full sm:max-w-sm p-10">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:w-full sm:max-w-md p-20">
                 <div>
                   <div className="justify-center flex">
-                    <span className="bg-yellow-100 bg-opacity-50 p-2 rounded-full text-amber-500 border border-amber-500">
-                      <User size={32} />
-                    </span>
+                    {/* <span className="bg-sky-100 bg-opacity-50 p-2 rounded-full text-blue-600 border border-blue-600"> */}
+                      <UserCircle size={75} weight="duotone" className="text-gray-500"/>
+                    {/* </span> */}
                   </div>
                   <div className="flex-col text-center">
-                    <h1 className="text-xl pt-5">Confirm Logout</h1>
-                    <p className="text-sm text-gray-500 pt-1">
+                    <h1 className="text-2xl pt-8">Confirm Logout</h1>
+                    <p className="text-lg font-light text-gray-500 pt-2">
                       Are you sure you want to logout?
                     </p>
                   </div>
-                  <div className="flex space-x-2 pt-5">
-                    <button
+                  <div className="flex space-x-2 pt-8">
+                    <span
                       type="button"
-                      className="bg-gray-200 px-4 py-2 w-full rounded-md font-normal hover:bg-gray-300"
+                      className="border px-4 py-2 w-full text-md rounded-md text-center text-gray-500 font-normal hover:bg-sidebarColor hover:text-gray-900"
                       onClick={() => setLogoutDialogue(false)}
                       ref={cancelButtonRef}
                     >
                       Cancel
-                    </button>
-                    <button
+                    </span>
+                    <span
                       type="button"
-                      className="bg-yellow-500 text-white w-full px-4 py-2 rounded-md font-normal hover:bg-yellow-600"
+                      className="bg-red-500 text-white w-full px-4 py-2 text-md rounded-md text-center hover:bg-red-600"
                       onClick={() => logOut()}
                     >
                       Logout
-                    </button>
+                    </span>
                   </div>
                 </div>
               </Dialog.Panel>
