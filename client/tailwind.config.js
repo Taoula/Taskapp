@@ -20,7 +20,8 @@ module.exports = {
         'headerColor':'#f9f9f9',
         'dashboardBackgroundColor':'#f2f2f4',
         'tabHighlightColor':'#f2f2f4',
-        'sidebarColor':'#f3f4f6'
+        'sidebarColor':'#f3f4f6',
+        'newBlack': '#212427',
       },
       height: {
         '128': '32rem',

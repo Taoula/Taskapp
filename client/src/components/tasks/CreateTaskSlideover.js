@@ -157,6 +157,8 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                         </div>
 
                         {fixed && (
+                          <div>
+                          <p className="font-light text-red-600 pb-3">*Set a specific time to complete this task</p>
                           <div className="border rounded-md py-5 px-8 flex justify-between items-center">
                             <p className="text-lg w-full">{time}</p>
                             <div class="inline-flex text-sm font-light border rounded-md p-2">
@@ -253,6 +255,7 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                                 <option value="PM">PM</option>
                               </select>
                             </div> */}
+                          </div>
                           </div>
                         )}
 

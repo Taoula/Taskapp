@@ -84,7 +84,7 @@ export default function UpdateTaskSlideover({
                 <Dialog.Panel className="pointer-events-auto relative w-screen max-w-md">
                   <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
                     <div className="px-8 flex items-center justify-start pt-5">
-                      <Dialog.Title className="text-lg font-normal text-gray-900">
+                      <Dialog.Title className="text-2xl font-normal text-gray-900">
                         Update Task
                       </Dialog.Title>
                     </div>
@@ -92,26 +92,26 @@ export default function UpdateTaskSlideover({
                       {/* Replace with your content */}
                       <form className="space-y-5" onSubmit={(e) => onSubmit(e)}>
                         <div>
-                          <label className="block text-sm text-gray-500 mb-2 font-normal">
+                          <label className="block text-md text-gray-500 mb-2 font-normal">
                             Task Name
                           </label>
                           <input
                             type="text"
                             placeholder="task"
-                            className="border rounded-sm px-4 py-3 text-sm font-light text-gray-500 w-full"
+                            className="border rounded-sm px-4 py-3 text-md font-light text-gray-500 w-full"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                           ></input>
                         </div>
 
                         <div>
-                          <label className="block text-sm text-gray-500 mb-2 font-normal">
+                          <label className="block text-md text-gray-500 mb-2 font-normal">
                             Task Duration
                           </label>
                           <input
                             type="number"
                             placeholder="duration (minutes)"
-                            className="border rounded-sm px-4 py-3 text-sm font-light text-gray-500 w-full"
+                            className="border rounded-sm px-4 py-3 text-md font-light text-gray-500 w-full"
                             min="5"
                             value={duration}
                             onChange={(e) => setDuration(e.target.value)}
@@ -119,13 +119,13 @@ export default function UpdateTaskSlideover({
                         </div>
 
                         <div>
-                          <label className="block text-sm text-gray-500 mb-2 font-normal">
+                          <label className="block text-md text-gray-500 mb-2 font-normal">
                             Task Priority
                           </label>
                           <input
                             type="number"
                             placeholder="priority (1-3)"
-                            className="border rounded-sm px-4 py-3 text-sm font-light text-gray-500 w-full"
+                            className="border rounded-sm px-4 py-3 text-md font-light text-gray-500 w-full"
                             min="1"
                             max="3"
                             value={priority}
@@ -133,21 +133,21 @@ export default function UpdateTaskSlideover({
                           ></input>
                         </div>
                         <div className="space-x-2 flex justify-end">
-                          <button
-                            className="border px-4 py-2 rounded-md text-xs font-normal bg-opacity-50 border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
+                          <span
+                            className="border px-4 py-2 rounded-md text-sm font-normal bg-opacity-50 border-red-600 text-red-600 hover:bg-red-600 hover:text-white"
                             onClick={closeSlideover}
                           >
                             Cancel
-                          </button>
+                          </span>
 
-                          <button
+                          <span
                             type="submit"
                             input={+true}
                             value="submit"
-                            className="border px-4 py-2 rounded-md text-xs font-normal text-white bg-green-500 hover:bg-green-600"
+                            className="border px-4 py-2 rounded-md text-sm font-normal text-white bg-green-600 hover:bg-green-700"
                           >
                             Save
-                          </button>
+                          </span>
                         </div>
                       </form>
                       {/* /End replace */}
