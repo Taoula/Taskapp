@@ -17,8 +17,13 @@
   background-size: 100% 30%;
   background-position: 0 60%;
 }
+
 .custom-box-shadow {
   box-shadow: 9px 9px 0 -3px #22c55e, 9px 9px 0 0 #111827;
+}
+
+.custom-image-box-shadow {
+  box-shadow: 15px 15px 0 -3px #22c55e, 15px 15px 0 0 #111827;
 }
 
 #hero-section {
