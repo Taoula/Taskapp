@@ -11,7 +11,7 @@ export default function HeroSection2() {
       <section className="h-screen">
         <div className="flex items-center h-full">
           {/* text */}
-          <div className="grid max-w-screen-2xl px-4 mx-auto grid-cols-11">
+          <div className="grid max-w-screen-2xl px-4 mx-auto lg:grid-cols-11">
             <div className="mr-auto place-self-center col-span-7">
               <h1 className="max-w-3xl mb-4 text-7xl leading-none text-gray-900">
                 A powerful scheduling tool to{" "}
@@ -37,7 +37,7 @@ export default function HeroSection2() {
             </div>
 
             {/* image */}
-            <div className="col-span-4">
+            <div className="lg:col-span-4 hidden lg:flex">
               <img src="https://i.imgur.com/IB5yOgR.png" alt="" />
             </div>
           </div>

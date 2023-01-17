@@ -221,9 +221,9 @@ export default function TaskDisplay() {
             <div className="flex justify-between items-center p-5 sticky top-0 z-10 bg-white">
               <h1 className="font-normal text-lg">Inactive Tasks</h1>
 
-              {/* add task button */}
+              {/* blue add task button */}
               <span
-                className="rounded-md text-gray-500 border hover:text-gray-900 hover:bg-sidebarColor font-normal pl-4 pr-4 text-xs pt-2 pb-2"
+                className="rounded-md text-blue-600 border bg-sky-100 border-blue-600 hover:text-white hover:bg-blue-500 font-normal pl-4 pr-4 text-xs pt-2 pb-2"
                 // onClick={() => setShowCreateTask(true)}
                 onClick={() => setOpen(true)}
               >
