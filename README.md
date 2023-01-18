@@ -29,7 +29,7 @@ HeadlessUI: https://headlessui.com/react/combobox
 1. make landing page responsive
 2. auto-scroll on nav link click
 3. change navbar color on scroll
-4. ~~make sign up & login pages responsive
+4. ~~make sign up & login pages responsive~~
 
 ## Sorting Algorithm
 1. Add a better free time system to sorting algorithm (divided somewhat equally throughout day)
