@@ -45,11 +45,11 @@ export default function RegisterForm() {
 
   return (
     <>
-      <nav className="max-w-screen-2xl flex items-center pt-6 justify-between mx-auto fixed-top">
+      <nav className="max-w-screen-2xl flex items-center pt-6 px-6 xl:px-4 justify-between mx-auto fixed-top">
         <a href="/" className="text-gray-900">
           <h1 className="text-2xl font-semibold">Jigsaw</h1>
         </a>
-        <div className="space-x-5 text-xl">
+        <div className="space-x-5 text-md lg:text-xl">
           <p className="text-gray-500">
             Already have an account?{" "}
             <span
@@ -63,14 +63,14 @@ export default function RegisterForm() {
       </nav>
 
       <div className="h-screen items-center flex">
-        <div className="max-w-xl grid grid-cols-1 mx-auto">
+        <div className="max-w-md md:max-w-xl grid grid-cols-1 mx-auto">
         <h1 className="mb-16 text-center text-5xl"><span className="highlight">Register</span></h1>
           <form
             action=""
-            className="space-y-5 text-gray-900"
+            className="space-y-4 md:space-y-5 text-gray-900"
             onSubmit={(e) => registerUser(e)}
           >
-            <div className="flex flex-row space-x-5">
+            <div className="flex flex-row space-x-4 md:space-x-5">
               <div>
                 <label
                   htmlFor="firstName"

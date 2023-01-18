@@ -30,7 +30,7 @@ export default function LoginForm() {
 
   return (
     <>
-      <nav className="max-w-screen-2xl flex items-center pt-6 justify-left mx-auto fixed-top">
+      <nav className="max-w-screen-2xl flex items-center pt-6 px-6 xl:px-4 justify-left mx-auto fixed-top">
         <a href="/" className="text-gray-900">
           <h1 className="text-2xl font-semibold">Jigsaw</h1>
         </a>
