@@ -1,19 +1,22 @@
 import React from "react";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const history = useNavigate();
+  const [navColor, setNavColor] = useState(false);
 
-  const about = useRef(null);
-  const features = useRef(null);
+  const changeNavColor = () => {
+    if (window.scrollY >= 88 ) {
+      setNavColor(true);
+    }
 
-  const scrollToSection = (elementRef) => {
-    window.scrollTo({
-      top: elementRef.current.offsetTop,
-      behavior: "smooth",
-    });
-  };
+    else {
+      setNavColor(false);
+    }
+  }
+
+  window.addEventListener('scroll', changeNavColor);
 
   return (
     <>
@@ -50,24 +53,22 @@ export default function Navbar() {
         </div>
       </nav> */}
 
-      <nav className="sticky-top bg-white">
+      <nav className={navColor ? "sticky-top navbar-scroll transition ease-in duration-200 shadow-sm" : "sticky-top bg-white transition ease-in duration-200"}>
         <div className="max-w-screen-2xl py-6 px-4 flex mx-auto justify-between items-center">
           <a href="/">
-            <p className="text-2xl font-semibold">Jigsaw</p>
+            <p className={navColor ? "text-2xl font-semibold text-white" : "text-2xl font-semibold"}>Jigsaw</p>
           </a>
           <ul className="flex space-x-5 items-center">
             <a href="/">
               <li
-                className="text-gray-500 hover:text-gray-900 font-normal font-sans text-md"
-                onClick={() => scrollToSection(about)}
+                className={navColor ? "text-white hover:text-gray-500 font-normal font-sans text-md" : "text-gray-500 hover:text-gray-900 font-normal font-sans text-md"}
               >
                 About
               </li>
             </a>
             <a href="/">
               <li
-                className="text-gray-500 hover:text-gray-900 font-normal font-sans text-md"
-                onClick={() => scrollToSection(features)}
+                className={navColor ? "text-white hover:text-gray-500 font-normal font-sans text-md" : "text-gray-500 hover:text-gray-900 font-normal font-sans text-md"}
               >
                 Features
               </li>

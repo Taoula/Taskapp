@@ -26,6 +26,10 @@
   box-shadow: 15px 15px 0 -3px #22c55e, 15px 15px 0 0 #111827;
 }
 
+.navbar-scroll {
+  background-color: #d1d5db;
+}
+
 #hero-section {
   /* background-color: rgb(88, 28, 135);
   background-image: radial-gradient(

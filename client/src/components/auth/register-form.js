@@ -204,7 +204,7 @@ export default function RegisterForm() {
               value="register"
               className="block w-full rounded-md bg-gray-900 hover:bg-gray-700 py-4 text-xl font-sans font-normal text-white custom-box-shadow"
             >
-              Create my account
+              Create account
             </button>
           </form>
         </div>

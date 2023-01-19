@@ -9,7 +9,8 @@ HeadlessUI: https://headlessui.com/react/combobox
 
 # Bugs
 2. Conditional schedule refresh
-3. text field message doesn't display after tasks are deleted
+3. "no inactive tasks" message doesn't appear in the field when tasks are deleted. Works fine when tasks are toggled between active and inactive.
+4. Set time toggle stays active and doesn't disable when the create task slideover is closed
 
 # Fixed Bugs
 1. logout button stays highlighted after clicking
@@ -24,6 +25,11 @@ HeadlessUI: https://headlessui.com/react/combobox
 6. Calendar view (set events days or weeks ahead of time, schedule several days in advance)
 7. Clean up functions on login (if it is a new day)
 
+## Landing page
+1. make landing page responsive
+2. auto-scroll on nav link click
+3. change navbar color on scroll
+4. ~~make sign up & login pages responsive~~
 
 ## Sorting Algorithm
 1. Add a better free time system to sorting algorithm (divided somewhat equally throughout day)
@@ -51,10 +57,8 @@ HeadlessUI: https://headlessui.com/react/combobox
 5. sort tasks in task display from newest to oldest by default
 6. create and update task form validation
 7. multiselect tasks
-
-## Completed Task Page To-Do
-1. Set fixed height for task displays and implement scrolling
-2. display text in field if there are no tasks to display
+8. ~~Set fixed height for task displays and implement scrolling~~
+9. ~~display text in field if there are no tasks to display~~
 
 ## Account settings pages
 1. populate fields with current values
