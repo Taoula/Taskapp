@@ -6,6 +6,7 @@ import "tw-elements";
 import DashboardFooter from "../layout/DashboardFooter";
 import CreateTaskSlideover from "./CreateTaskSlideover";
 import CompletedTask from "./CompletedTask";
+import { MagnifyingGlass } from "phosphor-react";
 
 export default function TaskDisplay() {
   const [tasks, setTasks] = useState([]);
@@ -15,15 +16,14 @@ export default function TaskDisplay() {
   const [open, setOpen] = useState(false);
   const [completedTasks, setCompletedTasks] = useState([]);
 
-  const [numberOfInactiveTasks, setNumberOfInactiveTasks]  = useState(0);
-  const [numberOfActiveTasks, setNumberOfActiveTasks]  = useState(0);
-  let numberOfCompleteTasks = 0;
-  let numberOfIncompleteTasks = 0;
+  const [numberOfInactiveTasks, setNumberOfInactiveTasks] = useState(0);
+  const [numberOfActiveTasks, setNumberOfActiveTasks] = useState(0);
+  const [numberOfCompleteTasks, setNumberOfCompleteTasks] = useState(0);
+  const [numberOfIncompleteTasks, setNumberOfIncompleteTasks] = useState(0);
 
   useEffect(() => {
-      getTasks()
+    getTasks();
   }, []);
-
 
   // state for task menu
   const [toggleState, setToggleState] = useState(1);
@@ -50,25 +50,38 @@ export default function TaskDisplay() {
     const taskReq = await axios.get("http://localhost:8282/task/");
     setTasks(taskReq.data);
 
+    // active and inactive iterators
     let inactiveIterator = 0;
     let activeIterator = 0;
+
+    // complete and incomplete iterators
+    let incompleteIterator = 0;
+    let completeIterator = 0;
 
     taskReq.data.map((task) => {
       if (task.isActive === false) {
         inactiveIterator += 1;
-      }
-
-      if (task.isActive === true) {
+      } else if (task.isActive === true) {
         activeIterator += 1;
       }
 
+      if (task.completed === false && task.isActive === true) {
+        incompleteIterator += 1;
+      } else if (task.completed === true && task.isActive === true) {
+        completeIterator += 1;
+      }
+
+      // set state values of inactive and active counters to the corresponding iterators
       setNumberOfInactiveTasks(inactiveIterator);
       setNumberOfActiveTasks(activeIterator);
 
-      console.log("number of active tasks: " + numberOfActiveTasks);
-      console.log("number of inactive tasks: " + numberOfInactiveTasks);
-    });
+      // set state values of incomplete and complete counters to the corresponding iterators
+      setNumberOfCompleteTasks(completeIterator);
+      setNumberOfIncompleteTasks(incompleteIterator);
 
+      console.log("completed tasks " + completeIterator);
+      console.log("incomplete tasks " + incompleteIterator);
+    });
   }
 
   //renders tasks based on active bool
@@ -144,10 +157,19 @@ export default function TaskDisplay() {
             {/* Title and add button inline */}
             <div className="flex justify-between items-center p-5 sticky top-0 z-10 bg-white">
               <h1 className="font-normal text-lg">Inactive Tasks</h1>
-
               {/* add task button */}
-              <span
+              {/* grey add task button */}
+              {/* <span
                 className="rounded-md text-gray-500 border hover:text-gray-900 hover:bg-sidebarColor font-normal pl-4 pr-4 text-xs pt-2 pb-2"
+                // onClick={() => setShowCreateTask(true)}
+                onClick={() => setOpen(true)}
+              >
+                Add Task
+              </span> */}
+
+              {/* blue add task button */}
+              <span
+                className="rounded-md text-blue-600 border bg-sky-100 border-blue-600 hover:text-white hover:bg-blue-500 font-normal pl-4 pr-4 text-xs pt-2 pb-2"
                 // onClick={() => setShowCreateTask(true)}
                 onClick={() => setOpen(true)}
               >
@@ -155,7 +177,9 @@ export default function TaskDisplay() {
               </span>
             </div>
             {numberOfInactiveTasks === 0 ? (
-              <p>there are no inactive tasks</p>
+              <p className="font-light h-[19rem] flex items-center text-sm justify-center text-gray-500">
+                No inactive tasks <br /> Click add task to start
+              </p>
             ) : (
               <div className="space-y-3 p-5 pt-0">{renderTasks(false)}</div>
             )}
@@ -177,7 +201,14 @@ export default function TaskDisplay() {
                 Add Task
               </span>
             </div>
-            <div className="space-y-3 p-5 pt-0">{renderTasks(true)}</div>
+            {numberOfActiveTasks === 0 ? (
+              <p className="font-light h-[19rem] flex items-center text-sm justify-center text-gray-500">
+                No active tasks
+              </p>
+            ) : (
+              <div className="space-y-3 p-5 pt-0">{renderTasks(true)}</div>
+            )}
+            {/* <div className="space-y-3 p-5 pt-0">{renderTasks(true)}</div> */}
           </div>
         </div>
       </div>
@@ -190,16 +221,23 @@ export default function TaskDisplay() {
             <div className="flex justify-between items-center p-5 sticky top-0 z-10 bg-white">
               <h1 className="font-normal text-lg">Inactive Tasks</h1>
 
-              {/* add task button */}
+              {/* blue add task button */}
               <span
-                className="rounded-md text-gray-500 border hover:text-gray-900 hover:bg-sidebarColor font-normal pl-4 pr-4 text-xs pt-2 pb-2"
+                className="rounded-md text-blue-600 border bg-sky-100 border-blue-600 hover:text-white hover:bg-blue-500 font-normal pl-4 pr-4 text-xs pt-2 pb-2"
                 // onClick={() => setShowCreateTask(true)}
                 onClick={() => setOpen(true)}
               >
                 Add Task
               </span>
             </div>
-            <div className="space-y-3 p-5 pt-0">{renderTasks(false)}</div>
+            {numberOfInactiveTasks === 0 ? (
+              <p className="font-light h-[19rem] flex items-center text-sm justify-center text-gray-500">
+                No inactive tasks <br /> Click add task to start
+              </p>
+            ) : (
+              <div className="space-y-3 p-5 pt-0">{renderTasks(false)}</div>
+            )}
+            {/* <div className="space-y-3 p-5 pt-0">{renderTasks(false)}</div> */}
           </div>
         </div>
       </div>
@@ -221,12 +259,19 @@ export default function TaskDisplay() {
                 Add Task
               </span>
             </div>
-            <div className="space-y-3 p-5 pt-0">{renderTasks(true)}</div>
+            {numberOfActiveTasks === 0 ? (
+              <p className="font-light h-[19rem] flex items-center text-sm justify-center text-gray-500">
+                No active tasks
+              </p>
+            ) : (
+              <div className="space-y-3 p-5 pt-0">{renderTasks(true)}</div>
+            )}
+            {/* <div className="space-y-3 p-5 pt-0">{renderTasks(true)}</div> */}
           </div>
         </div>
       </div>
 
-      <h1 className="text-3xl font-normal mt-8 mb-5">Task Status</h1>
+      <h1 className="text-3xl font-normal mt-8 mb-5">Active Task Status</h1>
 
       <div className="rounded-md text-center border overflow-scroll h-[28rem] remove-scrollbar">
         <div class="text-sm px-5 bg-white pt-5 text-center text-gray-500 border-b border-gray-400 sticky top-0 z-10">
@@ -263,7 +308,14 @@ export default function TaskDisplay() {
             secondToggleState === 1 ? "active-content content" : "content"
           }
         >
-          <div className="space-y-3 p-5">{renderCompletedTasks(false)}</div>
+          {numberOfIncompleteTasks === 0 ? (
+            <p className="font-light h-[19rem] flex items-center text-sm justify-center text-gray-500">
+              No incomplete tasks
+            </p>
+          ) : (
+            <div className="space-y-3 p-5">{renderCompletedTasks(false)}</div>
+          )}
+          {/* <div className="space-y-3 p-5">{renderCompletedTasks(false)}</div> */}
         </div>
 
         <div
@@ -271,7 +323,14 @@ export default function TaskDisplay() {
             secondToggleState === 2 ? "active-content content" : "content"
           }
         >
-          <div className="space-y-3 p-5">{renderCompletedTasks(true)}</div>
+          {numberOfCompleteTasks === 0 ? (
+            <p className="font-light h-[19rem] flex items-center text-sm justify-center text-gray-500">
+              No complete tasks
+            </p>
+          ) : (
+            <div className="space-y-3 p-5">{renderCompletedTasks(true)}</div>
+          )}
+          {/* <div className="space-y-3 p-5">{renderCompletedTasks(true)}</div> */}
         </div>
       </div>
 

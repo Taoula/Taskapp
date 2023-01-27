@@ -9,7 +9,8 @@ HeadlessUI: https://headlessui.com/react/combobox
 
 # Bugs
 2. Conditional schedule refresh
-3. task remains active when marked as complete
+3. "no inactive tasks" message doesn't appear in the field when tasks are deleted. Works fine when tasks are toggled between active and inactive.
+4. Set time toggle stays active and doesn't disable when the create task slideover is closed
 
 # Fixed Bugs
 1. logout button stays highlighted after clicking
@@ -22,7 +23,13 @@ HeadlessUI: https://headlessui.com/react/combobox
 4. display welcome for user's first session & welcome back for every session afterwards
 5. Tasks completed out of order should float to the top, schedule resort.
 6. Calendar view (set events days or weeks ahead of time, schedule several days in advance)
+7. Clean up functions on login (if it is a new day)
 
+## Landing page
+1. make landing page responsive
+2. auto-scroll on nav link click
+3. ~~change navbar color on scroll~~
+4. ~~make sign up & login pages responsive~~
 
 ## Sorting Algorithm
 1. Add a better free time system to sorting algorithm (divided somewhat equally throughout day)
@@ -38,7 +45,6 @@ HeadlessUI: https://headlessui.com/react/combobox
 2. Add fixed time editing to update task form
 
 ## Statistics
-1. User Statistics & Streaks (front & back end)
 2. Optional productivity value in tasks, task stats
 3. Add time completed to task stats
 4. Scatterplots between productivity & duration, productivity & time of day
@@ -50,10 +56,9 @@ HeadlessUI: https://headlessui.com/react/combobox
 3. Filters for tags
 5. sort tasks in task display from newest to oldest by default
 6. create and update task form validation
-7. display text in field if there are no tasks to display
-
-## Completed Task Page To-Do
-1. Set fixed height for task displays and implement scrolling
+7. multiselect tasks
+8. ~~Set fixed height for task displays and implement scrolling~~
+9. ~~display text in field if there are no tasks to display~~
 
 ## Account settings pages
 1. populate fields with current values
@@ -95,6 +100,7 @@ HeadlessUI: https://headlessui.com/react/combobox
 11. re-implement task editing with modals
 12. add time editing component to task creation/update menu (exists on updateHours, needs to be refactored)
 13. implement time of day into scheduling algorithm
+14. User Statistics & Streaks (front & back end)
 
 # Optimization
 1. use flex to display task fields in task display instead of grid to reduce code redundancy

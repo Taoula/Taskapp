@@ -20,8 +20,9 @@ const TaskContainer = styled.div`
 export default function Task({ task, getTasks }) {
   const { name, priority, duration, _id, isActive, completed, time} = task;
   const [isExpanded, toggle] = useToggle(false);
-  const colors = ["#fecdd3", "#fef3c7", "#bbf7d0"];
-  const borderColors = ["#e11d48", "#fbbf24", "#22c55e"];
+  // priority 1 (red) first, 2 (yellow) second, 3 (green) third
+  const colors = ["#fecaca", "#fef9c3", "#bbf7d0"];
+  const borderColors = ["#dc2626", "#ca8a04", "#059669"];
   const [showUpdateTask, setShowUpdateTask] = useState(false);
   const [open2, setOpen2] = useState(false);
   const [deleteTaskDialogue, setDeleteTaskDialogueOpen] = useState(false);
@@ -56,7 +57,7 @@ export default function Task({ task, getTasks }) {
         color={colors[priority - 1]}
         style={{ border: `solid ${borderColors[priority - 1]} 1px` }}
         onClick={toggle}
-        className="rounded-md pl-5 pr-5 pt-4 pb-4 flex items-center justify-between"
+        className="rounded-md px-5 py-4 flex items-center justify-between"
       >
         <div className="flex items-center space-x-2">
           <span>

@@ -62,9 +62,9 @@ export default function CompletedTask({ task, getTasks }) {
               <Square size={20} onClick={toggleActive} />
             )} */}
           {completed ? (
-            <p className="bg-emerald-100 text-emerald-600 font-normal py-2 px-6 rounded-full text-xs">Complete</p>
+            <p className="bg-emerald-100 text-emerald-600 font-normal py-2 px-4 rounded-3xl text-xs">Complete</p>
           ) : (
-            <p className="bg-red-100 text-red-600 font-normal py-2 px-6 rounded-full text-xs">
+            <p className="bg-red-200 text-red-500 border-red-500 border font-normal py-1 px-2 text-xs rounded-3xl">
               Incomplete
             </p>
           )}

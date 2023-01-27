@@ -2,31 +2,37 @@ import { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import axios from "axios";
 
-export default function UpdateTaskSlideover({ open2, setOpen2, getTasks, _id }) {
-    const [name, setName] = useState("");
-    const [duration, setDuration] = useState("");
-    const [priority, setPriority] = useState("");
-    const [isActive, setIsActive] = useState(false);
-  
-    async function loadData() {
-      const task = await axios.get(`http://localhost:8282/task/${_id}/`);
-      const {
-        name: loadName,
-        duration: loadDuration,
-        priority: loadPriority,
-        isActive: loadIsActive,
-      } = task.data;
-      setName(loadName);
-      setDuration(loadDuration);
-      setPriority(loadPriority);
-      setIsActive(loadIsActive);
-    }
-  
-    useEffect(() => {
-      loadData();
-    }, []);
-  
-    async function onSubmit(e) {
+export default function UpdateTaskSlideover({
+  open2,
+  setOpen2,
+  getTasks,
+  _id,
+}) {
+  const [name, setName] = useState("");
+  const [duration, setDuration] = useState("");
+  const [priority, setPriority] = useState("");
+  const [isActive, setIsActive] = useState(false);
+
+  async function loadData() {
+    const task = await axios.get(`http://localhost:8282/task/${_id}/`);
+    const {
+      name: loadName,
+      duration: loadDuration,
+      priority: loadPriority,
+      isActive: loadIsActive,
+    } = task.data;
+    setName(loadName);
+    setDuration(loadDuration);
+    setPriority(loadPriority);
+    setIsActive(loadIsActive);
+  }
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  async function onSubmit(e) {
+    try {
       e.preventDefault();
       const taskData = {
         name,
@@ -34,16 +40,17 @@ export default function UpdateTaskSlideover({ open2, setOpen2, getTasks, _id }) 
         priority,
         isActive,
       };
-  
+
       await axios.patch(`http://localhost:8282/task/${_id}/`, taskData);
       getTasks();
 
       setOpen2(false);
-    //   onClose();
+    } catch (err) {
+      console.error(err);
     }
+  }
 
   function closeSlideover() {
-
     setOpen2(false);
   }
 
@@ -77,7 +84,7 @@ export default function UpdateTaskSlideover({ open2, setOpen2, getTasks, _id }) 
                 <Dialog.Panel className="pointer-events-auto relative w-screen max-w-md">
                   <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
                     <div className="px-8 flex items-center justify-start pt-5">
-                      <Dialog.Title className="text-lg font-normal text-gray-900">
+                      <Dialog.Title className="text-2xl font-normal text-gray-900">
                         Update Task
                       </Dialog.Title>
                     </div>
@@ -85,26 +92,26 @@ export default function UpdateTaskSlideover({ open2, setOpen2, getTasks, _id }) 
                       {/* Replace with your content */}
                       <form className="space-y-5" onSubmit={(e) => onSubmit(e)}>
                         <div>
-                          <label className="block text-sm text-gray-500 mb-2 font-normal">
+                          <label className="block text-md text-gray-500 mb-2 font-normal">
                             Task Name
                           </label>
                           <input
                             type="text"
                             placeholder="task"
-                            className="border rounded-sm px-4 py-3 text-sm font-light text-gray-500 w-full"
+                            className="border rounded-sm px-4 py-3 text-md font-light text-gray-500 w-full"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                           ></input>
                         </div>
 
                         <div>
-                          <label className="block text-sm text-gray-500 mb-2 font-normal">
+                          <label className="block text-md text-gray-500 mb-2 font-normal">
                             Task Duration
                           </label>
                           <input
                             type="number"
                             placeholder="duration (minutes)"
-                            className="border rounded-sm px-4 py-3 text-sm font-light text-gray-500 w-full"
+                            className="border rounded-sm px-4 py-3 text-md font-light text-gray-500 w-full"
                             min="5"
                             value={duration}
                             onChange={(e) => setDuration(e.target.value)}
@@ -112,13 +119,13 @@ export default function UpdateTaskSlideover({ open2, setOpen2, getTasks, _id }) 
                         </div>
 
                         <div>
-                          <label className="block text-sm text-gray-500 mb-2 font-normal">
+                          <label className="block text-md text-gray-500 mb-2 font-normal">
                             Task Priority
                           </label>
                           <input
                             type="number"
                             placeholder="priority (1-3)"
-                            className="border rounded-sm px-4 py-3 text-sm font-light text-gray-500 w-full"
+                            className="border rounded-sm px-4 py-3 text-md font-light text-gray-500 w-full"
                             min="1"
                             max="3"
                             value={priority}
@@ -126,21 +133,21 @@ export default function UpdateTaskSlideover({ open2, setOpen2, getTasks, _id }) 
                           ></input>
                         </div>
                         <div className="space-x-2 flex justify-end">
-                          <button
-                            className="border px-4 py-2 rounded-md text-xs font-normal bg-opacity-50 border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
+                          <span
+                            className="border px-4 py-2 rounded-md text-sm font-normal bg-opacity-50 border-red-600 text-red-600 hover:bg-red-600 hover:text-white"
                             onClick={closeSlideover}
                           >
                             Cancel
-                          </button>
+                          </span>
 
-                          <button
+                          <span
                             type="submit"
                             input={+true}
                             value="submit"
-                            className="border px-4 py-2 rounded-md text-xs font-normal text-white bg-indigo-500 border-indigo-500 hover:bg-indigo-800 hover:border-indigo-800"
+                            className="border px-4 py-2 rounded-md text-sm font-normal text-white bg-green-600 hover:bg-green-700"
                           >
                             Save
-                          </button>
+                          </span>
                         </div>
                       </form>
                       {/* /End replace */}

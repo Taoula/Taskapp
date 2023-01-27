@@ -1,5 +1,5 @@
 /* Font imports */
-@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 /* Tailwind imports */
 @tailwind base;
@@ -8,7 +8,26 @@
 
 /* Global styles */
 * {
-  font-family: 'Lexend';
+  font-family: "american typewriter";
+}
+
+.highlight {
+  background: linear-gradient(120deg, #22c55e 0%, #22c55e 100%);
+  background-repeat: no-repeat;
+  background-size: 100% 30%;
+  background-position: 0 60%;
+}
+
+.custom-box-shadow {
+  box-shadow: 9px 9px 0 -3px #22c55e, 9px 9px 0 0 #111827;
+}
+
+.custom-image-box-shadow {
+  box-shadow: 15px 15px 0 -3px #22c55e, 15px 15px 0 0 #111827;
+}
+
+.navbar-scroll {
+  background-color: #d1d5db;
 }
 
 #hero-section {
@@ -23,23 +42,24 @@
     radial-gradient(at 87% 75%, rgb(129, 140, 248) 0, transparent 74%),
     radial-gradient(at 78% 1%, rgb(13, 148, 136) 0, transparent 21%),
     radial-gradient(at 80% 13%, rgb(124, 45, 18) 0, transparent 86%); */
-    background: #10182a;
-  }
+  background: #10182a;
+}
 
-  /* hero section curve styles */
-  .curve {
-    width: 100%;
-    transform: rotate(180deg);
+/* hero section curve styles */
+.curve {
+  width: 100%;
+  transform: rotate(180deg);
 }
 
 .curve svg {
-    width: calc(119% + 1.3px);
-    height: 93px;
+  width: calc(119% + 1.3px);
+  height: 93px;
 }
 
 .curve .shape-fill {
-    fill: white;
+  fill: white;
 }
+/* end of curve styles */
 
 .timeInput {
   text-align: right;
@@ -53,6 +73,7 @@
 .active-content {
   display: block;
 }
+/* end of hide/show styles */
 
 /* remove scrollbar for chrome, safari, opera*/
 .remove-scrollbar::-webkit-scrollbar {
@@ -61,6 +82,6 @@
 
 /* remove scrollbar for IE, edge, firefox */
 .remove-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
