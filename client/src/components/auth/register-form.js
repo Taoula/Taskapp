@@ -32,8 +32,7 @@ export default function RegisterForm() {
       await axios.post("http://localhost:8282/auth/", userData, {});
       await axios.post(
         "http://localhost:8282/schedule/",
-        { schedule, start: null, end: null },
-        {}
+        {}, {} // Two empty brackets necessary TODO ?
       );
 
       await axios.post("http://localhost:8282/userStat/", {});

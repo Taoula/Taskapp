@@ -63,16 +63,18 @@ function ScheduleBlock({task, getSchedule}) {
             //Patch task with updated completed value
             await axios.patch(`http://localhost:8282/task/${_id}`, {name, priority, duration, isActive, completed: !completed})
         }
+
+        //TODO: this is poorly structured. schedule data should only update if and after the task data updates.
         const scheduleReq = await axios.get("http://localhost:8282/schedule/")
-        let {schedule, start, end} = scheduleReq.data;
-         //Sort through schedule and update modified task
-        schedule.forEach(task => {
+        let {entries} = scheduleReq.data;
+         //Sort through schedule on most recent entry and update modified task
+        entries[entries.length - 1].schedule.forEach(task => {
             if (task._id == _id){
                 task.completed = !task.completed;
             }
         });
         
-        await axios.patch('http://localhost:8282/schedule/', {schedule, start, end})
+        await axios.patch('http://localhost:8282/schedule/', {entries})
         getSchedule();
         
     }

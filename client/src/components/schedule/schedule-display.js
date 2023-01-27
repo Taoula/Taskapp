@@ -4,10 +4,13 @@ import ScheduleBlock from './schedule-block'
 import sortSchedule from "../../methods/sort-schedule"
 import resortSchedule from "../../methods/resort-schedule"
 import convertTime from "../../methods/convert-time"
+import getDateValue from "../../methods/get-date-value"
+import addDays from "../../methods/add-days"
 import styled from "styled-components"
 import TimeInput from "../generic/time-input"
 import StylizedButton from "../forms/stylized-button"
 import ExpandableContainer from "../generic/expandable-container"
+import sameDate from "../../methods/same-date"
 
 const ScheduleButton = styled.button`
     background-color: rgb(48, 128, 242);
@@ -33,30 +36,52 @@ const ScheduleText = styled.p`
 
 const PageTitle = styled.h1`
     font-size: 2.5rem;
-    font-family: Nunito;
     text-transform: uppercase;
-    font-weight: 800;
+    font-weight: 300;
     margin-left:20px;
 `
 
 
 export default function ScheduleDisplay(){
+    const [calendarEntries, setCalendarEntries] = useState([])
+    const [currentDay, setCurrentDay] = useState(new Date())
+    const [dayDistance, setDayDistance] = useState(0)
     const [schedule, setSchedule] = useState([])
     const [wake, setWake] = useState("")
     const [sleep, setSleep] = useState("")
     const [hoursExpanded, setHoursExpanded] = useState(false)
 
     async function getSchedule(){
-        console.log("running")
         const scheduleReq = await axios.get("http://localhost:8282/schedule/")
-        setSchedule(scheduleReq.data.schedule)
-        console.log(scheduleReq.data.schedule)
-        const {start, end} = scheduleReq.data
-        setWake(start)
-        setSleep(end)
+        let {entries} = scheduleReq.data;
+        setCalendarEntries(entries)
+        let found = false
+        // TODO set the schedule based on a state value representing which day is being edited
+        for (let i = 0; i < entries.length; i++){
+            // If an entry matching the selected day is found
+            if (sameDate(entries[i].wake, currentDay)){
+                console.log("current date is " + currentDay + " and wake entry is " + entries[i].wake)
+                setSchedule(entries[i].schedule)
+                console.log(entries[i].schedule)
+                setWake(entries[i].wake)
+                setSleep(entries[i].sleep)
+                found = true
+            }
+        }
 
+        // Add an entry for the selected day if none exists, then get data again
+        if (!found){
+            console.log("an entry was not found :(")
+            let entryToAdd = {schedule: [], wake: currentDay, sleep: null}
+            entries.push(entryToAdd)
+            if (entries.length > 1){
+                entries.sort((a, b) => Date.parse(a.wake) - Date.parse(b.wake))
+            }
 
-        /* CONDITIONAL SCHEDULE RELOADING - IS IT NECESSARY? IF SO, NEEDS TO BE REDONE
+            await axios.patch("http://localhost:8282/schedule/", {entries}, {new: true})
+            getSchedule()
+        }
+        /* TODO CONDITIONAL SCHEDULE RELOADING - IS IT NECESSARY? IF SO, NEEDS TO BE REDONE
         
         const taskReq = await axios.get("http://localhost:8282/task/")
         let tasks = taskReq.data.filter(task => task.isActive)
@@ -147,13 +172,24 @@ export default function ScheduleDisplay(){
             // Create Date objects for updated wake & start time (convert from hh:mm)
             let startDate = convertTime(start, "date");
             let endDate = convertTime(end, "date");
-            setWake(startDate)
-            setSleep(endDate)
-            // console.log(startDate);
-            //console.log(endDate);
+            // Find entry matching selected day. Update hours. Get Schedule. 
+            
+            const scheduleReq = await axios.get("http://localhost:8282/schedule/")
+            let {entries} = scheduleReq.data;
+            let found = false
 
-            //Push new date objects to schedule
-            sortSchedule(setSchedule, startDate, endDate);
+            for (let i = 0; i < entries.length; i++){
+                // If an entry matching the selected day is found
+                if (sameDate(entries[i].wake, currentDay)){
+                    entries[i].wake = startDate;
+                    entries[i].sleep = endDate;
+                    // TODO should wake & start be set manually? Or does sorting call getSchedule and reset?
+                    setWake(startDate)
+                    setSleep(endDate)
+
+                    sortSchedule(setSchedule, startDate, endDate);
+                }
+            }
         }
         catch (err) {
             console.log(err);
@@ -162,20 +198,35 @@ export default function ScheduleDisplay(){
 
     useEffect(() => {
         getSchedule()
-    }, [])
+    }, [currentDay])
 
     return( 
         <div>
-            <PageTitle>Name</PageTitle>
+            <PageTitle>{getDateValue(currentDay, "numeric")}</PageTitle>
+
+            {dayDistance > 0 ? <div>
+                <ScheduleButton onClick={() => {
+                setCurrentDay(addDays(currentDay, -1))
+                setDayDistance(dayDistance - 1)
+            }}><ScheduleText>-</ScheduleText></ScheduleButton>
+            </div> : <div></div>}
+
+            <ScheduleButton onClick={() => {
+                console.log("new date is " + addDays(currentDay, 1))
+                setCurrentDay(addDays(currentDay, 1))
+                setDayDistance(dayDistance + 1)
+            }}><ScheduleText>+</ScheduleText></ScheduleButton>
             <SubHeading>A scheduling app</SubHeading>
 
             {<button onClick={()=>setHoursExpanded(!hoursExpanded)}>Edit Hours</button>}
             {hoursExpanded && <ExpandableContainer><TimeInput update={updateHours} wake={convertTime(wake, "utc")} sleep={convertTime(sleep, "utc")} close={setHoursExpanded}/></ExpandableContainer>}
 
             <div>{renderSchedule()}</div>
-            <ScheduleButton onClick={()=> sortSchedule(setSchedule, wake, sleep)}><ScheduleText>Generate Schedule</ScheduleText></ScheduleButton>
-            <ScheduleButton onClick={()=> resortSchedule(setSchedule, wake, sleep)}><ScheduleText>Resort Schedule</ScheduleText></ScheduleButton>
-            <ScheduleButton onClick={()=> updateStats()}><ScheduleText>Call It A Day</ScheduleText></ScheduleButton>
+            {wake != null && wake != "Invalid Date" ? <div>
+                <ScheduleButton onClick={()=> sortSchedule(setSchedule, wake, sleep, currentDay)}><ScheduleText>Generate Schedule</ScheduleText></ScheduleButton>
+                {dayDistance == 0 && <ScheduleButton onClick={()=> resortSchedule(setSchedule, wake, sleep)}><ScheduleText>Resort Schedule</ScheduleText></ScheduleButton>}
+                {dayDistance == 0 && <ScheduleButton onClick={()=> updateStats()}><ScheduleText>Call It A Day</ScheduleText></ScheduleButton>}
+            </div> : <p>You must set your schedule's start and end hours before generating.</p>}
         </div>
     )
 }

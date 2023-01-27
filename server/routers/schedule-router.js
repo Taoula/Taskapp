@@ -4,11 +4,10 @@ const auth = require("../middleware/auth");
 
 router.post("/", auth, async(req, res) => {
     try {
-        const {schedule, start, end} = req.body;
         const userId = req.user;
 
         const newSchedule = new Schedule({
-            schedule, start, end, userId
+            userId, entries: []
         })
 
         const savedSchedule = await newSchedule.save()
@@ -34,8 +33,8 @@ router.get("/", auth, async (req, res) => {
 router.patch("/", auth, async(req, res) => {
     try {
         const userId = req.user;
-        const {schedule, start, end} = req.body;
-        const updatedSchedule = await Schedule.findOneAndUpdate({userId}, {schedule, start, end}, {new: true})
+        const {entries} = req.body;
+        const updatedSchedule = await Schedule.findOneAndUpdate({userId}, {entries}, {new: true})
         res.json(updatedSchedule)
     } catch (err){
         console.error(err)

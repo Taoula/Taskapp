@@ -2,10 +2,11 @@ import axios from "axios"
 import moment from "moment"
 import addMinutes from "./add-minutes"
 import convertTime from "./convert-time"
+import sameDate from "./same-date";
 
 moment().format();
 
-async function sortSchedule(setSchedule, wakeDate, sleepDate){
+async function sortSchedule(setSchedule, wakeDate, sleepDate, currentDay){
 
     //test this?
     if (wakeDate == null){
@@ -206,7 +207,22 @@ async function sortSchedule(setSchedule, wakeDate, sleepDate){
         return {_id: _id, name: name, start: convertTime(start, "utc"), end: end, completed: completed, duration: duration, fixed: fixed}
     })
 
-    const updatedSchedule = await axios.patch("http://localhost:8282/schedule/", {schedule, start:wakeDate, end:sleepDate})
+    /*
+    1. pull entries from schedule
+    2. create a clone array
+    3. find and edit the matching entry (sameDate)
+    4. patch the schedule
+     */
+
+    const scheduleReq = await axios.get("http://localhost:8282/schedule/")
+    let {entries} = scheduleReq.data;
+    for (let i = 0; i < entries.length; i++){
+        if (sameDate(entries[i].wake, currentDay)){
+            entries[i].schedule = schedule;
+        }
+    }
+
+    const updatedSchedule = await axios.patch("http://localhost:8282/schedule/", {entries})
     setSchedule(schedule)
 }
 
