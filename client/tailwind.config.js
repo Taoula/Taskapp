@@ -22,6 +22,7 @@ module.exports = {
         'tabHighlightColor':'#f2f2f4',
         'sidebarColor':'#f3f4f6',
         'newBlack': '#212427',
+        'newGrey': '#F3F2F0',
       },
       height: {
         '128': '32rem',
