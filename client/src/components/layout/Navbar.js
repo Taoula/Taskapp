@@ -7,16 +7,14 @@ export default function Navbar() {
   const [navColor, setNavColor] = useState(false);
 
   const changeNavColor = () => {
-    if (window.scrollY >= 88 ) {
+    if (window.scrollY >= 88) {
       setNavColor(true);
-    }
-
-    else {
+    } else {
       setNavColor(false);
     }
-  }
+  };
 
-  window.addEventListener('scroll', changeNavColor);
+  window.addEventListener("scroll", changeNavColor);
 
   return (
     <>
@@ -53,22 +51,44 @@ export default function Navbar() {
         </div>
       </nav> */}
 
-      <nav className={navColor ? "sticky-top navbar-scroll transition ease-in duration-200 shadow-sm" : "sticky-top bg-white transition ease-in duration-200"}>
+      <nav
+        className={
+          navColor
+            ? "sticky-top navbar-scroll transition ease-in duration-200 shadow-sm"
+            : "sticky-top bg-white transition ease-in duration-200"
+        }
+      >
         <div className="max-w-screen-2xl py-6 px-4 flex mx-auto justify-between items-center">
           <a href="/">
-            <p className={navColor ? "text-2xl font-semibold text-white" : "text-2xl font-semibold"}>Jigsaw</p>
+            <p
+              className={
+                navColor
+                  ? "text-2xl font-semibold text-white"
+                  : "text-2xl font-semibold"
+              }
+            >
+              Jigsaw
+            </p>
           </a>
           <ul className="flex space-x-5 items-center">
             <a href="/">
               <li
-                className={navColor ? "text-white hover:text-gray-500 font-normal font-sans text-md" : "text-gray-500 hover:text-gray-900 font-normal font-sans text-md"}
+                className={
+                  navColor
+                    ? "text-white hover:text-gray-500 font-normal font-sans text-md"
+                    : "text-gray-500 hover:text-gray-900 font-normal font-sans text-md"
+                }
               >
                 About
               </li>
             </a>
             <a href="/">
               <li
-                className={navColor ? "text-white hover:text-gray-500 font-normal font-sans text-md" : "text-gray-500 hover:text-gray-900 font-normal font-sans text-md"}
+                className={
+                  navColor
+                    ? "text-white hover:text-gray-500 font-normal font-sans text-md"
+                    : "text-gray-500 hover:text-gray-900 font-normal font-sans text-md"
+                }
               >
                 Features
               </li>

@@ -11,7 +11,7 @@ export default function HomePage() {
 
   return (
     <>
-      <HeroSection2 />
+      <HeroSection2></HeroSection2>
     </>
   );
 }

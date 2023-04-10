@@ -5,8 +5,8 @@ import ScheduleLayout from "../components/schedule/ScheduleLayout";
 export default function SchedulePage() {
   return (
     <>
-      {/* <ScheduleDisplay /> */}
-      <ScheduleLayout />
+      <ScheduleDisplay />
+      {/* <ScheduleLayout /> */}
     </>
   );
 }
