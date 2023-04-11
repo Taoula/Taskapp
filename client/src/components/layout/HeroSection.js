@@ -20,13 +20,13 @@ export default function HeroSection() {
             </p>
             <div className="flex flex-col space-y-4 sm:items-center sm:justify-center sm:flex-row sm:space-y-0 sm:space-x-4 lg:justify-start">
               <a
-                className="py-3 sm:px-8 sm:py-3 md:px-8 md:py-3 xl:px-9 xl:py-4 md:text-lg xl:text-xl font-medium rounded bg-green-500 border border-gray-900"
+                className="hover:cursor-pointer py-3 sm:px-8 sm:py-3 md:px-8 md:py-3 xl:px-9 xl:py-4 md:text-lg xl:text-xl font-medium rounded bg-green-500 border border-gray-900"
                 onClick={() => history("/register")}
               >
                 Get started
               </a>
               <a
-                className="py-3 sm:px-8 sm:py-3 md:px-8 md:py-3 xl:px-9 xl:py-4 md:text-lg xl:text-xl font-medium border rounded border-gray-900"
+                className="hover:cursor-pointer py-3 sm:px-8 sm:py-3 md:px-8 md:py-3 xl:px-9 xl:py-4 md:text-lg xl:text-xl font-medium border rounded border-gray-900"
                 onClick={() => history("/login")}
               >
                 Learn more

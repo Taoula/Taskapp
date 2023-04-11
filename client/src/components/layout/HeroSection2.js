@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/layout/Navbar";
-import BreakpointLabel from "../components/BreakpointLabel";
+import Navbar from "./Navbar";
+import BreakpointLabel from "../BreakpointLabel";
 
 export default function HeroSection2() {
   const history = useNavigate();

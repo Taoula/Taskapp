@@ -18,15 +18,17 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="text-gray-900 mt-8 items-center rounded-lg flex justify-between max-w-screen-2xl mx-auto">
-        <h1 className="text-3xl">Jigsaw</h1>
+      <nav className="text-gray-900 mt-8 items-center rounded-lg flex justify-between max-w-screen-2xl mx-auto px-6">
+        <a className="text-3xl" href="/">
+          Jigsaw
+        </a>
         <div className="space-x-8 text-lg">
-          <a>About</a>
-          <a>Features</a>
+          <a className="hover:underline hover:cursor-pointer">About</a>
+          <a className="hover:underline hover:cursor-pointer">Features</a>
         </div>
         <div className="space-x-8 text-lg">
-          <a>Login</a>
-          <a className="border rounded border-gray-900 px-8 py-3 bg-green-500">
+          <a className="hover:underline hover:cursor-pointer">Login</a>
+          <a className="hover:cursor-pointer border rounded border-gray-900 px-8 py-3 bg-green-500">
             Sign up
           </a>
         </div>
