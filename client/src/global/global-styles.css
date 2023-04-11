@@ -45,22 +45,6 @@
   background: #10182a;
 }
 
-/* hero section curve styles */
-.curve {
-  width: 100%;
-  transform: rotate(180deg);
-}
-
-.curve svg {
-  width: calc(119% + 1.3px);
-  height: 93px;
-}
-
-.curve .shape-fill {
-  fill: white;
-}
-/* end of curve styles */
-
 .timeInput {
   text-align: right;
 }

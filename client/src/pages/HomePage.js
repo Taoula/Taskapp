@@ -10,6 +10,7 @@ export default function HomePage() {
     <>
       <Navbar></Navbar>
       <HeroSection></HeroSection>
+      <div className="bg-red-100 min-h-screen"></div>
     </>
   );
 }
