@@ -1,11 +1,13 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import BreakpointLabel from "../BreakpointLabel";
 
 export default function HeroSection() {
   const history = useNavigate();
 
   return (
     <>
+      <BreakpointLabel></BreakpointLabel>
       {/* Hero section */}
       <section className="text-gray-900 h-[calc(100vh-100px)] flex flex-col justify-center items-center">
         <div className="container flex flex-col justify-center p-6 mx-auto sm:py-12 lg:py-24 lg:flex-row lg:justify-between">
@@ -20,13 +22,13 @@ export default function HeroSection() {
             </p>
             <div className="flex flex-col space-y-4 sm:items-center sm:justify-center sm:flex-row sm:space-y-0 sm:space-x-4 lg:justify-start">
               <a
-                className="hover:cursor-pointer py-3 sm:px-8 sm:py-3 md:px-8 md:py-3 xl:px-9 xl:py-4 md:text-lg xl:text-xl font-medium rounded bg-green-500 border border-gray-900"
+                className="hover:bg-green-600 hover:cursor-pointer py-3 sm:px-8 sm:py-3 md:px-8 md:py-3 xl:px-9 xl:py-4 md:text-lg xl:text-xl font-medium rounded bg-green-500 border border-gray-900"
                 onClick={() => history("/register")}
               >
                 Get started
               </a>
               <a
-                className="hover:cursor-pointer py-3 sm:px-8 sm:py-3 md:px-8 md:py-3 xl:px-9 xl:py-4 md:text-lg xl:text-xl font-medium border rounded border-gray-900"
+                className="hover:bg-gray-200 hover:cursor-pointer py-3 sm:px-8 sm:py-3 md:px-8 md:py-3 xl:px-9 xl:py-4 md:text-lg xl:text-xl font-medium border rounded border-gray-900"
                 onClick={() => history("/login")}
               >
                 Learn more
