@@ -9,14 +9,14 @@ export default function HeroSection() {
     <>
       <BreakpointLabel></BreakpointLabel>
       {/* Hero section */}
-      <section className="text-gray-900 h-[calc(100vh-100px)] flex flex-col justify-center items-center">
+      <section className="text-gray-900 bg-heroBackgroundColor h-[calc(100vh-100px)] flex flex-col justify-center items-center">
         <div className="container flex flex-col justify-center p-6 mx-auto sm:py-12 lg:py-24 lg:flex-row lg:justify-between">
           <div className="flex flex-col justify-center p-6 text-center rounded-sm lg:max-w-4xl xl:max-w-4xl lg:text-left">
             <h1 className="xl:text-7xl lg:text-6xl leading-none md:text-6xl sm:text-5xl text-4xl">
               A powerful scheduling tool to{" "}
               <span className="highlight">avoid burnout</span>
             </h1>
-            <p className="mt-6 mb-8 sm:text-2xl text-lg md:text-2xl lg:max-w-xl xl:text-3xl md:mb-10 xl:mb-12 font-light text-gray-400 font-sans xl:max-w-3xl">
+            <p className="mt-6 mb-8 sm:text-2xl text-lg md:text-2xl lg:max-w-xl xl:text-3xl md:mb-10 xl:mb-12 font-light text-gray-500 font-sans xl:max-w-3xl">
               Take control of your day with a dynamic schedule and tasks that
               adapt to your progress
             </p>

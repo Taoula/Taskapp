@@ -20,11 +20,16 @@ module.exports = {
       colors: {
         headerColor: "#f9f9f9",
         dashboardBackgroundColor: "#f2f2f4",
-        tabHighlightColor: "#f2f2f4",
-        sidebarColor: "#f3f4f6",
+        // tabHighlightColor: "#f2f2f4",
+        // sidebarColor: "#f3f4f6",
+        sidebarColor: "#f4f4f4",
+        tabHighlightColor: "#ebebeb",
         newBlack: "#212427",
         newGrey: "#F3F2F0",
         landingBackground: "#f9fafb",
+        heroBackgroundColor: "#f0f0f0",
+        green1: "#d9fb51",
+        green2: "#c3e249",
       },
       height: {
         128: "32rem",

@@ -6,7 +6,7 @@ import "tw-elements";
 import DashboardFooter from "../layout/DashboardFooter";
 import CreateTaskSlideover from "./CreateTaskSlideover";
 import CompletedTask from "./CompletedTask";
-import { MagnifyingGlass } from "phosphor-react";
+import { MagnifyingGlass, ArrowsDownUp } from "phosphor-react";
 
 export default function TaskDisplay() {
   const [tasks, setTasks] = useState([]);
@@ -113,247 +113,315 @@ export default function TaskDisplay() {
   return (
     <>
       {/* Tasks menu */}
-      <div className="flex justify-between items-center mb-5">
-        <h1 className="text-3xl font-normal">My Tasks</h1>
-        <ul className="flex text-gray-500">
-          <li
-            className={
-              toggleState === 1
-                ? "bg-gray-300 pt-2 pb-2 pr-4 pl-4 text-gray-900 hover:bg-gray-300 font-normal text-xs rounded-l-md border"
-                : "pt-2 pb-2 pr-4 pl-4 hover:bg-gray-300 hover:text-gray-900 font-normal text-xs rounded-l-md border"
-            }
-            onClick={() => toggleTab(1)}
-          >
-            All
-          </li>
-          <li
-            className={
-              toggleState === 2
-                ? "bg-gray-300 pt-2 pb-2 pr-4 pl-4 hover:bg-gray-300 text-gray-900 font-normal text-xs border-t border-b"
-                : "pt-2 pb-2 pr-4 pl-4 hover:bg-gray-300 hover:text-gray-900 font-normal text-xs border-t border-b"
-            }
-            onClick={() => toggleTab(2)}
-          >
-            Inactive
-          </li>
-          <li
-            className={
-              toggleState === 3
-                ? "bg-gray-300 pt-2 pb-2 pr-4 pl-4 hover:bg-gray-300 text-gray-900 font-normal text-xs rounded-r-md border"
-                : "pt-2 pb-2 pr-4 pl-4 hover:bg-gray-300 hover:text-gray-900 font-normal text-xs rounded-r-md border"
-            }
-            onClick={() => toggleTab(3)}
-          >
-            Active
-          </li>
-        </ul>
+      <div className="flex justify-between items-center mb-10">
+        <h1 className="text-4xl font-semibold pt-1.5">My Tasks</h1>
       </div>
 
-      {/* both fields are visible if all tab is clicked */}
-      <div className={toggleState === 1 ? "active-content content" : "content"}>
-        <div className="grid grid-cols-1 lg:grid-cols-2 space-y-4 lg:space-y-0 lg:space-x-4">
-          {/* Inactive tasks field */}
-          <div className="rounded-md text-center border remove-scrollbar overflow-scroll h-[28rem]">
-            {/* Title and add button inline */}
-            <div className="flex justify-between items-center p-5 sticky top-0 z-10 bg-white">
-              <h1 className="font-normal text-lg">Inactive Tasks</h1>
-              {/* add task button */}
-              {/* grey add task button */}
-              {/* <span
-                className="rounded-md text-gray-500 border hover:text-gray-900 hover:bg-sidebarColor font-normal pl-4 pr-4 text-xs pt-2 pb-2"
-                // onClick={() => setShowCreateTask(true)}
-                onClick={() => setOpen(true)}
-              >
-                Add Task
-              </span> */}
+      <div className="space-y-6 flex flex-col">
+        {/* Inactive tasks field */}
+        <div className="rounded-md text-center border remove-scrollbar overflow-scroll h-[28rem]">
+          {/* Title and add button inline */}
+          <div className="flex justify-between items-center p-5 sticky top-0 z-10 bg-white">
+            <h1 className="font-semibold text-2xl">Inactive Tasks</h1>
 
-              {/* blue add task button */}
-              <span
-                className="rounded-md text-blue-600 border bg-sky-100 border-blue-600 hover:text-white hover:bg-blue-500 font-normal pl-4 pr-4 text-xs pt-2 pb-2"
-                // onClick={() => setShowCreateTask(true)}
-                onClick={() => setOpen(true)}
-              >
-                Add Task
-              </span>
-            </div>
-            {numberOfInactiveTasks === 0 ? (
-              <p className="font-light h-[19rem] flex items-center text-sm justify-center text-gray-500">
-                No inactive tasks <br /> Click add task to start
-              </p>
-            ) : (
-              <div className="space-y-3 p-5 pt-0">{renderTasks(false)}</div>
-            )}
-            {/* <div className="space-y-3 p-5 pt-0">{renderTasks(false)}</div> */}
+            {/* blue add task button */}
+            <span
+              className="rounded-md text-blue-600 border bg-sky-100 border-blue-600 hover:text-white hover:bg-blue-500 font-normal pl-4 pr-4 text-xs pt-2 pb-2"
+              onClick={() => setOpen(true)}
+            >
+              Add Task
+            </span>
           </div>
-
-          {/* active tasks field */}
-          <div className="rounded-md text-center border remove-scrollbar overflow-scroll h-[28rem]">
-            {/* Title and add button inline */}
-            <div className="flex justify-between items-center p-5 sticky top-0 z-10 bg-white">
-              <h1 className="font-normal text-lg">Active Tasks</h1>
-
-              {/* add task button */}
-              <span
-                className="rounded-md text-gray-500 border hover:text-gray-900 hover:bg-sidebarColor font-normal pl-4 pr-4 text-xs pt-2 pb-2 invisible"
-                // onClick={() => setShowCreateTask(true)}
-                onClick={() => setOpen(true)}
-              >
-                Add Task
-              </span>
-            </div>
-            {numberOfActiveTasks === 0 ? (
-              <p className="font-light h-[19rem] flex items-center text-sm justify-center text-gray-500">
-                No active tasks
-              </p>
-            ) : (
-              <div className="space-y-3 p-5 pt-0">{renderTasks(true)}</div>
-            )}
-            {/* <div className="space-y-3 p-5 pt-0">{renderTasks(true)}</div> */}
-          </div>
-        </div>
-      </div>
-
-      {/* inactive tasks field is only visible if inactive tab is clicked */}
-      <div className={toggleState === 2 ? "active-content content" : "content"}>
-        <div className="grid grid-cols-1">
-          <div className="rounded-md text-center border remove-scrollbar overflow-scroll h-[28rem]">
-            {/* Title and add button inline */}
-            <div className="flex justify-between items-center p-5 sticky top-0 z-10 bg-white">
-              <h1 className="font-normal text-lg">Inactive Tasks</h1>
-
-              {/* blue add task button */}
-              <span
-                className="rounded-md text-blue-600 border bg-sky-100 border-blue-600 hover:text-white hover:bg-blue-500 font-normal pl-4 pr-4 text-xs pt-2 pb-2"
-                // onClick={() => setShowCreateTask(true)}
-                onClick={() => setOpen(true)}
-              >
-                Add Task
-              </span>
-            </div>
-            {numberOfInactiveTasks === 0 ? (
-              <p className="font-light h-[19rem] flex items-center text-sm justify-center text-gray-500">
-                No inactive tasks <br /> Click add task to start
-              </p>
-            ) : (
-              <div className="space-y-3 p-5 pt-0">{renderTasks(false)}</div>
-            )}
-            {/* <div className="space-y-3 p-5 pt-0">{renderTasks(false)}</div> */}
-          </div>
-        </div>
-      </div>
-
-      {/* active tasks field only visible if visible tab is clicked */}
-      <div className={toggleState === 3 ? "active-content content" : "content"}>
-        <div className="grid grid-cols-1">
-          <div className="rounded-md text-center border remove-scrollbar overflow-scroll h-[28rem]">
-            {/* Title and add button inline */}
-            <div className="flex justify-between items-center p-5 sticky top-0 z-10 bg-white">
-              <h1 className="font-normal text-lg">Active Tasks</h1>
-
-              {/* add task button */}
-              <span
-                className="rounded-md text-gray-500 border hover:text-gray-900 hover:bg-sidebarColor font-normal pl-4 pr-4 text-xs pt-2 pb-2 invisible"
-                // onClick={() => setShowCreateTask(true)}
-                onClick={() => setOpen(true)}
-              >
-                Add Task
-              </span>
-            </div>
-            {numberOfActiveTasks === 0 ? (
-              <p className="font-light h-[19rem] flex items-center text-sm justify-center text-gray-500">
-                No active tasks
-              </p>
-            ) : (
-              <div className="space-y-3 p-5 pt-0">{renderTasks(true)}</div>
-            )}
-            {/* <div className="space-y-3 p-5 pt-0">{renderTasks(true)}</div> */}
-          </div>
-        </div>
-      </div>
-
-      <h1 className="text-3xl font-normal mt-8 mb-5">Active Task Status</h1>
-
-      <div className="rounded-md text-center border overflow-scroll h-[28rem] remove-scrollbar">
-        <div class="text-sm px-5 bg-white pt-5 text-center text-gray-500 border-b border-gray-400 sticky top-0 z-10">
-          <ul class="flex flex-wrap -mb-px">
-            <li>
-              <span
-                className={
-                  secondToggleState === 1
-                    ? "inline-block p-4 text-gray-900 rounded-t-lg border-b-2 border-gray-900 active"
-                    : "inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-900 hover:border-gray-900 font-normal"
-                }
-                onClick={() => secondToggleTab(1)}
-              >
-                Incomplete
-              </span>
-            </li>
-            <li>
-              <span
-                className={
-                  secondToggleState === 2
-                    ? "inline-block p-4 text-gray-900 rounded-t-lg border-b-2 border-gray-900 active"
-                    : "inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-900 hover:border-gray-900 font-normal"
-                }
-                onClick={() => secondToggleTab(2)}
-              >
-                Complete
-              </span>
-            </li>
-          </ul>
-        </div>
-
-        <div
-          className={
-            secondToggleState === 1 ? "active-content content" : "content"
-          }
-        >
-          {numberOfIncompleteTasks === 0 ? (
+          {numberOfInactiveTasks === 0 ? (
             <p className="font-light h-[19rem] flex items-center text-sm justify-center text-gray-500">
-              No incomplete tasks
+              No inactive tasks <br /> Click add task to start
             </p>
           ) : (
-            <div className="space-y-3 p-5">{renderCompletedTasks(false)}</div>
+            <div className="space-y-3 p-5 pt-0">{renderTasks(false)}</div>
           )}
-          {/* <div className="space-y-3 p-5">{renderCompletedTasks(false)}</div> */}
         </div>
 
-        <div
-          className={
-            secondToggleState === 2 ? "active-content content" : "content"
-          }
-        >
-          {numberOfCompleteTasks === 0 ? (
+        {/* arrows */}
+        <div className="flex justify-center">
+          <ArrowsDownUp size={25} weight="fill" className="text-gray-700" />
+        </div>
+
+        {/* inactive tasks section */}
+        <div className="rounded-md text-center border remove-scrollbar overflow-scroll h-[28rem]">
+          {/* Title and add button inline */}
+          <div className="flex justify-between items-center p-5 sticky top-0 z-10 bg-white">
+            <h1 className="font-semibold text-2xl">Active Tasks</h1>
+
+            {/* add task button */}
+            <span
+              className="rounded-md text-gray-500 border hover:text-gray-900 hover:bg-sidebarColor font-normal pl-4 pr-4 text-xs pt-2 pb-2 invisible"
+              onClick={() => setOpen(true)}
+            >
+              Add Task
+            </span>
+          </div>
+          {numberOfActiveTasks === 0 ? (
             <p className="font-light h-[19rem] flex items-center text-sm justify-center text-gray-500">
-              No complete tasks
+              No active tasks
             </p>
           ) : (
-            <div className="space-y-3 p-5">{renderCompletedTasks(true)}</div>
+            <div className="space-y-3 p-5 pt-0">{renderTasks(true)}</div>
           )}
-          {/* <div className="space-y-3 p-5">{renderCompletedTasks(true)}</div> */}
         </div>
       </div>
 
-      <DashboardFooter></DashboardFooter>
+      {/* <DashboardFooter></DashboardFooter> */}
 
       <CreateTaskSlideover
         open={open}
         setOpen={setOpen}
         getTasks={getTasks}
       ></CreateTaskSlideover>
-
-      {/* <TaskForm
-        getTasks={getTasks}
-        visible={showCreateTask}
-        onClose={handleOnClose}
-      />
-      {taskFormId === "" && newTask && (
-        <TaskForm
-          getTasks={getTasks}
-          visible={showCreateTask}
-          onClose={handleOnClose}
-        />
-      )} */}
     </>
+
+    // <>
+    //   {/* Tasks menu */}
+    //   <div className="flex justify-between items-center mb-5">
+    //     <h1 className="text-3xl font-normal">My Tasks</h1>
+    //     <ul className="flex text-gray-500">
+    //       <li
+    //         className={
+    //           toggleState === 1
+    //             ? "bg-gray-300 pt-2 pb-2 pr-4 pl-4 text-gray-900 hover:bg-gray-300 font-normal text-xs rounded-l-md border"
+    //             : "pt-2 pb-2 pr-4 pl-4 hover:bg-gray-300 hover:text-gray-900 font-normal text-xs rounded-l-md border"
+    //         }
+    //         onClick={() => toggleTab(1)}
+    //       >
+    //         All
+    //       </li>
+    //       <li
+    //         className={
+    //           toggleState === 2
+    //             ? "bg-gray-300 pt-2 pb-2 pr-4 pl-4 hover:bg-gray-300 text-gray-900 font-normal text-xs border-t border-b"
+    //             : "pt-2 pb-2 pr-4 pl-4 hover:bg-gray-300 hover:text-gray-900 font-normal text-xs border-t border-b"
+    //         }
+    //         onClick={() => toggleTab(2)}
+    //       >
+    //         Inactive
+    //       </li>
+    //       <li
+    //         className={
+    //           toggleState === 3
+    //             ? "bg-gray-300 pt-2 pb-2 pr-4 pl-4 hover:bg-gray-300 text-gray-900 font-normal text-xs rounded-r-md border"
+    //             : "pt-2 pb-2 pr-4 pl-4 hover:bg-gray-300 hover:text-gray-900 font-normal text-xs rounded-r-md border"
+    //         }
+    //         onClick={() => toggleTab(3)}
+    //       >
+    //         Active
+    //       </li>
+    //     </ul>
+    //   </div>
+
+    //   {/* both fields are visible if all tab is clicked */}
+    //   <div className={toggleState === 1 ? "active-content content" : "content"}>
+    //     <div className="grid grid-cols-1 lg:grid-cols-2 space-y-4 lg:space-y-0 lg:space-x-4">
+    //       {/* Inactive tasks field */}
+    //       <div className="rounded-md text-center border remove-scrollbar overflow-scroll h-[28rem]">
+    //         {/* Title and add button inline */}
+    //         <div className="flex justify-between items-center p-5 sticky top-0 z-10 bg-white">
+    //           <h1 className="font-normal text-lg">Inactive Tasks</h1>
+    //           {/* add task button */}
+    //           {/* grey add task button */}
+    //           {/* <span
+    //             className="rounded-md text-gray-500 border hover:text-gray-900 hover:bg-sidebarColor font-normal pl-4 pr-4 text-xs pt-2 pb-2"
+    //             // onClick={() => setShowCreateTask(true)}
+    //             onClick={() => setOpen(true)}
+    //           >
+    //             Add Task
+    //           </span> */}
+
+    //           {/* blue add task button */}
+    //           <span
+    //             className="rounded-md text-blue-600 border bg-sky-100 border-blue-600 hover:text-white hover:bg-blue-500 font-normal pl-4 pr-4 text-xs pt-2 pb-2"
+    //             // onClick={() => setShowCreateTask(true)}
+    //             onClick={() => setOpen(true)}
+    //           >
+    //             Add Task
+    //           </span>
+    //         </div>
+    //         {numberOfInactiveTasks === 0 ? (
+    //           <p className="font-light h-[19rem] flex items-center text-sm justify-center text-gray-500">
+    //             No inactive tasks <br /> Click add task to start
+    //           </p>
+    //         ) : (
+    //           <div className="space-y-3 p-5 pt-0">{renderTasks(false)}</div>
+    //         )}
+    //         {/* <div className="space-y-3 p-5 pt-0">{renderTasks(false)}</div> */}
+    //       </div>
+
+    //       {/* active tasks field */}
+    //       <div className="rounded-md text-center border remove-scrollbar overflow-scroll h-[28rem]">
+    //         {/* Title and add button inline */}
+    //         <div className="flex justify-between items-center p-5 sticky top-0 z-10 bg-white">
+    //           <h1 className="font-normal text-lg">Active Tasks</h1>
+
+    //           {/* add task button */}
+    //           <span
+    //             className="rounded-md text-gray-500 border hover:text-gray-900 hover:bg-sidebarColor font-normal pl-4 pr-4 text-xs pt-2 pb-2 invisible"
+    //             // onClick={() => setShowCreateTask(true)}
+    //             onClick={() => setOpen(true)}
+    //           >
+    //             Add Task
+    //           </span>
+    //         </div>
+    //         {numberOfActiveTasks === 0 ? (
+    //           <p className="font-light h-[19rem] flex items-center text-sm justify-center text-gray-500">
+    //             No active tasks
+    //           </p>
+    //         ) : (
+    //           <div className="space-y-3 p-5 pt-0">{renderTasks(true)}</div>
+    //         )}
+    //         {/* <div className="space-y-3 p-5 pt-0">{renderTasks(true)}</div> */}
+    //       </div>
+    //     </div>
+    //   </div>
+
+    //   {/* inactive tasks field is only visible if inactive tab is clicked */}
+    //   <div className={toggleState === 2 ? "active-content content" : "content"}>
+    //     <div className="grid grid-cols-1">
+    //       <div className="rounded-md text-center border remove-scrollbar overflow-scroll h-[28rem]">
+    //         {/* Title and add button inline */}
+    //         <div className="flex justify-between items-center p-5 sticky top-0 z-10 bg-white">
+    //           <h1 className="font-normal text-lg">Inactive Tasks</h1>
+
+    //           {/* blue add task button */}
+    //           <span
+    //             className="rounded-md text-blue-600 border bg-sky-100 border-blue-600 hover:text-white hover:bg-blue-500 font-normal pl-4 pr-4 text-xs pt-2 pb-2"
+    //             // onClick={() => setShowCreateTask(true)}
+    //             onClick={() => setOpen(true)}
+    //           >
+    //             Add Task
+    //           </span>
+    //         </div>
+    //         {numberOfInactiveTasks === 0 ? (
+    //           <p className="font-light h-[19rem] flex items-center text-sm justify-center text-gray-500">
+    //             No inactive tasks <br /> Click add task to start
+    //           </p>
+    //         ) : (
+    //           <div className="space-y-3 p-5 pt-0">{renderTasks(false)}</div>
+    //         )}
+    //         {/* <div className="space-y-3 p-5 pt-0">{renderTasks(false)}</div> */}
+    //       </div>
+    //     </div>
+    //   </div>
+
+    //   {/* active tasks field only visible if visible tab is clicked */}
+    //   <div className={toggleState === 3 ? "active-content content" : "content"}>
+    //     <div className="grid grid-cols-1">
+    //       <div className="rounded-md text-center border remove-scrollbar overflow-scroll h-[28rem]">
+    //         {/* Title and add button inline */}
+    //         <div className="flex justify-between items-center p-5 sticky top-0 z-10 bg-white">
+    //           <h1 className="font-normal text-lg">Active Tasks</h1>
+
+    //           {/* add task button */}
+    //           <span
+    //             className="rounded-md text-gray-500 border hover:text-gray-900 hover:bg-sidebarColor font-normal pl-4 pr-4 text-xs pt-2 pb-2 invisible"
+    //             // onClick={() => setShowCreateTask(true)}
+    //             onClick={() => setOpen(true)}
+    //           >
+    //             Add Task
+    //           </span>
+    //         </div>
+    //         {numberOfActiveTasks === 0 ? (
+    //           <p className="font-light h-[19rem] flex items-center text-sm justify-center text-gray-500">
+    //             No active tasks
+    //           </p>
+    //         ) : (
+    //           <div className="space-y-3 p-5 pt-0">{renderTasks(true)}</div>
+    //         )}
+    //         {/* <div className="space-y-3 p-5 pt-0">{renderTasks(true)}</div> */}
+    //       </div>
+    //     </div>
+    //   </div>
+
+    //   <h1 className="text-3xl font-normal mt-8 mb-5">Active Task Status</h1>
+
+    //   <div className="rounded-md text-center border overflow-scroll h-[28rem] remove-scrollbar">
+    //     <div class="text-sm px-5 bg-white pt-5 text-center text-gray-500 border-b border-gray-400 sticky top-0 z-10">
+    //       <ul class="flex flex-wrap -mb-px">
+    //         <li>
+    //           <span
+    //             className={
+    //               secondToggleState === 1
+    //                 ? "inline-block p-4 text-gray-900 rounded-t-lg border-b-2 border-gray-900 active"
+    //                 : "inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-900 hover:border-gray-900 font-normal"
+    //             }
+    //             onClick={() => secondToggleTab(1)}
+    //           >
+    //             Incomplete
+    //           </span>
+    //         </li>
+    //         <li>
+    //           <span
+    //             className={
+    //               secondToggleState === 2
+    //                 ? "inline-block p-4 text-gray-900 rounded-t-lg border-b-2 border-gray-900 active"
+    //                 : "inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-900 hover:border-gray-900 font-normal"
+    //             }
+    //             onClick={() => secondToggleTab(2)}
+    //           >
+    //             Complete
+    //           </span>
+    //         </li>
+    //       </ul>
+    //     </div>
+
+    //     <div
+    //       className={
+    //         secondToggleState === 1 ? "active-content content" : "content"
+    //       }
+    //     >
+    //       {numberOfIncompleteTasks === 0 ? (
+    //         <p className="font-light h-[19rem] flex items-center text-sm justify-center text-gray-500">
+    //           No incomplete tasks
+    //         </p>
+    //       ) : (
+    //         <div className="space-y-3 p-5">{renderCompletedTasks(false)}</div>
+    //       )}
+    //       {/* <div className="space-y-3 p-5">{renderCompletedTasks(false)}</div> */}
+    //     </div>
+
+    //     <div
+    //       className={
+    //         secondToggleState === 2 ? "active-content content" : "content"
+    //       }
+    //     >
+    //       {numberOfCompleteTasks === 0 ? (
+    //         <p className="font-light h-[19rem] flex items-center text-sm justify-center text-gray-500">
+    //           No complete tasks
+    //         </p>
+    //       ) : (
+    //         <div className="space-y-3 p-5">{renderCompletedTasks(true)}</div>
+    //       )}
+    //       {/* <div className="space-y-3 p-5">{renderCompletedTasks(true)}</div> */}
+    //     </div>
+    //   </div>
+
+    //   <DashboardFooter></DashboardFooter>
+
+    //   <CreateTaskSlideover
+    //     open={open}
+    //     setOpen={setOpen}
+    //     getTasks={getTasks}
+    //   ></CreateTaskSlideover>
+
+    //   {/* <TaskForm
+    //     getTasks={getTasks}
+    //     visible={showCreateTask}
+    //     onClose={handleOnClose}
+    //   />
+    //   {taskFormId === "" && newTask && (
+    //     <TaskForm
+    //       getTasks={getTasks}
+    //       visible={showCreateTask}
+    //       onClose={handleOnClose}
+    //     />
+    //   )} */}
+    // </>
   );
 }

@@ -23,23 +23,26 @@ export default function Navbar() {
       <nav
         className={
           navScroll
-            ? "text-gray-900 bg-white py-8 min-w-screen px-6 sticky-top transition ease-in duration-200 shadow-lg"
-            : "text-gray-900 bg-white py-8 min-w-screen px-6 sticky-top transition ease-in duration-200"
+            ? "text-gray-900 bg-white py-8 min-w-screen sticky-top transition ease-in duration-200 shadow-lg"
+            : "text-gray-900 bg-heroBackgroundColor py-8 min-w-screen sticky-top transition ease-in duration-200"
         }
       >
-        <div className="flex items-center justify-between max-w-screen-xl mx-auto">
-          <a className="text-3xl" href="/">
-            jigsaw
-          </a>
+        <div className="flex items-center justify-between max-w-screen-2xl px-12 mx-auto">
+          <div className="space-x-20">
+            <a className="text-3xl font-medium" href="/">
+              jigsaw
+            </a>
+            <span className="space-x-8 text-lg invisible lg:visible">
+              <a className="hover:underline hover:cursor-pointer">About</a>
+              <a className="hover:underline hover:cursor-pointer">Features</a>
+            </span>
+          </div>
           <FontAwesomeIcon
             icon={faBars}
-            className="lg:hidden text-gray-900"
-            size="2xl"
+            className="lg:hidden text-gray-900 hover:text-green-600"
+            size="xl"
           />
-          <div className="hidden lg:block space-x-8 text-lg">
-            <a className="hover:underline hover:cursor-pointer">About</a>
-            <a className="hover:underline hover:cursor-pointer">Features</a>
-          </div>
+          {/* <div className="hidden lg:block space-x-8 text-lg"></div> */}
           <div className="hidden lg:block space-x-8 text-lg">
             <a
               className="hover:underline hover:cursor-pointer"
