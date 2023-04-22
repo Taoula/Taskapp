@@ -114,7 +114,7 @@ export default function TaskDisplay() {
     <>
       {/* Tasks menu */}
       <div className="flex justify-between items-center mb-10">
-        <h1 className="text-4xl font-semibold pt-1.5">My Tasks</h1>
+        <h1 className="text-4xl font-semibold pt-1">My Tasks</h1>
       </div>
 
       <div className="space-y-6 flex flex-col">

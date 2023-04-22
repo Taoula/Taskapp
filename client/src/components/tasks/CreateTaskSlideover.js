@@ -85,13 +85,12 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
               >
                 <Dialog.Panel className="pointer-events-auto relative w-screen max-w-md">
                   <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
-                    <div className="px-8 flex items-center justify-start pt-5">
-                      <Dialog.Title className="text-2xl font-normal text-gray-900">
+                    <div className="px-8 flex items-center justify-start pt-8">
+                      <Dialog.Title className="text-2xl font-semibold text-gray-900">
                         Create a Task
                       </Dialog.Title>
                     </div>
                     <div className="mt-8 px-8 block">
-                      {/* Replace with your content */}
                       <form className="space-y-5" onSubmit={(e) => onSubmit(e)}>
                         <div>
                           <label className="block text-md text-gray-500 mb-2 font-normal">
@@ -158,49 +157,55 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
 
                         {fixed && (
                           <div>
-                          <p className="font-light text-red-600 pb-3">*Set a specific time to complete this task</p>
-                          <div className="border rounded-md py-5 px-8 flex justify-between items-center">
-                            <p className="text-lg w-full">{time}</p>
-                            <div class="inline-flex text-sm font-light border rounded-md p-2">
-                              <input
-                                class="px-2 outline-none appearance-none bg-transparent w-full"
-                                placeholder="0-23"
-                                min="1"
-                                max="12"
-                                value={getTimeValue(time, "hours")}
-                                onChange={(e) =>
-                                  setTime(
-                                    modifyTime(time, "hours", e.target.value)
-                                  )
-                                }
-                              ></input>
-                              <span class="px-2">:</span>
-                              <input
-                                class="px-2 outline-none appearance-none bg-transparent w-full"
-                                placeholder="0-59"
-                                min="0"
-                                max="59"
-                                value={getTimeValue(time, "minutes")}
-                                onChange={(e) =>
-                                  setTime(
-                                    modifyTime(time, "minutes", e.target.value)
-                                  )
-                                }
-                              ></input>
-                              <select
-                                class="px-2 outline-none appearance-none bg-transparent"
-                                value={getTimeValue(time, "amorpm")}
-                                onChange={(e) =>
-                                  setTime(
-                                    modifyTime(time, "amorpm", e.target.value)
-                                  )
-                                }
-                              >
-                                <option value="AM">AM</option>
-                                <option value="PM">PM</option>
-                              </select>
-                            </div>
-                            {/* <div className="">
+                            <p className="font-light text-red-600 pb-3">
+                              *Set a specific time to complete this task
+                            </p>
+                            <div className="border rounded-md py-5 px-8 flex justify-between items-center">
+                              <p className="text-lg w-full">{time}</p>
+                              <div class="inline-flex text-sm font-light border rounded-md p-2">
+                                <input
+                                  class="px-2 outline-none appearance-none bg-transparent w-full"
+                                  placeholder="0-23"
+                                  min="1"
+                                  max="12"
+                                  value={getTimeValue(time, "hours")}
+                                  onChange={(e) =>
+                                    setTime(
+                                      modifyTime(time, "hours", e.target.value)
+                                    )
+                                  }
+                                ></input>
+                                <span class="px-2">:</span>
+                                <input
+                                  class="px-2 outline-none appearance-none bg-transparent w-full"
+                                  placeholder="0-59"
+                                  min="0"
+                                  max="59"
+                                  value={getTimeValue(time, "minutes")}
+                                  onChange={(e) =>
+                                    setTime(
+                                      modifyTime(
+                                        time,
+                                        "minutes",
+                                        e.target.value
+                                      )
+                                    )
+                                  }
+                                ></input>
+                                <select
+                                  class="px-2 outline-none appearance-none bg-transparent"
+                                  value={getTimeValue(time, "amorpm")}
+                                  onChange={(e) =>
+                                    setTime(
+                                      modifyTime(time, "amorpm", e.target.value)
+                                    )
+                                  }
+                                >
+                                  <option value="AM">AM</option>
+                                  <option value="PM">PM</option>
+                                </select>
+                              </div>
+                              {/* <div className="">
                               <label className="block text-sm text-gray-500 mb-2 font-normal">
                                 Start Hour
                               </label>
@@ -255,7 +260,7 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                                 <option value="PM">PM</option>
                               </select>
                             </div> */}
-                          </div>
+                            </div>
                           </div>
                         )}
 
@@ -278,7 +283,6 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                           </button>
                         </div>
                       </form>
-                      {/* /End replace */}
                     </div>
                   </div>
                 </Dialog.Panel>
