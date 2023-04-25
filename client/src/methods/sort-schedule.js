@@ -1,7 +1,6 @@
 import axios from "axios"
 import moment from "moment"
 import addMinutes from "./add-minutes"
-import convertTime from "./convert-time"
 import sameDate from "./same-date";
 
 moment().format();
@@ -33,6 +32,7 @@ async function sortSchedule(setSchedule, wakeDate, sleepDate, currentDay){
                         name: taskReq.data[i].name,
                         priority: parseInt(taskReq.data[i].entries[k].priority),
                         duration: parseInt(taskReq.data[i].entries[k].duration),
+                        completed: taskReq.data[i].entries[k].completed,
                         time: taskReq.data[i].entries[k].time,
                         _id: taskReq.data[i]._id
                     }
@@ -225,7 +225,7 @@ async function sortSchedule(setSchedule, wakeDate, sleepDate, currentDay){
    
     const schedule = tempSchedule.map((task) => {
         const {_id, name, start, end, completed, duration, fixed} = task
-        return {_id: _id, name: name, start: convertTime(start, "utc"), end: end, completed: completed, duration: duration, fixed: fixed}
+        return {_id: _id, name: name, start: start, end: end, completed: completed, duration: duration, fixed: fixed}
     })
 
     /*

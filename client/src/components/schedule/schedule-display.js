@@ -12,6 +12,8 @@ import StylizedButton from "../forms/stylized-button"
 import ExpandableContainer from "../generic/expandable-container"
 import sameDate from "../../methods/same-date"
 import Calendar from 'react-awesome-calendar';
+import {CheckSquare, Square} from "phosphor-react"
+import Countdown from "./countdown"
 
 const ScheduleButton = styled.button`
     background-color: rgb(48, 128, 242);
@@ -51,6 +53,7 @@ export default function ScheduleDisplay(){
     const [wake, setWake] = useState("")
     const [sleep, setSleep] = useState("")
     const [hoursExpanded, setHoursExpanded] = useState(false)
+    const [focusMode, setFocusMode] = useState(false)
 
     async function getSchedule(){
         const scheduleReq = await axios.get("http://localhost:8282/schedule/")
@@ -108,7 +111,7 @@ export default function ScheduleDisplay(){
 
     function renderSchedule(){
         return schedule.map((task) => {
-            return <ScheduleBlock task={task} refreshSchedule={refreshSchedule} getSchedule = {getSchedule}></ScheduleBlock>
+            return <ScheduleBlock task={task} refreshSchedule={refreshSchedule} getSchedule = {getSchedule} currentDay={currentDay}></ScheduleBlock>
         })
     }
 
@@ -240,16 +243,38 @@ export default function ScheduleDisplay(){
                 setDayDistance(dayDistance + 1)
             }}><ScheduleText>+</ScheduleText></ScheduleButton>
             <SubHeading>A scheduling app</SubHeading>
-
             {<button onClick={()=>setHoursExpanded(!hoursExpanded)}>Edit Hours</button>}
             {hoursExpanded && <ExpandableContainer><TimeInput update={updateHours} wake={convertTime(wake, "utc")} sleep={convertTime(sleep, "utc")} close={setHoursExpanded}/></ExpandableContainer>}
 
-            <div>{renderSchedule()}</div>
-            {wake != null && wake != "Invalid Date" ? <div>
-                <ScheduleButton onClick={()=> sortSchedule(setSchedule, wake, sleep, currentDay)}><ScheduleText>Generate Schedule</ScheduleText></ScheduleButton>
-                {dayDistance == 0 && <ScheduleButton onClick={()=> resortSchedule(setSchedule, wake, sleep, currentDay)}><ScheduleText>Resort Schedule</ScheduleText></ScheduleButton>}
-                {dayDistance == 0 && <ScheduleButton onClick={()=> updateStats()}><ScheduleText>Call It A Day</ScheduleText></ScheduleButton>}
-            </div> : <p>You must set your schedule's start and end hours before generating.</p>}
-        </div>
+            <span>
+              { dayDistance == 0 && focusMode ? (
+                
+                <CheckSquare
+                  size={20}
+                  onClick={() => setFocusMode(false)}
+                  className="text-gray-500"
+                              />
+                            ) : dayDistance == 0 && (
+                              <Square
+                                size={20}
+                                onClick={() => setFocusMode(true)}
+                                className="text-gray-500"
+                              />
+                            )}
+            </span>
+            
+            {focusMode && dayDistance == 0 ? <div><Countdown schedule={schedule}/></div> : 
+            <div> 
+                <div>{renderSchedule()}</div>
+                {wake != null && wake != "Invalid Date" ? 
+                <div>
+                    <ScheduleButton onClick={()=> sortSchedule(setSchedule, wake, sleep, currentDay)}><ScheduleText>Generate Schedule</ScheduleText></ScheduleButton>
+                    {dayDistance == 0 && <ScheduleButton onClick={()=> resortSchedule(setSchedule, wake, sleep, currentDay)}><ScheduleText>Resort Schedule</ScheduleText></ScheduleButton>}
+                    {dayDistance == 0 && <ScheduleButton onClick={()=> updateStats()}><ScheduleText>Call It A Day</ScheduleText></ScheduleButton>}
+                </div> : 
+                <p>You must set your schedule's start and end hours before generating.</p>}
+            </div>} 
+            </div>
+
     )
 }
