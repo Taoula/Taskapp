@@ -5,7 +5,7 @@ import convertTime from "../../methods/convert-time";
 import { Square, CheckSquare } from "phosphor-react";
 import getTimeValue from "../../methods/get-time-value";
 import axios from "axios";
-
+ 
 export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
   const [name, setName] = useState("");
   const [duration, setDuration] = useState("");

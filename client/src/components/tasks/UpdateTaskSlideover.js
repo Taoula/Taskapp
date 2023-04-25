@@ -2,6 +2,10 @@ import { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import axios from "axios";
 import sameDate from "../../methods/same-date";
+import convertTime from "../../methods/convert-time";
+import { Square, CheckSquare } from "phosphor-react";
+import modifyTime from "../../methods/modify-time";
+import getTimeValue from "../../methods/get-time-value";
 
 export default function UpdateTaskSlideover({
   open2,
@@ -14,6 +18,8 @@ export default function UpdateTaskSlideover({
   const [duration, setDuration] = useState("");
   const [priority, setPriority] = useState("");
   const [isActive, setIsActive] = useState(false);
+  const [fixed, setFixed] = useState(false);
+  const [time, setTime] = useState("12:00 AM");
   const [entries, setEntries] = useState([]) //TODO idk if needed but saves a get request call
   const [defaults, setDefaults] = useState({}) //same here
   const [index, setIndex] = useState(0) //also might not be needed but saves an iteration of entries
@@ -33,12 +39,17 @@ export default function UpdateTaskSlideover({
       duration: loadDuration,
       priority: loadPriority,
       isActive: loadIsActive,
+      time: loadTime
     } = task.data.entries[index];
 
     setName(loadName);
     setDuration(loadDuration);
     setPriority(loadPriority);
     setIsActive(loadIsActive);
+    if (loadTime != null){
+      setFixed(true)
+    }
+    setTime(convertTime(loadTime, "utc", false))
   }
 
   useEffect(() => {
@@ -56,6 +67,7 @@ export default function UpdateTaskSlideover({
       tempEntries[index].duration = duration
       tempEntries[index].priority = priority
       tempEntries[index].isActive = isActive
+      tempEntries[index].time = fixed ? convertTime(time, "date") : null
 
       const taskData = {
         name,
@@ -161,6 +173,82 @@ export default function UpdateTaskSlideover({
                                 onChange={(e) => setPriority(e.target.value)}
                               ></input>
                             </div>
+
+                            <div className="flex items-center space-x-1 justify-end">
+                          <h1 className="font-light text-md text-gray-500">
+                            Set time:{" "}
+                          </h1>
+                          <span>
+                            {fixed ? (
+                              <CheckSquare
+                                size={20}
+                                onClick={() => setFixed(false)}
+                                className="text-gray-500"
+                              />
+                            ) : (
+                              <Square
+                                size={20}
+                                onClick={() => setFixed(true)}
+                                className="text-gray-500"
+                              />
+                            )}
+                          </span>
+                        </div>
+
+                        {fixed && (
+                          <div>
+                            <p className="font-light text-red-600 pb-3">
+                              *Set a specific time to complete this task
+                            </p>
+                            <div className="border rounded-md py-5 px-8 flex justify-between items-center">
+                              <p className="text-lg w-full">{time}</p>
+                              <div class="inline-flex text-sm font-light border rounded-md p-2">
+                                <input
+                                  class="px-2 outline-none appearance-none bg-transparent w-full"
+                                  placeholder="0-23"
+                                  min="1"
+                                  max="12"
+                                  value={getTimeValue(time, "hours")}
+                                  onChange={(e) =>
+                                    setTime(
+                                      modifyTime(time, "hours", e.target.value)
+                                    )
+                                  }
+                                ></input>
+                                <span class="px-2">:</span>
+                                <input
+                                  class="px-2 outline-none appearance-none bg-transparent w-full"
+                                  placeholder="0-59"
+                                  min="0"
+                                  max="59"
+                                  value={getTimeValue(time, "minutes")}
+                                  onChange={(e) =>
+                                    setTime(
+                                      modifyTime(
+                                        time,
+                                        "minutes",
+                                        e.target.value
+                                      )
+                                    )
+                                  }
+                                ></input>
+                                <select
+                                  class="px-2 outline-none appearance-none bg-transparent"
+                                  value={getTimeValue(time, "amorpm")}
+                                  onChange={(e) =>
+                                    setTime(
+                                      modifyTime(time, "amorpm", e.target.value)
+                                    )
+                                  }
+                                >
+                                  <option value="AM">AM</option>
+                                  <option value="PM">PM</option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
                             <div className="space-x-2 flex justify-end">
                               <span
                                 className="border px-4 py-2 rounded-md text-sm font-normal bg-opacity-50 border-red-600 text-red-600 hover:bg-red-600 hover:text-white"
