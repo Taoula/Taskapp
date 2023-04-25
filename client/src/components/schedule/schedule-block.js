@@ -84,7 +84,7 @@ function ScheduleBlock({task, getSchedule}) {
     })
 
 
-    // Needs to be refactored
+    // TODO Needs to be refactored
     function getColors(){
         if (isCompleted){
             return ["#c4c4c4", "#b3b3b3"]

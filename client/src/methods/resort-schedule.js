@@ -1,12 +1,35 @@
 import axios from "axios"
 import addMinutes from "./add-minutes"
+import sameDate from "./same-date"
 
-async function resortSchedule(setSchedule, wakeDate, sleepDate){
-    //get tasks from db
+async function resortSchedule(setSchedule, wakeDate, sleepDate, currentDay){
+
+
+    //get active tasks from db
     const taskReq = await axios.get("http://localhost:8282/task/")
+    let tasks = []
 
+    //loop through all tasks TODO reoptimize
+    for (let i = 0; i < taskReq.data.length; i++){
+        for (let k = 0; k < taskReq.data[i].entries.length; k++){
+            if (sameDate(taskReq.data[i].entries[k].date, currentDay)){
+                let taskToPush = {
+                    name: taskReq.data[i].name,
+                    priority: parseInt(taskReq.data[i].entries[k].priority),
+                    duration: parseInt(taskReq.data[i].entries[k].duration),
+                    time: taskReq.data[i].entries[k].time,
+                    isActive: taskReq.data[i].entries[k].isActive,
+                    completed: taskReq.data[i].entries[k].completed
+                }
+    
+                tasks.push(taskToPush)
+    
+                break;
+            }
+        }
+    }
     // Store active, completed tasks in a new tasks array
-    let tasks = taskReq.data.filter(task => task.isActive).filter(task => (task.completed == false));
+    tasks = tasks.filter(task => task.isActive).filter(task => (task.completed == false));
     let taskTime = 0
 
     tasks.forEach(task => taskTime += task.duration);

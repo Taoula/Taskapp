@@ -23,8 +23,29 @@ async function sortSchedule(setSchedule, wakeDate, sleepDate, currentDay){
 
     //get active tasks from db
     const taskReq = await axios.get("http://localhost:8282/task/")
+    let tasks = []
+    //loop through all tasks TODO reoptimize
+    for (let i = 0; i < taskReq.data.length; i++){
+        for (let k = 0; k < taskReq.data[i].entries.length; k++){
+            if (sameDate(taskReq.data[i].entries[k].date, currentDay)){
+                if (taskReq.data[i].entries[k].isActive) {
+                    let taskToPush = {
+                        name: taskReq.data[i].name,
+                        priority: parseInt(taskReq.data[i].entries[k].priority),
+                        duration: parseInt(taskReq.data[i].entries[k].duration),
+                        time: taskReq.data[i].entries[k].time,
+                        _id: taskReq.data[i]._id
+                    }
+
+                    tasks.push(taskToPush)
+                }
+
+                break;
+            }
+        }
+    }
     // Store active tasks in a new tasks array
-    let tasks = taskReq.data.filter(task => task.isActive);
+    //let tasks = taskReq.data.filter(task => task.isActive);
     //let completedTasks = tasks.filter(task => task.completed);
     //tasks = tasks.filter(task => !task.completed)
     
@@ -193,14 +214,14 @@ async function sortSchedule(setSchedule, wakeDate, sleepDate, currentDay){
         tasks.splice(0, 1)
     }
     
-    /*if (sleepDate.getTime() > timeIterator.getTime()){
+    // If time remains before end of the day, pad with free time 
+   /* if (sleepDate.getTime() > timeIterator.getTime()){
         let timeRemaining = Math.floor((sleepDate.getTime() - timeIterator.getTime())/60000)
         let toAdd = {"_id": "freetime" + freeTimeCount.toString(), "name": "Free Time", "start": timeIterator, "end": sleepDate, "completed": false, "duration": timeRemaining, "fixed": false}
         freeTimeCount++;
         tempSchedule.push(toAdd)
     }*/
 
-    // If time remains before end of the day, pad with free time
    
     const schedule = tempSchedule.map((task) => {
         const {_id, name, start, end, completed, duration, fixed} = task

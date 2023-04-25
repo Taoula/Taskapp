@@ -247,7 +247,7 @@ export default function ScheduleDisplay(){
             <div>{renderSchedule()}</div>
             {wake != null && wake != "Invalid Date" ? <div>
                 <ScheduleButton onClick={()=> sortSchedule(setSchedule, wake, sleep, currentDay)}><ScheduleText>Generate Schedule</ScheduleText></ScheduleButton>
-                {dayDistance == 0 && <ScheduleButton onClick={()=> resortSchedule(setSchedule, wake, sleep)}><ScheduleText>Resort Schedule</ScheduleText></ScheduleButton>}
+                {dayDistance == 0 && <ScheduleButton onClick={()=> resortSchedule(setSchedule, wake, sleep, currentDay)}><ScheduleText>Resort Schedule</ScheduleText></ScheduleButton>}
                 {dayDistance == 0 && <ScheduleButton onClick={()=> updateStats()}><ScheduleText>Call It A Day</ScheduleText></ScheduleButton>}
             </div> : <p>You must set your schedule's start and end hours before generating.</p>}
         </div>
