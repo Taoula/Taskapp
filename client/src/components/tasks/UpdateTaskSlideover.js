@@ -6,6 +6,10 @@ import convertTime from "../../methods/convert-time";
 import { Square, CheckSquare } from "phosphor-react";
 import modifyTime from "../../methods/modify-time";
 import getTimeValue from "../../methods/get-time-value";
+import { TimeField } from '@mui/x-date-pickers/TimeField';
+const dayjs = require('dayjs')
+dayjs().format()
+
 
 export default function UpdateTaskSlideover({
   open2,
@@ -19,7 +23,7 @@ export default function UpdateTaskSlideover({
   const [priority, setPriority] = useState("");
   const [isActive, setIsActive] = useState(false);
   const [fixed, setFixed] = useState(false);
-  const [time, setTime] = useState("12:00 AM");
+  const [time, setTime] = useState(new Date());
   const [entries, setEntries] = useState([]) //TODO idk if needed but saves a get request call
   const [defaults, setDefaults] = useState({}) //same here
   const [index, setIndex] = useState(0) //also might not be needed but saves an iteration of entries
@@ -48,8 +52,8 @@ export default function UpdateTaskSlideover({
     setIsActive(loadIsActive);
     if (loadTime != null){
       setFixed(true)
+      setTime(loadTime)
     }
-    setTime(convertTime(loadTime, "utc", false))
   }
 
   useEffect(() => {
@@ -67,7 +71,7 @@ export default function UpdateTaskSlideover({
       tempEntries[index].duration = duration
       tempEntries[index].priority = priority
       tempEntries[index].isActive = isActive
-      tempEntries[index].time = fixed ? convertTime(time, "date") : null
+      tempEntries[index].time = fixed ? time : null
 
       const taskData = {
         name,
@@ -194,59 +198,13 @@ export default function UpdateTaskSlideover({
                             )}
                           </span>
                         </div>
-
-                        {fixed && (
-                          <div>
-                            <p className="font-light text-red-600 pb-3">
-                              *Set a specific time to complete this task
-                            </p>
-                            <div className="border rounded-md py-5 px-8 flex justify-between items-center">
-                              <p className="text-lg w-full">{time}</p>
-                              <div class="inline-flex text-sm font-light border rounded-md p-2">
-                                <input
-                                  class="px-2 outline-none appearance-none bg-transparent w-full"
-                                  placeholder="0-23"
-                                  min="1"
-                                  max="12"
-                                  value={getTimeValue(time, "hours")}
-                                  onChange={(e) =>
-                                    setTime(
-                                      modifyTime(time, "hours", e.target.value)
-                                    )
-                                  }
-                                ></input>
-                                <span class="px-2">:</span>
-                                <input
-                                  class="px-2 outline-none appearance-none bg-transparent w-full"
-                                  placeholder="0-59"
-                                  min="0"
-                                  max="59"
-                                  value={getTimeValue(time, "minutes")}
-                                  onChange={(e) =>
-                                    setTime(
-                                      modifyTime(
-                                        time,
-                                        "minutes",
-                                        e.target.value
-                                      )
-                                    )
-                                  }
-                                ></input>
-                                <select
-                                  class="px-2 outline-none appearance-none bg-transparent"
-                                  value={getTimeValue(time, "amorpm")}
-                                  onChange={(e) =>
-                                    setTime(
-                                      modifyTime(time, "amorpm", e.target.value)
-                                    )
-                                  }
-                                >
-                                  <option value="AM">AM</option>
-                                  <option value="PM">PM</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
+                            
+                        {fixed && (       
+                          <TimeField
+                            label="Edit Time"
+                            value={dayjs(time)}
+                            onChange={(newTime) => {setTime(newTime.toDate())}}
+                          />
                         )}
 
                             <div className="space-x-2 flex justify-end">

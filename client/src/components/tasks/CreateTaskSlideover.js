@@ -1,17 +1,17 @@
 import { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import modifyTime from "../../methods/modify-time";
-import convertTime from "../../methods/convert-time";
 import { Square, CheckSquare } from "phosphor-react";
-import getTimeValue from "../../methods/get-time-value";
 import axios from "axios";
- 
+import { TimeField } from '@mui/x-date-pickers/TimeField';
+const dayjs = require('dayjs')
+dayjs().format()
+
 export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
   const [name, setName] = useState("");
   const [duration, setDuration] = useState("");
   const [priority, setPriority] = useState("");
   const [fixed, setFixed] = useState(false);
-  const [time, setTime] = useState("12:00 AM");
+  const [time, setTime] = useState(new Date())
   const [currentDay, setCurrentDay] = useState(new Date())
 
   // function handles form submission
@@ -19,7 +19,7 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
     try {
       e.preventDefault();
       
-      let entries = [{date: currentDay, duration, priority, isActive: false, completed: false, time: fixed ? convertTime(time, "date") : null}]
+      let entries = [{date: currentDay, duration, priority, isActive: false, completed: false, time: fixed ? time : null}]
       let defaults = {duration, priority, time}
       const taskData = {
         name,
@@ -42,7 +42,6 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
       setName("");
       setDuration("");
       setPriority("");
-      setTime("12:00 AM");
       setOpen(false);
     } catch (err) {
       console.error(err);
@@ -53,7 +52,6 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
     setName("");
     setDuration("");
     setPriority("");
-    setTime("12:00 AM");
     setOpen(false);
   }
 
@@ -155,115 +153,14 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                             )}
                           </span>
                         </div>
-
-                        {fixed && (
-                          <div>
-                            <p className="font-light text-red-600 pb-3">
-                              *Set a specific time to complete this task
-                            </p>
-                            <div className="border rounded-md py-5 px-8 flex justify-between items-center">
-                              <p className="text-lg w-full">{time}</p>
-                              <div class="inline-flex text-sm font-light border rounded-md p-2">
-                                <input
-                                  class="px-2 outline-none appearance-none bg-transparent w-full"
-                                  placeholder="0-23"
-                                  min="1"
-                                  max="12"
-                                  value={getTimeValue(time, "hours")}
-                                  onChange={(e) =>
-                                    setTime(
-                                      modifyTime(time, "hours", e.target.value)
-                                    )
-                                  }
-                                ></input>
-                                <span class="px-2">:</span>
-                                <input
-                                  class="px-2 outline-none appearance-none bg-transparent w-full"
-                                  placeholder="0-59"
-                                  min="0"
-                                  max="59"
-                                  value={getTimeValue(time, "minutes")}
-                                  onChange={(e) =>
-                                    setTime(
-                                      modifyTime(
-                                        time,
-                                        "minutes",
-                                        e.target.value
-                                      )
-                                    )
-                                  }
-                                ></input>
-                                <select
-                                  class="px-2 outline-none appearance-none bg-transparent"
-                                  value={getTimeValue(time, "amorpm")}
-                                  onChange={(e) =>
-                                    setTime(
-                                      modifyTime(time, "amorpm", e.target.value)
-                                    )
-                                  }
-                                >
-                                  <option value="AM">AM</option>
-                                  <option value="PM">PM</option>
-                                </select>
-                              </div>
-                              {/* <div className="">
-                              <label className="block text-sm text-gray-500 mb-2 font-normal">
-                                Start Hour
-                              </label>
-                              <input
-                                type="number"
-                                placeholder="0-23"
-                                className="border rounded-sm px-4 py-3 text-sm font-light text-gray-500 w-full"
-                                min="1"
-                                max="12"
-                                value={getTimeValue(time, "hours")}
-                                onChange={(e) =>
-                                  setTime(
-                                    modifyTime(time, "hours", e.target.value)
-                                  )
-                                }
-                              ></input>
-                            </div>
-                            <div>
-                              <label className="block text-sm text-gray-500 mb-2 font-normal">
-                                Start Minutes
-                              </label>
-                              <input
-                                type="number"
-                                placeholder="0-59"
-                                className="border rounded-sm px-4 py-3 text-sm font-light text-gray-500 w-full"
-                                min="0"
-                                max="59"
-                                value={getTimeValue(time, "minutes")}
-                                onChange={(e) =>
-                                  setTime(
-                                    modifyTime(time, "minutes", e.target.value)
-                                  )
-                                }
-                              ></input>
-                            </div>
-
-                            <div>
-                              <label className="block text-sm text-gray-500 mb-2 font-normal">
-                                AM or PM
-                              </label>
-                              <select
-                                placeholder=""
-                                className="border rounded-sm px-4 py-3 text-sm font-light text-gray-500 w-full"
-                                value={getTimeValue(time, "amorpm")}
-                                onChange={(e) =>
-                                  setTime(
-                                    modifyTime(time, "amorpm", e.target.value)
-                                  )
-                                }
-                              >
-                                <option value="AM">AM</option>
-                                <option value="PM">PM</option>
-                              </select>
-                            </div> */}
-                            </div>
-                          </div>
+                        {fixed && (       
+                          <TimeField
+                            label="Controlled field"
+                            value={dayjs(time)}
+                            onChange={(newTime) => {setTime(newTime.toDate())}}
+                          />
                         )}
+                        
 
                         <div className="space-x-2 flex justify-end">
                           <span
