@@ -37,7 +37,9 @@ async function resortSchedule(setSchedule, wakeDate, sleepDate, currentDay){
     console.log("task time is " + taskTime)
     //2. calculate remaining time in day
     let dt = new Date();
+    console.log(dt)
     let sleep = new Date(sleepDate)
+    console.log(sleep)
     let timeRemaining = (sleep.getTime() - dt.getTime())/60000;
 
     //calculate time remaining

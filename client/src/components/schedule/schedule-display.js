@@ -3,17 +3,17 @@ import axios from "axios"
 import ScheduleBlock from './schedule-block'
 import sortSchedule from "../../methods/sort-schedule"
 import resortSchedule from "../../methods/resort-schedule"
-import convertTime from "../../methods/convert-time"
 import getDateValue from "../../methods/get-date-value"
 import addDays from "../../methods/add-days"
 import styled from "styled-components"
-import TimeInput from "../generic/time-input"
-import StylizedButton from "../forms/stylized-button"
 import ExpandableContainer from "../generic/expandable-container"
 import sameDate from "../../methods/same-date"
 import Calendar from 'react-awesome-calendar';
 import {CheckSquare, Square} from "phosphor-react"
 import Countdown from "./countdown"
+import { TimeField } from '@mui/x-date-pickers/TimeField';
+const dayjs = require('dayjs')
+dayjs().format()
 
 const ScheduleButton = styled.button`
     background-color: rgb(48, 128, 242);
@@ -50,8 +50,8 @@ export default function ScheduleDisplay(){
     const [currentDay, setCurrentDay] = useState(new Date())
     const [dayDistance, setDayDistance] = useState(0)
     const [schedule, setSchedule] = useState([])
-    const [wake, setWake] = useState("")
-    const [sleep, setSleep] = useState("")
+    const [wake, setWake] = useState(new Date())
+    const [sleep, setSleep] = useState(new Date())
     const [hoursExpanded, setHoursExpanded] = useState(false)
     const [focusMode, setFocusMode] = useState(false)
 
@@ -76,7 +76,7 @@ export default function ScheduleDisplay(){
         // Add an entry for the selected day if none exists, then get data again
         if (!found){
             console.log("an entry was not found :(")
-            let entryToAdd = {schedule: [], wake: currentDay, sleep: null}
+            let entryToAdd = {schedule: [], wake: currentDay, sleep: sleep}
             entries.push(entryToAdd)
             if (entries.length > 1){
                 entries.sort((a, b) => Date.parse(a.wake) - Date.parse(b.wake))
@@ -171,33 +171,34 @@ export default function ScheduleDisplay(){
 
     }
 
-    async function updateHours(start, end){
+    async function updateHours(){
+        console.log("updating")
         try {
-            // Create Date objects for updated wake & start time (convert from hh:mm)
-            let startDate = convertTime(start, "date");
-            let endDate = convertTime(end, "date");
             // Find entry matching selected day. Update hours. Get Schedule. 
             
             const scheduleReq = await axios.get("http://localhost:8282/schedule/")
+            console.log(scheduleReq.data)
             let {entries} = scheduleReq.data;
             let found = false
 
             for (let i = 0; i < entries.length; i++){
                 // If an entry matching the selected day is found
                 if (sameDate(entries[i].wake, currentDay)){
-                    entries[i].wake = startDate;
-                    entries[i].sleep = endDate;
+                    entries[i].wake = wake;
+                    entries[i].sleep = sleep;
                     // TODO should wake & start be set manually? Or does sorting call getSchedule and reset?
-                    setWake(startDate)
-                    setSleep(endDate)
+                    await axios.patch("http://localhost:8282/schedule/",{entries})
 
-                    sortSchedule(setSchedule, startDate, endDate);
+                    sortSchedule(setSchedule, wake, sleep, currentDay);
                 }
             }
+
+            setHoursExpanded(false)
         }
         catch (err) {
             console.log(err);
         }
+
     }
 
     useEffect(() => {
@@ -244,7 +245,23 @@ export default function ScheduleDisplay(){
             }}><ScheduleText>+</ScheduleText></ScheduleButton>
             <SubHeading>A scheduling app</SubHeading>
             {<button onClick={()=>setHoursExpanded(!hoursExpanded)}>Edit Hours</button>}
-            {hoursExpanded && <ExpandableContainer><TimeInput update={updateHours} wake={convertTime(wake, "utc")} sleep={convertTime(sleep, "utc")} close={setHoursExpanded}/></ExpandableContainer>}
+            {hoursExpanded && 
+                <ExpandableContainer>
+                    <TimeField
+                        label="Start Time"
+                        value={dayjs(wake)}
+                        onChange={(newWake) => {setWake(newWake.toDate())}}
+                    />
+                    
+                    <TimeField
+                        label="End Time"
+                        value={dayjs(sleep)}
+                        onChange={(newSleep) => {setSleep(newSleep.toDate())}}
+                    />
+
+                    <button onClick={()=>updateHours()}>Done</button>
+                </ExpandableContainer>
+            }
 
             <span>
               { dayDistance == 0 && focusMode ? (

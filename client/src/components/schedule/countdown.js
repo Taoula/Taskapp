@@ -18,9 +18,20 @@ function Countdown({schedule}){
     const [minutes, setMinutes] = useState(0)
 
     useEffect(()=>{
-        const interval = setInterval(() => findRemaining());
+        findRemaining()
+        const interval = setInterval(() => decrease());
     }, [])
 
+    function decrease(){
+        if (seconds == 0 && minutes == 0){
+            findRemaining()
+        } else if (seconds == 0){
+            setSeconds(59)
+            setMinutes(minutes-1)
+        } else {
+            setSeconds(seconds - 1)
+        }
+    }
     function findRemaining(){
         let currentTime = dayjs(new Date());
         for (let i = 0; i < schedule.length - 1; i++){
@@ -29,14 +40,14 @@ function Countdown({schedule}){
             if(tempDate.diff(currentTime, "second") < 0 && tempDate2.diff(currentTime, "second") > 0){
                 setIndex(i)
                 setMinutes(tempDate2.diff(currentTime, "minute"))
-                setSeconds(tempDate2.diff(currentTime, "second"))
+                setSeconds(tempDate2.diff(currentTime, "second") % 60)
             }
         }
     }
 
     return(<>
         <TaskHeader>{index != -1 && schedule[index].name}</TaskHeader>
-        <Count>{minutes}:{seconds - (minutes*60)}</Count>
+        <Count>{minutes}:{seconds < 10 ? "0" + seconds.toString(): seconds}</Count>
     </>)
 }
 
