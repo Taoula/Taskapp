@@ -7,14 +7,18 @@ import DashboardFooter from "../layout/DashboardFooter";
 import CreateTaskSlideover from "./CreateTaskSlideover";
 import CompletedTask from "./CompletedTask";
 import { MagnifyingGlass, ArrowsDownUp } from "phosphor-react";
-
+import sameDate from "../../methods/same-date"
+ 
 export default function TaskDisplay() {
   const [tasks, setTasks] = useState([]);
+  const [currentDay, setCurrentDay] = useState(new Date())
+  const [dayDistance, setDayDistance] = useState(0)
   const [taskFormId, setTaskFormId] = useState("");
   const [newTask, toggle] = useToggle(false);
   const [showCreateTask, setShowCreateTask] = useState(false);
   const [open, setOpen] = useState(false);
   const [completedTasks, setCompletedTasks] = useState([]);
+  const [dayInitialized, setDayInitialized] = useState(false)
 
   const [numberOfInactiveTasks, setNumberOfInactiveTasks] = useState(0);
   const [numberOfActiveTasks, setNumberOfActiveTasks] = useState(0);
@@ -46,11 +50,46 @@ export default function TaskDisplay() {
     setShowCreateTask(false);
   };
 
+
   async function getTasks() {
+
+    //If first load / day change TODO clean this up binary serach etc
+
+    if (!dayInitialized){
+      const taskReqInit = await axios.get("http://localhost:8282/task/");
+      console.log(taskReqInit.data);
+      //Loop through all tasks
+      for (let i = 0; i < taskReqInit.data.length; i++){
+        //Add entry on current day if none exists
+          if (!taskReqInit.data[i].entries.some(entry => sameDate(entry.date, currentDay))){
+              let tempEntries = taskReqInit.data[i].entries;
+              let defaults = taskReqInit.data[i].defaults;
+
+              let entryToAdd = {
+                date: currentDay, duration: defaults.duration, priority: defaults.priority, isActive: false, completed: false, time: defaults.time
+              }
+
+              tempEntries.push(entryToAdd)
+              tempEntries.sort((a, b) => Date.parse(a.date) - Date.parse(b.date))
+
+            //Patch the updated task
+              let taskData = {
+                name: taskReqInit.data[i].name,
+                entries: tempEntries,
+                defaults: taskReqInit.data[i].defaults
+              }
+
+            await axios.patch(`http://localhost:8282/task/${taskReqInit.data[i]._id}/`, taskData);
+          }
+      }
+      
+      setDayInitialized(true)
+    }
+  
     const taskReq = await axios.get("http://localhost:8282/task/");
     setTasks(taskReq.data);
 
-    // active and inactive iterators
+    
     let inactiveIterator = 0;
     let activeIterator = 0;
 
@@ -59,18 +98,29 @@ export default function TaskDisplay() {
     let completeIterator = 0;
 
     taskReq.data.map((task) => {
-      if (task.isActive === false) {
+      let index = 0;
+      for (let k = 0; k < task.entries.length; k++){
+        if (sameDate(task.entries[k].date, currentDay)){
+          index = k;
+          break;
+        }
+      }
+
+      let t = task.entries[index]
+
+      if (t.isActive === false) {
         inactiveIterator += 1;
-      } else if (task.isActive === true) {
+      } else if (t.isActive === true) {
         activeIterator += 1;
       }
 
-      if (task.completed === false && task.isActive === true) {
+      if (t.completed === false && t.isActive === true) {
         incompleteIterator += 1;
-      } else if (task.completed === true && task.isActive === true) {
+      } else if (t.completed === true && t.isActive === true) {
         completeIterator += 1;
       }
-
+    
+      
       // set state values of inactive and active counters to the corresponding iterators
       setNumberOfInactiveTasks(inactiveIterator);
       setNumberOfActiveTasks(activeIterator);
@@ -78,18 +128,26 @@ export default function TaskDisplay() {
       // set state values of incomplete and complete counters to the corresponding iterators
       setNumberOfCompleteTasks(completeIterator);
       setNumberOfIncompleteTasks(incompleteIterator);
-
-      console.log("completed tasks " + completeIterator);
-      console.log("incomplete tasks " + incompleteIterator);
     });
   }
 
   //renders tasks based on active bool
   function renderTasks(active) {
     return tasks.map((task, i) => {
-      if (task.isActive === active) {
+      //find today's entry TODO
+      let index = 0;
+      for (let k = 0; k < task.entries.length; k++){
+        if (sameDate(task.entries[k].date, currentDay)){
+          index = k;
+          break;
+        }
+      }
+
+      let t = task.entries[index]
+
+      if (t.isActive === active) {
         return (
-          <Task key={i} task={task} getTasks={getTasks}>
+          <Task key={i} task={{name: task.name, priority: t.priority, duration: t.duration, _id: task._id, isActive: t.isActive, completed: t.completed, time: t.time, currentDay}} getTasks={getTasks}>
             {task.name}
           </Task>
         );
@@ -97,7 +155,7 @@ export default function TaskDisplay() {
     });
   }
 
-  // renders tasks based on completed bool
+  /* renders tasks based on completed bool TODO: is this still being used?
   function renderCompletedTasks(isComplete) {
     return tasks.map((task, i) => {
       if (task.completed === isComplete && task.isActive === true) {
@@ -108,7 +166,7 @@ export default function TaskDisplay() {
         );
       }
     });
-  }
+  }*/
 
   return (
     <>

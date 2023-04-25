@@ -201,6 +201,8 @@ export default function ScheduleDisplay(){
         getSchedule()
     }, [currentDay])
 
+
+    //TODO ??? is this
     const events = [{
         id: 1,
         color: '#fd3153',

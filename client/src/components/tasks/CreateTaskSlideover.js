@@ -12,21 +12,22 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
   const [priority, setPriority] = useState("");
   const [fixed, setFixed] = useState(false);
   const [time, setTime] = useState("12:00 AM");
+  const [currentDay, setCurrentDay] = useState(new Date())
 
   // function handles form submission
   async function onSubmit(e) {
     try {
       e.preventDefault();
-
+      
+      let entries = [{date: currentDay, duration, priority, isActive: false, completed: false, time: fixed ? convertTime(time, "date") : null}]
+      let defaults = {duration, priority, time}
       const taskData = {
         name,
-        duration,
-        priority,
-        isActive: false,
-        completed: false,
-        time: fixed ? convertTime(time, "date") : null,
+        entries,
+        defaults
       };
 
+ 
       await axios
         .post("http://localhost:8282/task/", taskData)
         .then((res) => res.data)

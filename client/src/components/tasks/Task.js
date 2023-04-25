@@ -7,6 +7,7 @@ import { Trash, PencilSimple } from "phosphor-react";
 import UpdateTaskSlideover from "./UpdateTaskSlideover";
 import DeleteTaskDialogue from "./DeleteTaskDialogue";
 import convertTime from "../../methods/convert-time";
+import sameDate from "../../methods/same-date";
 
 const TaskContainer = styled.div`
   background-color: ${(props) => props.color || "pink"};
@@ -18,7 +19,7 @@ const TaskContainer = styled.div`
 `;
 
 export default function Task({ task, getTasks }) {
-  const { name, priority, duration, _id, isActive, completed, time } = task;
+  const { name, priority, duration, _id, isActive, completed, time, currentDay} = task;
   const [isExpanded, toggle] = useToggle(false);
   // priority 1 (red) first, 2 (yellow) second, 3 (green) third
   const colors = ["#fecaca", "#fef9c3", "#bbf7d0"];
@@ -39,15 +40,21 @@ export default function Task({ task, getTasks }) {
     getTasks();
   }
 
+  // TODO needs to be optimized
   async function toggleActive() {
-    await axios.patch(`http://localhost:8282/task/${_id}`, {
-      name,
-      priority,
-      duration,
-      isActive: !isActive,
-      completed,
-      time,
-    });
+    const taskReq = await axios.get(`http://localhost:8282/task/${_id}`)
+    let tempEntries = taskReq.data.entries
+    for (let i = 0; i < tempEntries.length; i++){
+      if (sameDate(tempEntries[i].date, currentDay)){
+        tempEntries[i].isActive = !tempEntries[i].isActive
+        await axios.patch(`http://localhost:8282/task/${_id}`, {
+          name,
+          defaults: taskReq.data.defaults,
+          entries: tempEntries
+        })
+      }
+    }
+
     getTasks();
   }
 
@@ -86,10 +93,10 @@ export default function Task({ task, getTasks }) {
           {time != null && <span>{convertTime(time, "utc")}</span>}
         </div>
 
-        {/* <div className="flex">
+         <div className="flex">
             <p>Delete:</p>
             <Trash size={25} weight="fill" onClick={deleteTask} />
-          </div>
+          </div>{/*
 
           <div>
             {isActive ? (
@@ -121,6 +128,7 @@ export default function Task({ task, getTasks }) {
         open2={open2}
         setOpen2={setOpen2}
         getTasks={getTasks}
+        currentDay={currentDay}
         _id={_id}
       ></UpdateTaskSlideover>
 
