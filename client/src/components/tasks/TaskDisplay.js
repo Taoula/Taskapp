@@ -8,6 +8,7 @@ import CreateTaskSlideover from "./CreateTaskSlideover";
 import CompletedTask from "./CompletedTask";
 import { MagnifyingGlass, ArrowsDownUp } from "phosphor-react";
 import sameDate from "../../methods/same-date"
+import dateSearch from "../../methods/date-search";
  
 export default function TaskDisplay() {
   const [tasks, setTasks] = useState([]);
@@ -61,7 +62,7 @@ export default function TaskDisplay() {
       //Loop through all tasks
       for (let i = 0; i < taskReqInit.data.length; i++){
         //Add entry on current day if none exists
-          if (!taskReqInit.data[i].entries.some(entry => sameDate(entry.date, currentDay))){
+          if (dateSearch(currentDay, taskReqInit.data[i].entries) == -1){
               let tempEntries = taskReqInit.data[i].entries;
               let defaults = taskReqInit.data[i].defaults;
 
@@ -98,13 +99,7 @@ export default function TaskDisplay() {
     let completeIterator = 0;
 
     taskReq.data.map((task) => {
-      let index = 0;
-      for (let k = 0; k < task.entries.length; k++){
-        if (sameDate(task.entries[k].date, currentDay)){
-          index = k;
-          break;
-        }
-      }
+      let index = dateSearch(currentDay, task.entries)
 
       let t = task.entries[index]
 
@@ -134,24 +129,22 @@ export default function TaskDisplay() {
   //renders tasks based on active bool
   function renderTasks(active) {
     return tasks.map((task, i) => {
-      //find today's entry TODO
-      let index = 0;
-      for (let k = 0; k < task.entries.length; k++){
-        if (sameDate(task.entries[k].date, currentDay)){
-          index = k;
-          break;
+      //find today's entry 
+      //console.log(task) 
+      let index = dateSearch(currentDay, task.entries)
+
+      if (index > -1){
+        let t = task.entries[index]
+
+        if (t.isActive === active) {
+          return (
+            <Task key={i} task={{name: task.name, priority: t.priority, duration: t.duration, _id: task._id, isActive: t.isActive, completed: t.completed, time: t.time, currentDay}} getTasks={getTasks}>
+              {task.name}
+            </Task>
+          );
         }
       }
 
-      let t = task.entries[index]
-
-      if (t.isActive === active) {
-        return (
-          <Task key={i} task={{name: task.name, priority: t.priority, duration: t.duration, _id: task._id, isActive: t.isActive, completed: t.completed, time: t.time, currentDay}} getTasks={getTasks}>
-            {task.name}
-          </Task>
-        );
-      }
     });
   }
 

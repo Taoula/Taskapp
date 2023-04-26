@@ -77,6 +77,7 @@ function Countdown({schedule, currentDay, getSchedule}){
         if (!elapsed && init){
             if (seconds == 0 && minutes == 0){
                 setElapsed(true)
+                setSeconds(1)
             } else if (seconds == 0){
                 setSeconds(59)
                 setMinutes(minutes - 1)
