@@ -1,6 +1,6 @@
 import { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { Square, CheckSquare } from "phosphor-react";
+import { Square, CheckSquare, Note, Link, Trash} from "phosphor-react";
 import axios from "axios";
 import { TimeField } from '@mui/x-date-pickers/TimeField';
 const dayjs = require('dayjs')
@@ -13,14 +13,16 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
   const [fixed, setFixed] = useState(false);
   const [time, setTime] = useState(new Date())
   const [currentDay, setCurrentDay] = useState(new Date())
+  const [links, setLinks] = useState([])
+  const [notes, setNotes] = useState([])
 
   // function handles form submission
   async function onSubmit(e) {
     try {
       e.preventDefault();
       
-      let entries = [{date: currentDay, duration, priority, isActive: false, completed: false, time: fixed ? time : null}]
-      let defaults = {duration, priority, time}
+      let entries = [{date: currentDay, duration, priority, isActive: false, completed: false, time: fixed ? time : null, notes, links}]
+      let defaults = {duration, priority, time, notes, links}
       const taskData = {
         name,
         entries,
@@ -43,16 +45,57 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
       setDuration("");
       setPriority("");
       setOpen(false);
+      setNotes([])
+      setLinks([])
     } catch (err) {
       console.error(err);
     }
   }
 
   function closeSlideover() {
+    //TODO why is this happening twice?
     setName("");
     setDuration("");
     setPriority("");
     setOpen(false);
+    setNotes([])
+    setLinks([])
+  }
+
+  function updateNotes(e, i){
+    let notesClone = notes;
+    notesClone[i] = e.target.value
+    setNotes([...notesClone])
+  }
+
+  function updateLinks(e, i){
+    let linksClone = links;
+    linksClone[i] = e.target.value
+    setLinks([...linksClone])
+  }
+
+  function addNote(){
+    let notesClone = notes;
+    notesClone.push("");
+    setNotes([...notesClone])
+  }
+
+  function addLink(){
+    let linksClone = links;
+    linksClone.push("");
+    setLinks([...linksClone])
+  }
+
+  function deleteNote(i){
+    let notesClone = notes;
+    notesClone.splice(i, 1)
+    setNotes([...notesClone])
+  }
+
+  function deleteLink(i){
+    let linksClone = links;
+    linksClone.splice(i,1)
+    setLinks([...linksClone])
   }
 
   return (
@@ -160,7 +203,38 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                             onChange={(newTime) => {setTime(newTime.toDate())}}
                           />
                         )}
-                        
+
+                        <Note 
+                          size={30}
+                          onClick={()=>addNote()}
+                          className="text-gray-500"
+                        />
+
+                        {notes.map((note, i) => {
+                          return <div>
+                            <input type="text" value={notes[i]} onChange={(e) => updateNotes(e, i)}/>
+                            <Trash
+                              size ={20}
+                              onClick={()=>deleteNote(i)}
+                            />
+                            </div>
+                        })}
+
+                        <Link
+                          size={30}
+                          onClick={()=>addLink()}
+                          className="text-gray-500"
+                        />
+
+                        {links.map((link, i) => {
+                          return <div>
+                            <input type="url" value = {links[i]} onChange={(e) => updateLinks(e,i)}/>
+                            <Trash 
+                              size={20}
+                              onClick={()=>deleteLink(i)}
+                            />
+                          </div>
+                        })}
 
                         <div className="space-x-2 flex justify-end">
                           <span

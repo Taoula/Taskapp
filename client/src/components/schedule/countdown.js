@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from "react"
 import styled from "styled-components"
+import { LinkPreview } from '@dhaiwat10/react-link-preview';
+
 const dayjs = require('dayjs')
 dayjs().format()
 
@@ -48,6 +50,13 @@ function Countdown({schedule}){
     return(<>
         <TaskHeader>{index != -1 && schedule[index].name}</TaskHeader>
         <Count>{minutes}:{seconds < 10 ? "0" + seconds.toString(): seconds}</Count>
+        {index != -1 && schedule[index].notes.map((note) =>{
+            return <p>{note}</p>
+        })}
+
+        {index != -1 && schedule[index].links.map((link) =>{
+            return <a href={link}>{link}</a>
+        })}
     </>)
 }
 
