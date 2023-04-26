@@ -280,7 +280,7 @@ export default function ScheduleDisplay(){
                             )}
             </span>
             
-            {focusMode && dayDistance == 0 ? <div><Countdown schedule={schedule}/></div> : 
+            {focusMode && dayDistance == 0 ? <div><Countdown schedule={schedule} currentDay={currentDay} getSchedule={getSchedule}/></div> : 
             <div> 
                 <div>{renderSchedule()}</div>
                 {wake != null && wake != "Invalid Date" ? 
