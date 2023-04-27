@@ -164,24 +164,32 @@ export default function TaskDisplay() {
   return (
     <>
       {/* Tasks menu */}
-      <div className="flex justify-between items-center mb-10">
+      {/* <div className="flex justify-between items-center mb-10">
         <h1 className="text-4xl font-semibold pt-1">My Tasks</h1>
-      </div>
+      </div> */}
 
       <div className="space-y-6 flex flex-col">
         {/* Inactive tasks field */}
         <div className="rounded-md text-center border remove-scrollbar overflow-scroll h-[28rem]">
           {/* Title and add button inline */}
-          <div className="flex justify-between items-center p-5 sticky top-0 z-10 bg-white">
-            <h1 className="font-semibold text-2xl">Inactive Tasks</h1>
+          <div className=" p-5 sticky top-0 z-10 bg-white">
+            <div className="flex justify-between items-center">
+              <h1 className="font-semibold text-2xl">Library</h1>
 
-            {/* blue add task button */}
-            <span
-              className="rounded-md text-blue-600 border bg-sky-100 border-blue-600 hover:text-white hover:bg-blue-500 font-normal pl-4 pr-4 text-xs pt-2 pb-2"
-              onClick={() => setOpen(true)}
-            >
-              Add Task
-            </span>
+              {/* blue add task button */}
+              <span
+                className="rounded-md text-blue-600 border bg-sky-100 border-blue-600 hover:text-white hover:bg-blue-500 font-normal pl-4 pr-4 text-xs pt-2 pb-2"
+                onClick={() => setOpen(true)}
+              >
+                Add Task
+              </span>
+            </div>
+            <input
+              class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-md text-sm focus:outline-none"
+              type="search"
+              name="search"
+              placeholder="Search for a task"
+            />
           </div>
           {numberOfInactiveTasks === 0 ? (
             <p className="font-light h-[19rem] flex items-center text-sm justify-center text-gray-500">
