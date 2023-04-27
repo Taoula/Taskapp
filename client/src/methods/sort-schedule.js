@@ -1,7 +1,6 @@
 import axios from "axios"
 import moment from "moment"
 import addMinutes from "./add-minutes"
-import convertTime from "./convert-time"
 import sameDate from "./same-date";
 
 moment().format();
@@ -23,8 +22,32 @@ async function sortSchedule(setSchedule, wakeDate, sleepDate, currentDay){
 
     //get active tasks from db
     const taskReq = await axios.get("http://localhost:8282/task/")
+    let tasks = []
+    //loop through all tasks TODO reoptimize
+    for (let i = 0; i < taskReq.data.length; i++){
+        for (let k = 0; k < taskReq.data[i].entries.length; k++){
+            if (sameDate(taskReq.data[i].entries[k].date, currentDay)){
+                if (taskReq.data[i].entries[k].isActive) {
+                    let taskToPush = {
+                        name: taskReq.data[i].name,
+                        priority: parseInt(taskReq.data[i].entries[k].priority),
+                        duration: parseInt(taskReq.data[i].entries[k].duration),
+                        notes: taskReq.data[i].entries[k].notes,
+                        links: taskReq.data[i].entries[k].links,
+                        completed: taskReq.data[i].entries[k].completed,
+                        time: taskReq.data[i].entries[k].time,
+                        _id: taskReq.data[i]._id
+                    }
+
+                    tasks.push(taskToPush)
+                }
+
+                break;
+            }
+        }
+    }
     // Store active tasks in a new tasks array
-    let tasks = taskReq.data.filter(task => task.isActive);
+    //let tasks = taskReq.data.filter(task => task.isActive);
     //let completedTasks = tasks.filter(task => task.completed);
     //tasks = tasks.filter(task => !task.completed)
     
@@ -123,9 +146,9 @@ async function sortSchedule(setSchedule, wakeDate, sleepDate, currentDay){
 
             if (tasks[i].duration <= timeBefore){
                 // Push task
-                let {_id, name, duration, completed} = tasks[i];
+                let {_id, name, duration, completed, notes, links} = tasks[i];
                 let end = addMinutes(timeIterator, duration);
-                let toAdd = {"_id": _id, "name": name, "start": timeIterator, "end": end, "completed": completed, "duration": duration, "fixed": false}
+                let toAdd = {"_id": _id, "name": name, "start": timeIterator, "end": end, "completed": completed, "duration": duration, "fixed": false, "notes": notes, "links": links}
                 tempSchedule.push(toAdd)
 
                 // Handle Iterators & Remove Added Task
@@ -140,16 +163,16 @@ async function sortSchedule(setSchedule, wakeDate, sleepDate, currentDay){
         if (timeBefore > 0) {
             let end = addMinutes(timeIterator, timeBefore)
             console.log("time before is" + timeBefore)
-            let toAdd = {"_id": "freetime" + freeTimeCount.toString(), "name": "Free Time", "start": timeIterator, "end": end, "completed": false, "duration": timeBefore, "fixed": false}
+            let toAdd = {"_id": "freetime" + freeTimeCount.toString(), "name": "Free Time", "start": timeIterator, "end": end, "completed": false, "duration": timeBefore, "fixed": false, "notes": [], "links": []}
             tempSchedule.push(toAdd)
             freeTimeCount++;
             timeIterator = addMinutes(timeIterator, timeBefore)
         }
 
         // Add next fixed task
-        let {_id, name, duration, completed} = fixedTimeTasks[0];
+        let {_id, name, duration, completed, notes, links} = fixedTimeTasks[0];
         let end = addMinutes(timeIterator, duration)
-        let toAdd = {"_id": _id, "name": name, "start": timeIterator, "end": end, "completed": completed, "duration": duration, "fixed": true}
+        let toAdd = {"_id": _id, "name": name, "start": timeIterator, "end": end, "completed": completed, "duration": duration, "fixed": true, "notes": notes, "links": links}
         tempSchedule.push(toAdd)
         timeIterator = addMinutes(timeIterator, duration)
 
@@ -165,15 +188,15 @@ async function sortSchedule(setSchedule, wakeDate, sleepDate, currentDay){
         let timeBefore = differenceBetween(fixedTaskTime, timeIterator)
         let end = addMinutes(timeIterator, timeBefore)
         console.log(" time iterator is " + timeIterator + " and timebefore is " + timeBefore);
-        let toAdd = {"_id": "freetime" + freeTimeCount.toString(), "name": "Free Time", "start": timeIterator, "end": end, "completed": false, "duration": timeBefore, "fixed": false}
+        let toAdd = {"_id": "freetime" + freeTimeCount.toString(), "name": "Free Time", "start": timeIterator, "end": end, "completed": false, "duration": timeBefore, "fixed": false, "notes": [], "links": []}
         tempSchedule.push(toAdd)
         freeTimeCount++;
         timeIterator = addMinutes(timeIterator, timeBefore)
 
         // Add next fixed task
-        let {_id, name, duration, completed} = fixedTimeTasks[0];
+        let {_id, name, duration, completed, notes, links} = fixedTimeTasks[0];
         end = addMinutes(timeIterator, duration)
-        toAdd = {"_id": _id, "name": name, "start": timeIterator, "end": end, "completed": completed, "duration": duration, "fixed": true}
+        toAdd = {"_id": _id, "name": name, "start": timeIterator, "end": end, "completed": completed, "duration": duration, "fixed": true, "notes": notes, "links": links}
         tempSchedule.push(toAdd)
         timeIterator = addMinutes(timeIterator, duration)
 
@@ -184,27 +207,27 @@ async function sortSchedule(setSchedule, wakeDate, sleepDate, currentDay){
     // If unfixed tasks remain
     while (tasks.length != 0){
         console.log("unfixed tasks remain")
-        let {_id, name, duration, completed} = tasks[0];
+        let {_id, name, duration, completed, notes, links} = tasks[0];
         let end = addMinutes(timeIterator, duration);
-        let toAdd = {"_id": _id, "name": name, "start": timeIterator, "end": end, "completed": completed, "duration": duration, "fixed": false}
+        let toAdd = {"_id": _id, "name": name, "start": timeIterator, "end": end, "completed": completed, "duration": duration, "fixed": false, "notes": notes, "links": links}
         tempSchedule.push(toAdd)
 
         timeIterator = addMinutes(timeIterator, duration)
         tasks.splice(0, 1)
     }
     
-    /*if (sleepDate.getTime() > timeIterator.getTime()){
+    // If time remains before end of the day, pad with free time 
+   /* if (sleepDate.getTime() > timeIterator.getTime()){
         let timeRemaining = Math.floor((sleepDate.getTime() - timeIterator.getTime())/60000)
         let toAdd = {"_id": "freetime" + freeTimeCount.toString(), "name": "Free Time", "start": timeIterator, "end": sleepDate, "completed": false, "duration": timeRemaining, "fixed": false}
         freeTimeCount++;
         tempSchedule.push(toAdd)
     }*/
 
-    // If time remains before end of the day, pad with free time
    
     const schedule = tempSchedule.map((task) => {
-        const {_id, name, start, end, completed, duration, fixed} = task
-        return {_id: _id, name: name, start: convertTime(start, "utc"), end: end, completed: completed, duration: duration, fixed: fixed}
+        const {_id, name, start, end, completed, duration, fixed, notes, links} = task
+        return {_id: _id, name: name, start: start, end: end, completed: completed, duration: duration, fixed: fixed, notes, links}
     })
 
     /*

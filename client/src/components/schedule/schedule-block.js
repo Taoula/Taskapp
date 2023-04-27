@@ -4,6 +4,8 @@ import {Square, CheckSquare } from "phosphor-react"
 import useToggle from "../../hooks/use-toggle"
 import axios from 'axios'
 import { useEffect } from "react"
+import sameDate from "../../methods/same-date"
+import convertTime from "../../methods/convert-time"
 
 const BlockContainer = styled.div`
 background-color: ${props => props.color[0] || "pink"};
@@ -46,8 +48,7 @@ text-transform: lowercase;
 font-size: 15px;
 `
 
-function ScheduleBlock({task, getSchedule}) {
-
+function ScheduleBlock({task, getSchedule, currentDay}) {
     //console.log(task)
     const {name, start, _id, completed, duration, fixed} = task;
     const [isCompleted, setIsCompleted] = useState(completed);
@@ -58,17 +59,37 @@ function ScheduleBlock({task, getSchedule}) {
 
         if (_id.slice(0, 8) != "freetime"){
             const taskReq = await axios.get(`http://localhost:8282/task/${_id}/`)
-            const {priority, duration, isActive, completed} = await taskReq.data
+
+            //find appropriate entry
+            let index = -1;
+            let {defaults, name, entries} = taskReq.data
+
+            for (let i = 0; i < entries.length; i++){
+                if (sameDate(currentDay, entries[i].date)){
+                    index = i;
+                    break;
+                }
+            }
+
+            entries[index].completed = !entries[index].completed
             
             //Patch task with updated completed value
-            await axios.patch(`http://localhost:8282/task/${_id}`, {name, priority, duration, isActive, completed: !completed})
+            await axios.patch(`http://localhost:8282/task/${_id}`, {name, entries, defaults})
         }
 
         //TODO: this is poorly structured. schedule data should only update if and after the task data updates.
         const scheduleReq = await axios.get("http://localhost:8282/schedule/")
         let {entries} = scheduleReq.data;
          //Sort through schedule on most recent entry and update modified task
-        entries[entries.length - 1].schedule.forEach(task => {
+         let index = -1
+         for (let i = 0; i < entries.length; i++){
+            if (sameDate(currentDay, entries[i].wake)){
+                index = i 
+                break
+            }
+         }
+
+        entries[index].schedule.forEach(task => {
             if (task._id == _id){
                 task.completed = !task.completed;
             }
@@ -84,7 +105,7 @@ function ScheduleBlock({task, getSchedule}) {
     })
 
 
-    // Needs to be refactored
+    // TODO Needs to be refactored
     function getColors(){
         if (isCompleted){
             return ["#c4c4c4", "#b3b3b3"]
@@ -111,7 +132,7 @@ function ScheduleBlock({task, getSchedule}) {
                     <div></div>
                     <div></div>
                     <BlockStart duration={duration}>
-                        {start}
+                        {convertTime(start, "utc", false)}
                     </BlockStart>
                 </div>
             </BlockHeader>
