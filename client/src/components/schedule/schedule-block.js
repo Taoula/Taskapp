@@ -48,7 +48,7 @@ text-transform: lowercase;
 font-size: 15px;
 `
 
-function ScheduleBlock({task, getSchedule, currentDay}) {
+function ScheduleBlock({task, getSchedule, currentDay, schedule}) {
     //console.log(task)
     const {name, start, _id, completed, duration, fixed} = task;
     const [isCompleted, setIsCompleted] = useState(completed);
@@ -56,7 +56,6 @@ function ScheduleBlock({task, getSchedule, currentDay}) {
 
     async function toggleCompleted(){
         // Pull task and schedule data
-
         if (_id.slice(0, 8) != "freetime"){
             const taskReq = await axios.get(`http://localhost:8282/task/${_id}/`)
 

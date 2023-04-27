@@ -15,14 +15,28 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
   const [currentDay, setCurrentDay] = useState(new Date())
   const [links, setLinks] = useState([])
   const [notes, setNotes] = useState([])
+  const [divisions, setDivisions] = useState(1)
 
   // function handles form submission
   async function onSubmit(e) {
     try {
       e.preventDefault();
       
-      let entries = [{date: currentDay, duration, priority, isActive: false, completed: false, time: fixed ? time : null, notes, links}]
-      let defaults = {duration, priority, time, notes, links}
+      let entries = [{
+        date: currentDay, 
+        duration, 
+        priority, 
+        isActive: false, 
+        completed: false, 
+        time: fixed ? time : null, 
+        notes, 
+        links, 
+        divisions, 
+        next: "", 
+        prev: ""
+      }]
+
+      let defaults = {duration, priority, time, notes, links, divisions, next: "", prev: ""}
       const taskData = {
         name,
         entries,
@@ -45,6 +59,8 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
       setDuration("");
       setPriority("");
       setOpen(false);
+      setFixed(false)
+      setDivisions(1)
       setNotes([])
       setLinks([])
     } catch (err) {
@@ -58,8 +74,10 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
     setDuration("");
     setPriority("");
     setOpen(false);
+    setFixed(false)
     setNotes([])
     setLinks([])
+    setDivisions([""])
   }
 
   function updateNotes(e, i){
@@ -173,6 +191,21 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                             max="3"
                             value={priority}
                             onChange={(e) => setPriority(e.target.value)}
+                          ></input>
+                        </div>
+
+                        <div>
+                          <label className="block text-md text-gray-500 mb-2 font-normal">
+                            # Divisions
+                          </label>
+                          <input
+                            type="number"
+                            placeholder="divisions (1-10)"
+                            className="border rounded-sm px-4 py-3 text-md font-light text-gray-500 w-full"
+                            min="1"
+                            max="10"
+                            value={divisions}
+                            onChange={(e) => setDivisions(e.target.value)}
                           ></input>
                         </div>
 

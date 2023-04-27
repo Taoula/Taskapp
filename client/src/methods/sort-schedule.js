@@ -2,6 +2,7 @@ import axios from "axios"
 import moment from "moment"
 import addMinutes from "./add-minutes"
 import sameDate from "./same-date";
+import dateSearch from "./date-search"
 
 moment().format();
 
@@ -25,26 +26,24 @@ async function sortSchedule(setSchedule, wakeDate, sleepDate, currentDay){
     let tasks = []
     //loop through all tasks TODO reoptimize
     for (let i = 0; i < taskReq.data.length; i++){
-        for (let k = 0; k < taskReq.data[i].entries.length; k++){
-            if (sameDate(taskReq.data[i].entries[k].date, currentDay)){
-                if (taskReq.data[i].entries[k].isActive) {
+                //this clusterfuck of a line finds 
+                let k = dateSearch(currentDay, taskReq.data[i].entries)
+                if (k >= 0 && taskReq.data[i].entries[k].isActive) {
+                    let {priority, duration, notes, links, completed, time} = taskReq.data[i].entries[k]
+                    let {name, _id} = taskReq.data[i]
                     let taskToPush = {
-                        name: taskReq.data[i].name,
-                        priority: parseInt(taskReq.data[i].entries[k].priority),
-                        duration: parseInt(taskReq.data[i].entries[k].duration),
-                        notes: taskReq.data[i].entries[k].notes,
-                        links: taskReq.data[i].entries[k].links,
-                        completed: taskReq.data[i].entries[k].completed,
-                        time: taskReq.data[i].entries[k].time,
-                        _id: taskReq.data[i]._id
+                        name,
+                        priority: parseInt(priority),
+                        duration: parseInt(duration),
+                        notes,
+                        links,
+                        completed,
+                        time,
+                        _id
                     }
 
                     tasks.push(taskToPush)
                 }
-
-                break;
-            }
-        }
     }
     // Store active tasks in a new tasks array
     //let tasks = taskReq.data.filter(task => task.isActive);

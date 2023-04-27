@@ -11,9 +11,10 @@ import sameDate from "../../methods/same-date";
 
 const TaskContainer = styled.div`
   background-color: ${(props) => props.color || "pink"};
-  transition: 0.2s;
+  transition: 1s;
   &:hover {
-    transform: scale(0.95);
+    transform: scale(0.98);
+    transition:0.2s;
     cursor: pointer;
   }
 `;
