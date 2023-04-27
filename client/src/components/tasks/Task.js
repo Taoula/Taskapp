@@ -75,12 +75,13 @@ export default function Task({ task, getTasks }) {
         </div>
         {/* <DotsThree size={32} /> */}
         <div className="flex space-x-1">
-          <span className="hover:text-indigo-600">
+          <span className="hover:text-gray-900">
             <DotsThreeOutline
               size={20}
               weight="fill"
               // onClick={() => setShowUpdateTask(true)}
               onClick={() => setOpen2(true)}
+              className="text-gray-700"
             />
           </span>
           {time != null && <span>{convertTime(time, "utc")}</span>}

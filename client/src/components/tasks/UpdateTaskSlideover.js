@@ -154,7 +154,17 @@ export default function UpdateTaskSlideover({
                               </span>
                             </div>
                           </form>
-                          <button className="px-4 mb-8 py-3 text-md font-normal bg-red-500 text-white w-full rounded-md hover:bg-red-600">
+                          <button
+                            className="px-4 mb-8 py-3 text-md font-normal bg-red-500 text-white w-full rounded-md hover:bg-red-600"
+                            onClick={() => {
+                              if (
+                                window.confirm(
+                                  "Are you sure you want to delete this task? This action cannot be undone."
+                                )
+                              )
+                                this.onCancel();
+                            }}
+                          >
                             Delete Task
                           </button>
                         </div>

@@ -20,10 +20,8 @@ module.exports = {
       colors: {
         headerColor: "#f9f9f9",
         dashboardBackgroundColor: "#f2f2f4",
-        // tabHighlightColor: "#f2f2f4",
-        // sidebarColor: "#f3f4f6",
-        sidebarColor: "#f4f4f4",
-        tabHighlightColor: "#ebebeb",
+        sidebarColor: "#f9f9f9",
+        tabHighlightColor: "#e7e9eb",
         newBlack: "#212427",
         newGrey: "#F3F2F0",
         landingBackground: "#f9fafb",
