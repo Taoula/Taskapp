@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import BreakpointLabel from "../BreakpointLabel";
+import ProfileDropdown from "./ProfileDropdown";
 
 export default function HeroSection() {
   const history = useNavigate();
@@ -44,6 +45,7 @@ export default function HeroSection() {
           </div>
         </div>
       </section>
+      <ProfileDropdown />
     </>
   );
 }

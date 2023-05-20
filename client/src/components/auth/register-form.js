@@ -2,6 +2,9 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../../context/auth-context";
+import { FcGoogle } from "react-icons/fc";
+import { FaApple } from "react-icons/fa";
+import { Eye, EyeClosed } from "phosphor-react";
 
 export default function RegisterForm() {
   const [fName, setFirstName] = useState("");
@@ -12,6 +15,12 @@ export default function RegisterForm() {
   const [passwordVerify, setPasswordVerify] = useState("");
   const { getLoggedIn } = useContext(AuthContext);
   const history = useNavigate();
+  const [passwordShown, setPasswordShown] = useState(false);
+
+  // password visibility toggle handler
+  const togglePassword = () => {
+    setPasswordShown(!passwordShown);
+  };
 
   async function registerUser(e) {
     try {
@@ -31,7 +40,8 @@ export default function RegisterForm() {
       await axios.post("http://localhost:8282/auth/", userData, {});
       await axios.post(
         "http://localhost:8282/schedule/",
-        {}, {} // Two empty brackets necessary TODO ?
+        {},
+        {} // Two empty brackets necessary TODO ?
       );
 
       await axios.post("http://localhost:8282/userStat/", {});
@@ -44,7 +54,7 @@ export default function RegisterForm() {
 
   return (
     <>
-      <nav className="max-w-screen-2xl flex items-center pt-6 px-6 xl:px-4 justify-between mx-auto fixed-top">
+      {/* <nav className="max-w-screen-2xl flex items-center pt-6 px-6 xl:px-4 justify-between mx-auto fixed-top">
         <a href="/" className="text-gray-900">
           <h1 className="text-2xl font-semibold">Jigsaw</h1>
         </a>
@@ -207,175 +217,145 @@ export default function RegisterForm() {
             </button>
           </form>
         </div>
-      </div>
-      {/* <div className="bg-gray-900">
-        <nav className="max-w-4xl flex items-center mx-auto p-3 xs:px-4 xs:pt-3 sm:p-4 justify-between fixed-top">
-          <a href="/" className="inline-flex items-center space-x-3 text-white">
-            <img alt="logo" src="https://flowbite.com/docs/images/logo.svg" />
-            <span className="font-lora italic font-semibold hidden xs:block">
-              Task App
-            </span>
-          </a>
-          <div className="space-x-4 md:space-x-5 font-light text-sm">
-            <p className="text-center text-xs pt-2 font-light text-gray-400">
-              Already have an account?{" "}
-              <button
-                className="underline hover:text-white text-indigo-500"
-                onClick={() => history("/login")}
-              >
-                Sign in
-              </button>
-            </p>
+      </div> */}
+
+      <>
+        <div className="flex h-screen">
+          {/* Left Section */}
+          <div className="w-1/2 relative bg-gradient-to-b from-indigo-100 via-violet-100 to-orange-100 overflow-hidden pt-24 hidden lg:block">
+            <div className="space-y-2 pl-3">
+              <p className="text-2xl text-gray-600 font-semibold">
+                "The secret of getting ahead is getting started."
+              </p>
+              <p className="text-lg text-gray-500 font-medium">
+                &#8213; Mark Twain
+              </p>
+            </div>
+            <img
+              // src="https://i.imgur.com/OhtT384.png"
+              src="https://i.imgur.com/YCI0cMJ.png"
+              alt="Screen"
+              className="absolute object-cover w-full h-full"
+              style={{ objectPosition: "bottom right" }}
+            />
           </div>
-        </nav>
 
-        <div className="min-h-screen flex items-center">
-          <div className="mx-auto p-8 max-w-sm w-full flex flex-col">
-            <form
-              action=""
-              className="space-y-4 text-white"
-              onSubmit={(e) => registerUser(e)}
-            >
-              <div className="flex flex-row space-x-4">
-                <div>
-                  <label
-                    htmlFor="firstName"
-                    className="text-sm font-light text-white"
-                  >
-                    First name
-                  </label>
+          {/* Right Section */}
+          <div>
+            <a href="/" className="text-lg p-5 absolute font-semibold italic">
+              Velocity
+            </a>
+          </div>
+          <div className="w-full lg:w-1/2 my-auto">
+            <div className="max-w-md mx-auto">
+              <div className="space-y-8">
+                <div className="space-y-3">
+                  <h1 className="text-3xl text-gray-800">Sign up</h1>
+                  <p className="text-gray-600 font-light text-sm">
+                    Enter the following information to get started
+                  </p>
+                </div>
 
-                  <div className="mt-1">
+                {/* login with google button */}
+                <div className="space-y-3">
+                  <span className="flex items-center bg-white w-full justify-center py-2 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md duration-100">
+                    <FcGoogle size={25} />
+                    <p className="text-gray-600 text-sm">Sign up with Google</p>
+                  </span>
+
+                  {/* login with apple button */}
+                  <span className="flex items-center bg-white w-full justify-center py-2 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md duration-100">
+                    <FaApple size={25} />
+                    <p className="text-gray-600 text-sm">Sign up with Apple</p>
+                  </span>
+                </div>
+
+                {/* divider */}
+                <div className="flex items-center w-full">
+                  <hr className="w-full text-gray-300" />
+                  <p className="px-4 text-gray-300 font-light">or</p>
+                  <hr className="w-full text-gray-300" />
+                </div>
+
+                <form className="space-y-8">
+                  <div>
+                    <p
+                      htmlFor="email"
+                      class="tracking-wide text-gray-700 text-sm pb-3"
+                    >
+                      Email address
+                    </p>
                     <input
-                      type="text"
-                      className="w-full rounded-sm border-gray-400 font-light bg-gray-800 py-3 px-4 text-sm"
-                      value={fName}
+                      className="w-full bg-white py-3 px-4 rounded-md border border-gray-200 focus:outline-none focus:bg-white"
+                      placeholder="johndoe@gmail.com"
+                      type="email"
+                      id="email"
+                      value={email}
                       onChange={(e) => {
-                        setFirstName(e.target.value);
+                        setEmail(e.target.value);
                       }}
                     />
                   </div>
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="lastName"
-                    className="text-sm font-light text-white"
-                  >
-                    Last name
-                  </label>
-
-                  <div className="mt-1">
-                    <input
-                      type="text"
-                      className="w-full rounded-sm border-gray-400 font-light bg-gray-800 py-3 px-4 text-sm"
-                      value={lName}
-                      onChange={(e) => {
-                        setLastName(e.target.value);
-                      }}
-                    />
+                  <div>
+                    <p
+                      htmlFor="password"
+                      class="tracking-wide text-gray-700 text-sm pb-3"
+                    >
+                      Password
+                    </p>
+                    <div className="relative flex items-center">
+                      <input
+                        className="w-full bg-white py-3 px-4 rounded-md border border-gray-200 focus:outline-none focus:bg-white"
+                        placeholder="placeholder"
+                        type={passwordShown ? "text" : "password"}
+                        id="password"
+                        value={password}
+                        onChange={(e) => {
+                          setPassword(e.target.value);
+                        }}
+                      />
+                      <span className="z-10 absolute right-0 pr-3">
+                        {passwordShown ? (
+                          <EyeClosed
+                            size={22}
+                            className="text-gray-500"
+                            onClick={togglePassword}
+                            type="button"
+                          />
+                        ) : (
+                          <Eye
+                            size={22}
+                            className="text-gray-500"
+                            onClick={togglePassword}
+                            type="button"
+                          />
+                        )}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </div>
-              <div>
-                <label
-                  htmlFor="userRole"
-                  className="text-sm font-light text-white"
-                >
-                  Role
-                </label>
-
-                <div className="mt-1">
-                  <select
-                    id="userRole"
-                    className="w-full rounded-sm border-gray-400 font-light bg-gray-800 py-3 px-4 text-sm"
-                    value={userRole}
-                    onChange={(e) => {
-                      setUserRole(e.target.value);
-                    }}
+                  <button
+                    type="submit"
+                    input={+true}
+                    value="submit"
+                    className="font-light text-sm bg-blue-500 w-full text-white py-3 rounded-md hover:bg-blue-600 duration-75"
                   >
-                    <option defaultValue>Your role</option>
-                    <option value="Student">Student</option>
-                    <option value="Teacher">Teacher</option>
-                    <option value="Manager">Manager</option>
-                    <option value="Business Owner">Business Owner</option>
-                    <option value="Developer">Developer</option>
-                    <option value="Designer">Designer</option>
-                  </select>
-                </div>
+                    Sign up
+                  </button>
+                  <p className="text-gray-700 text-sm">
+                    Already have an account?{" "}
+                    <a
+                      className="text-blue-500 hover:text-blue-600 hover:underline"
+                      onClick={() => history("/login")}
+                    >
+                      Log in now
+                    </a>
+                  </p>
+                </form>
               </div>
-              <div>
-                <label
-                  htmlFor="email"
-                  className="text-sm font-light text-white"
-                >
-                  Email
-                </label>
-
-                <div className="mt-1">
-                  <input
-                    type="email"
-                    id="email"
-                    className="w-full rounded-sm border-gray-400 font-light bg-gray-800 py-3 px-4 text-sm"
-                    value={email}
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                    }}
-                  />
-                </div>
-              </div>
-              <div>
-                <label
-                  htmlFor="password"
-                  className="text-sm font-light text-white"
-                >
-                  Password
-                </label>
-
-                <div className="mt-1">
-                  <input
-                    type="password"
-                    id="password"
-                    className="w-full rounded-sm border-gray-400 font-light bg-gray-800 py-3 px-4 text-sm"
-                    value={password}
-                    onChange={(e) => {
-                      setPassword(e.target.value);
-                    }}
-                  />
-                </div>
-              </div>
-              <div className="pb-2">
-                <label
-                  htmlFor="password"
-                  className="text-sm font-light text-white"
-                >
-                  Confirm password
-                </label>
-
-                <div className="mt-1">
-                  <input
-                    type="password"
-                    id="password"
-                    className="w-full rounded-sm border-gray-400 font-light bg-gray-800 py-3 px-4 text-sm"
-                    value={passwordVerify}
-                    onChange={(e) => {
-                      setPasswordVerify(e.target.value);
-                    }}
-                  />
-                </div>
-              </div>
-              <button
-                type="submit"
-                input={+true}
-                value="register"
-                className="block w-full rounded-sm bg-indigo-500 hover:bg-indigo-600 py-3 text-sm font-light text-white"
-              >
-                Create My Account
-              </button>
-            </form>
+            </div>
           </div>
         </div>
-      </div> */}
+      </>
     </>
   );
 }
