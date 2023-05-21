@@ -26,7 +26,7 @@ export default function ProfileDropdown() {
 
   return (
     <>
-      <div className="flex space-x-2">
+      <div className="flex space-x-3">
         <img
           alt="profile"
           src="https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
@@ -38,11 +38,24 @@ export default function ProfileDropdown() {
         <div
           className={`bg-white ${
             isOpen ? "block" : "hidden"
-          } absolute z-10 w-56 border border-gray-200 divide-y divide-gray-200 shadow rounded-md p-1`}
+          } absolute z-10 border border-gray-200 divide-y divide-gray-200 shadow rounded-md p-3`}
           ref={tooltipRef}
           style={styles.popper}
           {...attributes.popper}
         >
+          <div>
+            <div className="flex items-center gap-2">
+              <img
+                alt="profile"
+                src="https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+                className="rounded-md h-10 w-10 object-cover mb-1"
+              />
+              <div className="text-xs">
+                <p className="font-semibold">Paul Chinnam</p>
+                <p className="text-gray-400">paulnchinnam@gmail.com</p>
+              </div>
+            </div>
+          </div>
           <div className="flex hover:bg-gray-200 px-2 py-2 rounded items-center gap-2">
             <Gear size={25} />
             <p className="w-full items-center rounded-md text-sm">
