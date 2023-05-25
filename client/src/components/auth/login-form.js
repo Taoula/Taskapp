@@ -2,10 +2,9 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../../context/auth-context";
-import Navbar from "../layout/Navbar";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
-import { Eye, EyeClosed } from "phosphor-react";
+import { Eye, EyeClosed, Envelope, Lock } from "phosphor-react";
 import BreakpointLabel from "../BreakpointLabel";
 
 export default function LoginForm() {
@@ -75,142 +74,123 @@ export default function LoginForm() {
     <>
       <div className="flex h-screen">
         {/* Left Section */}
-        <div>
-          <a href="/" className="text-lg p-5 absolute font-semibold italic">
-            Velocity
-          </a>
-        </div>
         <div className="w-full lg:w-1/2 my-auto">
           <div className="max-w-md mx-auto">
-            <div className="space-y-8">
-              <div className="space-y-3">
-                <h1 className="text-3xl text-gray-800">Log in</h1>
-                <p className="text-gray-600 font-light text-sm">
-                  Enter your credentials to access your account
-                </p>
-              </div>
+            <a href="/" className="text-xl font-semibold italic text-blue-600">
+              Velocity
+            </a>
+            <h1 className="text-3xl text-gray-800 font-semibold pt-10">
+              Log in to your account
+            </h1>
 
-              {/* login with google button */}
-              <div className="space-y-3">
-                <span className="flex items-center bg-white w-full justify-center py-2 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md duration-100">
-                  <FcGoogle size={25} />
-                  <p className="text-gray-600 text-sm">Log in with Google</p>
-                </span>
+            {/* login with google button */}
+            <div className="flex flex-row gap-4 py-8">
+              <span className="flex items-center bg-white w-full justify-center py-4 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md duration-100">
+                <FcGoogle size={25} />
+                <p className="text-gray-700 font-semibold text-sm">Google</p>
+              </span>
 
-                {/* login with apple button */}
-                <span className="flex items-center bg-white w-full justify-center py-2 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md duration-100">
-                  <FaApple size={25} />
-                  <p className="text-gray-600 text-sm">Log in with Apple</p>
-                </span>
-              </div>
+              {/* login with apple button */}
+              <span className="flex items-center bg-white w-full justify-center py-4 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md duration-100">
+                <FaApple size={25} />
+                <p className="text-gray-700 font-semibold text-sm">Apple</p>
+              </span>
+            </div>
 
-              {/* divider */}
-              <div className="flex items-center w-full">
-                <hr className="w-full text-gray-300" />
-                <p className="px-4 text-gray-300 font-light">or</p>
-                <hr className="w-full text-gray-300" />
-              </div>
+            {/* divider */}
+            <div className="flex items-center w-full">
+              <hr className="w-full text-gray-300" />
+              <p className="px-4 text-gray-300 font-light">or</p>
+              <hr className="w-full text-gray-300" />
+            </div>
 
-              <form className="space-y-8" onSubmit={(e) => loginUser(e)}>
-                <div>
-                  <p
-                    htmlFor="email"
-                    class="tracking-wide text-gray-700 text-sm pb-3"
-                  >
-                    Email address
-                  </p>
-                  <input
-                    className="w-full bg-white py-3 px-4 rounded-md border border-gray-200 focus:outline-none focus:bg-white"
-                    placeholder="johndoe@gmail.com"
-                    type="email"
-                    id="email"
-                    value={email}
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                    }}
-                  />
+            <form className="pt-8" onSubmit={(e) => loginUser(e)}>
+              {/*  */}
+              <div className="relative rounded-md">
+                <div className="pointer-events-none text-gray-400 absolute inset-y-0 left-0 flex items-center pl-4">
+                  <Envelope size={20} />
                 </div>
-                <div>
-                  <span className="flex pb-3 justify-between">
-                    <p
-                      htmlFor="password"
-                      class="tracking-wide text-gray-700 text-sm"
-                    >
-                      Password
-                    </p>
-                    <p class="tracking-wide text-blue-500 text-sm hover:text-blue-600 hover:underline">
-                      Forgot password?
-                    </p>
-                  </span>
-                  <div className="relative flex items-center">
-                    <input
-                      className="w-full bg-white py-3 px-4 rounded-md border border-gray-200 focus:outline-none focus:bg-white"
-                      placeholder="placeholder"
-                      type={passwordShown ? "text" : "password"}
-                      id="password"
-                      value={password}
-                      onChange={(e) => {
-                        setPassword(e.target.value);
-                      }}
-                    />
-                    <span className="z-10 absolute right-0 pr-3">
-                      {passwordShown ? (
-                        <EyeClosed
-                          size={22}
-                          className="text-gray-500"
-                          onClick={togglePassword}
-                          type="button"
-                        />
-                      ) : (
-                        <Eye
-                          size={22}
-                          className="text-gray-500"
-                          onClick={togglePassword}
-                          type="button"
-                        />
-                      )}
-                    </span>
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                  id="email"
+                  className="block w-full rounded-md py-3 pl-11 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 text-sm"
+                />
+              </div>
+              <div>
+                <div className="relative rounded-md mt-4">
+                  <div className="pointer-events-none text-gray-400 absolute inset-y-0 left-0 flex items-center pl-4">
+                    <Lock size={20} />
+                  </div>
+                  <input
+                    type={passwordShown ? "text" : "password"}
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                    }}
+                    id="password"
+                    className="block w-full rounded-md py-3 pl-11 bg-gray-50 border border-gray-200 pr-11 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
+                  />
+                  <div className="absolute inset-y-0 right-0 pr-4 flex items-center">
+                    {passwordShown ? (
+                      <EyeClosed
+                        size={20}
+                        className="text-gray-400"
+                        onClick={togglePassword}
+                        type="button"
+                      />
+                    ) : (
+                      <Eye
+                        size={20}
+                        className="text-gray-400"
+                        onClick={togglePassword}
+                        type="button"
+                      />
+                    )}
                   </div>
                 </div>
-                <button
-                  type="submit"
-                  input={+true}
-                  value="submit"
-                  className="font-light text-sm bg-blue-500 w-full text-white py-3 rounded-md hover:bg-blue-600 duration-75"
+                <span className="flex pt-4 justify-end">
+                  <p class="tracking-wide text-blue-500 text-sm hover:text-blue-600 hover:underline">
+                    Forgot password?
+                  </p>
+                </span>
+              </div>
+              <button
+                type="submit"
+                input={+true}
+                value="submit"
+                className="mt-8 mb-10 text-sm font-normal bg-blue-600 w-full text-white py-3.5 rounded-md hover:bg-blue-700 duration-75 tracking-wider"
+              >
+                Log in
+              </button>
+              <p className="text-gray-700 text-sm text-center">
+                Don't have an account?{" "}
+                <a
+                  className="text-blue-500 hover:text-blue-600 hover:underline"
+                  onClick={() => history("/register")}
+                  href="/"
                 >
-                  Login
-                </button>
-                <p className="text-gray-700 text-sm">
-                  Not a member?{" "}
-                  <a
-                    className="text-blue-500 hover:text-blue-600 hover:underline"
-                    onClick={() => history("/register")}
-                  >
-                    Sign up now
-                  </a>
-                </p>
-              </form>
-            </div>
+                  Sign up now
+                </a>
+              </p>
+            </form>
           </div>
         </div>
 
         {/* Right Section */}
-        <div className="w-1/2 relative bg-gradient-to-b from-indigo-100 via-violet-100 to-orange-100 pl-20 space-y-16 overflow-hidden pt-24 hidden lg:block">
-          <div className="space-y-2 pl-3">
-            <p className="text-2xl text-gray-600 font-semibold">
-              "The secret of getting ahead is getting started."
-            </p>
-            <p className="text-lg text-gray-500 font-medium">
-              &#8213; Mark Twain
-            </p>
+        <div className="w-1/2 hidden lg:block">
+          <div className="bg-stone-200 flex h-full items-center">
+            <img
+              alt="drawing"
+              src="https://i.imgur.com/s4HIX7A.png"
+              className="object-cover scale-75 mx-auto"
+            />
           </div>
-          <img
-            // src="https://i.imgur.com/OhtT384.png"
-            src="https://i.imgur.com/YCI0cMJ.png"
-            alt="Screen"
-            className="absolute object-cover w-full h-full"
-            style={{ objectPosition: "bottom left" }}
-          />
         </div>
       </div>
     </>
