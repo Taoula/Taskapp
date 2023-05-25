@@ -173,7 +173,6 @@ export default function LoginForm() {
                 <a
                   className="text-blue-500 hover:text-blue-600 hover:underline"
                   onClick={() => history("/register")}
-                  href="/"
                 >
                   Sign up now
                 </a>
