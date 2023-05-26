@@ -344,9 +344,18 @@ export default function RegisterForm() {
                 {/* terms of agreement */}
                 <span className="flex pt-4 items-center gap-2 justify-end">
                   {isTermsChecked ? (
-                    <CheckSquare size={18} onClick={handleCheckboxChange} />
+                    <CheckSquare
+                      size={18}
+                      weight="bold"
+                      onClick={handleCheckboxChange}
+                      className="text-blue-500"
+                    />
                   ) : (
-                    <Square size={18} onClick={handleCheckboxChange} />
+                    <Square
+                      size={18}
+                      weight="bold"
+                      onClick={handleCheckboxChange}
+                    />
                   )}
                   <p class="tracking-wide text-gray-900 text-sm">
                     I agree to the{" "}
