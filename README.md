@@ -6,6 +6,8 @@ Phosophor Icons: https://phosphoricons.com
 Chart.js: https://www.chartjs.org
 <br />
 HeadlessUI: https://headlessui.com/react/combobox
+<br />
+Popper.js
 
 # Bugs
 1. Set time toggle stays active and doesn't disable when the create task slideover is closed
@@ -29,6 +31,12 @@ HeadlessUI: https://headlessui.com/react/combobox
 2. auto-scroll on nav link click
 3. ~~change navbar color on scroll~~
 4. ~~make sign up & login pages responsive~~
+
+## Login page
+1. front end validation
+2. back end validation
+3. responsive
+4. return error if no inputs are passed or incorrect info is passed
 
 ## Sorting Algorithm
 1. Add a better free time system to sorting algorithm (divided somewhat equally throughout day)
