@@ -33,10 +33,18 @@ Popper.js
 4. ~~make sign up & login pages responsive~~
 
 ## Login page
-1. front end validation
+1. ~~front end validation~~
 2. back end validation
-3. responsive
+3. ~~responsive~~
 4. return error if no inputs are passed or incorrect info is passed
+
+## Sign up page
+1. ~~front end validation~~
+2. back end validation
+3. ~~responsive~~
+4. progress bar?
+5. select plan
+6. payment
 
 ## Sorting Algorithm
 1. Add a better free time system to sorting algorithm (divided somewhat equally throughout day)
