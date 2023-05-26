@@ -18,20 +18,25 @@ export default function RegisterForm() {
   const history = useNavigate();
   const { getLoggedIn } = useContext(AuthContext);
 
+  // first, last, role
   const [fName, setFirstName] = useState("");
   const [lName, setLastName] = useState("");
   const [userRole, setUserRole] = useState("");
 
+  // email
   const [email, setEmail] = useState("");
   const [emailTypingStarted, setEmailTypingStarted] = useState(false);
 
+  // pass
   const [password, setPassword] = useState("");
   const [passwordShown, setPasswordShown] = useState(false);
   const [typingStarted, setTypingStarted] = useState(false);
 
+  // verify pass
   const [passwordVerify, setPasswordVerify] = useState("");
   const [verifyTypingStarted, setVerifyTypingStarted] = useState(false);
 
+  // assword regex
   const requirements = [
     { regex: /.{8,}/, text: "At least 8 characters length" },
     // { regex: /[0-9]/, text: "At least 1 number (0...9)" },
@@ -42,6 +47,7 @@ export default function RegisterForm() {
 
   const isRequirementMet = (regex) => regex.test(password);
 
+  // checks if verify pass matches
   const isPasswordMatching = (password, passwordVerify) => {
     if (password === "" || passwordVerify === "") {
       return false;
@@ -49,6 +55,7 @@ export default function RegisterForm() {
     return password === passwordVerify;
   };
 
+  // checks email regex
   const isEmailValid = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -59,6 +66,7 @@ export default function RegisterForm() {
     setPasswordShown(!passwordShown);
   };
 
+  // checks if all requirements are met to enable button
   const isSubmitDisabled = () => {
     return !(
       requirements.every((requirement) =>
@@ -69,6 +77,7 @@ export default function RegisterForm() {
     );
   };
 
+  // handles form submission
   async function registerUser(e) {
     try {
       e.preventDefault();
@@ -166,7 +175,8 @@ export default function RegisterForm() {
                   className="block w-full rounded-md py-3 pl-11 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 text-sm"
                 />
               </div>
-              {/*  */}
+
+              {/* email validation */}
               {emailTypingStarted && (
                 <ul className="mt-4 list-none list-inside">
                   <li
@@ -192,7 +202,6 @@ export default function RegisterForm() {
                   </li>
                 </ul>
               )}
-              {/*  */}
               <div>
                 {/* password */}
                 <div className={`relative rounded-md mt-4`}>
@@ -229,6 +238,7 @@ export default function RegisterForm() {
                   </div>
                 </div>
 
+                {/* password validation */}
                 {typingStarted && (
                   <ul className="mt-4 list-inside list-none space-y-2">
                     {requirements.map((requirement, index) => (
@@ -276,6 +286,8 @@ export default function RegisterForm() {
                     id="password"
                     className="block w-full rounded-md py-3 pl-11 bg-gray-50 border border-gray-200 pr-11 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
                   />
+
+                  {/* password visibility */}
                   <div className="absolute inset-y-0 right-0 pr-4 flex items-center">
                     {passwordShown ? (
                       <EyeClosed
@@ -294,7 +306,8 @@ export default function RegisterForm() {
                     )}
                   </div>
                 </div>
-                {/*  */}
+
+                {/* verify password validation */}
                 {verifyTypingStarted && (
                   <ul className="mt-4 list-none list-inside">
                     <li
@@ -318,17 +331,20 @@ export default function RegisterForm() {
                     </li>
                   </ul>
                 )}
-                {/*  */}
+
+                {/* terms of agreement */}
                 <span className="flex pt-4 items-center gap-2 justify-end">
                   <Square size={18} />
                   <p class="tracking-wide text-gray-900 text-sm">
                     I agree to the{" "}
                     <a href="/" className="hover:underline text-blue-500">
-                      Terms and Privacy Policy
+                      Terms of agreement
                     </a>
                   </p>
                 </span>
               </div>
+
+              {/* continue button */}
               <button
                 type="submit"
                 input={+true}
@@ -342,6 +358,8 @@ export default function RegisterForm() {
               >
                 Continue
               </button>
+
+              {/* redirect to login */}
               <p className="text-gray-700 text-sm text-center">
                 Have an account?{" "}
                 <a
