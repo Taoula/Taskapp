@@ -12,6 +12,7 @@ import {
   Square,
   CheckCircle,
   Circle,
+  CheckSquare,
 } from "phosphor-react";
 
 export default function RegisterForm() {
@@ -35,6 +36,13 @@ export default function RegisterForm() {
   // verify pass
   const [passwordVerify, setPasswordVerify] = useState("");
   const [verifyTypingStarted, setVerifyTypingStarted] = useState(false);
+
+  // terms of agreement
+  const [isTermsChecked, setIsTermsChecked] = useState(false);
+
+  const handleCheckboxChange = () => {
+    setIsTermsChecked((prevChecked) => !prevChecked);
+  };
 
   // assword regex
   const requirements = [
@@ -73,7 +81,8 @@ export default function RegisterForm() {
         isRequirementMet(requirement.regex, password)
       ) &&
       isPasswordMatching(password, passwordVerify) &&
-      isEmailValid(email)
+      isEmailValid(email) &&
+      isTermsChecked
     );
   };
 
@@ -334,7 +343,11 @@ export default function RegisterForm() {
 
                 {/* terms of agreement */}
                 <span className="flex pt-4 items-center gap-2 justify-end">
-                  <Square size={18} />
+                  {isTermsChecked ? (
+                    <CheckSquare size={18} onClick={handleCheckboxChange} />
+                  ) : (
+                    <Square size={18} onClick={handleCheckboxChange} />
+                  )}
                   <p class="tracking-wide text-gray-900 text-sm">
                     I agree to the{" "}
                     <a href="/" className="hover:underline text-blue-500">
@@ -373,6 +386,38 @@ export default function RegisterForm() {
           </div>
         </div>
       </div>
+
+      {/* <input
+        type="text"
+        value={fName}
+        onChange={(e) => {
+          setFirstName(e.target.value);
+        }}
+      />
+
+      <input
+        type="text"
+        value={lName}
+        onChange={(e) => {
+          setLastName(e.target.value);
+        }}
+      />
+
+      <select
+        id="userRole"
+        value={userRole}
+        onChange={(e) => {
+          setUserRole(e.target.value);
+        }}
+      >
+        <option defaultValue>Your role</option>
+        <option value="Student">Student</option>
+        <option value="Teacher">Teacher</option>
+        <option value="Manager">Manager</option>
+        <option value="Business Owner">Business Owner</option>
+        <option value="Developer">Developer</option>
+        <option value="Designer">Designer</option>
+      </select> */}
     </>
   );
 }
