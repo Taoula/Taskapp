@@ -334,7 +334,11 @@ export default function RegisterForm() {
                 input={+true}
                 disabled={isSubmitDisabled()}
                 value="register"
-                className="mt-8 mb-10 text-sm font-normal bg-blue-600 w-full text-white py-3.5 rounded-md hover:bg-blue-700 duration-75 tracking-wider"
+                className={`${
+                  isSubmitDisabled()
+                    ? "cursor-not-allowed bg-gray-300 text-gray-900"
+                    : "bg-blue-600 hover:bg-blue-700 duration-75 text-white"
+                } mt-8 mb-10 text-sm font-normal w-full py-3.5 rounded-md tracking-wider `}
               >
                 Continue
               </button>
