@@ -496,6 +496,23 @@ export default function RegisterForm() {
             </div>
 
             <form className="pt-8">{inputDisplay()}</form>
+
+            <div className="flex mt-10">
+              <div className="mx-auto">
+                <div className="flex gap-3">
+                  <div
+                    className={`h-2.5 rounded-full ${
+                      step === 1 ? "bg-blue-600 w-8" : "w-2.5 bg-gray-300"
+                    }`}
+                  ></div>
+                  <div
+                    className={`h-2.5 rounded-full ${
+                      step === 2 ? "bg-blue-600 w-8" : "w-2.5 bg-gray-300"
+                    }`}
+                  ></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
