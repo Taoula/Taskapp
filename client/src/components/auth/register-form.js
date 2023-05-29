@@ -4,24 +4,26 @@ import axios from "axios";
 import AuthContext from "../../context/auth-context";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
-import {
-  Eye,
-  EyeClosed,
-  Envelope,
-  Lock,
-  Square,
-  CheckCircle,
-  Circle,
-  CheckSquare,
-} from "phosphor-react";
+import Step1 from "./Step1";
+import Step2 from "./Step2";
+import { CheckCircle, Circle } from "phosphor-react";
 
 export default function RegisterForm() {
   const history = useNavigate();
   const { getLoggedIn } = useContext(AuthContext);
 
-  // first, last, role
+  // registration steps
+  const [step, setStep] = useState(1);
+
+  // first name
   const [fName, setFirstName] = useState("");
+  const [firstNameTypingStarted, setFirstNameTypingStarted] = useState(false);
+
+  // last name
   const [lName, setLastName] = useState("");
+  const [lastNameTypingStarted, setLastNameTypingStarted] = useState(false);
+
+  // user role
   const [userRole, setUserRole] = useState("default");
 
   // email
@@ -40,22 +42,20 @@ export default function RegisterForm() {
   // terms of agreement
   const [isTermsChecked, setIsTermsChecked] = useState(false);
 
-  const [step, setStep] = useState(1);
-
   const handleCheckboxChange = () => {
     setIsTermsChecked((prevChecked) => !prevChecked);
   };
 
-  // assword regex
-  const requirements = [
+  // password regex
+  const passRequirements = [
     { regex: /.{8,}/, text: "At least 8 characters length" },
     // { regex: /[0-9]/, text: "At least 1 number (0...9)" },
     // { regex: /[a-z]/, text: "At least 1 lowercase letter (a...z)" },
-    // { regex: /[^A-Za-z0-9]/, text: "At least 1 special symbol (!...$)" },
+    { regex: /[^A-Za-z0-9]/, text: "At least 1 special symbol (!...$)" },
     { regex: /[A-Z]/, text: "At least 1 uppercase letter (A...Z)" },
   ];
 
-  const isRequirementMet = (regex) => regex.test(password);
+  const isPasswordRegexMet = (regex) => regex.test(password);
 
   // checks if verify pass matches
   const isPasswordMatching = (password, passwordVerify) => {
@@ -65,15 +65,28 @@ export default function RegisterForm() {
     return password === passwordVerify;
   };
 
-  // checks email regex
+  // email regex
   const isEmailValid = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
+  // first name regex
+  const isFirstNameValid = (fName) => {
+    const fNameRegex = /^(?=.*[a-zA-Z].*[a-zA-Z])[a-zA-Z\s]{2,}$/;
+    return fNameRegex.test(fName);
+  };
+
+  // last name regex
+  const isLastNameValid = (lName) => {
+    const lNameRegex = /^(?=.*[a-zA-Z].*[a-zA-Z])[a-zA-Z\s]{2,}$/;
+    return lNameRegex.test(lName);
+  };
+
   // verifies inputs on step 2
-  const isButtonDisabled =
-    fName === "" || lName === "" || userRole === "default";
+  const isSubmitDisabled = () => {
+    return true;
+  };
 
   // password visibility toggle handler
   const togglePassword = () => {
@@ -81,14 +94,13 @@ export default function RegisterForm() {
   };
 
   // checks if all requirements are met to enable button
-  const isSubmitDisabled = () => {
+  const isNextDisabled = () => {
     return !(
-      requirements.every((requirement) =>
-        isRequirementMet(requirement.regex, password)
-      ) &&
-      isPasswordMatching(password, passwordVerify) &&
+      isFirstNameValid(fName) &&
+      isLastNameValid(lName) &&
       isEmailValid(email) &&
-      isTermsChecked
+      isTermsChecked &&
+      userRole !== "default"
     );
   };
 
@@ -97,7 +109,7 @@ export default function RegisterForm() {
     try {
       e.preventDefault();
 
-      if (isSubmitDisabled()) {
+      if (isNextDisabled()) {
         return;
       }
 
@@ -131,321 +143,74 @@ export default function RegisterForm() {
     // renders first step of sign up
     if (step === 1) {
       return (
-        <>
-          {/* email */}
-          <div className="relative rounded-md">
-            <div className="pointer-events-none text-gray-400 absolute inset-y-0 left-0 flex items-center pl-4">
-              <Envelope size={20} />
-            </div>
-            <input
-              type="text"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-                setEmailTypingStarted(true);
-              }}
-              id="email"
-              className="block w-full rounded-md py-3 pl-11 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 text-sm"
-            />
-          </div>
-
-          {/* email validation */}
-          {emailTypingStarted && (
-            <ul className="mt-4 list-none list-inside">
-              <li
-                className={`text-sm flex items-center ${
-                  isEmailValid(email) ? "text-green-600" : "text-red-500"
-                }`}
-              >
-                {isEmailValid(email) ? (
-                  <CheckCircle
-                    size={16}
-                    weight="bold"
-                    color="#34D399"
-                    className="mr-2"
-                  />
-                ) : (
-                  <Circle
-                    size={16}
-                    weight="bold"
-                    className="mr-2 text-red-400"
-                  />
-                )}
-                Email must be valid
-              </li>
-            </ul>
-          )}
-
-          {/* password */}
-          <div className={`relative rounded-md mt-4`}>
-            <div className="pointer-events-none text-gray-400 absolute inset-y-0 left-0 flex items-center pl-4">
-              <Lock size={20} />
-            </div>
-            <input
-              type={passwordShown ? "text" : "password"}
-              placeholder="Password"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-                setTypingStarted(true);
-              }}
-              id="password"
-              className="block w-full rounded-md py-3 pl-11 bg-gray-50 border border-gray-200 pr-11 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
-            />
-            <div className="absolute inset-y-0 right-0 pr-4 flex items-center">
-              {passwordShown ? (
-                <EyeClosed
-                  size={20}
-                  className="text-gray-400"
-                  onClick={togglePassword}
-                  type="button"
-                />
-              ) : (
-                <Eye
-                  size={20}
-                  className="text-gray-400"
-                  onClick={togglePassword}
-                  type="button"
-                />
-              )}
-            </div>
-          </div>
-
-          {/* password validation */}
-          {typingStarted && (
-            <ul className="mt-4 list-inside list-none space-y-2">
-              {requirements.map((requirement, index) => (
-                <li
-                  key={index}
-                  className={`text-sm flex items-center ${
-                    isRequirementMet(requirement.regex)
-                      ? "text-green-600"
-                      : "text-red-500"
-                  }`}
-                >
-                  {isRequirementMet(requirement.regex) ? (
-                    <CheckCircle
-                      size={16}
-                      weight="bold"
-                      color="#34D399"
-                      className="mr-2"
-                    />
-                  ) : (
-                    <Circle
-                      size={16}
-                      weight="bold"
-                      className="mr-2 text-red-400"
-                    />
-                  )}
-                  {requirement.text}
-                </li>
-              ))}
-            </ul>
-          )}
-
-          {/* verify password */}
-          <div className="relative rounded-md mt-4">
-            <div className="pointer-events-none text-gray-400 absolute inset-y-0 left-0 flex items-center pl-4">
-              <Lock size={20} />
-            </div>
-            <input
-              type={passwordShown ? "text" : "password"}
-              placeholder="Verify password"
-              value={passwordVerify}
-              onChange={(e) => {
-                setPasswordVerify(e.target.value);
-                setVerifyTypingStarted(true);
-              }}
-              id="password"
-              className="block w-full rounded-md py-3 pl-11 bg-gray-50 border border-gray-200 pr-11 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
-            />
-
-            {/* password visibility */}
-            <div className="absolute inset-y-0 right-0 pr-4 flex items-center">
-              {passwordShown ? (
-                <EyeClosed
-                  size={20}
-                  className="text-gray-400"
-                  onClick={togglePassword}
-                  type="button"
-                />
-              ) : (
-                <Eye
-                  size={20}
-                  className="text-gray-400"
-                  onClick={togglePassword}
-                  type="button"
-                />
-              )}
-            </div>
-          </div>
-
-          {/* verify password validation */}
-          {verifyTypingStarted && (
-            <ul className="mt-4 list-none list-inside">
-              <li
-                className={`text-sm flex items-center ${
-                  isPasswordMatching(password, passwordVerify)
-                    ? "text-green-600"
-                    : "text-red-500"
-                }`}
-              >
-                {isPasswordMatching(password, passwordVerify) ? (
-                  <CheckCircle
-                    size={16}
-                    weight="bold"
-                    color="#34D399"
-                    className="mr-2 text-red-400"
-                  />
-                ) : (
-                  <Circle size={16} weight="bold" className="mr-2" />
-                )}
-                Passwords must match
-              </li>
-            </ul>
-          )}
-
-          {/* terms of agreement */}
-          <span className="flex pt-4 items-center gap-2 justify-end">
-            {isTermsChecked ? (
-              <CheckSquare
-                size={18}
-                weight="bold"
-                onClick={handleCheckboxChange}
-                className="text-blue-500"
-              />
-            ) : (
-              <Square size={18} weight="bold" onClick={handleCheckboxChange} />
-            )}
-            <p class="tracking-wide text-gray-900 text-sm">
-              I agree to the{" "}
-              <a href="/" className="hover:underline text-blue-500">
-                Terms of agreement
-              </a>
-            </p>
-          </span>
-
-          {/* continue button */}
-          <button
-            type="button"
-            disabled={isSubmitDisabled()}
-            onClick={() => {
-              setStep((currentStep) => currentStep + 1);
-            }}
-            className={`${
-              isSubmitDisabled()
-                ? "cursor-not-allowed bg-gray-300 text-gray-900"
-                : "bg-blue-600 hover:bg-blue-700 duration-75 text-white"
-            } mt-8 mb-10 text-sm font-normal w-full py-3.5 rounded-md tracking-wider `}
-          >
-            Continue
-          </button>
-
-          {/* redirect to login */}
-          <p className="text-gray-700 text-sm text-center">
-            Have an account?{" "}
-            <a
-              className="text-blue-500 hover:text-blue-600 hover:underline"
-              onClick={() => history("/login")}
-            >
-              Log in
-            </a>
-          </p>
-        </>
+        <Step1
+          history={history}
+          email={email}
+          lName={lName}
+          fName={fName}
+          setFirstName={setFirstName}
+          setLastName={setLastName}
+          setEmail={setEmail}
+          emailTypingStarted={emailTypingStarted}
+          setEmailTypingStarted={setEmailTypingStarted}
+          password={password}
+          setPassword={setPassword}
+          passwordShown={passwordShown}
+          typingStarted={typingStarted}
+          setTypingStarted={setTypingStarted}
+          setUserRole={setUserRole}
+          passwordVerify={passwordVerify}
+          setPasswordVerify={setPasswordVerify}
+          verifyTypingStarted={verifyTypingStarted}
+          setVerifyTypingStarted={setVerifyTypingStarted}
+          isTermsChecked={isTermsChecked}
+          setStep={setStep}
+          handleCheckboxChange={handleCheckboxChange}
+          passRequirements={passRequirements}
+          isPasswordRegexMet={isPasswordRegexMet}
+          isPasswordMatching={isPasswordMatching}
+          isEmailValid={isEmailValid}
+          userRole={userRole}
+          togglePassword={togglePassword}
+          isNextDisabled={isNextDisabled}
+          isFirstNameValid={isFirstNameValid}
+          isLastNameValid={isLastNameValid}
+          firstNameTypingStarted={firstNameTypingStarted}
+          setFirstNameTypingStarted={setFirstNameTypingStarted}
+          lastNameTypingStarted={lastNameTypingStarted}
+          setLastNameTypingStarted={setLastNameTypingStarted}
+        />
       );
     }
 
     // renders second step of sign up
     else if (step === 2) {
       return (
-        <>
-          {/* first name */}
-          <div className="rounded-md">
-            <input
-              type="text"
-              placeholder="First Name"
-              value={fName}
-              onChange={(e) => {
-                setFirstName(e.target.value);
-              }}
-              className="w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 text-sm"
-            />
-          </div>
-
-          {/* last name */}
-          <div className={`rounded-md mt-4`}>
-            <input
-              type="text"
-              placeholder="Last name"
-              value={lName}
-              onChange={(e) => {
-                setLastName(e.target.value);
-              }}
-              className="w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
-            />
-          </div>
-
-          {/* user role */}
-          <div className="rounded-md mt-4">
-            <select
-              id="userRole"
-              value={userRole}
-              onChange={(e) => {
-                setUserRole(e.target.value);
-              }}
-              className="w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 pr-11 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
-            >
-              <option value="default">Select your role</option>
-              <option value="Student">Student</option>
-              <option value="Teacher">Teacher</option>
-              <option value="Manager">Manager</option>
-              <option value="Business Owner">Business Owner</option>
-              <option value="Developer">Developer</option>
-              <option value="Designer">Designer</option>
-            </select>
-          </div>
-
-          <div className="flex mt-8 mb-10 gap-4">
-            {/* previous step */}
-            <button
-              type="button"
-              onClick={() => {
-                setStep((currentStep) => currentStep - 1);
-              }}
-              className="text-sm w-full font-normal hover:bg-red-200 duration-75 py-3.5 rounded-md tracking-wider bg-red-100 text-red-600"
-            >
-              Previous
-            </button>
-
-            {/* submit form */}
-            <button
-              type="submit"
-              input={+true}
-              value="register"
-              disabled={isButtonDisabled}
-              onClick={registerUser}
-              className={`text-sm font-normal w-full py-3.5 rounded-md tracking-wider text-white ${
-                isButtonDisabled
-                  ? "bg-gray-300 text-gray-900"
-                  : "bg-blue-600 hover:bg-blue-700 duration-75"
-              }`}
-            >
-              Submit
-            </button>
-          </div>
-
-          {/* redirect to login */}
-          <p className="text-gray-700 text-sm text-center">
-            Have an account?{" "}
-            <a
-              className="text-blue-500 hover:text-blue-600 hover:underline"
-              onClick={() => history("/login")}
-            >
-              Log in
-            </a>
-          </p>
-        </>
+        <Step2
+          history={history}
+          email={email}
+          setEmail={setEmail}
+          emailTypingStarted={emailTypingStarted}
+          setEmailTypingStarted={setEmailTypingStarted}
+          password={password}
+          setPassword={setPassword}
+          passwordShown={passwordShown}
+          typingStarted={typingStarted}
+          setTypingStarted={setTypingStarted}
+          passwordVerify={passwordVerify}
+          setPasswordVerify={setPasswordVerify}
+          verifyTypingStarted={verifyTypingStarted}
+          setVerifyTypingStarted={setVerifyTypingStarted}
+          isTermsChecked={isTermsChecked}
+          setStep={setStep}
+          handleCheckboxChange={handleCheckboxChange}
+          passRequirements={passRequirements}
+          isPasswordRegexMet={isPasswordRegexMet}
+          isPasswordMatching={isPasswordMatching}
+          isEmailValid={isEmailValid}
+          togglePassword={togglePassword}
+          isNextDisabled={isNextDisabled}
+        />
       );
     }
   };
@@ -454,65 +219,107 @@ export default function RegisterForm() {
     <>
       <div className="flex h-screen">
         {/* Left Section */}
-        <div className="w-1/2 hidden lg:block">
-          <div className="bg-stone-200 flex h-full items-center">
-            <img
-              alt="drawing"
-              src="https://i.imgur.com/QDLKdiA.png"
-              className="object-cover scale-75 mx-auto"
-            />
+        <div className="w-1/4 hidden lg:block">
+          <div className="bg-slate-50 flex flex-col justify-between h-full pt-10 px-10">
+            <div>
+              <a
+                href="/"
+                className="text-xl font-semibold italic text-blue-600"
+              >
+                Velocity
+              </a>
+              <div className="flex flex-col space-y-10 pt-16">
+                <div className="flex gap-3">
+                  <CheckCircle
+                    size={22}
+                    className="text-blue-600"
+                    weight="bold"
+                  />
+                  <div className="space-y-1">
+                    <h1 className="text-sm font-semibold">Your details</h1>
+                    <p className="text-xs text-gray-600">In progress</p>
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  <CheckCircle
+                    size={22}
+                    className="text-gray-400"
+                    weight="bold"
+                  />
+                  <div className="space-y-1">
+                    <h1 className="text-sm text-gray-600">Choose a password</h1>
+                    <p className="text-xs text-gray-400">Incomplete</p>
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  <CheckCircle
+                    size={22}
+                    className="text-gray-400"
+                    weight="bold"
+                  />
+                  <div className="space-y-1">
+                    <h1 className="text-sm text-gray-600">Select a plan</h1>
+                    <p className="text-xs text-gray-400">Incomplete</p>
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  <CheckCircle
+                    size={22}
+                    className="text-gray-400"
+                    weight="bold"
+                  />
+                  <div className="space-y-1">
+                    <h1 className="text-sm text-gray-600">Payment</h1>
+                    <p className="text-xs text-gray-400">Incomplete</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="mb-10 border border-gray-300 rounded-md py-3.5 bg-white text-gray-700 text-sm text-center cursor-pointer hover:bg-gray-100 duration-75"
+              onClick={() => history("/login")}
+            >
+              <p className="cursor-pointer">Already have an account?</p>
+            </div>
           </div>
         </div>
 
         {/* Right Section */}
-        <div className="w-full lg:w-1/2 my-auto">
+        <div className="w-full lg:w-3/4 my-auto">
           <div className="max-w-md mx-auto">
-            <a href="/" className="text-xl font-semibold italic text-blue-600">
-              Velocity
-            </a>
-            <h1 className="text-3xl text-gray-800 font-semibold pt-10">
+            <h1 className="text-3xl text-gray-800 font-semibold">
+              {/* {step === 1 ? "Your details" : "Choose a password"} */}
               Create an account
             </h1>
 
-            {/* login with google button */}
-            <div className="flex flex-row gap-4 py-8">
-              <span className="flex items-center bg-white w-full justify-center py-4 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md duration-100">
-                <FcGoogle size={25} />
-                <p className="text-gray-700 font-semibold text-sm">Google</p>
-              </span>
+            {step === 1 && (
+              <>
+                {/* login with google button */}
+                <div className="flex flex-row gap-4 py-8">
+                  <span className="flex items-center bg-white w-full justify-center py-4 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md duration-100">
+                    <FcGoogle size={25} />
+                    <p className="text-gray-700 font-semibold text-sm">
+                      Google
+                    </p>
+                  </span>
 
-              {/* login with apple button */}
-              <span className="flex items-center bg-white w-full justify-center py-4 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md duration-100">
-                <FaApple size={25} />
-                <p className="text-gray-700 font-semibold text-sm">Apple</p>
-              </span>
-            </div>
+                  {/* login with apple button */}
+                  <span className="flex items-center bg-white w-full justify-center py-4 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md duration-100">
+                    <FaApple size={25} />
+                    <p className="text-gray-700 font-semibold text-sm">Apple</p>
+                  </span>
+                </div>
 
-            {/* divider */}
-            <div className="flex items-center w-full">
-              <hr className="w-full text-gray-300" />
-              <p className="px-4 text-gray-300 font-light">or</p>
-              <hr className="w-full text-gray-300" />
-            </div>
+                {/* divider */}
+                <div className="flex items-center w-full">
+                  <hr className="w-full text-gray-300" />
+                  <p className="px-4 text-gray-300 font-light">or</p>
+                  <hr className="w-full text-gray-300" />
+                </div>
+              </>
+            )}
 
             <form className="pt-8">{inputDisplay()}</form>
-
-            <div className="flex mt-10">
-              <div className="mx-auto">
-                <div className="flex gap-3">
-                  <div
-                    className={`h-2.5 rounded-full ${
-                      step === 1 ? "bg-blue-600 w-8" : "w-2.5 bg-gray-300"
-                    }`}
-                  ></div>
-                  <div
-                    className={`h-2.5 rounded-full ${
-                      step === 2 ? "bg-blue-600 w-8" : "w-2.5 bg-gray-300"
-                    }`}
-                  ></div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
