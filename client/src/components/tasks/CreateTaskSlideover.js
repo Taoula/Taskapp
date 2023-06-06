@@ -1,6 +1,22 @@
 import { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { Square, CheckSquare, Note, Link, Trash } from "phosphor-react";
+import {
+  Square,
+  CheckSquare,
+  Note,
+  Link,
+  Trash,
+  Pencil,
+  Clock,
+  CaretUp,
+  CaretDown,
+  CaretRight,
+  Plus,
+  XSquare,
+  X,
+} from "phosphor-react";
+import { AiOutlineExclamation } from "react-icons/ai";
+import { MdSplitscreen } from "react-icons/md";
 import axios from "axios";
 import { TimeField } from "@mui/x-date-pickers/TimeField";
 const dayjs = require("dayjs");
@@ -16,6 +32,7 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
   const [links, setLinks] = useState([]);
   const [notes, setNotes] = useState([]);
   const [divisions, setDivisions] = useState(1);
+  const [advancedOptions, setAdvancedOptions] = useState(false);
 
   // function handles form submission
   async function onSubmit(e) {
@@ -153,85 +170,103 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                 leaveFrom="translate-x-0"
                 leaveTo="translate-x-full"
               >
-                <Dialog.Panel className="pointer-events-auto relative w-screen max-w-md">
+                <Dialog.Panel className="pointer-events-auto relative w-screen max-w-lg">
                   <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
-                    <div className="px-8 flex items-center justify-start pt-8">
-                      <Dialog.Title className="text-2xl font-semibold text-gray-900">
-                        Create Task:
+                    <div className="px-8 flex items-center justify-between py-8 border-b border-gray-200">
+                      <Dialog.Title className="text-2xl text-gray-700 font-semibold">
+                        Create Task
                       </Dialog.Title>
+                      <div>
+                        <X
+                          size={20}
+                          className="text-gray-400 hover:text-gray-500 duration-75"
+                        />
+                      </div>
                     </div>
-                    <div className="mt-6 px-8 h-full">
+                    <div className="mt-8 px-8 h-full">
                       <form
                         className="flex flex-col h-full justify-between"
                         onSubmit={(e) => onSubmit(e)}
                       >
                         <div className="space-y-4">
-                          <div>
-                            {/* <label className="block text-md text-gray-500 mb-2 font-normal">
-                            Task Name
-                          </label> */}
+                          <div className="relative rounded-md">
+                            <div className="pointer-events-none text-gray-400 absolute inset-y-0 left-0 flex items-center pl-4">
+                              <Pencil size={20} />
+                            </div>
                             <input
                               type="text"
-                              placeholder="task name"
-                              className="border rounded-md px-4 py-3 text-md font-light text-gray-500 w-full"
+                              placeholder="Name"
+                              className="block rounded-md pl-11 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-md text-sm w-full"
                               value={name}
                               onChange={(e) => setName(e.target.value)}
                             ></input>
                           </div>
-
-                          <div>
-                            {/* <label className="block text-md text-gray-500 mb-2 font-normal">
-                            Task Duration
-                          </label> */}
+                          <div className="relative rounded-md">
+                            <div className="pointer-events-none text-gray-400 absolute inset-y-0 left-0 flex items-center pl-4">
+                              <Clock size={20} />
+                            </div>
                             <input
                               type="number"
                               placeholder="duration (minutes)"
-                              className="border rounded-md px-4 py-3 text-md font-light text-gray-500 w-full"
+                              className="block rounded-md pl-11 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-md text-sm w-full"
                               min="5"
                               value={duration}
                               onChange={(e) => setDuration(e.target.value)}
                             ></input>
                           </div>
-
-                          <div>
-                            {/* <label className="block text-md text-gray-500 mb-2 font-normal">
-                            Task Priority
-                          </label> */}
+                          <div className="relative rounded-md">
+                            <div className="pointer-events-none text-gray-400 absolute inset-y-0 left-0 flex items-center pl-4">
+                              <AiOutlineExclamation size={20} />
+                            </div>
                             <input
                               type="number"
                               placeholder="priority (1-3)"
-                              className="border rounded-md px-4 py-3 text-md font-light text-gray-500 w-full"
+                              className="block rounded-md pl-11 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-md text-sm w-full"
                               min="1"
                               max="3"
                               value={priority}
                               onChange={(e) => setPriority(e.target.value)}
                             ></input>
                           </div>
-
-                          <p className="pt-8 text-gray-700">
-                            Optional Settings:
-                          </p>
-
-                          <div>
-                            <label className="block text-md text-gray-500 mb-2 font-normal">
-                              # Divisions
-                            </label>
-                            <input
-                              type="number"
-                              placeholder="divisions (1-10)"
-                              className="border rounded-sm px-4 py-3 text-md font-light text-gray-500 w-full"
-                              min="1"
-                              max="10"
-                              value={divisions}
-                              onChange={(e) => setDivisions(e.target.value)}
-                            ></input>
+                          <div className="pt-8 text-gray-700 flex items-center gap-2 text-sm">
+                            <p className="">Advanced options</p>
+                            {advancedOptions ? (
+                              <CaretDown
+                                size={15}
+                                weight="bold"
+                                className="text-blue-600"
+                                onClick={() => setAdvancedOptions(false)}
+                              />
+                            ) : (
+                              <CaretRight
+                                size={15}
+                                weight="bold"
+                                onClick={() => setAdvancedOptions(true)}
+                              />
+                            )}
                           </div>
+                          {advancedOptions && (
+                            <>
+                              <div className="relative rounded-md">
+                                <div className="pointer-events-none text-gray-400 absolute inset-y-0 left-0 flex items-center pl-4">
+                                  <MdSplitscreen size={20} />
+                                </div>
+                                <input
+                                  type="number"
+                                  placeholder="divisions (1-10)"
+                                  className="block rounded-md pl-11 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-md text-sm w-full"
+                                  min="1"
+                                  max="10"
+                                  value={divisions}
+                                  onChange={(e) => setDivisions(e.target.value)}
+                                ></input>
+                              </div>
 
-                          <div className="flex items-center space-x-1 justify-end">
-                            <h1 className="font-light text-md text-gray-500">
-                              Set time:{" "}
-                            </h1>
-                            <span>
+                              <div className="pt-4">
+                                <h1 className="text-sm text-gray-700">
+                                  Set a specific time
+                                </h1>
+                                {/* <span>
                               {fixed ? (
                                 <CheckSquare
                                   size={20}
@@ -245,9 +280,18 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                                   className="text-gray-500"
                                 />
                               )}
-                            </span>
-                          </div>
-                          {fixed && (
+                            </span> */}
+                              </div>
+                              <input
+                                type="time"
+                                id="time"
+                                value={dayjs(time)}
+                                onChange={(newTime) => {
+                                  setTime(newTime.toDate());
+                                }}
+                                className="border border-gray-300 rounded px-3 py-2"
+                              />
+                              {/* {fixed && (
                             <TimeField
                               label="Controlled field"
                               value={dayjs(time)}
@@ -255,51 +299,71 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                                 setTime(newTime.toDate());
                               }}
                             />
+                          )} */}
+                            </>
                           )}
 
-                          <Note
-                            size={30}
-                            onClick={() => addNote()}
-                            className="text-gray-500"
-                          />
-
-                          {notes.map((note, i) => {
-                            return (
-                              <div>
-                                <input
-                                  type="text"
-                                  value={notes[i]}
-                                  onChange={(e) => updateNotes(e, i)}
-                                />
-                                <Trash
-                                  size={20}
-                                  onClick={() => deleteNote(i)}
+                          {advancedOptions && (
+                            <>
+                              <div className="flex items-center gap-2 text-sm text-gray-700">
+                                <p>Add a note</p>
+                                <Plus
+                                  size={15}
+                                  weight="bold"
+                                  onClick={() => addNote()}
+                                  className="text-blue-600"
                                 />
                               </div>
-                            );
-                          })}
 
-                          <Link
-                            size={30}
-                            onClick={() => addLink()}
-                            className="text-gray-500"
-                          />
+                              {notes.map((note, i) => {
+                                return (
+                                  <div>
+                                    <textarea
+                                      type="text"
+                                      value={notes[i]}
+                                      onChange={(e) => updateNotes(e, i)}
+                                      className="w-full rounded-md bg-gray-50 border border-gray-200 focus:bg-white text-gray-600 text-sm"
+                                    />
+                                    <p
+                                      onClick={() => deleteNote(i)}
+                                      className="text-red-500 text-sm hover:cursor-pointer hover:underline flex justify-end"
+                                    >
+                                      Delete note
+                                    </p>
+                                  </div>
+                                );
+                              })}
 
-                          {links.map((link, i) => {
-                            return (
-                              <div>
-                                <input
-                                  type="url"
-                                  value={links[i]}
-                                  onChange={(e) => updateLinks(e, i)}
-                                />
-                                <Trash
-                                  size={20}
-                                  onClick={() => deleteLink(i)}
+                              <div className="flex items-center gap-2 text-sm text-gray-700">
+                                <p>Add a link</p>
+                                <Plus
+                                  size={15}
+                                  weight="bold"
+                                  onClick={() => addLink()}
+                                  className="text-blue-600"
                                 />
                               </div>
-                            );
-                          })}
+
+                              {links.map((link, i) => {
+                                return (
+                                  <div>
+                                    <input
+                                      type="url"
+                                      value={links[i]}
+                                      onChange={(e) => updateLinks(e, i)}
+                                      className="w-full rounded-md bg-gray-50 border border-gray-200 focus:bg-white text-gray-600 text-sm"
+                                    />
+                                    <p
+                                      onClick={() => deleteLink(i)}
+                                      className="text-red-500 text-sm hover:cursor-pointer hover:underline flex justify-end mt-2"
+                                    >
+                                      Delete note
+                                    </p>
+                                  </div>
+                                );
+                              })}
+                            </>
+                          )}
                         </div>
 
                         {/* <div className="space-x-2 flex justify-end">
@@ -321,18 +385,18 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                           </button>
                         </div> */}
                         <div className="mb-8 flex gap-4">
-                          <span
+                          <button
                             type="button"
                             onClick={closeSlideover}
-                            className="w-full text-center py-2 bg-rose-100 text-red-600 border border-red-600 rounded-md hover:text-white hover:bg-red-600 duration-150"
+                            className="w-full py-3.5 tracking-wider bg-rose-100 text-red-600 rounded-md hover:text-white hover:bg-red-600 duration-75"
                           >
                             Cancel
-                          </span>
+                          </button>
                           <button
                             type="submit"
                             input={+true}
                             value="submit"
-                            className="w-full text-center py-2 bg-emerald-100 text-green-600 border border-green-600 rounded-md hover:text-white hover:bg-green-600 duration-150"
+                            className="w-full text-sm tracking-wider py-3.5 bg-blue-600 text-white rounded-md hover:text-white hover:bg-blue-700 duration-75"
                           >
                             Create
                           </button>
