@@ -2,40 +2,21 @@ import React from "react";
 import { Eye, EyeClosed, Lock, CheckCircle, Circle } from "phosphor-react";
 
 export default function Step2({
-  fName,
-  setFirstName,
-  lName,
-  setLastName,
-  userRole,
-  setUserRole,
-  history,
-  email,
-  setEmail,
-  emailTypingStarted,
-  setEmailTypingStarted,
   password,
   setPassword,
   passwordShown,
-  setPasswordShown,
   typingStarted,
   setTypingStarted,
   passwordVerify,
   setPasswordVerify,
   verifyTypingStarted,
   setVerifyTypingStarted,
-  isTermsChecked,
-  setIsTermsChecked,
-  step,
   setStep,
-  handleCheckboxChange,
   passRequirements,
   isPasswordRegexMet,
   isPasswordMatching,
-  isEmailValid,
-  isButtonDisabled,
   togglePassword,
   isNextDisabled,
-  registerUser,
 }) {
   return (
     <>
@@ -191,24 +172,19 @@ export default function Step2({
         </button>
       </div> */}
       <button
-        className="mt-8 text-sm font-normal w-full py-3.5 rounded-md tracking-wider text-white bg-blue-600 hover:bg-blue-700 duration-75"
+        type="button"
+        disabled={isNextDisabled()}
         onClick={() => {
           setStep((currentStep) => currentStep + 1);
         }}
+        className={`${
+          isNextDisabled()
+            ? "cursor-not-allowed bg-gray-300 text-gray-900"
+            : "bg-blue-600 hover:bg-blue-700 duration-75 text-white"
+        } mt-8 text-sm font-normal w-full py-3.5 rounded-md tracking-wider `}
       >
         Continue
       </button>
-
-      {/* redirect to login */}
-      {/* <p className="text-gray-700 text-sm text-center">
-        Have an account?{" "}
-        <a
-          className="text-blue-500 hover:text-blue-600 hover:underline"
-          onClick={() => history("/login")}
-        >
-          Log in
-        </a>
-      </p> */}
     </>
   );
 }

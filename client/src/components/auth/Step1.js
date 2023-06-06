@@ -1,9 +1,6 @@
 import React from "react";
 import {
-  Eye,
-  EyeClosed,
   Envelope,
-  Lock,
   Square,
   CheckCircle,
   Circle,
@@ -18,18 +15,14 @@ export default function Step1({
   setLastName,
   userRole,
   setUserRole,
-  history,
   email,
   setEmail,
   emailTypingStarted,
   setEmailTypingStarted,
   isTermsChecked,
-  step,
   setStep,
   handleCheckboxChange,
   isEmailValid,
-  isButtonDisabled,
-  togglePassword,
   isNextDisabled,
   setLastNameTypingStarted,
   setFirstNameTypingStarted,
@@ -218,17 +211,6 @@ export default function Step1({
       >
         Continue
       </button>
-
-      {/* redirect to login */}
-      {/* <p className="text-gray-700 text-sm text-center">
-        Have an account?{" "}
-        <a
-          className="text-blue-500 hover:text-blue-600 hover:underline"
-          onClick={() => history("/login")}
-        >
-          Log in
-        </a>
-      </p> */}
     </>
   );
 }

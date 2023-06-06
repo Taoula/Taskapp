@@ -97,13 +97,21 @@ export default function RegisterForm() {
 
   // checks if all requirements are met to enable button
   const isNextDisabled = () => {
-    return !(
-      isFirstNameValid(fName) &&
-      isLastNameValid(lName) &&
-      isEmailValid(email) &&
-      isTermsChecked &&
-      userRole !== "default"
-    );
+    if (step === 1) {
+      return !(
+        isFirstNameValid(fName) &&
+        isLastNameValid(lName) &&
+        isEmailValid(email) &&
+        isTermsChecked &&
+        userRole !== "default"
+      );
+    } else if (step === 2) {
+      return !(
+        passRequirements.every((requirement) =>
+          isPasswordRegexMet(requirement.regex, password)
+        ) && isPasswordMatching(password, passwordVerify)
+      );
+    }
   };
 
   // handles form submission
