@@ -190,7 +190,12 @@ export default function Step2({
           Submit
         </button>
       </div> */}
-      <button className="mt-8 text-sm font-normal w-full py-3.5 rounded-md tracking-wider text-white bg-blue-600 hover:bg-blue-700 duration-75">
+      <button
+        className="mt-8 text-sm font-normal w-full py-3.5 rounded-md tracking-wider text-white bg-blue-600 hover:bg-blue-700 duration-75"
+        onClick={() => {
+          setStep((currentStep) => currentStep + 1);
+        }}
+      >
         Continue
       </button>
 

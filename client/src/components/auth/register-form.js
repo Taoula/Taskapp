@@ -6,6 +6,8 @@ import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
+import Step3 from "./Step3";
+import Step4 from "./Step4";
 import { CheckCircle, Circle } from "phosphor-react";
 
 export default function RegisterForm() {
@@ -212,6 +214,10 @@ export default function RegisterForm() {
           isNextDisabled={isNextDisabled}
         />
       );
+    } else if (step === 3) {
+      return <Step3 setStep={setStep} />;
+    } else if (step === 4) {
+      return <Step4 />;
     }
   };
 
