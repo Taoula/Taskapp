@@ -174,11 +174,14 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                   <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
                     <div className="px-8 flex items-center justify-between py-8 border-b border-gray-200">
                       <Dialog.Title className="text-2xl text-gray-700 font-semibold">
-                        Create Task
+                        Create a task
                       </Dialog.Title>
                       <div>
                         <X
+                          type="button"
                           size={20}
+                          weight="bold"
+                          onClick={closeSlideover}
                           className="text-gray-400 hover:text-gray-500 duration-75"
                         />
                       </div>
@@ -188,40 +191,36 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                         className="flex flex-col h-full justify-between"
                         onSubmit={(e) => onSubmit(e)}
                       >
-                        <div className="space-y-4">
-                          <div className="relative rounded-md">
-                            <div className="pointer-events-none text-gray-400 absolute inset-y-0 left-0 flex items-center pl-4">
-                              <Pencil size={20} />
-                            </div>
+                        <div className="space-y-5">
+                          <div>
+                            <label className="text-sm">Task name</label>
                             <input
                               type="text"
                               placeholder="Name"
-                              className="block rounded-md pl-11 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-md text-sm w-full"
+                              className="rounded-md mt-2 pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-md text-sm w-full"
                               value={name}
                               onChange={(e) => setName(e.target.value)}
-                            ></input>
+                            />
                           </div>
-                          <div className="relative rounded-md">
-                            <div className="pointer-events-none text-gray-400 absolute inset-y-0 left-0 flex items-center pl-4">
-                              <Clock size={20} />
-                            </div>
+                          <div>
+                            <label className="text-sm">
+                              Duration (in minutes)
+                            </label>
                             <input
                               type="number"
-                              placeholder="duration (minutes)"
-                              className="block rounded-md pl-11 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-md text-sm w-full"
+                              placeholder="Duration"
+                              className="mt-2 rounded-md pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-md text-sm w-full"
                               min="5"
                               value={duration}
                               onChange={(e) => setDuration(e.target.value)}
                             ></input>
                           </div>
-                          <div className="relative rounded-md">
-                            <div className="pointer-events-none text-gray-400 absolute inset-y-0 left-0 flex items-center pl-4">
-                              <AiOutlineExclamation size={20} />
-                            </div>
+                          <div>
+                            <label className="text-sm">Priority (1 - 3)</label>
                             <input
                               type="number"
-                              placeholder="priority (1-3)"
-                              className="block rounded-md pl-11 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-md text-sm w-full"
+                              placeholder="Priority"
+                              className="rounded-md mt-2 pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-md text-sm w-full"
                               min="1"
                               max="3"
                               value={priority}
@@ -384,11 +383,11 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                             Create
                           </button>
                         </div> */}
-                        <div className="mb-8 flex gap-4">
+                        <div className="pb-8 flex gap-4 fixed-bottom px-8 pt-4 bg-white">
                           <button
                             type="button"
                             onClick={closeSlideover}
-                            className="w-full py-3.5 tracking-wider bg-rose-100 text-red-600 rounded-md hover:text-white hover:bg-red-600 duration-75"
+                            className="w-1/3 text-sm tracking-wider py-3.5 bg-gray-300 font-normal text-gray-700 rounded-md hover:text-white hover:bg-red-500 duration-75"
                           >
                             Cancel
                           </button>
@@ -396,9 +395,9 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                             type="submit"
                             input={+true}
                             value="submit"
-                            className="w-full text-sm tracking-wider py-3.5 bg-blue-600 text-white rounded-md hover:text-white hover:bg-blue-700 duration-75"
+                            className="w-2/3 text-sm tracking-wider py-3.5 bg-blue-600 font-normal text-white rounded-md hover:text-white hover:bg-blue-700 duration-75"
                           >
-                            Create
+                            Create task
                           </button>
                         </div>
                       </form>
