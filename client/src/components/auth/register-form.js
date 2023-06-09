@@ -337,6 +337,7 @@ export default function RegisterForm() {
                     type="submit"
                     input={+true}
                     value="submit"
+                    onClick={registerUser}
                     className="font-light text-sm bg-blue-500 w-full text-white py-3 rounded-md hover:bg-blue-600 duration-75"
                   >
                     Sign up

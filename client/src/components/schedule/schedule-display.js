@@ -12,6 +12,7 @@ import Calendar from 'react-awesome-calendar';
 import {CheckSquare, Square} from "phosphor-react"
 import Countdown from "./countdown"
 import { TimeField } from '@mui/x-date-pickers/TimeField';
+import newSort from "../../methods/new-sort"
 const dayjs = require('dayjs')
 dayjs().format()
 
@@ -287,6 +288,7 @@ export default function ScheduleDisplay(){
                 <div>
                     <ScheduleButton onClick={()=> sortSchedule(setSchedule, wake, sleep, currentDay)}><ScheduleText>Generate Schedule</ScheduleText></ScheduleButton>
                     {dayDistance == 0 && <ScheduleButton onClick={()=> resortSchedule(setSchedule, wake, sleep, currentDay)}><ScheduleText>Resort Schedule</ScheduleText></ScheduleButton>}
+                    <ScheduleButton onClick={()=> newSort(setSchedule, wake, sleep, currentDay, false/*TODO some conditional to determine resort */)}><ScheduleText>NEW SORT BITCH</ScheduleText></ScheduleButton>
                     {dayDistance == 0 && <ScheduleButton onClick={()=> updateStats()}><ScheduleText>Call It A Day</ScheduleText></ScheduleButton>}
                 </div> : 
                 <p>You must set your schedule's start and end hours before generating.</p>}

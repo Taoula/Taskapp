@@ -24,11 +24,12 @@ async function sortSchedule(setSchedule, wakeDate, sleepDate, currentDay){
     //get active tasks from db
     const taskReq = await axios.get("http://localhost:8282/task/")
     let tasks = []
+    
     //loop through all tasks TODO reoptimize
     for (let i = 0; i < taskReq.data.length; i++){
                 //this clusterfuck of a line finds 
                 let k = dateSearch(currentDay, taskReq.data[i].entries)
-                if (k >= 0 && taskReq.data[i].entries[k].isActive) {
+                if (k >= 0 && taskReq.data[i].entries[k].isActive && !taskReq.data[i].entries[k].completed) {
                     let {priority, duration, notes, links, completed, time} = taskReq.data[i].entries[k]
                     let {name, _id} = taskReq.data[i]
                     let taskToPush = {
@@ -44,7 +45,9 @@ async function sortSchedule(setSchedule, wakeDate, sleepDate, currentDay){
 
                     tasks.push(taskToPush)
                 }
-    }
+    } 
+
+    console.log(tasks)
     // Store active tasks in a new tasks array
     //let tasks = taskReq.data.filter(task => task.isActive);
     //let completedTasks = tasks.filter(task => task.completed);
@@ -52,7 +55,6 @@ async function sortSchedule(setSchedule, wakeDate, sleepDate, currentDay){
     
     // Sort the tasks array in ascending order by the priority value
     tasks.sort((a, b) => parseFloat(a.priority) - parseFloat(b.priority));
-
     let priorityOne = [];
     let priorityTwo = [];
     let priorityThree = [];

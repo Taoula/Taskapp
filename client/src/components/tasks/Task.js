@@ -20,7 +20,7 @@ const TaskContainer = styled.div`
 `;
 
 export default function Task({ task, getTasks }) {
-  const { name, priority, duration, _id, isActive, completed, time, currentDay} = task;
+  const { name, priority, duration, _id, isActive, completed, time, currentDay, divisions, prev, next} = task;
   const [isExpanded, toggle] = useToggle(false);
   // priority 1 (red) first, 2 (yellow) second, 3 (green) third
   const colors = ["#fecaca", "#fef9c3", "#bbf7d0"];
