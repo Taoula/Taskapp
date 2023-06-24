@@ -1,10 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-export default function Features() {
+export default function Features({ scrollToFeatures, featuresRef }) {
+  useEffect(() => {
+    if (scrollToFeatures && featuresRef.current) {
+      const scrollOptions = {
+        behavior: "smooth",
+        block: "start",
+      };
+
+      const yOffset = -128; // Adjust the offset value as desired
+      const targetPosition =
+        featuresRef.current.getBoundingClientRect().top +
+        window.pageYOffset +
+        yOffset;
+
+      window.scrollTo({
+        top: targetPosition,
+        ...scrollOptions,
+      });
+    }
+  }, [scrollToFeatures]);
+
   return (
     <>
       {/* features section */}
-      <section className="mt-32 flex-col text-center">
+      <section className="mt-32 flex-col text-center" ref={featuresRef}>
         <h1 className="font-bold text-5xl mb-32">All-in-one toolkit</h1>
         <div className="max-w-screen-xl mx-auto grid grid-cols-2 gap-y-32 gap-x-32">
           <div className="flex items-center">

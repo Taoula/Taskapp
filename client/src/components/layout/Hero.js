@@ -8,7 +8,7 @@ import Testimonials from "./Testimonials";
 import Features from "./Features";
 import { Icon } from "phosphor-react";
 
-export default function Hero() {
+export default function Hero({ onScrollToFeatures }) {
   const history = useNavigate();
 
   return (
@@ -30,7 +30,7 @@ export default function Hero() {
               <ArrowRight size={20} weight="bold" className="ml-3" />
             </button>
             <button
-              onClick={() => history("/login")}
+              onClick={onScrollToFeatures}
               className="rounded-md inline-flex items-center hover:border-slate-900 tracking-wide px-8 py-3 font-medium text-slate-900 bg-white border border-solid border-gray-200 hover:duration-300 duration-300"
             >
               Learn More
