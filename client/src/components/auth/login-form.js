@@ -180,15 +180,15 @@ export default function LoginForm() {
             </form>
           </div>
         </div>
-
         {/* Right Section */}
         <div className="w-1/2 hidden lg:block">
-          <div className="bg-stone-200 flex h-full items-center">
-            <img
+          <div className="bg-[url('https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1335&q=80')] bg-cover bg-bottom flex h-full items-center">
+            {/* <div className="bg-[url('https://images.unsplash.com/photo-1620121692029-d088224ddc74?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3132&q=80')] bg-cover bg-bottom flex h-full items-center"> */}
+            {/* <img
               alt="drawing"
               src="https://i.imgur.com/s4HIX7A.png"
               className="object-cover scale-75 mx-auto"
-            />
+            /> */}
           </div>
         </div>
       </div>

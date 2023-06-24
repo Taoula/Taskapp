@@ -13,9 +13,6 @@ module.exports = {
       xs: "475px",
       ...defaultTheme.screens,
     },
-    fontFamily: {
-      lexend: ["Lexend"],
-    },
     extend: {
       colors: {
         headerColor: "#f9f9f9",
@@ -31,6 +28,10 @@ module.exports = {
       },
       height: {
         128: "32rem",
+      },
+      backgroundImage: {
+        darkPattern:
+          "url('https://images.unsplash.com/photo-1684503830679-302965124d97?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1001&q=80')",
       },
     },
   },

@@ -2,6 +2,10 @@ import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import BreakpointLabel from "../BreakpointLabel";
 import ProfileDropdown from "./ProfileDropdown";
+import { CaretRight } from "phosphor-react";
+import Footer from "./Footer";
+import Testimonials from "./Testimonials";
+import Features from "./Features";
 
 export default function HeroSection() {
   const history = useNavigate();
@@ -10,40 +14,32 @@ export default function HeroSection() {
     <>
       <BreakpointLabel></BreakpointLabel>
       {/* Hero section */}
-      <section className="text-gray-900 bg-heroBackgroundColor h-[calc(100vh-100px)] flex flex-col justify-center items-center">
-        <div className="container flex flex-col justify-center p-6 mx-auto sm:py-12 lg:py-24 lg:flex-row lg:justify-between">
-          <div className="flex flex-col justify-center p-6 text-center rounded-sm lg:max-w-4xl xl:max-w-4xl lg:text-left">
-            <h1 className="xl:text-7xl lg:text-6xl leading-none md:text-6xl sm:text-5xl text-4xl">
-              A powerful scheduling tool to{" "}
-              <span className="highlight">avoid burnout</span>
-            </h1>
-            <p className="mt-6 mb-8 sm:text-2xl text-lg md:text-2xl lg:max-w-xl xl:text-3xl md:mb-10 xl:mb-12 font-light text-gray-500 font-sans xl:max-w-3xl">
-              Take control of your day with a dynamic schedule and tasks that
-              adapt to your progress
-            </p>
-            <div className="flex flex-col space-y-4 sm:items-center sm:justify-center sm:flex-row sm:space-y-0 sm:space-x-4 lg:justify-start">
-              <a
-                className="hover:bg-green-600 hover:cursor-pointer py-3 sm:px-8 sm:py-3 md:px-8 md:py-3 xl:px-9 xl:py-4 md:text-lg xl:text-xl font-medium rounded bg-green-500 border border-gray-900"
-                onClick={() => history("/register")}
-              >
-                Get started
-              </a>
-              <a
-                className="hover:bg-gray-200 hover:cursor-pointer py-3 sm:px-8 sm:py-3 md:px-8 md:py-3 xl:px-9 xl:py-4 md:text-lg xl:text-xl font-medium border rounded border-gray-900"
-                onClick={() => history("/login")}
-              >
-                Learn more
-              </a>
-            </div>
-          </div>
-          <div className="flex items-center justify-center p-6 mt-12 lg:mt-0 h-72 sm:h-80 lg:h-96 xl:h-112 2xl:h-128">
-            <img
-              src="https://i.imgur.com/IB5yOgR.png"
-              alt=""
-              className="object-contain h-72 sm:h-80 lg:h-96 xl:h-112 2xl:h-128"
-            />
+      <section className="flex-col">
+        <div className="mx-auto my-auto space-y-10 text-center max-w-screen-md pt-52">
+          <h1 className="text-7xl font-black text-gray-800">
+            Get sh*t done faster than ever before
+          </h1>
+
+          <div className="text-2xl space-x-4">
+            <button
+              onClick={() => history("/register")}
+              className="rounded-md tracking-wide bg-gray-800 px-8 py-3 font-medium text-white hover:shadow-2xl duration-150"
+            >
+              Register
+            </button>
+            <button
+              onClick={() => history("/login")}
+              className="rounded-md tracking-wide px-8 py-3 font-medium text-slate-900 bg-gray-200 hover:bg-gray-300 hover:shadow-lg duration-150"
+            >
+              Learn More
+            </button>
           </div>
         </div>
+        <img
+          className="rounded-xl mt-10 scale-75"
+          alt="dashboard"
+          src="https://images.unsplash.com/photo-1566241440091-ec10de8db2e1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3116&q=80"
+        />
       </section>
     </>
   );

@@ -235,62 +235,57 @@ export default function RegisterForm() {
         {/* Left Section */}
         <div className="w-1/4 hidden lg:block">
           <div className="bg-slate-50 flex flex-col justify-between h-full pt-10 px-10">
-            <div>
+            <div className="">
               <a
                 href="/"
                 className="text-xl font-semibold italic text-blue-600"
               >
                 Velocity
               </a>
-              <div className="flex flex-col space-y-10 pt-16">
-                <div className="flex gap-3">
-                  <CheckCircle
-                    size={22}
-                    className="text-blue-600"
-                    weight="bold"
-                  />
+              <div className="flex flex-col space-y-8 pt-16">
+                <div className="flex gap-4">
+                  <CheckCircle size={26} className="text-blue-600" />
                   <div className="space-y-1">
-                    <h1 className="text-sm font-semibold">Your details</h1>
-                    <p className="text-xs text-gray-600">In progress</p>
+                    <h1 className="text-md font-semibold text-gray-700">
+                      General information
+                    </h1>
+                    <p className="text-sm text-blue-600">In progress</p>
                   </div>
                 </div>
-                <div className="flex gap-3">
-                  <CheckCircle
-                    size={22}
-                    className="text-gray-400"
-                    weight="bold"
-                  />
+
+                <div className="flex gap-4">
+                  <CheckCircle size={26} className="text-gray-400" />
                   <div className="space-y-1">
-                    <h1 className="text-sm text-gray-600">Choose a password</h1>
-                    <p className="text-xs text-gray-400">Incomplete</p>
+                    <h1 className="text-md text-gray-400 font-semibold">
+                      Choose a password
+                    </h1>
+                    <p className="text-sm text-gray-400">Incomplete</p>
                   </div>
                 </div>
-                <div className="flex gap-3">
-                  <CheckCircle
-                    size={22}
-                    className="text-gray-400"
-                    weight="bold"
-                  />
+
+                <div className="flex gap-4">
+                  <CheckCircle size={26} className="text-green-600" />
                   <div className="space-y-1">
-                    <h1 className="text-sm text-gray-600">Select a plan</h1>
-                    <p className="text-xs text-gray-400">Incomplete</p>
+                    <h1 className="text-md text-gray-700 font-semibold">
+                      Select a subscription plan
+                    </h1>
+                    <p className="text-sm text-green-600">Incomplete</p>
                   </div>
                 </div>
-                <div className="flex gap-3">
-                  <CheckCircle
-                    size={22}
-                    className="text-gray-400"
-                    weight="bold"
-                  />
+
+                <div className="flex gap-4">
+                  <CheckCircle size={26} className="text-gray-400" />
                   <div className="space-y-1">
-                    <h1 className="text-sm text-gray-600">Payment</h1>
-                    <p className="text-xs text-gray-400">Incomplete</p>
+                    <h1 className="text-md text-gray-400 font-semibold">
+                      Billing details
+                    </h1>
+                    <p className="text-sm text-gray-400">Incomplete</p>
                   </div>
                 </div>
               </div>
             </div>
             <div
-              className="mb-10 border border-gray-300 rounded-md py-3.5 bg-white text-gray-700 text-sm text-center cursor-pointer hover:bg-gray-100 duration-75"
+              className="mb-10 border border-gray-300 rounded-md py-3.5 bg-white text-gray-700 text-sm text-center cursor-pointer hover:bg-gray-300 duration-150"
               onClick={() => history("/login")}
             >
               <p className="cursor-pointer">Already have an account?</p>
@@ -300,11 +295,14 @@ export default function RegisterForm() {
 
         {/* Right Section */}
         <div className="w-full lg:w-3/4 my-auto">
-          <div className="max-w-md mx-auto">
-            <h1 className="text-3xl text-gray-800 font-semibold">
-              {/* {step === 1 ? "Your details" : "Choose a password"} */}
-              Create an account
-            </h1>
+          <div className={`mx-auto ${step === 3 ? "max-w-2xl" : "max-w-md "}`}>
+            <div className="space-y-2">
+              <h1 className="text-3xl text-gray-800 font-semibold">
+                {/* {step === 1 ? "Your details" : "Choose a password"} */}
+                Create an account
+              </h1>
+              <p className="text-gray-500">Enter your name and email address</p>
+            </div>
 
             {step === 1 && (
               <>
@@ -332,7 +330,6 @@ export default function RegisterForm() {
                 </div>
               </>
             )}
-
             <form className="pt-8">{inputDisplay()}</form>
           </div>
         </div>

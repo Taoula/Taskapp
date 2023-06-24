@@ -1,16 +1,17 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-// import Navbar from "../components/layout/Navbar";
 import Navbar from "../components/layout/Navbar";
 import HeroSection from "../components/layout/HeroSection";
-import HeroSection2 from "../components/layout/HeroSection2";
-import FeatureSection from "../components/layout/FeatureSection";
+import Features from "../components/layout/Features";
+import Footer from "../components/layout/Footer";
 
 export default function HomePage() {
   return (
     <>
       <Navbar></Navbar>
       <HeroSection></HeroSection>
+      <Features />
+      {/* <Testimonials /> */}
+      <Footer />
     </>
   );
 }
