@@ -2,10 +2,11 @@ import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import BreakpointLabel from "../BreakpointLabel";
 import ProfileDropdown from "./ProfileDropdown";
-import { CaretRight } from "phosphor-react";
+import { ArrowRight, CaretRight } from "phosphor-react";
 import Footer from "./Footer";
 import Testimonials from "./Testimonials";
 import Features from "./Features";
+import { Icon } from "phosphor-react";
 
 export default function Hero() {
   const history = useNavigate();
@@ -23,13 +24,14 @@ export default function Hero() {
           <div className="text-2xl space-x-4">
             <button
               onClick={() => history("/register")}
-              className="rounded-md tracking-wide bg-gray-800 px-8 py-3 font-medium text-white hover:shadow-2xl duration-150"
+              className="rounded-md tracking-wide inline-flex items-center bg-gray-800 px-8 py-3 font-medium text-white hover:shadow-2xl hover:duration-300 duration-300"
             >
               Register
+              <ArrowRight size={20} weight="bold" className="ml-3" />
             </button>
             <button
               onClick={() => history("/login")}
-              className="rounded-md tracking-wide px-8 py-3 font-medium text-slate-900 bg-gray-200 hover:bg-gray-300 hover:shadow-lg duration-150"
+              className="rounded-md inline-flex items-center hover:border-slate-900 tracking-wide px-8 py-3 font-medium text-slate-900 bg-white border border-solid border-gray-200 hover:duration-300 duration-300"
             >
               Learn More
             </button>

@@ -4,9 +4,9 @@ export default function Features() {
   return (
     <>
       {/* features section */}
-      <section className="mt-36 flex-col text-center">
-        <h1 className="font-bold text-5xl">All-in-one toolkit</h1>
-        <div className="max-w-screen-xl mx-auto mt-32 grid grid-cols-2 gap-32">
+      <section className="mt-32 flex-col text-center">
+        <h1 className="font-bold text-5xl mb-32">All-in-one toolkit</h1>
+        <div className="max-w-screen-xl mx-auto grid grid-cols-2 gap-y-32 gap-x-32">
           <div className="flex items-center">
             <div className="text-left space-y-4">
               {/* <h1 className="text-4xl font-semibold">
@@ -24,9 +24,9 @@ export default function Features() {
           </div>
           <div className="flex items-center">
             <img
-              className="rounded-md h-96 w-auto"
+              className="rounded-md"
               alt="dashboard"
-              src="https://images.unsplash.com/photo-1566241440091-ec10de8db2e1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3116&q=80"
+              src="https://images.ctfassets.net/wfutmusr1t3h/6JwTqSB7kwOBWQyV5QuDtE/8c41a554e2bd9e8576b9429b01290429/Innovation.png?w=1280&q=75"
             />
           </div>
           <div className="flex items-center">
@@ -35,7 +35,7 @@ export default function Features() {
                 Dynamic Task Scheduling
               </h1> */}
               <h1 className="text-4xl font-semibold">
-                Optimize Your Productivity with Smart Scheduling
+                Optimize your productivity with smart scheduling
               </h1>
               <p className="font-light text-gray-700 text-xl tracking-wide">
                 Our smart scheduler organizes tasks based on priorities,
@@ -47,9 +47,9 @@ export default function Features() {
           </div>
           <div className="flex items-center">
             <img
-              className="rounded-md h-96 w-auto"
+              className="rounded-md"
               alt="dashboard"
-              src="https://images.unsplash.com/photo-1566241440091-ec10de8db2e1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3116&q=80"
+              src="https://images.ctfassets.net/wfutmusr1t3h/5aWEAcOsYcfnlDBNSiEaOY/1eb1e50fca584d4b88b7be514b7f5da1/Stats.png?w=1280&q=75"
             />
           </div>
           <div className="flex items-center">
@@ -58,7 +58,7 @@ export default function Features() {
                 Sync and Streamline Your Schedule Effortlessly
               </h1> */}
               <h1 className="text-4xl font-semibold">
-                Sync and Streamline Your Schedule Effortlessly
+                Sync and streamline your schedule effortlessly
               </h1>
               <p className="font-light text-gray-700 text-xl tracking-wide">
                 Our integrated calendar syncs with all your calendars,
@@ -69,9 +69,9 @@ export default function Features() {
           </div>
           <div className="flex items-center">
             <img
-              className="rounded-md h-96 w-auto"
+              className="rounded-md"
               alt="dashboard"
-              src="https://images.unsplash.com/photo-1566241440091-ec10de8db2e1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3116&q=80"
+              src="https://images.ctfassets.net/wfutmusr1t3h/1Yf6QdevKh4d2gtcqwrl8D/b19561dbc8d5ff325432b81982c997ae/IDEs.png?w=1280&q=75"
             />
           </div>
         </div>

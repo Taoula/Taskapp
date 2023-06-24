@@ -69,13 +69,13 @@ export default function Navbar() {
           <div className="space-x-4">
             <button
               onClick={() => history("/register")}
-              className="px-5 py-2.5 text-lg font-medium tracking-wide bg-gray-800 rounded-md text-white hover:shadow-xl hover:duration-150"
+              className="px-5 py-2.5 text-lg font-medium tracking-wide bg-slate-800 rounded-md text-white hover:shadow-xl hover:duration-300 duration-300"
             >
               Register
             </button>
             <button
               onClick={() => history("/login")}
-              className="px-6 py-2.5 text-lg font-medium tracking-wide bg-gray-200 hover:bg-gray-300 rounded-md text-gray-800 hover:shadow-md hover:duration-150"
+              className="px-6 py-2.5 text-lg border border-solid border-gray-200 font-medium tracking-wide hover:border-slate-900 rounded-md text-slate-800 hover:duration-300 duration-300"
             >
               Sign in
             </button>
