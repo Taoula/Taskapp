@@ -7,7 +7,7 @@ import Footer from "./Footer";
 import Testimonials from "./Testimonials";
 import Features from "./Features";
 
-export default function HeroSection() {
+export default function Hero() {
   const history = useNavigate();
 
   return (
