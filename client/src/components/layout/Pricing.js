@@ -7,11 +7,11 @@ export default function Pricing() {
 
   return (
     <>
-      <section className="mt-64 text-center">
-        <h1 className="font-semibold text-5xl mb-24">
+      <section className="mt-32 sm:mt-48 md:mt-64 text-center">
+        <h1 className="font-semibold text-5xl md:mb-24 sm:max-w-md sm:mx-auto md:max-w-none md:mx-0">
           No-strings-attached subscription
         </h1>
-        <div className="flex justify-center max-w-screen-xl mx-auto gap-x-8">
+        <div className="md:flex justify-center max-w-sm md:max-w-screen-xl mx-auto space-y-8 md:space-y-0 gap-x-8">
           <div className="bg-white p-4 rounded-lg">
             <p className="text-white font-medium text-xl pb-2">
               placeholder to maintain spacing
