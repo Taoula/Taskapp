@@ -8,7 +8,7 @@ export default function Features({ scrollToFeatures, featuresRef }) {
         block: "start",
       };
 
-      const yOffset = -128; // Adjust the offset value as desired
+      const yOffset = -54; // Adjust the offset value as desired
       const targetPosition =
         featuresRef.current.getBoundingClientRect().top +
         window.pageYOffset +

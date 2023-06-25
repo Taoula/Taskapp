@@ -34,6 +34,8 @@ module.exports = {
           "url('https://resources.github.com/assets/images/dark-pixel-grid.svg')",
         lightGrid1:
           "url('https://resources.github.com/assets/images/light-pixel-grid.svg')",
+        darkGrid2:
+          "url('https://github.githubassets.com/images/modules/site/enterprise/trials/hero-bg/enterprise-trial-hero.jpg')",
       },
     },
   },
