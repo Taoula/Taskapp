@@ -23,8 +23,11 @@ export default function Features({ scrollToFeatures, featuresRef }) {
 
   return (
     <>
-      <section className="mt-32 flex-col text-center" ref={featuresRef}>
-        <h1 className="font-bold text-5xl mb-20 sm:mb-24 md:mb-32">
+      <section
+        className="pt-32 flex-col text-center bg-lightGrid1 bg-cover"
+        ref={featuresRef}
+      >
+        <h1 className="font-bold text-5xl mb-16 md:mb-24">
           All-in-one toolkit
         </h1>
         <div className="xl:max-w-screen-xl mx-auto lg:max-w-5xl md:max-w-3xl sm:max-w-xl max-w-lg">

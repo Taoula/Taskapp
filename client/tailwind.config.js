@@ -30,8 +30,10 @@ module.exports = {
         128: "32rem",
       },
       backgroundImage: {
-        darkPattern:
-          "url('https://images.unsplash.com/photo-1684503830679-302965124d97?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1001&q=80')",
+        darkGrid1:
+          "url('https://resources.github.com/assets/images/dark-pixel-grid.svg')",
+        lightGrid1:
+          "url('https://resources.github.com/assets/images/light-pixel-grid.svg')",
       },
     },
   },

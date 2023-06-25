@@ -76,7 +76,7 @@ export default function LoginForm() {
         {/* Left Section */}
         <div className="w-full lg:w-1/2 my-auto">
           <div className="max-w-md mx-auto">
-            <a href="/" className="text-xl font-semibold italic text-blue-600">
+            <a href="/" className="text-xl font-semibold italic text-slate-900">
               Velocity
             </a>
             <h1 className="text-3xl text-gray-800 font-semibold pt-10">
@@ -164,7 +164,7 @@ export default function LoginForm() {
                 type="submit"
                 input={+true}
                 value="submit"
-                className="mt-8 mb-10 text-sm font-normal bg-blue-600 w-full text-white py-3.5 rounded-md hover:bg-blue-700 duration-75 tracking-wider"
+                className="mt-8 mb-10 text-sm font-medium bg-slate-900 w-full text-white py-3.5 rounded-md hover:shadow-2xl hover:duration-300 duration-300 tracking-wide"
               >
                 Log in
               </button>

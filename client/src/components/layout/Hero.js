@@ -15,7 +15,7 @@ export default function Hero({ onScrollToFeatures }) {
     <>
       <BreakpointLabel></BreakpointLabel>
       {/* Hero section */}
-      <section className="flex-col">
+      <section className="flex-col bg-lightGrid1 bg-cover">
         <div className="mx-auto my-auto space-y-10 text-center max-w-screen-md pt-52">
           <h1 className="text-5xl px-8 sm:text-6xl md:text-7xl font-black text-gray-800">
             Get sh*t done faster than ever before
