@@ -4,20 +4,43 @@ import axios from "axios";
 import AuthContext from "../../context/auth-context";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
-import { Eye, EyeClosed, Envelope, Lock } from "phosphor-react";
+import {
+  Eye,
+  EyeClosed,
+  Envelope,
+  Lock,
+  Circle,
+  CheckCircle,
+} from "phosphor-react";
 import BreakpointLabel from "../BreakpointLabel";
 
 export default function LoginForm() {
+  // email
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { getLoggedIn } = useContext(AuthContext);
-  const [passwordShown, setPasswordShown] = useState(false);
+  const [emailTypingStarted, setEmailTypingStarted] = useState(false);
 
+  // password
+  const [password, setPassword] = useState("");
+  const [passwordShown, setPasswordShown] = useState(false);
+  const [isPasswordEmpty, setIsPasswordEmpty] = useState(true);
+
+  const { getLoggedIn } = useContext(AuthContext);
   const history = useNavigate();
 
+  // email regex
+  const isEmailValid = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  // handles login
   async function loginUser(e) {
     try {
       e.preventDefault();
+
+      if (isLoginDisabled()) {
+        return;
+      }
 
       const userData = {
         email,
@@ -35,6 +58,11 @@ export default function LoginForm() {
   // password visibility toggle handler
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
+  };
+
+  // is login disabled
+  const isLoginDisabled = () => {
+    return !isEmailValid(email) || isPasswordEmpty;
   };
 
   // const [usernameValue, setUsernameValue] = useState("");
@@ -85,13 +113,13 @@ export default function LoginForm() {
 
             {/* login with google button */}
             <div className="flex flex-row gap-4 py-8">
-              <span className="flex items-center bg-white w-full justify-center py-4 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md duration-100">
+              <span className="flex items-center bg-white w-full justify-center py-4 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md hover:duration-300 duration-300">
                 <FcGoogle size={25} />
                 <p className="text-gray-700 font-semibold text-sm">Google</p>
               </span>
 
               {/* login with apple button */}
-              <span className="flex items-center bg-white w-full justify-center py-4 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md duration-100">
+              <span className="flex items-center bg-white w-full justify-center py-4 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md hover:duration-300 duration-300">
                 <FaApple size={25} />
                 <p className="text-gray-700 font-semibold text-sm">Apple</p>
               </span>
@@ -111,16 +139,45 @@ export default function LoginForm() {
                   <Envelope size={20} />
                 </div>
                 <input
-                  type="email"
+                  type="text"
                   placeholder="Email"
                   value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);
+                    setEmailTypingStarted(true);
                   }}
                   id="email"
                   className="block w-full rounded-md py-3 pl-11 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 text-sm"
                 />
               </div>
+
+              {/* email validation */}
+              {emailTypingStarted && (
+                <ul className="mt-4 list-none list-inside">
+                  <li
+                    className={`text-sm flex items-center ${
+                      isEmailValid(email) ? "text-green-600" : "text-red-500"
+                    }`}
+                  >
+                    {isEmailValid(email) ? (
+                      <CheckCircle
+                        size={16}
+                        weight="bold"
+                        color="#34D399"
+                        className="mr-2"
+                      />
+                    ) : (
+                      <Circle
+                        size={16}
+                        weight="bold"
+                        className="mr-2 text-red-400"
+                      />
+                    )}
+                    Email must be a valid format
+                  </li>
+                </ul>
+              )}
+
               <div>
                 <div className="relative rounded-md mt-4">
                   <div className="pointer-events-none text-gray-400 absolute inset-y-0 left-0 flex items-center pl-4">
@@ -132,6 +189,7 @@ export default function LoginForm() {
                     value={password}
                     onChange={(e) => {
                       setPassword(e.target.value);
+                      setIsPasswordEmpty(e.target.value === "");
                     }}
                     id="password"
                     className="block w-full rounded-md py-3 pl-11 bg-gray-50 border border-gray-200 pr-11 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
@@ -162,9 +220,14 @@ export default function LoginForm() {
               </div>
               <button
                 type="submit"
+                disabled={isLoginDisabled()}
                 input={+true}
                 value="submit"
-                className="mt-8 mb-10 text-sm font-medium bg-slate-900 w-full text-white py-3.5 rounded-md hover:shadow-2xl hover:duration-300 duration-300 tracking-wide"
+                className={`${
+                  isLoginDisabled()
+                    ? "cursor-not-allowed bg-gray-300 text-gray-900"
+                    : "bg-slate-900 duration-300 hover:duration-300 hover:shadow-2xl text-white"
+                } mt-8 mb-10 text-sm font-medium w-full py-3.5 rounded-md tracking-wide`}
               >
                 Log in
               </button>

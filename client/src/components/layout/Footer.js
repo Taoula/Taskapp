@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <>
       {/* footer */}
-      <footer className="bg-gray-100 py-6 flex">
+      <footer className="bg-gray-50 py-6 flex">
         <div className="mx-auto max-w-screen-xl">
           <div className="flex gap-4">
             <p className="text-gray-500 text-xs">@ 2023 Velocity</p>
