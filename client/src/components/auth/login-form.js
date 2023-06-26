@@ -11,10 +11,14 @@ import {
   Lock,
   Circle,
   CheckCircle,
+  X,
 } from "phosphor-react";
 import BreakpointLabel from "../BreakpointLabel";
 
 export default function LoginForm() {
+  const { getLoggedIn } = useContext(AuthContext);
+  const history = useNavigate();
+
   // email
   const [email, setEmail] = useState("");
   const [emailTypingStarted, setEmailTypingStarted] = useState(false);
@@ -24,14 +28,14 @@ export default function LoginForm() {
   const [passwordShown, setPasswordShown] = useState(false);
   const [isPasswordEmpty, setIsPasswordEmpty] = useState(true);
 
-  const { getLoggedIn } = useContext(AuthContext);
-  const history = useNavigate();
-
   // email regex
   const isEmailValid = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
+
+  // axios errors
+  const [error, setError] = useState("");
 
   // handles login
   async function loginUser(e) {
@@ -52,6 +56,19 @@ export default function LoginForm() {
       history("/dashboard/overview");
     } catch (err) {
       console.error(err);
+
+      if (err.response) {
+        if (err.response.status === 401) {
+          // error message for 401
+          setError("Incorrect email or password!");
+        } else if (err.response.status === 500) {
+          // internal server error
+          setError("Server error, please try again later!");
+        } else {
+          // generic error
+          setError("Error occured, please try again later!");
+        }
+      }
     }
   }
 
@@ -65,38 +82,10 @@ export default function LoginForm() {
     return !isEmailValid(email) || isPasswordEmpty;
   };
 
-  // const [usernameValue, setUsernameValue] = useState("");
-  // const [passwordValue, setPasswordValue] = useState("");
-  // const [isUsernameValid, setIsUsernameValid] = useState(false);
-  // const [isPasswordValid, setIsPasswordValid] = useState(false);
-
-  // const handleUsernameChange = (e) => {
-  //   const value = e.target.value;
-  //   setUsernameValue(value);
-  //   setIsUsernameValid(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(value));
-  // };
-
-  // const handlePasswordChange = (e) => {
-  //   const value = e.target.value;
-  //   setPasswordValue(value);
-  //   setIsPasswordValid(value.length >= 6);
-  // };
-
-  // const usernameClasses = `border-2 rounded-md p-2 focus:outline-none ${
-  //   isUsernameValid
-  //     ? "border-green-500"
-  //     : usernameValue
-  //     ? "border-red-500"
-  //     : "border-gray-500"
-  // }`;
-
-  // const passwordClasses = `border-2 rounded-md p-2 focus:outline-none ${
-  //   isPasswordValid
-  //     ? "border-green-500"
-  //     : passwordValue
-  //     ? "border-red-500"
-  //     : "border-gray-500"
-  // }`;
+  // Clear error message
+  const clearError = () => {
+    setError("");
+  };
 
   return (
     <>
@@ -133,7 +122,20 @@ export default function LoginForm() {
             </div>
 
             <form className="pt-8" onSubmit={(e) => loginUser(e)}>
-              {/*  */}
+              {/* Error message */}
+              {error && (
+                <div
+                  className={`mb-4 inline-flex w-full items-center justify-between ${
+                    error.includes("401")
+                      ? "bg-yellow-200 bg-opacity-60 border border-yellow-600 text-yellow-700 px-4 py-3 rounded-md font-light"
+                      : "bg-red-200 text-red-600 font-light px-4 py-3 rounded-md bg-opacity-60 border border-red-600"
+                  }`}
+                >
+                  <p>{error}</p>
+                  <X size={15} onClick={clearError} />
+                </div>
+              )}
+
               <div className="relative rounded-md">
                 <div className="pointer-events-none text-gray-400 absolute inset-y-0 left-0 flex items-center pl-4">
                   <Envelope size={20} />
@@ -212,12 +214,16 @@ export default function LoginForm() {
                     )}
                   </div>
                 </div>
+
+                {/* forgot password link */}
                 <span className="flex pt-4 justify-end">
-                  <p class="tracking-wide text-blue-500 text-sm hover:text-blue-600 hover:underline">
+                  <p className="tracking-wide text-blue-500 text-sm hover:text-blue-600 hover:underline">
                     Forgot password?
                   </p>
                 </span>
               </div>
+
+              {/* login button */}
               <button
                 type="submit"
                 disabled={isLoginDisabled()}
@@ -231,6 +237,8 @@ export default function LoginForm() {
               >
                 Log in
               </button>
+
+              {/* Sign up link */}
               <p className="text-gray-700 text-sm text-center">
                 Don't have an account?{" "}
                 <a
@@ -256,36 +264,5 @@ export default function LoginForm() {
         </div>
       </div>
     </>
-    // <>
-    //   <form>
-    //     <div className="mb-4">
-    //       <label htmlFor="username">Username:</label>
-    //       <input
-    //         id="username"
-    //         type="text"
-    //         value={usernameValue}
-    //         onChange={handleUsernameChange}
-    //         className={usernameClasses}
-    //       />
-    //     </div>
-    //     <div className="mb-4">
-    //       <label htmlFor="password">Password:</label>
-    //       <input
-    //         id="password"
-    //         type="password"
-    //         value={passwordValue}
-    //         onChange={handlePasswordChange}
-    //         className={passwordClasses}
-    //       />
-    //     </div>
-    //     <button
-    //       type="submit"
-    //       className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
-    //       disabled={!isUsernameValid || !isPasswordValid}
-    //     >
-    //       Submit
-    //     </button>
-    //   </form>
-    // </>
   );
 }
