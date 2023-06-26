@@ -4,20 +4,47 @@ import axios from "axios";
 import AuthContext from "../../context/auth-context";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
-import { Eye, EyeClosed, Envelope, Lock } from "phosphor-react";
+import {
+  Eye,
+  EyeClosed,
+  Envelope,
+  Lock,
+  Circle,
+  CheckCircle,
+  X,
+} from "phosphor-react";
 import BreakpointLabel from "../BreakpointLabel";
 
 export default function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const { getLoggedIn } = useContext(AuthContext);
-  const [passwordShown, setPasswordShown] = useState(false);
-
   const history = useNavigate();
 
+  // email
+  const [email, setEmail] = useState("");
+  const [emailTypingStarted, setEmailTypingStarted] = useState(false);
+
+  // password
+  const [password, setPassword] = useState("");
+  const [passwordShown, setPasswordShown] = useState(false);
+  const [isPasswordEmpty, setIsPasswordEmpty] = useState(true);
+
+  // email regex
+  const isEmailValid = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  // axios errors
+  const [error, setError] = useState("");
+
+  // handles login
   async function loginUser(e) {
     try {
       e.preventDefault();
+
+      if (isLoginDisabled()) {
+        return;
+      }
 
       const userData = {
         email,
@@ -29,6 +56,19 @@ export default function LoginForm() {
       history("/dashboard/overview");
     } catch (err) {
       console.error(err);
+
+      if (err.response) {
+        if (err.response.status === 401) {
+          // error message for 401
+          setError("Incorrect email or password!");
+        } else if (err.response.status === 500) {
+          // internal server error
+          setError("Server error, please try again later!");
+        } else {
+          // generic error
+          setError("Error occured, please try again later!");
+        }
+      }
     }
   }
 
@@ -37,38 +77,15 @@ export default function LoginForm() {
     setPasswordShown(!passwordShown);
   };
 
-  // const [usernameValue, setUsernameValue] = useState("");
-  // const [passwordValue, setPasswordValue] = useState("");
-  // const [isUsernameValid, setIsUsernameValid] = useState(false);
-  // const [isPasswordValid, setIsPasswordValid] = useState(false);
+  // is login disabled
+  const isLoginDisabled = () => {
+    return !isEmailValid(email) || isPasswordEmpty;
+  };
 
-  // const handleUsernameChange = (e) => {
-  //   const value = e.target.value;
-  //   setUsernameValue(value);
-  //   setIsUsernameValid(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(value));
-  // };
-
-  // const handlePasswordChange = (e) => {
-  //   const value = e.target.value;
-  //   setPasswordValue(value);
-  //   setIsPasswordValid(value.length >= 6);
-  // };
-
-  // const usernameClasses = `border-2 rounded-md p-2 focus:outline-none ${
-  //   isUsernameValid
-  //     ? "border-green-500"
-  //     : usernameValue
-  //     ? "border-red-500"
-  //     : "border-gray-500"
-  // }`;
-
-  // const passwordClasses = `border-2 rounded-md p-2 focus:outline-none ${
-  //   isPasswordValid
-  //     ? "border-green-500"
-  //     : passwordValue
-  //     ? "border-red-500"
-  //     : "border-gray-500"
-  // }`;
+  // Clear error message
+  const clearError = () => {
+    setError("");
+  };
 
   return (
     <>
@@ -76,7 +93,7 @@ export default function LoginForm() {
         {/* Left Section */}
         <div className="w-full lg:w-1/2 my-auto">
           <div className="max-w-md mx-auto">
-            <a href="/" className="text-xl font-semibold italic text-blue-600">
+            <a href="/" className="text-xl font-semibold italic text-slate-900">
               Velocity
             </a>
             <h1 className="text-3xl text-gray-800 font-semibold pt-10">
@@ -85,13 +102,13 @@ export default function LoginForm() {
 
             {/* login with google button */}
             <div className="flex flex-row gap-4 py-8">
-              <span className="flex items-center bg-white w-full justify-center py-4 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md duration-100">
+              <span className="flex items-center bg-white w-full justify-center py-4 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md hover:duration-300 duration-300">
                 <FcGoogle size={25} />
                 <p className="text-gray-700 font-semibold text-sm">Google</p>
               </span>
 
               {/* login with apple button */}
-              <span className="flex items-center bg-white w-full justify-center py-4 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md duration-100">
+              <span className="flex items-center bg-white w-full justify-center py-4 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md hover:duration-300 duration-300">
                 <FaApple size={25} />
                 <p className="text-gray-700 font-semibold text-sm">Apple</p>
               </span>
@@ -105,22 +122,64 @@ export default function LoginForm() {
             </div>
 
             <form className="pt-8" onSubmit={(e) => loginUser(e)}>
-              {/*  */}
+              {/* Error message */}
+              {error && (
+                <div
+                  className={`mb-4 inline-flex w-full items-center justify-between ${
+                    error.includes("401")
+                      ? "bg-yellow-200 bg-opacity-60 border border-yellow-600 text-yellow-700 px-4 py-3 rounded-md font-light"
+                      : "bg-red-200 text-red-600 font-light px-4 py-3 rounded-md bg-opacity-60 border border-red-600"
+                  }`}
+                >
+                  <p>{error}</p>
+                  <X size={15} onClick={clearError} />
+                </div>
+              )}
+
               <div className="relative rounded-md">
                 <div className="pointer-events-none text-gray-400 absolute inset-y-0 left-0 flex items-center pl-4">
                   <Envelope size={20} />
                 </div>
                 <input
-                  type="email"
+                  type="text"
                   placeholder="Email"
                   value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);
+                    setEmailTypingStarted(true);
                   }}
                   id="email"
                   className="block w-full rounded-md py-3 pl-11 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 text-sm"
                 />
               </div>
+
+              {/* email validation */}
+              {emailTypingStarted && (
+                <ul className="mt-4 list-none list-inside">
+                  <li
+                    className={`text-sm flex items-center ${
+                      isEmailValid(email) ? "text-green-600" : "text-red-500"
+                    }`}
+                  >
+                    {isEmailValid(email) ? (
+                      <CheckCircle
+                        size={16}
+                        weight="bold"
+                        color="#34D399"
+                        className="mr-2"
+                      />
+                    ) : (
+                      <Circle
+                        size={16}
+                        weight="bold"
+                        className="mr-2 text-red-400"
+                      />
+                    )}
+                    Email must be a valid format
+                  </li>
+                </ul>
+              )}
+
               <div>
                 <div className="relative rounded-md mt-4">
                   <div className="pointer-events-none text-gray-400 absolute inset-y-0 left-0 flex items-center pl-4">
@@ -132,6 +191,7 @@ export default function LoginForm() {
                     value={password}
                     onChange={(e) => {
                       setPassword(e.target.value);
+                      setIsPasswordEmpty(e.target.value === "");
                     }}
                     id="password"
                     className="block w-full rounded-md py-3 pl-11 bg-gray-50 border border-gray-200 pr-11 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
@@ -154,20 +214,31 @@ export default function LoginForm() {
                     )}
                   </div>
                 </div>
+
+                {/* forgot password link */}
                 <span className="flex pt-4 justify-end">
-                  <p class="tracking-wide text-blue-500 text-sm hover:text-blue-600 hover:underline">
+                  <p className="tracking-wide text-blue-500 text-sm hover:text-blue-600 hover:underline">
                     Forgot password?
                   </p>
                 </span>
               </div>
+
+              {/* login button */}
               <button
                 type="submit"
+                disabled={isLoginDisabled()}
                 input={+true}
                 value="submit"
-                className="mt-8 mb-10 text-sm font-normal bg-blue-600 w-full text-white py-3.5 rounded-md hover:bg-blue-700 duration-75 tracking-wider"
+                className={`${
+                  isLoginDisabled()
+                    ? "cursor-not-allowed bg-gray-300 text-gray-900"
+                    : "bg-slate-900 duration-300 hover:duration-300 hover:shadow-2xl text-white"
+                } mt-8 mb-10 text-sm font-medium w-full py-3.5 rounded-md tracking-wide`}
               >
                 Log in
               </button>
+
+              {/* Sign up link */}
               <p className="text-gray-700 text-sm text-center">
                 Don't have an account?{" "}
                 <a
@@ -180,49 +251,18 @@ export default function LoginForm() {
             </form>
           </div>
         </div>
-
         {/* Right Section */}
         <div className="w-1/2 hidden lg:block">
-          <div className="bg-stone-200 flex h-full items-center">
-            <img
+          <div className="bg-darkGrid2 bg-cover bg-bottom flex h-full items-center">
+            {/* <div className="bg-[url('https://images.unsplash.com/photo-1620121692029-d088224ddc74?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3132&q=80')] bg-cover bg-bottom flex h-full items-center"> */}
+            {/* <img
               alt="drawing"
               src="https://i.imgur.com/s4HIX7A.png"
               className="object-cover scale-75 mx-auto"
-            />
+            /> */}
           </div>
         </div>
       </div>
     </>
-    // <>
-    //   <form>
-    //     <div className="mb-4">
-    //       <label htmlFor="username">Username:</label>
-    //       <input
-    //         id="username"
-    //         type="text"
-    //         value={usernameValue}
-    //         onChange={handleUsernameChange}
-    //         className={usernameClasses}
-    //       />
-    //     </div>
-    //     <div className="mb-4">
-    //       <label htmlFor="password">Password:</label>
-    //       <input
-    //         id="password"
-    //         type="password"
-    //         value={passwordValue}
-    //         onChange={handlePasswordChange}
-    //         className={passwordClasses}
-    //       />
-    //     </div>
-    //     <button
-    //       type="submit"
-    //       className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
-    //       disabled={!isUsernameValid || !isPasswordValid}
-    //     >
-    //       Submit
-    //     </button>
-    //   </form>
-    // </>
   );
 }
