@@ -90,7 +90,6 @@ export default function LoginForm() {
   return (
     <>
       <div className="flex h-screen bg-lightGrid1 bg-cover">
-        {/* Left Section */}
         <div className="w-full my-auto">
           <div className="max-w-xl px-16 sm:px-20 py-14 mx-8 sm:mx-auto border border-gray-200 shadow-2xl rounded-lg bg-white">
             <a href="/" className="text-xl font-semibold italic text-slate-900">
@@ -217,7 +216,10 @@ export default function LoginForm() {
 
                 {/* forgot password link */}
                 <span className="flex pt-4 justify-end">
-                  <p className="tracking-wide text-blue-500 text-sm hover:text-blue-600 hover:underline">
+                  <p
+                    onClick={() => history("/resetpassword")}
+                    className="tracking-wide text-blue-500 text-sm hover:text-blue-600 cursor-pointer hover:underline"
+                  >
                     Forgot password?
                   </p>
                 </span>
@@ -242,7 +244,7 @@ export default function LoginForm() {
               <p className="text-gray-700 text-sm text-center">
                 Don't have an account?{" "}
                 <a
-                  className="text-blue-500 hover:text-blue-600 hover:underline"
+                  className="text-blue-500 hover:text-blue-600 hover:underline cursor-pointer"
                   onClick={() => history("/register")}
                 >
                   Sign up now

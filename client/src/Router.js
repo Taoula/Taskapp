@@ -9,6 +9,7 @@ import AccountSettings from "./components/AccountSettings/AccountSettings";
 import Help from "./components/Help/Help";
 import Overview from "./components/Overview/Overview";
 import Landing from "./pages/Landing";
+import ResetPassword from "./components/auth/ResetPassword";
 
 export default function Router(...restParams) {
   return (
@@ -23,6 +24,7 @@ export default function Router(...restParams) {
         {/* login & register page routes */}
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
+        <Route path="/resetpassword" element={<ResetPassword />} />
 
         {/* Dashboard routes */}
         <Route path="/dashboard/" element={<Dashboard />}>
