@@ -171,7 +171,7 @@ export default function Step2({
         ) : (
           <Square size={18} weight="bold" onClick={handleCheckboxChange} />
         )}
-        <p class="tracking-wide text-gray-900 text-sm">
+        <p className="tracking-wide text-gray-900 text-sm">
           I agree to the{" "}
           <a href="/" className="hover:underline text-blue-500">
             Terms of agreement
@@ -209,7 +209,7 @@ export default function Step2({
       <div className="flex gap-4">
         {/* back button */}
         <button
-          type="bbutton"
+          type="button"
           onClick={() => {
             setStep((currentStep) => currentStep - 1);
           }}

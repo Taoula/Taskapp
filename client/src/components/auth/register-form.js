@@ -120,9 +120,9 @@ export default function RegisterForm() {
     try {
       e.preventDefault();
 
-      if (isNextDisabled()) {
-        return;
-      }
+      // if (isNextDisabled()) {
+      //   return;
+      // }
 
       const userData = {
         fName,
@@ -224,7 +224,7 @@ export default function RegisterForm() {
     } else if (step === 3) {
       return <Step3 setStep={setStep} />;
     } else if (step === 4) {
-      return <Step4 />;
+      return <Step4 setStep={setStep} />;
     }
   };
 
