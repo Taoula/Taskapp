@@ -9,7 +9,7 @@ const dayjs = require('dayjs')
 dayjs().format()
 
 async function newSort(setSchedule, wakeDate, sleepDate, currentDay, resort){
-    
+    console.log("-------INITIALIZING NEWSORT--------")
     const scheduleReq = await axios.get("http://localhost:8282/schedule/")
     let populated = false
     let {entries} = scheduleReq.data
@@ -26,6 +26,7 @@ async function newSort(setSchedule, wakeDate, sleepDate, currentDay, resort){
         //Calculate total time between wake & sleep (minutes)
             let now = dayjs(new Date)
             let wake = resort ? now : dayjs(wakeDate)
+            console.log(wake.format('HH:mm:ss'))
             wake = wake.set('second', 0)
             wake = wake.set('millisecond', 0)
             let sleep = dayjs(sleepDate)
@@ -76,7 +77,7 @@ async function newSort(setSchedule, wakeDate, sleepDate, currentDay, resort){
                 //resort handling
                 let tempSchedule
                 if (resort){
-                    //console.log("Resort")
+                    console.log("Resort")
                     tempSchedule = entries[entryIndex]
                     let position = findSchedulePosition(now, tempSchedule)
                     // [1-2, 2-330, 330-530, 530-645, 645-7, 7-720] 6:00
@@ -116,8 +117,31 @@ async function newSort(setSchedule, wakeDate, sleepDate, currentDay, resort){
                 } else {
                     // Scale each free time block to the desired proportion of the pool
                     freeTimes = rpa(freeTimePool, freeTimeProportions)
+                    console.log(freeTimes)
+                    //Scale freetimes to intervals of 5
+                    let diff = 0
+                    for (let i = 0; i < freeTimes.length - 1; i++){
+                        let original = freeTimes[i]
+                        let rounded = Math.round(original / 5) * 5
+                        diff += original - rounded
+
+                        freeTimes[i] = rounded
+                    }
+
+                    freeTimes[freeTimes.length - 1] += diff
+                    freeTimes = freeTimes.filter(item => item != 0)
+
+                    //Adjust proportions for any deletions
+                    if (freeTimes.length < freeTimeProportions.length){
+                        freeTimeProportions.splice(0, freeTimeProportions.length - freeTimes.length)
+                    }
+                    console.log(freeTimes)
+                    //Scale frequencies
                     frequencies = rpa(taskSum, freeTimeProportions)
                 }
+            } else {
+                freeTimes = []
+                frequencies = []
             }
     //2 - TASK & SCHEDULE INITIALIZATION--------------------------------------------
     /*TODO: 
@@ -227,6 +251,7 @@ async function newSort(setSchedule, wakeDate, sleepDate, currentDay, resort){
                 time = dayjs(time)
                 time = time.set('second', 0)
                 time = time.set('millisecond', 0)
+                //console.log(time.add(duration, "minutes"))
                 toAdd = {"_id": _id, "name": name, "start": time, "end": time.add(duration, "minutes"), "completed": completed, "duration": duration, "fixed": true, "notes": notes, "links": links}
             } else {
                 start = dayjs(start)
@@ -280,7 +305,7 @@ async function newSort(setSchedule, wakeDate, sleepDate, currentDay, resort){
         function findNext(t){
             for (let i = 0; i < schedule.length; i++){
                 if (schedule[i].start > t){
-                    console.log("Diff between " + schedule[i].start.format('HH:mm:ss:SSS') + " and " + t.format('HH:mm:ss:SSS') +"is" + schedule[i].start.diff(t, "minutes"))
+                    //console.log("Diff between " + schedule[i].start.format('HH:mm:ss:SSS') + " and " + t.format('HH:mm:ss:SSS') +"is" + schedule[i].start.diff(t, "minutes"))
                     return schedule[i].start.diff(t, "minutes") 
                     
                 }
@@ -301,7 +326,7 @@ async function newSort(setSchedule, wakeDate, sleepDate, currentDay, resort){
 
         // Pushes all unfixed schedule items after a given index by a number of minutes
         function shiftSchedule(index, amount){
-            console.log("shifting")
+            console.log("shifting entries after " + schedule[index].name + " by " + amount)
             for (let i = index + 1; i < schedule.length; i++){
                 if (!schedule[i].fixed){
                     schedule[i].start = schedule[i].start.add(amount, "minutes")
@@ -312,9 +337,8 @@ async function newSort(setSchedule, wakeDate, sleepDate, currentDay, resort){
 
         function addFreeTime(){
             // TODO Do frequencies need to be adjusted in the case of a cut short free time?
-            console.log("adding freetime")
             if (freeTimes[0] > timeBefore){
-                console.log("adding forced cut ft")
+                console.log("adding forced cut freetime of length " + timeBefore)
                 let freeTimeToAdd = {"_id": "FREETIME", "name": "Free Time", "duration": timeBefore, "completed": false, "notes": [], "links": [], "time": ''}
                 freeTimePool -= timeBefore
                 pushToSchedule(freeTimeToAdd, findSchedulePosition(timeIterator, schedule), timeIterator)
@@ -323,6 +347,7 @@ async function newSort(setSchedule, wakeDate, sleepDate, currentDay, resort){
                 freeTimes = adjust(freeTimes, timeBefore)
                 timeBefore = 0
             } else {
+                console.log("adding freetime of length " + freeTimes[0])
                 let freeTimeToAdd = {"_id": "FREETIME", "name": "Free Time", "duration": freeTimes[0], "completed": false, "notes": [], "links": [], "time": ''}
                 timeBefore -= freeTimes[0]
                 freeTimePool -= freeTimes[0]
@@ -342,12 +367,13 @@ async function newSort(setSchedule, wakeDate, sleepDate, currentDay, resort){
             for (let i = 0; i < schedule.length; i++){
                 if (schedule[i].start.isSame(timeIterator, "minutes")){
                     timeIterator = schedule[i].end
+                    console.log(schedule[i].end)
                     foundExisting = true
                     console.log("new time iterator is " + timeIterator.format('HH/mm'))
                 }
             }
             timeBefore = findNext(timeIterator)
-            console.log("new time iterator is " + timeIterator.format('HH/mm') + " and new timeBefore is " + timeBefore)
+            //console.log("new time iterator is " + timeIterator.format('HH/mm') + " and new timeBefore is " + timeBefore)
         }
 
         function adjust(arr, cut) {
@@ -376,12 +402,14 @@ async function newSort(setSchedule, wakeDate, sleepDate, currentDay, resort){
                 result[i] -= difference;
                 break;
               }
-            }
+              }
 
-            if (result.length == 1 && result[0] == 0){
-                return []
+            result = result.filter(item => item !== 0);
+            //TODO find a better way of adjusting frequencies when freetimes are edited
+            let diff = frequencies.length - result.length
+            if (diff > 0){
+                frequencies.splice(0, diff)
             }
-          
             return result;
           }
 
@@ -393,7 +421,7 @@ async function newSort(setSchedule, wakeDate, sleepDate, currentDay, resort){
         //console.log(frequencies)
         let timeBefore
         while (freeTimes.length > 0 || tasks.length > 0){
-            //console.log(freeTimes)
+
             //Find time before next schedule block (or sleep, if none)
             
             if (schedule.length == 0){
@@ -407,19 +435,17 @@ async function newSort(setSchedule, wakeDate, sleepDate, currentDay, resort){
             if (timeBefore == 0){
                 let index = findSchedulePosition(timeIterator, schedule)
                 console.log("336 index is " + index)
+                console.log(freeTimes)
                 timeIterator = schedule[index].end
             }
 
             while (timeBefore > 0) {
-                console.log(schedule)
                 console.log("time remains before next task")
                 //console.log("time before is " + timeBefore)
                 //TODO possible bugs?
                 // If time since last free time >= free time frequency, add a free time block
                 if (frequencies.length > 0 && timeSinceLastFreeTime >= frequencies[0]){
-                    console.log("time for a free time")
-                    console.log(freeTimes[0])
-                    console.log(timeBefore)
+                    console.log("time for a free time. freetimes[0] is " + freeTimes[0] + "and timeBefore is " + timeBefore)
                     //if free time is less than time remaining, add one to fill time remaining and adjust
                     addFreeTime()
                 } else {
@@ -433,7 +459,7 @@ async function newSort(setSchedule, wakeDate, sleepDate, currentDay, resort){
                             let currentTask = tasks[i]
     
                             while(foundIndex == -1 && treeLength <= timeBefore){
-                                console.log("here two")
+                                //console.log("here two")
                                 treeLength += currentTask.duration 
                                 if (treeLength <= timeBefore && currentTask.next == ''){
                                     console.log("found a tree starting at " + currentTask.name + ". treelength is " + treeLength + " and time before is " + timeBefore)
@@ -471,16 +497,14 @@ async function newSort(setSchedule, wakeDate, sleepDate, currentDay, resort){
                         //START HERE SHIFT
                         //Find last free time (TODO WHAT IF NO FREE TIME YET???)
                          else if (freeTimePool > 0){
-                            console.log("finding the shit again")
+                            console.log("searching for existing freetime")
                             console.log(freeTimePool)
                             let foundFreeTime = false
                             for (let i = findSchedulePosition(timeIterator, schedule); i > -1; i--){
-                                console.log(schedule)
-                                console.log(i)
                                 if (schedule[i]._id == "FREETIME"){
                                     foundFreeTime = true
                                     if (freeTimePool >= timeBefore){
-                                        console.log("DOING THIS FR FR")
+                                        console.log("Freetime was found. Sufficient Time to pad.")
                                         //note: timesincelastfreetime might break on schedule shift?
                                         schedule[i].duration += timeBefore//break
                                         schedule[i].end = schedule[i].end.add(timeBefore, "minutes")
@@ -493,9 +517,10 @@ async function newSort(setSchedule, wakeDate, sleepDate, currentDay, resort){
                                         freeTimes = adjust(freeTimes, timeBefore)
                                         timeBefore = 0
                                     } else {
-                                        schedule[i].duration += timeBefore
-                                        schedule[i].end = schedule[i].end.add(timeBefore, "minutes")
-                                        shiftSchedule(i, timeBefore)
+                                        console.log("Freetime was found. Insufficient time to pad. Exhausting FTP")
+                                        schedule[i].duration += freeTimePool
+                                        schedule[i].end = schedule[i].end.add(freeTimePool, "minutes")
+                                        shiftSchedule(i, freeTimePool)
 
                                         timeSinceLastFreeTime = timeIterator.diff(schedule[i].end, "minutes")
                                         timeIterator = timeIterator.add(freeTimePool, "minutes")
@@ -509,6 +534,7 @@ async function newSort(setSchedule, wakeDate, sleepDate, currentDay, resort){
 
                             //if no preexisting free time to edit, add one
                             if (!foundFreeTime){
+                                console.log("No preexisting freetime to edit")
                                 addFreeTime()
                             }
                         } else {
@@ -516,7 +542,7 @@ async function newSort(setSchedule, wakeDate, sleepDate, currentDay, resort){
                             // add first task tree until no time left
                             let currentTask = tasks[0]
                             while (timeBefore > 0){
-                                console.log("here")
+                                console.log("FTP exhausted. Adding all fitting task trees.")
                                 if (currentTask.duration <= timeBefore){
                                     pushToSchedule(currentTask, findSchedulePosition(timeIterator, schedule), timeIterator)
                                     timeSinceLastFreeTime += currentTask.duration
@@ -525,6 +551,7 @@ async function newSort(setSchedule, wakeDate, sleepDate, currentDay, resort){
                                     currentTask = tasks[tasks.findIndex(t => t._id == currentTask.next)]
                                 } else {
                                     //TODO: make sure readded task is marked as a DIVISION
+                                    console.log("adding force divided task")
                                     let replacementDuration = currentTask.duration - timeBefore 
                                     currentTask.duration = timeBefore
                                     pushToSchedule(currentTask, findSchedulePosition(timeIterator, schedule), timeIterator)
@@ -545,12 +572,15 @@ async function newSort(setSchedule, wakeDate, sleepDate, currentDay, resort){
 
     //4 BACK END UPDATE & CLEAN UP --------------------------------------------------
     for (let i = 0; i < schedule.length - 1; i++){
+        //TODO BROKEN
         if (schedule[i]._id == schedule[i+1]._id){
+            console.log("Combining repeat entries")
             schedule[i].duration += schedule[i+1].duration
             schedule[i].end = schedule[i+1].end
             schedule.splice(i+1, 1)
         }
     }
+    console.log(schedule)
 
     entries[entryIndex].schedule = resort ? tempSchedule.concat(schedule) : schedule
 
