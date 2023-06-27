@@ -176,26 +176,6 @@ export default function Step1({
         </select>
       </div>
 
-      {/* terms of agreement */}
-      <span className="flex pt-4 items-center gap-2 justify-end">
-        {isTermsChecked ? (
-          <CheckSquare
-            size={18}
-            weight="bold"
-            onClick={handleCheckboxChange}
-            className="text-blue-500"
-          />
-        ) : (
-          <Square size={18} weight="bold" onClick={handleCheckboxChange} />
-        )}
-        <p class="tracking-wide text-gray-900 text-sm">
-          I agree to the{" "}
-          <a href="/" className="hover:underline text-blue-500">
-            Terms of agreement
-          </a>
-        </p>
-      </span>
-
       {/* continue button */}
       <button
         type="button"
@@ -205,9 +185,9 @@ export default function Step1({
         }}
         className={`${
           isNextDisabled()
-            ? "cursor-not-allowed bg-gray-300 text-gray-900"
-            : "bg-blue-600 hover:bg-blue-700 duration-75 text-white"
-        } mt-8 text-sm font-normal w-full py-3.5 rounded-md tracking-wider `}
+            ? "cursor-not-allowed bg-gray-200 text-gray-500"
+            : "bg-slate-900 duration-300 hover:duration-300 hover:shadow-2xl text-white"
+        } mt-8 text-sm font-medium w-full py-3.5 rounded-md tracking-wide`}
       >
         Continue
       </button>

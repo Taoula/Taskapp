@@ -1,43 +1,4 @@
-// import { React, useState } from "react";
-
-// export default function Step3({ setStep }) {
-//   const [monthlyPlanSelected, setMonthlyPlanSelected] = useState(false);
-//   const [annualPlanSelected, setAnnualPlanSelected] = useState(false);
-
-//   return (
-//     <>
-//       <div className="gap-4 flex">
-//         <div
-//           className={`w-full rounded-md h-52 flex items-center hover:shadow-lg duration-200 border-2 ${
-//             monthlyPlanSelected === true ? "border-red-100" : "border-gray-200"
-//           }`}
-//           onClick={() => setMonthlyPlanSelected(!monthlyPlanSelected)}
-//         >
-//           <p className="mx-auto">monthly</p>
-//         </div>
-//         <div
-//           className={`w-full rounded-md h-52 flex items-center hover:shadow-lg duration-200 border-2 ${
-//             annualPlanSelected === true ? "border-blue-100" : "border-gray-200"
-//           }`}
-//           onClick={() => setAnnualPlanSelected(!annualPlanSelected)}
-//         >
-//           <p className="mx-auto">yearly</p>
-//         </div>
-//       </div>
-//       <div className="flex">
-//         <button
-//           className="bg-blue-600 py-3.5 max-w-md mx-auto rounded-md w-full text-white text-sm tracking-wider font-normal hover:bg-blue-700 duration-75 mt-8"
-//           onClick={() => {
-//             setStep((currentStep) => currentStep + 1);
-//           }}
-//         >
-//           Continue
-//         </button>
-//       </div>
-//     </>
-//   );
-// }
-
+import { RadioButton, Check, Circle } from "phosphor-react";
 import React, { useState } from "react";
 
 export default function Step3({ setStep }) {
@@ -57,44 +18,101 @@ export default function Step3({ setStep }) {
   return (
     <>
       <div className="flex gap-4">
+        {/* monthly subscription plan */}
         <div
-          className={`box w-full rounded-md flex bg-white border-2 h-72 p-4 ${
+          className={`box w-full rounded-md bg-white border-2 p-6 ${
             selectedBox === 1
               ? "border-blue-600 bg-slate-50"
               : "border-gray-200"
           }`}
           onClick={() => handleBoxClick(1)}
         >
-          <div className="mx-auto space-y-2 text-center my-auto">
-            <p className="text-blue-500">Monthly</p>
-            <p className="text-3xl font-semibold">$3/mth</p>
+          <div className="flex gap-2 items-center">
+            {selectedBox === 1 ? (
+              <RadioButton size={20} weight="fill" className="text-blue-600" />
+            ) : (
+              <Circle size={20} />
+            )}{" "}
+            <h1 className="text-xl font-medium">Monthly</h1>
           </div>
+          <div className="inline-flex items-center pt-4 gap-x-1">
+            <p className="text-4xl font-semibold">$3</p>
+            <p className="text-2xl text-gray-400">/month</p>
+          </div>
+          <ul className="space-y-2 mt-6 text-lg">
+            <li className="flex gap-x-3">
+              <Check size={20} className="text-green-600" weight="bold" />
+              Todo list & tasking
+            </li>
+            <li className="flex gap-x-3">
+              <Check size={20} className="text-green-600" weight="bold" />
+              AI-powered scheduling
+            </li>
+            <li className="flex gap-x-3">
+              <Check size={20} className="text-green-600" weight="bold" />
+              Synchronized calendars
+            </li>
+          </ul>
         </div>
+        {/* yearly subscription plan */}
         <div
-          className={`box w-full flex rounded-md bg-white border-2 h-72 p-4 ${
+          className={`box w-full rounded-md bg-white border-2 p-6 ${
             selectedBox === 2
               ? "border-blue-600 bg-slate-50"
               : "border-gray-200"
           }`}
           onClick={() => handleBoxClick(2)}
         >
-          <div className="mx-auto space-y-2 text-center my-auto">
-            <p className="text-blue-500">Yearly</p>
-            <p className="text-3xl font-semibold">$30/yr</p>
-            <p className="border border-blue-500 rounded-full px-3 py-1 text-xs text-blue-500">
-              17% off
-            </p>
+          <div className="flex gap-2 items-center">
+            {selectedBox === 2 ? (
+              <RadioButton size={20} weight="fill" className="text-blue-600" />
+            ) : (
+              <Circle size={20} />
+            )}
+            <h1 className="text-xl font-medium">Yearly</h1>
+            <p className="font-light text-blue-600 pl-1">2 months free!</p>
           </div>
+          <div className="inline-flex items-center pt-4 gap-x-1">
+            <p className="text-4xl font-semibold">$30</p>
+            <p className="text-2xl text-gray-400">/year</p>
+          </div>
+          <ul className="space-y-2 mt-6 text-lg">
+            <li className="flex gap-x-3">
+              <Check size={20} className="text-green-600" weight="bold" />
+              Todo list & tasking
+            </li>
+            <li className="flex gap-x-3">
+              <Check size={20} className="text-green-600" weight="bold" />
+              AI-powered scheduling
+            </li>
+            <li className="flex gap-x-3">
+              <Check size={20} className="text-green-600" weight="bold" />
+              Synchronized calendars
+            </li>
+          </ul>
         </div>
       </div>
-      <div className="flex">
+
+      {/* buttons */}
+      <div className="flex gap-4">
+        {/* back button */}
+        <button
+          type="bbutton"
+          onClick={() => {
+            setStep((currentStep) => currentStep - 1);
+          }}
+          className="bg-slate-900 duration-300 hover:duration-300 hover:shadow-2xl text-white mt-8 text-sm font-medium w-full py-3.5 rounded-md tracking-wide"
+        >
+          Back
+        </button>
+        {/* next button */}
         <button
           disabled={isButtonDisabled}
           className={`${
             isButtonDisabled
-              ? "bg-gray-300 text-gray-700 cursor-not-allowed"
-              : "bg-blue-600 text-white hover:bg-blue-700 duration-75"
-          } py-3.5 max-w-md mx-auto rounded-md w-full text-sm tracking-wider font-normal mt-8`}
+              ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+              : "bg-slate-900 duration-300 hover:duration-300 hover:shadow-2xl text-white"
+          } py-3.5 max-w-md mx-auto rounded-md w-full text-sm tracking-wide font-medium mt-8`}
           onClick={() => {
             setStep((currentStep) => currentStep + 1);
           }}
