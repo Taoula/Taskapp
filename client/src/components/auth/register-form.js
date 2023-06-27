@@ -43,7 +43,6 @@ export default function RegisterForm() {
 
   // terms of agreement
   const [isTermsChecked, setIsTermsChecked] = useState(false);
-
   const handleCheckboxChange = () => {
     setIsTermsChecked((prevChecked) => !prevChecked);
   };
@@ -102,14 +101,16 @@ export default function RegisterForm() {
         isFirstNameValid(fName) &&
         isLastNameValid(lName) &&
         isEmailValid(email) &&
-        isTermsChecked &&
+        // isTermsChecked &&
         userRole !== "default"
       );
     } else if (step === 2) {
       return !(
         passRequirements.every((requirement) =>
           isPasswordRegexMet(requirement.regex, password)
-        ) && isPasswordMatching(password, passwordVerify)
+        ) &&
+        isTermsChecked &&
+        isPasswordMatching(password, passwordVerify)
       );
     }
   };
@@ -173,9 +174,7 @@ export default function RegisterForm() {
           setPasswordVerify={setPasswordVerify}
           verifyTypingStarted={verifyTypingStarted}
           setVerifyTypingStarted={setVerifyTypingStarted}
-          isTermsChecked={isTermsChecked}
           setStep={setStep}
-          handleCheckboxChange={handleCheckboxChange}
           passRequirements={passRequirements}
           isPasswordRegexMet={isPasswordRegexMet}
           isPasswordMatching={isPasswordMatching}
@@ -199,7 +198,9 @@ export default function RegisterForm() {
         <Step2
           history={history}
           email={email}
+          handleCheckboxChange={handleCheckboxChange}
           setEmail={setEmail}
+          isTermsChecked={isTermsChecked}
           emailTypingStarted={emailTypingStarted}
           setEmailTypingStarted={setEmailTypingStarted}
           password={password}
@@ -211,9 +212,7 @@ export default function RegisterForm() {
           setPasswordVerify={setPasswordVerify}
           verifyTypingStarted={verifyTypingStarted}
           setVerifyTypingStarted={setVerifyTypingStarted}
-          isTermsChecked={isTermsChecked}
           setStep={setStep}
-          handleCheckboxChange={handleCheckboxChange}
           passRequirements={passRequirements}
           isPasswordRegexMet={isPasswordRegexMet}
           isPasswordMatching={isPasswordMatching}
@@ -231,84 +230,142 @@ export default function RegisterForm() {
 
   return (
     <>
-      <div className="flex h-screen">
+      <nav className="sticky top-0 flex items-center justify-between px-8 py-5 border-b border-gray-200 backdrop-blur-md bg-white/30">
+        <a href="/" className="text-xl font-semibold italic text-slate-900">
+          Velocity
+        </a>
+        <p className="text-sm">
+          Already have an account?{" "}
+          <a
+            className="hover:underline cursor-pointer text-blue-600"
+            onClick={() => history("/login")}
+          >
+            Log in
+          </a>
+        </p>
+      </nav>
+      <div className="flex flex-row">
         {/* Left Section */}
-        <div className="w-1/4 hidden lg:block">
-          <div className="bg-slate-50 flex flex-col justify-between h-full pt-10 px-10">
-            <div className="">
-              <a
-                href="/"
-                className="text-xl font-semibold italic text-blue-600"
-              >
-                Velocity
-              </a>
-              <div className="flex flex-col space-y-8 pt-16">
-                <div className="flex gap-4">
-                  <CheckCircle size={26} className="text-blue-600" />
-                  <div className="space-y-1">
-                    <h1 className="text-md font-semibold text-gray-700">
-                      General information
-                    </h1>
-                    <p className="text-sm text-blue-600">In progress</p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4">
-                  <CheckCircle size={26} className="text-gray-400" />
-                  <div className="space-y-1">
-                    <h1 className="text-md text-gray-400 font-semibold">
-                      Choose a password
-                    </h1>
-                    <p className="text-sm text-gray-400">Incomplete</p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4">
-                  <CheckCircle size={26} className="text-green-600" />
-                  <div className="space-y-1">
-                    <h1 className="text-md text-gray-700 font-semibold">
-                      Select a subscription plan
-                    </h1>
-                    <p className="text-sm text-green-600">Incomplete</p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4">
-                  <CheckCircle size={26} className="text-gray-400" />
-                  <div className="space-y-1">
-                    <h1 className="text-md text-gray-400 font-semibold">
-                      Billing details
-                    </h1>
-                    <p className="text-sm text-gray-400">Incomplete</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="mb-10 border border-gray-300 rounded-md py-3.5 bg-white text-gray-700 text-sm text-center cursor-pointer hover:bg-gray-300 duration-150"
-              onClick={() => history("/login")}
-            >
-              <p className="cursor-pointer">Already have an account?</p>
-            </div>
+        <div className="hidden lg:block mt-16 fixed left-0">
+          <div className="h-full px-14">
+            <ul className="space-y-6">
+              {step === 1 && (
+                <>
+                  <li className="flex items-center gap-2 text-blue-600">
+                    <CheckCircle size={22} weight="bold" />
+                    <p className="font-medium text-md">Step 1</p>
+                  </li>
+                  <li className="flex items-center gap-2 text-gray-400">
+                    <Circle size={22} weight="bold" />
+                    <p className="font-medium">Step 2</p>
+                  </li>
+                  <li className="flex items-center gap-2 text-gray-400">
+                    <Circle size={22} weight="bold" />
+                    <p className="font-medium">Step 3</p>
+                  </li>
+                  <li className="flex items-center gap-2 text-gray-400">
+                    <Circle size={22} weight="bold" />
+                    <p className="font-medium">Step 4</p>
+                  </li>
+                </>
+              )}
+              {step === 2 && (
+                <>
+                  <li className="flex items-center gap-2 text-green-600">
+                    <CheckCircle size={22} weight="bold" />
+                    <p className="font-medium text-md">Step 1</p>
+                  </li>
+                  <li className="flex items-center gap-2 text-blue-600">
+                    <CheckCircle size={22} weight="bold" />
+                    <p className="font-medium">Step 2</p>
+                  </li>
+                  <li className="flex items-center gap-2 text-gray-400">
+                    <Circle size={22} weight="bold" />
+                    <p className="font-medium">Step 3</p>
+                  </li>
+                  <li className="flex items-center gap-2 text-gray-400">
+                    <Circle size={22} weight="bold" />
+                    <p className="font-medium">Step 4</p>
+                  </li>
+                </>
+              )}
+              {step === 3 && (
+                <>
+                  <li className="flex items-center gap-2 text-green-600">
+                    <CheckCircle size={22} weight="bold" />
+                    <p className="font-medium text-md">Step 1</p>
+                  </li>
+                  <li className="flex items-center gap-2 text-green-600">
+                    <CheckCircle size={22} weight="bold" />
+                    <p className="font-medium">Step 2</p>
+                  </li>
+                  <li className="flex items-center gap-2 text-blue-600">
+                    <CheckCircle size={22} weight="bold" />
+                    <p className="font-medium">Step 3</p>
+                  </li>
+                  <li className="flex items-center gap-2 text-gray-400">
+                    <Circle size={22} weight="bold" />
+                    <p className="font-medium">Step 4</p>
+                  </li>
+                </>
+              )}
+              {step === 4 && (
+                <>
+                  <li className="flex items-center gap-2 text-green-600">
+                    <CheckCircle size={22} weight="bold" />
+                    <p className="font-medium text-md">Step 1</p>
+                  </li>
+                  <li className="flex items-center gap-2 text-green-600">
+                    <CheckCircle size={22} weight="bold" />
+                    <p className="font-medium">Step 2</p>
+                  </li>
+                  <li className="flex items-center gap-2 text-green-600">
+                    <CheckCircle size={22} weight="bold" />
+                    <p className="font-medium">Step 3</p>
+                  </li>
+                  <li className="flex items-center gap-2 text-blue-600">
+                    <CheckCircle size={22} weight="bold" />
+                    <p className="font-medium">Step 4</p>
+                  </li>
+                </>
+              )}
+            </ul>
           </div>
         </div>
 
         {/* Right Section */}
-        <div className="w-full lg:w-3/4 my-auto">
-          <div className={`mx-auto ${step === 3 ? "max-w-2xl" : "max-w-md "}`}>
-            <div className="space-y-2">
-              <h1 className="text-3xl text-gray-800 font-semibold">
-                {/* {step === 1 ? "Your details" : "Choose a password"} */}
-                Create an account
+        <div className="flex-1">
+          <div
+            className={`mx-auto mt-16 ${step === 3 ? "max-w-2xl" : "max-w-md"}`}
+          >
+            {/* step titles */}
+            {step === 1 && (
+              <h1 className="text-3xl text-slate-900">Your information</h1>
+            )}
+
+            {step === 2 && (
+              <h1 className="text-3xl text-slate-900">
+                Enter a secure password
               </h1>
-              <p className="text-gray-500">Enter your name and email address</p>
-            </div>
+            )}
+
+            {step === 3 && (
+              <h1 className="text-3xl text-slate-900">
+                Select a subscription plan
+              </h1>
+            )}
+
+            {step === 4 && (
+              <h1 className="text-3xl text-slate-900">
+                Enter your billing information
+              </h1>
+            )}
 
             {step === 1 && (
               <>
                 {/* login with google button */}
-                <div className="flex flex-row gap-4 py-8">
-                  <span className="flex items-center bg-white w-full justify-center py-4 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md duration-100">
+                <div className={`flex flex-row gap-4 pb-8 pt-8`}>
+                  <span className="flex items-center bg-white w-full justify-center py-4 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md hover:duration-300 duration-300">
                     <FcGoogle size={25} />
                     <p className="text-gray-700 font-semibold text-sm">
                       Google
@@ -316,7 +373,7 @@ export default function RegisterForm() {
                   </span>
 
                   {/* login with apple button */}
-                  <span className="flex items-center bg-white w-full justify-center py-4 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md duration-100">
+                  <span className="flex items-center bg-white w-full justify-center py-4 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md hover:duration-300 duration-300">
                     <FaApple size={25} />
                     <p className="text-gray-700 font-semibold text-sm">Apple</p>
                   </span>

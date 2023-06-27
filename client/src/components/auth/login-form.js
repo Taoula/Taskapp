@@ -89,10 +89,10 @@ export default function LoginForm() {
 
   return (
     <>
-      <div className="flex h-screen">
+      <div className="flex h-screen bg-lightGrid1 bg-cover">
         {/* Left Section */}
-        <div className="w-full lg:w-1/2 my-auto">
-          <div className="max-w-md mx-auto">
+        <div className="w-full my-auto">
+          <div className="max-w-xl px-16 sm:px-20 py-14 mx-8 sm:mx-auto border border-gray-200 shadow-2xl rounded-lg bg-white">
             <a href="/" className="text-xl font-semibold italic text-slate-900">
               Velocity
             </a>
@@ -231,7 +231,7 @@ export default function LoginForm() {
                 value="submit"
                 className={`${
                   isLoginDisabled()
-                    ? "cursor-not-allowed bg-gray-300 text-gray-900"
+                    ? "cursor-not-allowed bg-gray-200 text-gray-400"
                     : "bg-slate-900 duration-300 hover:duration-300 hover:shadow-2xl text-white"
                 } mt-8 mb-10 text-sm font-medium w-full py-3.5 rounded-md tracking-wide`}
               >
@@ -249,17 +249,6 @@ export default function LoginForm() {
                 </a>
               </p>
             </form>
-          </div>
-        </div>
-        {/* Right Section */}
-        <div className="w-1/2 hidden lg:block">
-          <div className="bg-darkGrid2 bg-cover bg-bottom flex h-full items-center">
-            {/* <div className="bg-[url('https://images.unsplash.com/photo-1620121692029-d088224ddc74?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3132&q=80')] bg-cover bg-bottom flex h-full items-center"> */}
-            {/* <img
-              alt="drawing"
-              src="https://i.imgur.com/s4HIX7A.png"
-              className="object-cover scale-75 mx-auto"
-            /> */}
           </div>
         </div>
       </div>
