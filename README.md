@@ -36,14 +36,16 @@ Popper.js
 2. back end validation
 3. ~~responsive~~
 4. ~~return error if no inputs are passed or incorrect info is passed~~
+5. reset password
 
 ## Sign up page
 1. ~~front end validation~~
 2. back end validation
 3. ~~responsive~~
-4. progress bar
+4. ~~progress bar~~
 5. select plan
-6. payment
+6. 2FA/verify email
+7. payment
 
 ## Sorting Algorithm
 1. Add a better free time system to sorting algorithm (divided somewhat equally throughout day)
