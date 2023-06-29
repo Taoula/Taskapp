@@ -7,19 +7,19 @@ import DashboardFooter from "../layout/DashboardFooter";
 import CreateTaskSlideover from "./CreateTaskSlideover";
 import CompletedTask from "./CompletedTask";
 import { MagnifyingGlass, ArrowsDownUp } from "phosphor-react";
-import sameDate from "../../methods/same-date"
+import sameDate from "../../methods/same-date";
 import dateSearch from "../../methods/date-search";
- 
+
 export default function TaskDisplay() {
   const [tasks, setTasks] = useState([]);
-  const [currentDay, setCurrentDay] = useState(new Date())
-  const [dayDistance, setDayDistance] = useState(0)
+  const [currentDay, setCurrentDay] = useState(new Date());
+  const [dayDistance, setDayDistance] = useState(0);
   const [taskFormId, setTaskFormId] = useState("");
   const [newTask, toggle] = useToggle(false);
   const [showCreateTask, setShowCreateTask] = useState(false);
   const [open, setOpen] = useState(false);
   const [completedTasks, setCompletedTasks] = useState([]);
-  const [dayInitialized, setDayInitialized] = useState(false)
+  const [dayInitialized, setDayInitialized] = useState(false);
 
   const [numberOfInactiveTasks, setNumberOfInactiveTasks] = useState(0);
   const [numberOfActiveTasks, setNumberOfActiveTasks] = useState(0);
@@ -51,46 +51,51 @@ export default function TaskDisplay() {
     setShowCreateTask(false);
   };
 
-
   async function getTasks() {
-
     //If first load / day change TODO clean this up binary serach etc
 
-    if (!dayInitialized){
+    if (!dayInitialized) {
       const taskReqInit = await axios.get("http://localhost:8282/task/");
       console.log(taskReqInit.data);
       //Loop through all tasks
-      for (let i = 0; i < taskReqInit.data.length; i++){
+      for (let i = 0; i < taskReqInit.data.length; i++) {
         //Add entry on current day if none exists
-          if (dateSearch(currentDay, taskReqInit.data[i].entries) == -1){
-              let tempEntries = taskReqInit.data[i].entries;
-              let defaults = taskReqInit.data[i].defaults;
+        if (dateSearch(currentDay, taskReqInit.data[i].entries) == -1) {
+          let tempEntries = taskReqInit.data[i].entries;
+          let defaults = taskReqInit.data[i].defaults;
 
-              let entryToAdd = {
-                date: currentDay, duration: defaults.duration, priority: defaults.priority, isActive: false, completed: false, time: defaults.time
-              }
+          let entryToAdd = {
+            date: currentDay,
+            duration: defaults.duration,
+            priority: defaults.priority,
+            isActive: false,
+            completed: false,
+            time: defaults.time,
+          };
 
-              tempEntries.push(entryToAdd)
-              tempEntries.sort((a, b) => Date.parse(a.date) - Date.parse(b.date))
+          tempEntries.push(entryToAdd);
+          tempEntries.sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
 
-            //Patch the updated task
-              let taskData = {
-                name: taskReqInit.data[i].name,
-                entries: tempEntries,
-                defaults: taskReqInit.data[i].defaults
-              }
+          //Patch the updated task
+          let taskData = {
+            name: taskReqInit.data[i].name,
+            entries: tempEntries,
+            defaults: taskReqInit.data[i].defaults,
+          };
 
-            await axios.patch(`http://localhost:8282/task/${taskReqInit.data[i]._id}/`, taskData);
-          }
+          await axios.patch(
+            `http://localhost:8282/task/${taskReqInit.data[i]._id}/`,
+            taskData
+          );
+        }
       }
-      
-      setDayInitialized(true)
+
+      setDayInitialized(true);
     }
-  
+
     const taskReq = await axios.get("http://localhost:8282/task/");
     setTasks(taskReq.data);
 
-    
     let inactiveIterator = 0;
     let activeIterator = 0;
 
@@ -99,9 +104,9 @@ export default function TaskDisplay() {
     let completeIterator = 0;
 
     taskReq.data.map((task) => {
-      let index = dateSearch(currentDay, task.entries)
+      let index = dateSearch(currentDay, task.entries);
 
-      let t = task.entries[index]
+      let t = task.entries[index];
 
       if (t.isActive === false) {
         inactiveIterator += 1;
@@ -114,8 +119,7 @@ export default function TaskDisplay() {
       } else if (t.completed === true && t.isActive === true) {
         completeIterator += 1;
       }
-    
-      
+
       // set state values of inactive and active counters to the corresponding iterators
       setNumberOfInactiveTasks(inactiveIterator);
       setNumberOfActiveTasks(activeIterator);
@@ -129,22 +133,34 @@ export default function TaskDisplay() {
   //renders tasks based on active bool
   function renderTasks(active) {
     return tasks.map((task, i) => {
-      //find today's entry 
-      //console.log(task) 
-      let index = dateSearch(currentDay, task.entries)
+      //find today's entry
+      //console.log(task)
+      let index = dateSearch(currentDay, task.entries);
 
-      if (index > -1){
-        let t = task.entries[index]
+      if (index > -1) {
+        let t = task.entries[index];
 
         if (t.isActive === active) {
           return (
-            <Task key={i} task={{name: task.name, priority: t.priority, duration: t.duration, _id: task._id, isActive: t.isActive, completed: t.completed, time: t.time, currentDay}} getTasks={getTasks}>
+            <Task
+              key={i}
+              task={{
+                name: task.name,
+                priority: t.priority,
+                duration: t.duration,
+                _id: task._id,
+                isActive: t.isActive,
+                completed: t.completed,
+                time: t.time,
+                currentDay,
+              }}
+              getTasks={getTasks}
+            >
               {task.name}
             </Task>
           );
         }
       }
-
     });
   }
 
@@ -184,12 +200,6 @@ export default function TaskDisplay() {
                 Add Task
               </span>
             </div>
-            <input
-              class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-md text-sm focus:outline-none"
-              type="search"
-              name="search"
-              placeholder="Search for a task"
-            />
           </div>
           {numberOfInactiveTasks === 0 ? (
             <p className="font-light h-[19rem] flex items-center text-sm justify-center text-gray-500">

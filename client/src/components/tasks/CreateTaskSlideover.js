@@ -172,8 +172,8 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
               >
                 <Dialog.Panel className="pointer-events-auto relative w-screen max-w-lg">
                   <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
-                    <div className="px-8 flex items-center justify-between py-8 border-b border-gray-200">
-                      <Dialog.Title className="text-2xl text-gray-700 font-semibold">
+                    <div className="px-8 flex items-center justify-between pb-4 pt-6 border-b border-gray-200">
+                      <Dialog.Title className="text-2xl text-slate-900 font-semibold">
                         Create a task
                       </Dialog.Title>
                       <div>
@@ -182,7 +182,7 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                           size={20}
                           weight="bold"
                           onClick={closeSlideover}
-                          className="text-gray-400 hover:text-gray-500 duration-75"
+                          className="text-slate-500 hover:text-slate-900 duration-300 hover:duration-300"
                         />
                       </div>
                     </div>
@@ -258,7 +258,7 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                                   max="10"
                                   value={divisions}
                                   onChange={(e) => setDivisions(e.target.value)}
-                                ></input>
+                                />
                               </div>
 
                               <div className="pt-4">
@@ -387,7 +387,7 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                           <button
                             type="button"
                             onClick={closeSlideover}
-                            className="w-1/3 text-sm tracking-wider py-3.5 bg-gray-300 font-normal text-gray-700 rounded-md hover:text-white hover:bg-red-500 duration-75"
+                            className="w-1/3 text-sm tracking-wide py-3.5 border border-solid border-gray-500 font-medium text-gray-500 rounded-md hover:text-white hover:bg-red-500 hover:border-red-600 hover:duration-200 duration-200"
                           >
                             Cancel
                           </button>
@@ -395,7 +395,7 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                             type="submit"
                             input={+true}
                             value="submit"
-                            className="w-2/3 text-sm tracking-wider py-3.5 bg-blue-600 font-normal text-white rounded-md hover:text-white hover:bg-blue-700 duration-75"
+                            className="w-2/3 text-sm tracking-wide py-3.5 bg-green-600 font-medium text-white rounded-md hover:text-white hover:bg-green-700 duration-200 hover:duration-200"
                           >
                             Create task
                           </button>
