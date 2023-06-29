@@ -2,7 +2,7 @@ import {create} from 'zustand'
 import axios from 'axios'
 
 const useSettingStore = create((set, get) => ({
-    theme: fetch() | "light",
+    /*theme: fetch() | "light",
     freeTimeProportions: [1,1,1],
 
     fetch: async() => {
@@ -13,7 +13,7 @@ const useSettingStore = create((set, get) => ({
     
     toggleTheme: () => set((state) => ({
         theme: state.theme === "light" ? "dark" : "light"
-    }))
+    }))*/
 }))
 
 export default {useSettingStore}
