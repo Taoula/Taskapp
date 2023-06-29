@@ -8,7 +8,7 @@ const dayjs = require('dayjs')
 
 dayjs().format()
 
-async function newSort(setSchedule, wakeDate, sleepDate, currentDay, resort){
+async function newSort(setSchedule, currentDay, resort){
     console.log("-------INITIALIZING NEWSORT--------")
     const scheduleReq = await axios.get("http://localhost:8282/schedule/")
     let populated = false
@@ -19,6 +19,9 @@ async function newSort(setSchedule, wakeDate, sleepDate, currentDay, resort){
             entryIndex = i
         }
     }
+
+    let wakeDate = entries[entryIndex].wake
+    let sleepDate = entries[entryIndex].sleep
 
 
     //1 - ARRAY & VARIABLE INITIALIZATION-------------------------------------------
@@ -35,7 +38,7 @@ async function newSort(setSchedule, wakeDate, sleepDate, currentDay, resort){
             let totalTime = sleep.diff(wake, "minute")
 
             // TODO: IMPLEMENT IN USER SETTINGS
-            let freeTimeProportions = [1, 1, 1, 1, 1]
+            let freeTimeProportions = [1, 1, 1]
             let fTPrSum = freeTimeProportions.reduce((sum, value)=> sum + value, 0)
 
         //Store crude array of tasks marked as active & incomplete on currentDay

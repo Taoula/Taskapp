@@ -51,20 +51,24 @@ export default function ScheduleDisplay(){
     const [currentDay, setCurrentDay] = useState(new Date())
     const [dayDistance, setDayDistance] = useState(0)
     const [schedule, setSchedule] = useState([])
-    const [wake, setWake] = useState(new Date())
-    const [sleep, setSleep] = useState(new Date())
+    const [wake, setWake] = useState(new Date(null))
+    const [sleep, setSleep] = useState(new Date(null))
     const [hoursExpanded, setHoursExpanded] = useState(false)
     const [focusMode, setFocusMode] = useState(false)
+    const [updateDefault, setUpdateDefault] = useState(false)
 
     async function getSchedule(){
         const scheduleReq = await axios.get("http://localhost:8282/schedule/")
-        let {entries} = scheduleReq.data;
+        let {entries, defaults} = scheduleReq.data;
         setCalendarEntries(entries)
         let found = false
         // TODO set the schedule based on a state value representing which day is being edited
         for (let i = 0; i < entries.length; i++){
             // If an entry matching the selected day is found
             if (sameDate(entries[i].wake, currentDay)){
+                console.log(i)
+                console.log(entries)
+                console.log(entries.length)
                 console.log("current date is " + currentDay + " and wake entry is " + entries[i].wake)
                 setSchedule(entries[i].schedule)
                 console.log(entries[i].schedule)
@@ -77,13 +81,35 @@ export default function ScheduleDisplay(){
         // Add an entry for the selected day if none exists, then get data again
         if (!found){
             console.log("an entry was not found :(")
-            let entryToAdd = {schedule: [], wake: currentDay, sleep: sleep}
+            let entryToAdd
+
+            if (defaults.wake == null || defaults.sleep == null){
+                console.log("null defaults")
+                entryToAdd = {schedule: [], wake: currentDay, sleep: null}
+            } else {
+                console.log("valid defaults: " + defaults.wake + " , " + defaults.sleep)
+                let tempWake = dayjs(currentDay)
+                let tempSleep = dayjs(currentDay)
+                let defaultWake = dayjs(defaults.wake)
+                let defaultSleep = dayjs(defaults.sleep)
+
+
+                tempWake.set('hour', defaultWake.get('hour'))
+                tempWake.set('minute', defaultWake.get('minute'))
+                tempSleep.set('hour', defaultSleep.get('hour'))
+                tempSleep.set('minute', defaultSleep.get('minute'))
+                if (tempWake.diff(tempSleep, 'minute') > 0){
+                    tempSleep.add(1, 'day')
+                }
+                entryToAdd = {schedule: [], wake: tempWake, sleep: tempSleep}
+            }
             entries.push(entryToAdd)
             if (entries.length > 1){
                 entries.sort((a, b) => Date.parse(a.wake) - Date.parse(b.wake))
             }
 
             await axios.patch("http://localhost:8282/schedule/", {entries}, {new: true})
+            console.log("get schedule call")
             getSchedule()
         }
         /* TODO CONDITIONAL SCHEDULE RELOADING - IS IT NECESSARY? IF SO, NEEDS TO BE REDONE
@@ -179,18 +205,32 @@ export default function ScheduleDisplay(){
             
             const scheduleReq = await axios.get("http://localhost:8282/schedule/")
             console.log(scheduleReq.data)
-            let {entries} = scheduleReq.data;
+            let {entries, defaults} = scheduleReq.data;
             let found = false
+
+            //If sleep is before wake, add a day
+            let tempSleep = dayjs(sleep)
+            let tempWake = dayjs(wake)
+            if (tempWake.diff(tempSleep, "minutes") > 0){
+                tempSleep = tempSleep.add(1, "day")
+            }
+
+
+            //Update defaults if selected ; TODO: store defaults better
+            if (updateDefault){
+                defaults = {wake: tempWake, sleep: tempSleep}
+            }
 
             for (let i = 0; i < entries.length; i++){
                 // If an entry matching the selected day is found
-                if (sameDate(entries[i].wake, currentDay)){
-                    entries[i].wake = wake;
-                    entries[i].sleep = sleep;
-                    // TODO should wake & start be set manually? Or does sorting call getSchedule and reset?
-                    await axios.patch("http://localhost:8282/schedule/",{entries})
 
-                    sortSchedule(setSchedule, wake, sleep, currentDay);
+                if (sameDate(entries[i].wake, currentDay)){
+                    entries[i].wake = tempWake;
+                    entries[i].sleep = tempSleep;
+                    // TODO should wake & start be set manually? Or does sorting call getSchedule and reset?
+                    await axios.patch("http://localhost:8282/schedule/",{entries, defaults})
+
+                    //TODO if resort schedule on edit hours, do so here
                 }
             }
 
@@ -204,6 +244,7 @@ export default function ScheduleDisplay(){
 
     useEffect(() => {
         getSchedule()
+        console.log("useeffect")
     }, [currentDay])
 
 
@@ -259,7 +300,19 @@ export default function ScheduleDisplay(){
                         value={dayjs(sleep)}
                         onChange={(newSleep) => {setSleep(newSleep.toDate())}}
                     />
-
+                    {
+                        updateDefault ? 
+                            (<CheckSquare
+                                size={20}
+                                onClick={() => setUpdateDefault(false)}
+                                className="text-gray-500"
+                            />) :
+                            (<Square
+                                size={20}
+                                onClick={() => setUpdateDefault(true)}
+                                className="text-gray-500"
+                            />)
+                    }
                     <button onClick={()=>updateHours()}>Done</button>
                 </ExpandableContainer>
             }
@@ -284,11 +337,10 @@ export default function ScheduleDisplay(){
             {focusMode && dayDistance == 0 ? <div><Countdown schedule={schedule} currentDay={currentDay} getSchedule={getSchedule}/></div> : 
             <div> 
                 <div>{renderSchedule()}</div>
-                {wake != null && wake != "Invalid Date" ? 
+                {wake != null && wake != "Invalid Date" && sleep != null && sleep != "Invalid Date" ? 
                 <div>
-                    <ScheduleButton onClick={()=> sortSchedule(setSchedule, wake, sleep, currentDay)}><ScheduleText>Generate Schedule</ScheduleText></ScheduleButton>
-                    {dayDistance == 0 && <ScheduleButton onClick={()=> resortSchedule(setSchedule, wake, sleep, currentDay)}><ScheduleText>Resort Schedule</ScheduleText></ScheduleButton>}
-                    <ScheduleButton onClick={()=> newSort(setSchedule, wake, sleep, currentDay, false/*TODO some conditional to determine resort */)}><ScheduleText>NEW SORT BITCH</ScheduleText></ScheduleButton>
+
+                    <ScheduleButton onClick={()=> newSort(setSchedule, currentDay, false)}><ScheduleText>Sort Schedule</ScheduleText></ScheduleButton>
                     {dayDistance == 0 && <ScheduleButton onClick={()=> updateStats()}><ScheduleText>Call It A Day</ScheduleText></ScheduleButton>}
                 </div> : 
                 <p>You must set your schedule's start and end hours before generating.</p>}

@@ -53,6 +53,12 @@ function ScheduleBlock({task, getSchedule, currentDay, schedule}) {
     const {name, start, end, _id, completed, duration, fixed} = task;
     const [isCompleted, setIsCompleted] = useState(completed);
     
+    function toHourTime(minuteSum){
+        let hours = Math.floor(minuteSum / 60)
+        let minutes = minuteSum % 60
+        return hours == 0 ? minutes.toString() + " minutes" : hours.toString() + " hours " + minutes.toString() + " minutes"
+
+    }
 
     async function toggleCompleted(){
         // Pull task and schedule data
@@ -124,7 +130,7 @@ function ScheduleBlock({task, getSchedule, currentDay, schedule}) {
                 
                 <div className="flex justify-between">
                     <span>{name}</span>
-                    <DurationText duration={duration}>{duration} minutes</DurationText>
+                    <DurationText duration={duration}>{toHourTime(duration)}</DurationText>
                     <div></div>
                     <div></div>
                     <div></div>

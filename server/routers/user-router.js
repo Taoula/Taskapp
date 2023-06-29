@@ -38,7 +38,8 @@ router.post("/", async (req, res) => {
 
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
-
+    const settings = [{name: "theme", value: "light"},
+                      {name: "freeTimeProportions", value: [1, 1, 1, 1]}]
     //save new user
 
     const newUser = new User({
@@ -47,6 +48,7 @@ router.post("/", async (req, res) => {
       userRole,
       email,
       passwordHash,
+      settings
     });
 
     const savedUser = await newUser.save();
@@ -144,8 +146,8 @@ router.get("/loggedIn", (req, res) => {
 router.get("/", auth, async (req, res) => {
   try {
       const userId = req.user;
-      const {fName, lName, email, userRole} = await User.findById(userId);
-      res.json({fName, lName, email, userRole});
+      const {fName, lName, email, userRole, settings} = await User.findById(userId);
+      res.json({fName, lName, email, userRole, settings});
   } catch (err){
       console.error(err)
       res.status(500).send()
