@@ -385,90 +385,9 @@ export default function RegisterForm() {
                   <p className="px-4 text-gray-300 font-light">or</p>
                   <hr className="w-full text-gray-300" />
                 </div>
-<<<<<<< HEAD
-
-                <form className="space-y-8">
-                  <div>
-                    <p
-                      htmlFor="email"
-                      class="tracking-wide text-gray-700 text-sm pb-3"
-                    >
-                      Email address
-                    </p>
-                    <input
-                      className="w-full bg-white py-3 px-4 rounded-md border border-gray-200 focus:outline-none focus:bg-white"
-                      placeholder="johndoe@gmail.com"
-                      type="email"
-                      id="email"
-                      value={email}
-                      onChange={(e) => {
-                        setEmail(e.target.value);
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <p
-                      htmlFor="password"
-                      class="tracking-wide text-gray-700 text-sm pb-3"
-                    >
-                      Password
-                    </p>
-                    <div className="relative flex items-center">
-                      <input
-                        className="w-full bg-white py-3 px-4 rounded-md border border-gray-200 focus:outline-none focus:bg-white"
-                        placeholder="placeholder"
-                        type={passwordShown ? "text" : "password"}
-                        id="password"
-                        value={password}
-                        onChange={(e) => {
-                          setPassword(e.target.value);
-                        }}
-                      />
-                      <span className="z-10 absolute right-0 pr-3">
-                        {passwordShown ? (
-                          <EyeClosed
-                            size={22}
-                            className="text-gray-500"
-                            onClick={togglePassword}
-                            type="button"
-                          />
-                        ) : (
-                          <Eye
-                            size={22}
-                            className="text-gray-500"
-                            onClick={togglePassword}
-                            type="button"
-                          />
-                        )}
-                      </span>
-                    </div>
-                  </div>
-                  <button
-                    type="submit"
-                    input={+true}
-                    value="submit"
-                    onClick={registerUser}
-                    className="font-light text-sm bg-blue-500 w-full text-white py-3 rounded-md hover:bg-blue-600 duration-75"
-                  >
-                    Sign up
-                  </button>
-                  <p className="text-gray-700 text-sm">
-                    Already have an account?{" "}
-                    <a
-                      className="text-blue-500 hover:text-blue-600 hover:underline"
-                      onClick={() => history("/login")}
-                    >
-                      Log in now
-                    </a>
-                  </p>
-                </form>
-              </div>
-            </div>
-=======
               </>
             )}
             <form className="pt-8">{inputDisplay()}</form>
->>>>>>> Placeholder
           </div>
         </div>
       </div>

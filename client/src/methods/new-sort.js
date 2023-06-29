@@ -9,6 +9,18 @@ const dayjs = require('dayjs')
 dayjs().format()
 
 async function newSort(setSchedule, currentDay, resort){
+    try{
+
+    
+    let functionStart = dayjs(new Date())
+
+    function checkTimeout(){
+        let rightNow = dayjs(new Date())
+        if (rightNow.diff(functionStart, "seconds") > 2){
+            throw new Error("Something went wrong. Try again later.")
+        }
+    }
+
     console.log("-------INITIALIZING NEWSORT--------")
     const scheduleReq = await axios.get("http://localhost:8282/schedule/")
     let populated = false
@@ -23,6 +35,9 @@ async function newSort(setSchedule, currentDay, resort){
     let wakeDate = entries[entryIndex].wake
     let sleepDate = entries[entryIndex].sleep
 
+    console.log(wakeDate)
+    console.log(sleepDate)
+
 
     //1 - ARRAY & VARIABLE INITIALIZATION-------------------------------------------
 
@@ -36,6 +51,10 @@ async function newSort(setSchedule, currentDay, resort){
             sleep = sleep.set('second', 0)
             sleep = sleep.set('millisecond', 0)
             let totalTime = sleep.diff(wake, "minute")
+            
+            if (totalTime == 0) {
+                throw new Error("There is no time in your day!")
+            }
 
             // TODO: IMPLEMENT IN USER SETTINGS
             let freeTimeProportions = [1, 1, 1]
@@ -186,6 +205,7 @@ async function newSort(setSchedule, currentDay, resort){
     }
 
     while(fixedCount > 0){
+        checkTimeout()
         console.log(fixedCount)
         for (let i = 0; i < tasks.length; i++){
             let currentTask
@@ -285,6 +305,7 @@ async function newSort(setSchedule, currentDay, resort){
             }
 
             while(taskSum > totalTime) {
+                checkTimeout()
                 console.log("here")
                 //TODO qc for too many tod tasks, in case all non-tods are cut to 0 but time still exceeds sleep/wake.
                 p3.forEach(task => task.duration -= Math.floor(3*cB))
@@ -424,7 +445,7 @@ async function newSort(setSchedule, currentDay, resort){
         //console.log(frequencies)
         let timeBefore
         while (freeTimes.length > 0 || tasks.length > 0){
-
+            checkTimeout()
             //Find time before next schedule block (or sleep, if none)
             
             if (schedule.length == 0){
@@ -443,6 +464,7 @@ async function newSort(setSchedule, currentDay, resort){
             }
 
             while (timeBefore > 0) {
+                checkTimeout()
                 console.log("time remains before next task")
                 //console.log("time before is " + timeBefore)
                 //TODO possible bugs?
@@ -545,6 +567,7 @@ async function newSort(setSchedule, currentDay, resort){
                             // add first task tree until no time left
                             let currentTask = tasks[0]
                             while (timeBefore > 0){
+                                checkTimeout()
                                 console.log("FTP exhausted. Adding all fitting task trees.")
                                 if (currentTask.duration <= timeBefore){
                                     pushToSchedule(currentTask, findSchedulePosition(timeIterator, schedule), timeIterator)
@@ -589,6 +612,8 @@ async function newSort(setSchedule, currentDay, resort){
 
     const updatedSchedule = await axios.patch("http://localhost:8282/schedule/", {entries})
     setSchedule(schedule)
+} catch (error){
+    console.error(error)
 }
-
+}
 export default newSort
