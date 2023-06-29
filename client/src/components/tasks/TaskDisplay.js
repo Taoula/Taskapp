@@ -542,7 +542,7 @@ export default function TaskDisplay() {
                 autoComplete="off"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="block w-full pl-4 pr-8 text-sm rounded-r-lg border border-gray-200 border-l-0"
+                className="block w-full pl-4 pr-8 text-sm rounded-r-lg border border-gray-200 border-l-0 focus:outline-none focus:ring-0 focus:border-gray-200"
               />
             </div>
           </div>
