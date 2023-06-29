@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react"
 import axios from "axios"
 import ScheduleBlock from './schedule-block'
+import useGlobalStore from '../../context/useGlobalStore'
 import sortSchedule from "../../methods/sort-schedule"
 import resortSchedule from "../../methods/resort-schedule"
 import getDateValue from "../../methods/get-date-value"
@@ -48,14 +49,15 @@ const PageTitle = styled.h1`
 
 export default function ScheduleDisplay(){
     const [calendarEntries, setCalendarEntries] = useState([])
-    const [currentDay, setCurrentDay] = useState(new Date())
-    const [dayDistance, setDayDistance] = useState(0)
     const [schedule, setSchedule] = useState([])
     const [wake, setWake] = useState(new Date(null))
     const [sleep, setSleep] = useState(new Date(null))
     const [hoursExpanded, setHoursExpanded] = useState(false)
     const [focusMode, setFocusMode] = useState(false)
     const [updateDefault, setUpdateDefault] = useState(false)
+
+    const currentDay = useGlobalStore((state) => state.currentDay);
+    const isToday = useGlobalStore((state) => state.isToday)();
 
     async function getSchedule(){
         const scheduleReq = await axios.get("http://localhost:8282/schedule/")
@@ -272,19 +274,6 @@ export default function ScheduleDisplay(){
     return( 
         <div>
             <PageTitle>{getDateValue(currentDay, "numeric")}</PageTitle>
-
-            {dayDistance > 0 ? <div>
-                <ScheduleButton onClick={() => {
-                setCurrentDay(addDays(currentDay, -1))
-                setDayDistance(dayDistance - 1)
-            }}><ScheduleText>-</ScheduleText></ScheduleButton>
-            </div> : <div></div>}
-
-            <ScheduleButton onClick={() => {
-                console.log("new date is " + addDays(currentDay, 1))
-                setCurrentDay(addDays(currentDay, 1))
-                setDayDistance(dayDistance + 1)
-            }}><ScheduleText>+</ScheduleText></ScheduleButton>
             <SubHeading>A scheduling app</SubHeading>
             {<button onClick={()=>setHoursExpanded(!hoursExpanded)}>Edit Hours</button>}
             {hoursExpanded && 
@@ -300,7 +289,8 @@ export default function ScheduleDisplay(){
                         value={dayjs(sleep)}
                         onChange={(newSleep) => {setSleep(newSleep.toDate())}}
                     />
-                    {
+                    <div>
+                        {
                         updateDefault ? 
                             (<CheckSquare
                                 size={20}
@@ -313,35 +303,38 @@ export default function ScheduleDisplay(){
                                 className="text-gray-500"
                             />)
                     }
+                    <p>Set As Default Hours</p>
+                    </div>
                     <button onClick={()=>updateHours()}>Done</button>
                 </ExpandableContainer>
             }
 
             <span>
-              { dayDistance == 0 && focusMode ? (
+              {isToday && <p>Focus Mode</p>}
+              { isToday && focusMode ? (
                 
                 <CheckSquare
                   size={20}
                   onClick={() => setFocusMode(false)}
                   className="text-gray-500"
-                              />
-                            ) : dayDistance == 0 && (
-                              <Square
-                                size={20}
-                                onClick={() => setFocusMode(true)}
-                                className="text-gray-500"
-                              />
-                            )}
+                />
+            ) : isToday && (
+                <Square
+                size={20}
+                onClick={() => setFocusMode(true)}
+                className="text-gray-500"
+                />
+            )}
             </span>
             
-            {focusMode && dayDistance == 0 ? <div><Countdown schedule={schedule} currentDay={currentDay} getSchedule={getSchedule}/></div> : 
+            {focusMode && isToday ? <div><Countdown schedule={schedule} currentDay={currentDay} getSchedule={getSchedule}/></div> : 
             <div> 
                 <div>{renderSchedule()}</div>
                 {wake != null && wake != "Invalid Date" && sleep != null && sleep != "Invalid Date" ? 
                 <div>
 
                     <ScheduleButton onClick={()=> newSort(setSchedule, currentDay, false)}><ScheduleText>Sort Schedule</ScheduleText></ScheduleButton>
-                    {dayDistance == 0 && <ScheduleButton onClick={()=> updateStats()}><ScheduleText>Call It A Day</ScheduleText></ScheduleButton>}
+                    {isToday && <ScheduleButton onClick={()=> updateStats()}><ScheduleText>Call It A Day</ScheduleText></ScheduleButton>}
                 </div> : 
                 <p>You must set your schedule's start and end hours before generating.</p>}
             </div>} 

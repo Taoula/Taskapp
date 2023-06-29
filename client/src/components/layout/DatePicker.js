@@ -16,6 +16,7 @@ export default function Datepicker() {
   const decrementDay = useGlobalStore((state) => state.decrementDay);
   const jumpToDay = useGlobalStore((state) => state.jumpToDay);
   const resetDay = useGlobalStore((state) => state.resetDay);
+  const isToday = useGlobalStore((state) => state.isToday)();
 
   const formatDate = (date) => {
     const today = dayjs();
@@ -39,12 +40,12 @@ export default function Datepicker() {
         {formatDate(currentDay)}
       </div>
       <div className="px-4 flex items-center gap-3 border border-gray-200 border-l-0 py-2 rounded-r-lg">
-        <ArrowLeft
+      { !isToday && <ArrowLeft
           size={20}
           weight="bold"
           className="text-gray-500 hover:text-slate-900 duration-100 hover:duration-100 hover:cursor-pointer"
           onClick={decrementDay}
-        />
+        />}
         <p>{currentDay.format("MM/DD/YYYY")}</p>
         <ArrowRight
           size={20}

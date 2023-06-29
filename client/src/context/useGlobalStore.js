@@ -6,7 +6,8 @@ const useGlobalStore = create((set, get) => ({
     incrementDay: () => set((state) => ({ currentDay: state.currentDay.add(1, 'day') })),
     decrementDay: () => set((state) => ({ currentDay: state.currentDay.subtract(1, 'day')})),
     resetDay: () => set({ currentDay: dayjs()}),
-    jumpToDay: (date) => set({ currentDay: date})
+    jumpToDay: (date) => set({ currentDay: date}),
+    isToday: () => get().currentDay.isSame(dayjs(), 'day'),
 }))
 
 export default useGlobalStore
