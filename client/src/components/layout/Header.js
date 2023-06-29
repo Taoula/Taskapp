@@ -39,7 +39,7 @@ export default function Header() {
         <div className="sm:hidden">
           <List size={25} />
         </div>
-        <p className="text-2xl font-medium text-slate-900 invisible sm:visible">
+        <p className="text-xl font-medium text-slate-900 invisible sm:visible">
           Welcome back, {capitalizeName(fName)}
         </p>
         <Datepicker />
