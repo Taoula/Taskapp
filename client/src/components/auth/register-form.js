@@ -4,27 +4,125 @@ import axios from "axios";
 import AuthContext from "../../context/auth-context";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
-import { Eye, EyeClosed } from "phosphor-react";
+import Step1 from "./Step1";
+import Step2 from "./Step2";
+import Step3 from "./Step3";
+import Step4 from "./Step4";
+import { CheckCircle, Circle } from "phosphor-react";
 
 export default function RegisterForm() {
-  const [fName, setFirstName] = useState("");
-  const [lName, setLastName] = useState("");
-  const [userRole, setUserRole] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordVerify, setPasswordVerify] = useState("");
-  const { getLoggedIn } = useContext(AuthContext);
   const history = useNavigate();
+  const { getLoggedIn } = useContext(AuthContext);
+
+  // registration steps
+  const [step, setStep] = useState(1);
+
+  // first name
+  const [fName, setFirstName] = useState("");
+  const [firstNameTypingStarted, setFirstNameTypingStarted] = useState(false);
+
+  // last name
+  const [lName, setLastName] = useState("");
+  const [lastNameTypingStarted, setLastNameTypingStarted] = useState(false);
+
+  // user role
+  const [userRole, setUserRole] = useState("default");
+
+  // email
+  const [email, setEmail] = useState("");
+  const [emailTypingStarted, setEmailTypingStarted] = useState(false);
+
+  // pass
+  const [password, setPassword] = useState("");
   const [passwordShown, setPasswordShown] = useState(false);
+  const [typingStarted, setTypingStarted] = useState(false);
+
+  // verify pass
+  const [passwordVerify, setPasswordVerify] = useState("");
+  const [verifyTypingStarted, setVerifyTypingStarted] = useState(false);
+
+  // terms of agreement
+  const [isTermsChecked, setIsTermsChecked] = useState(false);
+  const handleCheckboxChange = () => {
+    setIsTermsChecked((prevChecked) => !prevChecked);
+  };
+
+  // password regex
+  const passRequirements = [
+    { regex: /.{8,}/, text: "At least 8 characters length" },
+    // { regex: /[0-9]/, text: "At least 1 number (0...9)" },
+    // { regex: /[a-z]/, text: "At least 1 lowercase letter (a...z)" },
+    { regex: /[^A-Za-z0-9]/, text: "At least 1 special symbol (!...$)" },
+    { regex: /[A-Z]/, text: "At least 1 uppercase letter (A...Z)" },
+  ];
+
+  const isPasswordRegexMet = (regex) => regex.test(password);
+
+  // checks if verify pass matches
+  const isPasswordMatching = (password, passwordVerify) => {
+    if (password === "" || passwordVerify === "") {
+      return false;
+    }
+    return password === passwordVerify;
+  };
+
+  // email regex
+  const isEmailValid = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  // first name regex
+  const isFirstNameValid = (fName) => {
+    const fNameRegex = /^(?=.*[a-zA-Z].*[a-zA-Z])[a-zA-Z\s]{2,}$/;
+    return fNameRegex.test(fName);
+  };
+
+  // last name regex
+  const isLastNameValid = (lName) => {
+    const lNameRegex = /^(?=.*[a-zA-Z].*[a-zA-Z])[a-zA-Z\s]{2,}$/;
+    return lNameRegex.test(lName);
+  };
+
+  // verifies inputs on step 2
+  const isSubmitDisabled = () => {
+    return true;
+  };
 
   // password visibility toggle handler
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
   };
 
+  // checks if all requirements are met to enable button
+  const isNextDisabled = () => {
+    if (step === 1) {
+      return !(
+        isFirstNameValid(fName) &&
+        isLastNameValid(lName) &&
+        isEmailValid(email) &&
+        // isTermsChecked &&
+        userRole !== "default"
+      );
+    } else if (step === 2) {
+      return !(
+        passRequirements.every((requirement) =>
+          isPasswordRegexMet(requirement.regex, password)
+        ) &&
+        isTermsChecked &&
+        isPasswordMatching(password, passwordVerify)
+      );
+    }
+  };
+
+  // handles form submission
   async function registerUser(e) {
     try {
       e.preventDefault();
+
+      // if (isNextDisabled()) {
+      //   return;
+      // }
 
       const userData = {
         fName,
@@ -52,221 +150,232 @@ export default function RegisterForm() {
     }
   }
 
+  const inputDisplay = () => {
+    // renders first step of sign up
+    if (step === 1) {
+      return (
+        <Step1
+          history={history}
+          email={email}
+          lName={lName}
+          fName={fName}
+          setFirstName={setFirstName}
+          setLastName={setLastName}
+          setEmail={setEmail}
+          emailTypingStarted={emailTypingStarted}
+          setEmailTypingStarted={setEmailTypingStarted}
+          password={password}
+          setPassword={setPassword}
+          passwordShown={passwordShown}
+          typingStarted={typingStarted}
+          setTypingStarted={setTypingStarted}
+          setUserRole={setUserRole}
+          passwordVerify={passwordVerify}
+          setPasswordVerify={setPasswordVerify}
+          verifyTypingStarted={verifyTypingStarted}
+          setVerifyTypingStarted={setVerifyTypingStarted}
+          setStep={setStep}
+          passRequirements={passRequirements}
+          isPasswordRegexMet={isPasswordRegexMet}
+          isPasswordMatching={isPasswordMatching}
+          isEmailValid={isEmailValid}
+          userRole={userRole}
+          togglePassword={togglePassword}
+          isNextDisabled={isNextDisabled}
+          isFirstNameValid={isFirstNameValid}
+          isLastNameValid={isLastNameValid}
+          firstNameTypingStarted={firstNameTypingStarted}
+          setFirstNameTypingStarted={setFirstNameTypingStarted}
+          lastNameTypingStarted={lastNameTypingStarted}
+          setLastNameTypingStarted={setLastNameTypingStarted}
+        />
+      );
+    }
+
+    // renders second step of sign up
+    else if (step === 2) {
+      return (
+        <Step2
+          history={history}
+          email={email}
+          handleCheckboxChange={handleCheckboxChange}
+          setEmail={setEmail}
+          isTermsChecked={isTermsChecked}
+          emailTypingStarted={emailTypingStarted}
+          setEmailTypingStarted={setEmailTypingStarted}
+          password={password}
+          setPassword={setPassword}
+          passwordShown={passwordShown}
+          typingStarted={typingStarted}
+          setTypingStarted={setTypingStarted}
+          passwordVerify={passwordVerify}
+          setPasswordVerify={setPasswordVerify}
+          verifyTypingStarted={verifyTypingStarted}
+          setVerifyTypingStarted={setVerifyTypingStarted}
+          setStep={setStep}
+          passRequirements={passRequirements}
+          isPasswordRegexMet={isPasswordRegexMet}
+          isPasswordMatching={isPasswordMatching}
+          isEmailValid={isEmailValid}
+          togglePassword={togglePassword}
+          isNextDisabled={isNextDisabled}
+        />
+      );
+    } else if (step === 3) {
+      return <Step3 setStep={setStep} />;
+    } else if (step === 4) {
+      return <Step4 setStep={setStep} />;
+    }
+  };
+
   return (
     <>
-      {/* <nav className="max-w-screen-2xl flex items-center pt-6 px-6 xl:px-4 justify-between mx-auto fixed-top">
-        <a href="/" className="text-gray-900">
-          <h1 className="text-2xl font-semibold">Jigsaw</h1>
+      <nav className="sticky top-0 flex items-center justify-between px-8 py-5 border-b border-gray-200 backdrop-blur-md bg-white/30">
+        <a href="/" className="text-xl font-semibold italic text-slate-900">
+          Velocity
         </a>
-        <div className="space-x-5 text-md lg:text-xl">
-          <p className="text-gray-500">
-            Already have an account?{" "}
-            <span
-              className="underline hover:text-gray-900 text-green-500"
-              onClick={() => history("/login")}
-            >
-              Sign in
-            </span>
-          </p>
-        </div>
-      </nav>
-
-      <div className="h-screen items-center flex">
-        <div className="max-w-md md:max-w-xl grid grid-cols-1 mx-auto">
-        <h1 className="mb-16 text-center text-5xl"><span className="highlight">Register</span></h1>
-          <form
-            action=""
-            className="space-y-4 md:space-y-5 text-gray-900"
-            onSubmit={(e) => registerUser(e)}
+        <p className="text-sm">
+          Already have an account?{" "}
+          <a
+            className="hover:underline cursor-pointer text-blue-600"
+            onClick={() => history("/login")}
           >
-            <div className="flex flex-row space-x-4 md:space-x-5">
-              <div>
-                <label
-                  htmlFor="firstName"
-                  className="text-xl font-normal text-gray-900"
-                >
-                  First name
-                </label>
-
-                <div className="mt-1">
-                  <input
-                    type="text"
-                    className="w-full rounded-md font-sans border border-gray-900 font-light bg-white py-3 px-4 text-lg"
-                    value={fName}
-                    onChange={(e) => {
-                      setFirstName(e.target.value);
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label
-                  htmlFor="lastName"
-                  className="text-xl font-normal text-gray-900"
-                >
-                  Last name
-                </label>
-
-                <div className="mt-1">
-                  <input
-                    type="text"
-                    className="w-full rounded-md font-sans border border-gray-900 font-light bg-white py-3 px-4 text-lg"
-                    value={lName}
-                    onChange={(e) => {
-                      setLastName(e.target.value);
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-            <div>
-              <label
-                htmlFor="userRole"
-                className="text-xl font-normal text-gray-900"
-              >
-                Role
-              </label>
-
-              <div className="mt-1">
-                <select
-                  id="userRole"
-                  className="w-full rounded-md border border-gray-900 font-sans font-light bg-white py-3 px-4 text-lg"
-                  value={userRole}
-                  onChange={(e) => {
-                    setUserRole(e.target.value);
-                  }}
-                >
-                  <option defaultValue>Your role</option>
-                  <option value="Student">Student</option>
-                  <option value="Teacher">Teacher</option>
-                  <option value="Manager">Manager</option>
-                  <option value="Business Owner">Business Owner</option>
-                  <option value="Developer">Developer</option>
-                  <option value="Designer">Designer</option>
-                </select>
-              </div>
-            </div>
-            <div>
-              <label
-                htmlFor="email"
-                className="text-xl font-normal text-gray-900"
-              >
-                Email
-              </label>
-
-              <div className="mt-1">
-                <input
-                  type="email"
-                  id="email"
-                  className="w-full rounded-md border font-sans border-gray-900 font-light bg-white py-3 px-4 text-lg"
-                  value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
-                />
-              </div>
-            </div>
-            <div>
-              <label
-                htmlFor="password"
-                className="text-xl font-normal text-gray-900"
-              >
-                Password
-              </label>
-
-              <div className="mt-1">
-                <input
-                  type="password"
-                  id="password"
-                  className="w-full rounded-md border border-gray-900 font-light bg-white py-3 px-4 text-lg"
-                  value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                  }}
-                />
-              </div>
-            </div>
-            <div className="pb-2">
-              <label
-                htmlFor="password"
-                className="text-xl font-normal text-gray-900"
-              >
-                Confirm password
-              </label>
-
-              <div className="mt-1">
-                <input
-                  type="password"
-                  id="password"
-                  className="w-full rounded-md border border-gray-900 font-light bg-white py-3 px-4 text-lg"
-                  value={passwordVerify}
-                  onChange={(e) => {
-                    setPasswordVerify(e.target.value);
-                  }}
-                />
-              </div>
-            </div>
-            <button
-              type="submit"
-              input={+true}
-              value="register"
-              className="block w-full rounded-md bg-gray-900 hover:bg-gray-700 py-4 text-xl font-sans font-normal text-white custom-box-shadow"
-            >
-              Create account
-            </button>
-          </form>
+            Log in
+          </a>
+        </p>
+      </nav>
+      <div className="flex flex-row">
+        {/* Left Section */}
+        <div className="hidden lg:block mt-16 fixed left-0">
+          <div className="h-full px-14">
+            <ul className="space-y-6">
+              {step === 1 && (
+                <>
+                  <li className="flex items-center gap-2 text-blue-600">
+                    <CheckCircle size={22} weight="bold" />
+                    <p className="font-medium text-md">Step 1</p>
+                  </li>
+                  <li className="flex items-center gap-2 text-gray-400">
+                    <Circle size={22} weight="bold" />
+                    <p className="font-medium">Step 2</p>
+                  </li>
+                  <li className="flex items-center gap-2 text-gray-400">
+                    <Circle size={22} weight="bold" />
+                    <p className="font-medium">Step 3</p>
+                  </li>
+                  <li className="flex items-center gap-2 text-gray-400">
+                    <Circle size={22} weight="bold" />
+                    <p className="font-medium">Step 4</p>
+                  </li>
+                </>
+              )}
+              {step === 2 && (
+                <>
+                  <li className="flex items-center gap-2 text-green-600">
+                    <CheckCircle size={22} weight="bold" />
+                    <p className="font-medium text-md">Step 1</p>
+                  </li>
+                  <li className="flex items-center gap-2 text-blue-600">
+                    <CheckCircle size={22} weight="bold" />
+                    <p className="font-medium">Step 2</p>
+                  </li>
+                  <li className="flex items-center gap-2 text-gray-400">
+                    <Circle size={22} weight="bold" />
+                    <p className="font-medium">Step 3</p>
+                  </li>
+                  <li className="flex items-center gap-2 text-gray-400">
+                    <Circle size={22} weight="bold" />
+                    <p className="font-medium">Step 4</p>
+                  </li>
+                </>
+              )}
+              {step === 3 && (
+                <>
+                  <li className="flex items-center gap-2 text-green-600">
+                    <CheckCircle size={22} weight="bold" />
+                    <p className="font-medium text-md">Step 1</p>
+                  </li>
+                  <li className="flex items-center gap-2 text-green-600">
+                    <CheckCircle size={22} weight="bold" />
+                    <p className="font-medium">Step 2</p>
+                  </li>
+                  <li className="flex items-center gap-2 text-blue-600">
+                    <CheckCircle size={22} weight="bold" />
+                    <p className="font-medium">Step 3</p>
+                  </li>
+                  <li className="flex items-center gap-2 text-gray-400">
+                    <Circle size={22} weight="bold" />
+                    <p className="font-medium">Step 4</p>
+                  </li>
+                </>
+              )}
+              {step === 4 && (
+                <>
+                  <li className="flex items-center gap-2 text-green-600">
+                    <CheckCircle size={22} weight="bold" />
+                    <p className="font-medium text-md">Step 1</p>
+                  </li>
+                  <li className="flex items-center gap-2 text-green-600">
+                    <CheckCircle size={22} weight="bold" />
+                    <p className="font-medium">Step 2</p>
+                  </li>
+                  <li className="flex items-center gap-2 text-green-600">
+                    <CheckCircle size={22} weight="bold" />
+                    <p className="font-medium">Step 3</p>
+                  </li>
+                  <li className="flex items-center gap-2 text-blue-600">
+                    <CheckCircle size={22} weight="bold" />
+                    <p className="font-medium">Step 4</p>
+                  </li>
+                </>
+              )}
+            </ul>
+          </div>
         </div>
-      </div> */}
 
-      <>
-        <div className="flex h-screen">
-          {/* Left Section */}
-          <div className="w-1/2 relative bg-gradient-to-b from-indigo-100 via-violet-100 to-orange-100 overflow-hidden pt-24 hidden lg:block">
-            <div className="space-y-2 pl-3">
-              <p className="text-2xl text-gray-600 font-semibold">
-                "The secret of getting ahead is getting started."
-              </p>
-              <p className="text-lg text-gray-500 font-medium">
-                &#8213; Mark Twain
-              </p>
-            </div>
-            <img
-              // src="https://i.imgur.com/OhtT384.png"
-              src="https://i.imgur.com/YCI0cMJ.png"
-              alt="Screen"
-              className="absolute object-cover w-full h-full"
-              style={{ objectPosition: "bottom right" }}
-            />
-          </div>
+        {/* Right Section */}
+        <div className="flex-1">
+          <div
+            className={`mx-auto mt-16 ${step === 3 ? "max-w-2xl" : "max-w-md"}`}
+          >
+            {/* step titles */}
+            {step === 1 && (
+              <h1 className="text-3xl text-slate-900">Your information</h1>
+            )}
 
-          {/* Right Section */}
-          <div>
-            <a href="/" className="text-lg p-5 absolute font-semibold italic">
-              Velocity
-            </a>
-          </div>
-          <div className="w-full lg:w-1/2 my-auto">
-            <div className="max-w-md mx-auto">
-              <div className="space-y-8">
-                <div className="space-y-3">
-                  <h1 className="text-3xl text-gray-800">Sign up</h1>
-                  <p className="text-gray-600 font-light text-sm">
-                    Enter the following information to get started
-                  </p>
-                </div>
+            {step === 2 && (
+              <h1 className="text-3xl text-slate-900">
+                Enter a secure password
+              </h1>
+            )}
 
+            {step === 3 && (
+              <h1 className="text-3xl text-slate-900">
+                Select a subscription plan
+              </h1>
+            )}
+
+            {step === 4 && (
+              <h1 className="text-3xl text-slate-900">
+                Enter your billing information
+              </h1>
+            )}
+
+            {step === 1 && (
+              <>
                 {/* login with google button */}
-                <div className="space-y-3">
-                  <span className="flex items-center bg-white w-full justify-center py-2 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md duration-100">
+                <div className={`flex flex-row gap-4 pb-8 pt-8`}>
+                  <span className="flex items-center bg-white w-full justify-center py-4 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md hover:duration-300 duration-300">
                     <FcGoogle size={25} />
-                    <p className="text-gray-600 text-sm">Sign up with Google</p>
+                    <p className="text-gray-700 font-semibold text-sm">
+                      Google
+                    </p>
                   </span>
 
                   {/* login with apple button */}
-                  <span className="flex items-center bg-white w-full justify-center py-2 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md duration-100">
+                  <span className="flex items-center bg-white w-full justify-center py-4 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md hover:duration-300 duration-300">
                     <FaApple size={25} />
-                    <p className="text-gray-600 text-sm">Sign up with Apple</p>
+                    <p className="text-gray-700 font-semibold text-sm">Apple</p>
                   </span>
                 </div>
 
@@ -276,6 +385,7 @@ export default function RegisterForm() {
                   <p className="px-4 text-gray-300 font-light">or</p>
                   <hr className="w-full text-gray-300" />
                 </div>
+<<<<<<< HEAD
 
                 <form className="space-y-8">
                   <div>
@@ -354,9 +464,14 @@ export default function RegisterForm() {
                 </form>
               </div>
             </div>
+=======
+              </>
+            )}
+            <form className="pt-8">{inputDisplay()}</form>
+>>>>>>> Placeholder
           </div>
         </div>
-      </>
+      </div>
     </>
   );
 }

@@ -13,9 +13,6 @@ module.exports = {
       xs: "475px",
       ...defaultTheme.screens,
     },
-    fontFamily: {
-      lexend: ["Lexend"],
-    },
     extend: {
       colors: {
         headerColor: "#f9f9f9",
@@ -31,6 +28,14 @@ module.exports = {
       },
       height: {
         128: "32rem",
+      },
+      backgroundImage: {
+        darkGrid1:
+          "url('https://resources.github.com/assets/images/dark-pixel-grid.svg')",
+        lightGrid1:
+          "url('https://resources.github.com/assets/images/light-pixel-grid.svg')",
+        darkGrid2:
+          "url('https://github.githubassets.com/images/modules/site/enterprise/trials/hero-bg/enterprise-trial-hero.jpg')",
       },
     },
   },

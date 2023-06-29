@@ -8,14 +8,15 @@ import Dashboard from "./components/layout/Dashboard";
 import AccountSettings from "./components/AccountSettings/AccountSettings";
 import Help from "./components/Help/Help";
 import Overview from "./components/Overview/Overview";
-import HomePage from "./pages/HomePage";
+import Landing from "./pages/Landing";
+import ResetPassword from "./components/auth/ResetPassword";
 
 export default function Router(...restParams) {
   return (
     <BrowserRouter>
       <Routes>
         {/* Landing page route */}
-        <Route exact path="/" element={<HomePage />} />
+        <Route exact path="/" element={<Landing />} />
 
         {/* <Route exact path="/schedule" element={<SchedulePage/>} /> */}
         {/* <Route path="/tasks" element={<TaskPage/>} /> */}
@@ -23,6 +24,7 @@ export default function Router(...restParams) {
         {/* login & register page routes */}
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
+        <Route path="/resetpassword" element={<ResetPassword />} />
 
         {/* Dashboard routes */}
         <Route path="/dashboard/" element={<Dashboard />}>
