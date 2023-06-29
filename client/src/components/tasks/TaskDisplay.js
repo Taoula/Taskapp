@@ -686,7 +686,7 @@ export default function TaskDisplay() {
       </div>
 
       {/* library */}
-      <div className="border border-gray-200 bg-stone-50 rounded-md p-6 grid grid-cols-4 gap-3">
+      <div className="border border-gray-200 bg-slate-50 rounded-md p-6 grid grid-cols-4 gap-3">
         {renderTasks(false)}
         {renderTasks(true)}
       </div>

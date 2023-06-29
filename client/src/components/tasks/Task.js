@@ -71,14 +71,14 @@ export default function Task({ task, getTasks }) {
   return (
     <>
       <div
-        className={`w-full rounded-md py-3 pl-4 pr-20 shadow-md`}
+        className={`w-full rounded-md py-3 pl-4 pr-20 shadow-md hover:cursor-pointer`}
         onClick={toggleActive}
         style={{
           border: `solid ${
-            isActive ? "gray" : borderColors[priority - 1]
+            isActive ? "rgba(29, 78, 216)" : borderColors[priority - 1]
           } 1.5px`,
           backgroundColor: isActive
-            ? "rgba(128, 128, 128, 0.5)"
+            ? "rgba(37, 99, 235, 0.2)"
             : `${borderColors[priority - 1]}11`,
         }}
       >
