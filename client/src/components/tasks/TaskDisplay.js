@@ -180,9 +180,10 @@ export default function TaskDisplay() {
   return (
     <>
       {/* Tasks menu */}
-      {/* <div className="flex justify-between items-center mb-10">
-        <h1 className="text-4xl font-semibold pt-1">My Tasks</h1>
-      </div> */}
+      <div className="flex justify-between items-center mb-10">
+        <h1 className="text-4xl font-semibold pt-1">Library</h1>
+      </div>
+      
 
       <div className="space-y-6 flex flex-col">
         {/* Inactive tasks field */}
