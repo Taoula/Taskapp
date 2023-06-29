@@ -6,7 +6,13 @@ import "tw-elements";
 import DashboardFooter from "../layout/DashboardFooter";
 import CreateTaskSlideover from "./CreateTaskSlideover";
 import CompletedTask from "./CompletedTask";
-import { MagnifyingGlass, ArrowsDownUp } from "phosphor-react";
+import {
+  MagnifyingGlass,
+  ArrowsDownUp,
+  Plus,
+  CaretDown,
+  Funnel,
+} from "phosphor-react";
 import sameDate from "../../methods/same-date";
 import dateSearch from "../../methods/date-search";
 
@@ -180,12 +186,56 @@ export default function TaskDisplay() {
   return (
     <>
       {/* Tasks menu */}
-      <div className="flex justify-between items-center mb-10">
+      <div className="flex justify-between items-center mb-6">
         <h1 className="text-4xl font-semibold pt-1">Library</h1>
+        <div className="flex gap-4">
+          {/* search for task */}
+          <div className="flex items-center">
+            <p className="border border-gray-200 bg-stone-50 text-slate-900 rounded-l-lg px-4 py-2 text-sm">
+              Search
+            </p>
+            <div className="relative">
+              <div className="pointer-events-non text-slate-900 absolute inset-y-0 right-0 flex items-center pr-3">
+                <MagnifyingGlass size={20} />
+              </div>
+              <input
+                type="text"
+                autoComplete="off"
+                className="block w-full pl-4 pr-8 text-sm rounded-r-lg border border-gray-200 border-l-0"
+              />
+            </div>
+          </div>
+          {/* filter tasks */}
+          <div className="flex items-center">
+            <p className="border border-gray-200 bg-stone-50 text-slate-900 rounded-l-lg px-4 py-2 text-sm">
+              Filter
+            </p>
+            <div className="px-2 py-2 rounded-r-lg border border-gray-200 border-l-0 hover:bg-gray-200 hover:cursor-pointer hover:duration-100 duration-100">
+              <Funnel size={20} />
+            </div>
+          </div>
+          {/* add task */}
+          <div className="flex items-center">
+            <p className="border border-gray-200 bg-stone-50 text-slate-900 rounded-l-lg px-4 py-2 text-sm">
+              Add task
+            </p>
+            <div
+              onClick={() => setOpen(true)}
+              className="px-2 py-2 rounded-r-lg border border-gray-200 border-l-0 hover:bg-gray-200 hover:cursor-pointer hover:duration-100 duration-100"
+            >
+              <Plus size={20} />
+            </div>
+          </div>
+        </div>
       </div>
-      
 
-      <div className="space-y-6 flex flex-col">
+      {/* library */}
+      <div className="border border-gray-200 bg-stone-50 rounded-md p-6 grid grid-cols-4 gap-3">
+        {renderTasks(false)}
+        {renderTasks(true)}
+      </div>
+
+      <div className="space-y-6 flex flex-col hidden">
         {/* Inactive tasks field */}
         <div className="rounded-md text-center border remove-scrollbar overflow-scroll h-[28rem]">
           {/* Title and add button inline */}
