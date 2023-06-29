@@ -58,7 +58,7 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
       let defaults = {
         duration,
         priority,
-        time,
+        time: fixed ? time : null,
         notes,
         links,
         divisions,

@@ -20,6 +20,7 @@ const TaskContainer = styled.div`
 `;
 
 export default function Task({ task, getTasks }) {
+  console.log("rendering task?")
   const { name, priority, duration, _id, isActive, completed, time, currentDay, divisions, prev, next} = task;
   const [isExpanded, toggle] = useToggle(false);
   // priority 1 (red) first, 2 (yellow) second, 3 (green) third
@@ -43,6 +44,7 @@ export default function Task({ task, getTasks }) {
 
   // TODO needs to be optimized
   async function toggleActive() {
+    console.log("toggling active")
     const taskReq = await axios.get(`http://localhost:8282/task/${_id}`)
     let tempEntries = taskReq.data.entries
     for (let i = 0; i < tempEntries.length; i++){
