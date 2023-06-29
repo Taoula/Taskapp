@@ -26,7 +26,54 @@ export default function ProfileDropdown() {
 
   return (
     <>
-      <div className="flex space-x-3">
+      <div className="flex space-x-4">
+        {/* profile image */}
+        <img
+          alt="profile"
+          ref={boxRef}
+          onClick={() => setIsOpen(!isOpen)}
+          className="h-10 w-10 rounded-md object-cover hover:scale-90 hover:duration-300 duration-300"
+          src="https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+        />
+
+        {/* popup */}
+        <div
+          ref={tooltipRef}
+          style={styles.popper}
+          {...attributes.popper}
+          className={`${isOpen ? "block" : "hidden"} absolute z-20 end-0`}
+        >
+          <div
+            className="mt-2 w-56 divide-y divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg"
+            role="menu"
+          >
+            <div className="p-2">
+              <button
+                href="#"
+                className="w-full font-medium rounded-md flex gap-2 items-center px-4 py-3 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                role="menuitem"
+              >
+                <Gear size={20} />
+                Account settings
+              </button>
+            </div>
+
+            <div className="p-2">
+              <form method="POST" action="#">
+                <button
+                  type="submit"
+                  className="flex w-full font-medium items-center gap-2 rounded-md px-4 py-3 text-sm text-red-600 hover:bg-red-50"
+                  role="menuitem"
+                >
+                  <SignOut size={20} />
+                  Log out
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* <div className="flex space-x-3">
         <img
           alt="profile"
           src="https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
@@ -71,7 +118,7 @@ export default function ProfileDropdown() {
             <p className="w-full items-center rounded-md text-sm">Sign out</p>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }

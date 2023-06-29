@@ -104,11 +104,11 @@ export default function Sidebar() {
     //         {tabs.map((tab, i) => (
     //           <NavLink
     //             to={tab?.link}
-    //             className={({ isActive }) =>
-    //               isActive
-    //                 ? "flex items-center gap-3 font-normal rounded-md bg-slate-200 px-4 py-2 text-gray-700"
-    //                 : "flex items-center gap-3 font-normal rounded-md px-4 py-2 text-gray-500 hover:bg-slate-200 hover:text-gray-700 duration-100"
-    //             }
+    // className={({ isActive }) =>
+    //   isActive
+    //     ? "flex items-center gap-3 font-normal rounded-md bg-slate-200 px-4 py-2 text-gray-700"
+    //     : "flex items-center gap-3 font-normal rounded-md px-4 py-2 text-gray-500 hover:bg-slate-200 hover:text-gray-700 duration-100"
+    // }
     //           >
     //             {React.createElement(tab?.icon, {
     //               size: "25",
@@ -146,20 +146,23 @@ export default function Sidebar() {
     //   </div>
     // </>
     <>
-      <div className="max-h-screen bg-white border-r w-20 flex flex-col justify-between pt-5 pb-5">
+      <div className="max-h-screen bg-stone-50 border-r border-gray-200 w-20 flex flex-col justify-between pt-6 pb-5">
         <div className="mx-auto text-center">
-          <h1 className="italic font-semibold flex flex-col pb-10 text-xl">
+          <h1 className="italic font-semibold flex flex-col pb-14 text-xl">
             V
           </h1>
           <div className="flex flex-col space-y-2">
             {tabs.map((tab, i) => (
               <NavLink
                 to={tab?.link}
-                className={`hover:bg-gray-200 rounded-md p-2`}
+                className={({ isActive }) =>
+                  isActive
+                    ? "bg-gray-200 rounded-md p-2 text-slate-900"
+                    : "hover:bg-gray-200 rounded-md p-2 text-slate-900"
+                }
               >
                 {React.createElement(tab?.icon, {
                   size: "25",
-                  weight: "fill",
                 })}
               </NavLink>
             ))}
