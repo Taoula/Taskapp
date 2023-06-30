@@ -136,11 +136,15 @@ export default function TaskDisplay() {
   
         let entryToAdd = {
           date: currentDay,
-          duration: defaults.duration,
+          duration: parseInt(defaults.duration),
           priority: defaults.priority,
           isActive: false,
           completed: false,
           time: defaults.time,
+          notes: defaults.notes == undefined,
+          divisions: defaults.divisions,
+          prev: defaults.prev,
+          next: defaults.next
         };
   
         tempEntries.push(entryToAdd);

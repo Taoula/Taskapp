@@ -68,8 +68,13 @@ async function newSort(setSchedule, currentDay, resort){
 
             //loop through all tasks TODO reoptimize
                 //REFERENCE POINT 0
+
                 for (let i = 0; i < taskReq.data.length; i++){
                     let k = dateSearch(currentDay, taskReq.data[i].entries)
+                    if (k >= 0){
+                        console.log("task found: ")
+                        console.log(taskReq.data[i].entries[k])
+                    }
                     if (k >= 0 && taskReq.data[i].entries[k].isActive && !taskReq.data[i].entries[k].completed) {
                         let {priority, duration, notes, links, completed, time, next, prev, divisions} = taskReq.data[i].entries[k]
                         let {name, _id} = taskReq.data[i]
@@ -90,8 +95,12 @@ async function newSort(setSchedule, currentDay, resort){
                         //console.log(taskToPush)
                         tasks.push(taskToPush)
                         //console.log(tasks)
+                    } else {
+                        console.log(k)
                     }
                 }
+
+                console.log(tasks)
                 
                 //REFERENCE POINT 2
                 //console.log(tasks)
@@ -478,13 +487,15 @@ async function newSort(setSchedule, currentDay, resort){
                     console.log("searching for a fitting task tree")
                     let foundIndex = -1
                     for (let i = 0; i < tasks.length; i++){
+                        console.log(tasks[i])
                         //loop through every task, check its tree length
                         if (tasks[i].prev == ''){
+                            console.log('here 1')
                             let treeLength = 0
                             let currentTask = tasks[i]
     
                             while(foundIndex == -1 && treeLength <= timeBefore){
-                                //console.log("here two")
+                                console.log("here two")
                                 treeLength += currentTask.duration 
                                 if (treeLength <= timeBefore && currentTask.next == ''){
                                     console.log("found a tree starting at " + currentTask.name + ". treelength is " + treeLength + " and time before is " + timeBefore)
