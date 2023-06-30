@@ -35,8 +35,8 @@ export default function AccountSettings() {
     } else {
       theme = "light"
     }
-
-    await axios.patch("http://localhost:8282/settings", {theme, freeTimeMethod, freeTimeProportions, showPopUps}, {new: true})
+    console.log(settingsReq.data)
+    await axios.patch("http://localhost:8282/settings/", {theme, freeTimeMethod, freeTimeProportions, showPopUps})
     .then((res) => res.data)
     .then(async (res) => {
       refreshSettings()
