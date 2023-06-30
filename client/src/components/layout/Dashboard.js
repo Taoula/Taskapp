@@ -11,7 +11,7 @@ export default function Dashboard() {
         <div className="flex-1 overflow-scroll remove-scrollbar">
           <Header />
           {/* <div className="ml-8 mr-8 mt-5 mb-5">{<Outlet />}</div> */}
-          <div className="ml-6 mr-6 mt-6 mb-6">{<Outlet />}</div>
+          <div className="mx-10 my-10">{<Outlet />}</div>
         </div>
       </div>
     </>

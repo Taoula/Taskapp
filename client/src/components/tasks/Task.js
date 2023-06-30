@@ -9,19 +9,20 @@ import DeleteTaskDialogue from "./DeleteTaskDialogue";
 import convertTime from "../../methods/convert-time";
 import sameDate from "../../methods/same-date";
 
-const TaskContainer = styled.div`
-  background-color: ${(props) => props.color || "pink"};
-  transition: 1s;
-  &:hover {
-    transform: scale(0.98);
-    transition:0.2s;
-    cursor: pointer;
-  }
-`;
+// const TaskContainer = styled.div`
+//   background-color: ${(props) => props.color || "pink"};
+//   transition: 1s;
+//   &:hover {
+//     transform: scale(0.98);
+//     transition: 0.2s;
+//     cursor: pointer;
+//   }
+// `;
 
-export default function Task({ task, getTasks }) {
+export default function Task({ task, getTasks }) 
   console.log("rendering task?")
   const { name, priority, duration, _id, isActive, completed, time, currentDay, divisions, prev, next} = task;
+
   const [isExpanded, toggle] = useToggle(false);
   // priority 1 (red) first, 2 (yellow) second, 3 (green) third
   const colors = ["#fecaca", "#fef9c3", "#bbf7d0"];
@@ -44,17 +45,18 @@ export default function Task({ task, getTasks }) {
 
   // TODO needs to be optimized
   async function toggleActive() {
-    console.log("toggling active")
-    const taskReq = await axios.get(`http://localhost:8282/task/${_id}`)
-    let tempEntries = taskReq.data.entries
-    for (let i = 0; i < tempEntries.length; i++){
-      if (sameDate(tempEntries[i].date, currentDay)){
-        tempEntries[i].isActive = !tempEntries[i].isActive
+
+    const taskReq = await axios.get(`http://localhost:8282/task/${_id}`);
+    let tempEntries = taskReq.data.entries;
+    for (let i = 0; i < tempEntries.length; i++) {
+      if (sameDate(tempEntries[i].date, currentDay)) {
+        tempEntries[i].isActive = !tempEntries[i].isActive;
+
         await axios.patch(`http://localhost:8282/task/${_id}`, {
           name,
           defaults: taskReq.data.defaults,
-          entries: tempEntries
-        })
+          entries: tempEntries,
+        });
       }
     }
 
@@ -63,86 +65,104 @@ export default function Task({ task, getTasks }) {
 
   return (
     <>
-      <TaskContainer
-        color={colors[priority - 1]}
-        style={{ border: `solid ${borderColors[priority - 1]} 1px` }}
-        onClick={toggle}
-        className="rounded-md px-5 py-4 flex items-center justify-between"
+      <div
+        className={`w-full rounded-md py-3 pl-4 pr-20 shadow-md hover:cursor-pointer`}
+        onClick={toggleActive}
+        style={{
+          border: `solid ${
+            isActive ? "rgba(29, 78, 216)" : borderColors[priority - 1]
+          } 1.5px`,
+          backgroundColor: isActive
+            ? "rgba(37, 99, 235, 0.2)"
+            : `${borderColors[priority - 1]}11`,
+        }}
       >
-        <div className="flex items-center space-x-2">
-          <span>
-            {isActive ? (
-              <CheckSquare size={20} onClick={toggleActive} />
-            ) : (
-              <Square size={20} onClick={toggleActive} />
-            )}
-          </span>
-          <span>
-            <h1 className="capitalize font-normal text-md">
-              {name}: <span className="font-light">{duration} minutes</span>
-            </h1>
-          </span>
-        </div>
-        {/* <DotsThree size={32} /> */}
-        <div className="flex space-x-1">
-          <span className="hover:text-gray-900">
-            <DotsThreeOutline
-              size={20}
-              weight="fill"
-              // onClick={() => setShowUpdateTask(true)}
-              onClick={() => setOpen2(true)}
-              className="text-gray-700"
-            />
-          </span>
-          {time != null && <span>{convertTime(time, "utc")}</span>}
-        </div>
-
-         <div className="flex">
-            <p>Delete:</p>
-            <Trash size={25} weight="fill" onClick={deleteTask} />
-          </div>{/*
-
-          <div>
-            {isActive ? (
-              <CheckSquare size={20} onClick={toggleActive} />
-            ) : (
-              <Square size={20} onClick={toggleActive} />
-            )}
-          </div> */}
-
-        {/* <div>
-            <p
-              className="hover:underline"
-              onClick={() => setShowUpdateTask(true)}
-            >
-              Edit Task
-            </p>
-            <Pencil size={25} weight="fill" />
-          </div> */}
-      </TaskContainer>
-
-      <DeleteTaskDialogue
-        deleteTaskDialogue={deleteTaskDialogue}
-        setDeleteTaskDialogue={setDeleteTaskDialogueOpen}
-        getTasks={getTasks}
-        task={task}
-      ></DeleteTaskDialogue>
-
-      <UpdateTaskSlideover
-        open2={open2}
-        setOpen2={setOpen2}
-        getTasks={getTasks}
-        currentDay={currentDay}
-        _id={_id}
-      ></UpdateTaskSlideover>
-
-      {/* <UpdateTaskForm
-        getTasks={getTasks}
-        _id={_id}
-        visible={showUpdateTask}
-        onClose={handleUpdateOnClose}
-      /> */}
+        <p className="text-xl capitalize">{name}</p>
+        <p className="font-light">{duration} minutes</p>
+      </div>
     </>
+    // <>
+    //   <TaskContainer
+    //     color={colors[priority - 1]}
+    //     style={{ border: `solid ${borderColors[priority - 1]} 1px` }}
+    //     onClick={toggle}
+    //     className="rounded-md px-5 py-4 flex items-center justify-between"
+    //   >
+    //     <div className="flex items-center space-x-2">
+    //       <span>
+    //         {isActive ? (
+    //           <CheckSquare size={20} onClick={toggleActive} />
+    //         ) : (
+    //           <Square size={20} onClick={toggleActive} />
+    //         )}
+    //       </span>
+    //       <span>
+    //         <h1 className="capitalize font-normal text-md">
+    //           {name}: <span className="font-light">{duration} minutes</span>
+    //         </h1>
+    //       </span>
+    //     </div>
+    //     {/* <DotsThree size={32} /> */}
+    //     <div className="flex space-x-1">
+    //       <span className="hover:text-gray-900">
+    //         <DotsThreeOutline
+    //           size={20}
+    //           weight="fill"
+    //           // onClick={() => setShowUpdateTask(true)}
+    //           onClick={() => setOpen2(true)}
+    //           className="text-gray-700"
+    //         />
+    //       </span>
+    //       {time != null && <span>{convertTime(time, "utc")}</span>}
+    //     </div>
+
+    //     <div className="flex">
+    //       <p>Delete:</p>
+    //       <Trash size={25} weight="fill" onClick={deleteTask} />
+    //     </div>
+    //     {/*
+
+    //       <div>
+    //         {isActive ? (
+    //           <CheckSquare size={20} onClick={toggleActive} />
+    //         ) : (
+    //           <Square size={20} onClick={toggleActive} />
+    //         )}
+    //       </div> */}
+
+    //     {/* <div>
+    //         <p
+    //           className="hover:underline"
+    //           onClick={() => setShowUpdateTask(true)}
+    //         >
+    //           Edit Task
+    //         </p>
+    //         <Pencil size={25} weight="fill" />
+    //       </div> */}
+    //   </TaskContainer>
+
+    //   <DeleteTaskDialogue
+    //     deleteTaskDialogue={deleteTaskDialogue}
+    //     setDeleteTaskDialogue={setDeleteTaskDialogueOpen}
+    //     getTasks={getTasks}
+    //     task={task}
+    //   ></DeleteTaskDialogue>
+
+    //   <UpdateTaskSlideover
+    //     open2={open2}
+    //     setOpen2={setOpen2}
+    //     getTasks={getTasks}
+    //     currentDay={currentDay}
+    //     _id={_id}
+    //   ></UpdateTaskSlideover>
+
+    //   {/* <UpdateTaskForm
+    //     getTasks={getTasks}
+    //     _id={_id}
+    //     visible={showUpdateTask}
+    //     onClose={handleUpdateOnClose}
+    //   /> */}
+    // </>
 
     // <>
     //   <TaskContainer
