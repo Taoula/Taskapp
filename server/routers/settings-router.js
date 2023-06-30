@@ -32,7 +32,7 @@ router.patch("/", auth, async(req, res) => {
     try{
         const userId = req.user
         const {theme, freeTimeMethod, freeTimeProportions, showPopUps} = req.body
-        const updatedSettings = Settings.findOneAndUpdate({userId}, {theme, freeTimeMethod, freeTimeProportions, showPopUps}, {new: true})
+        const updatedSettings = await Settings.findOneAndUpdate({userId}, {theme, freeTimeMethod, freeTimeProportions, showPopUps}, {new: true})
         res.json(updatedSettings)
     } catch (err){
         console.error(err)

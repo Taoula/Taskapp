@@ -78,7 +78,7 @@ export default function UpdateTaskSlideover({
         entries: tempEntries,
         defaults
       }
-
+ 
       console.log("taskdata")
       console.log(taskData)
 
