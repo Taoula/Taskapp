@@ -357,6 +357,11 @@ export default function TaskDisplay() {
   const [filterPriority, setFilterPriority] = useState("");
   const [filterActive, setFilterActive] = useState("");
 
+  function handleFilterSelect(priority, active) {
+    setFilterPriority(priority);
+    setFilterActive(active);
+  }
+
   // state for task menu
   const [toggleState, setToggleState] = useState(1);
 
@@ -452,7 +457,7 @@ export default function TaskDisplay() {
   //renders tasks based on active bool
   function renderTasks(active) {
 
-    return tasks
+    return taskState.tasks
       .filter((task) => {
         const nameMatch = task.name
           .toLowerCase()

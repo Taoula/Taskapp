@@ -19,7 +19,7 @@ import sameDate from "../../methods/same-date";
 //   }
 // `;
 
-export default function Task({ task, getTasks }) 
+export default function Task({ task, getTasks }){
   console.log("rendering task?")
   const { name, priority, duration, _id, isActive, completed, time, currentDay, divisions, prev, next} = task;
 
