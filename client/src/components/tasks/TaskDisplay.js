@@ -454,16 +454,15 @@ export default function TaskDisplay() {
   function renderTasks(active) {
     return taskState.tasks
       .filter((task) => {
+        let index = dateSearch(currentDay, task.entries);
         const nameMatch = task.name
           .toLowerCase()
           .includes(searchQuery.toLowerCase());
         const priorityMatch = filterPriority
-          ? task.entries.some((entry) => entry.priority === filterPriority)
+          ? task.entries[index].priority = filterPriority
           : true;
         const activeMatch = filterActive
-          ? task.entries.some(
-              (entry) => entry.isActive.toString() === filterActive
-            )
+          ? task.entries[index].isActive.toString() === filterActive 
           : true;
         return nameMatch && priorityMatch && activeMatch;
       })
