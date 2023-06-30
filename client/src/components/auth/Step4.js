@@ -4,7 +4,14 @@ import { loadStripe } from "@stripe/stripe-js";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from "axios";
 
-export default function Step4({ setStep }) {
+/*async function registerUser(fName, lName, email, password, passwordVerify, userRole){
+  let userToAdd = {
+    fName, lName, email, password, passwordVerify, userRole
+  }
+  console.log(userToAdd)
+  axios.post("http://localhost:8282/auth/", userToAdd)
+}*/
+export default function Step4({ setStep, fName, lName, email, password, passwordVerify, userRole, registerUser }) {
   return (
     <>
       <div className="px-6 py-6 border rounded-lg border-gray-200">
@@ -28,7 +35,9 @@ export default function Step4({ setStep }) {
         >
           Back
         </button>
-        <button className="py-3.5 font-medium tracking-wide text-sm rounded-md bg-slate-900 hover:shadow-2xl hover:duration-300 duration-300 text-white w-full">
+        <button className="py-3.5 font-medium tracking-wide text-sm rounded-md bg-slate-900 hover:shadow-2xl hover:duration-300 duration-300 text-white w-full"
+                onClick={(e)=>{registerUser(e)}}
+        >
           Register
         </button>
       </div>

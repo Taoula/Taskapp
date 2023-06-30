@@ -86,7 +86,7 @@ router.post("/login", async (req, res) => {
     const existingUser = await User.findOne({ email });
 
     if (!existingUser)
-      return res.status(401).json({ errorMessage: "Wrong user or password" });
+      return res.status(401).json({ errorMessage: "Wrong user " });
 
     const passwordCorrect = await bcrypt.compare(
       password,
@@ -94,7 +94,7 @@ router.post("/login", async (req, res) => {
     );
 
     if (!passwordCorrect)
-      return res.status(401).json({ errorMessage: "Wrong user or password" });
+      return res.status(401).json({ errorMessage: "Wrong password" });
 
     //sign token
 

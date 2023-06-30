@@ -61,6 +61,7 @@ export default function LoginForm() {
         if (err.response.status === 401) {
           // error message for 401
           setError("Incorrect email or password!");
+          console.error(err.response.data)
         } else if (err.response.status === 500) {
           // internal server error
           setError("Server error, please try again later!");
