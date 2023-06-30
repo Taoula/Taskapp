@@ -333,17 +333,14 @@ import sameDate from "../../methods/same-date";
 import dateSearch from "../../methods/date-search";
 
 export default function TaskDisplay() {
-  
   const [showCreateTask, setShowCreateTask] = useState(false);
   const [open, setOpen] = useState(false);
 
-  
   /*const [tasks, setTasks] = useState([]);
   const [numberOfInactiveTasks, setNumberOfInactiveTasks] = useState(0);
   const [numberOfActiveTasks, setNumberOfActiveTasks] = useState(0);
   const [numberOfCompleteTasks, setNumberOfCompleteTasks] = useState(0);
   const [numberOfIncompleteTasks, setNumberOfIncompleteTasks] = useState(0);*/
-
 
   const [taskState, setTaskState] = useState({
     tasks: [],
@@ -365,28 +362,27 @@ export default function TaskDisplay() {
   // state for task menu
   const [toggleState, setToggleState] = useState(1);
 
-
   const currentDay = useGlobalStore((state) => state.currentDay);
 
   useEffect(() => {
-    console.log("useeffect")
+    console.log("useeffect");
     getTasks();
   }, [currentDay]);
 
   async function getTasks() {
-    console.log("getting tasks")
+    console.log("getting tasks");
     // Get all tasks
     const taskReqInit = await axios.get("http://localhost:8282/task/");
     console.log(taskReqInit.data);
-  
+
     // Loop through all tasks
     for (let i = 0; i < taskReqInit.data.length; i++) {
       // Add entry on current day if none exists
       if (dateSearch(currentDay, taskReqInit.data[i].entries) == -1) {
-        console.log("no")
+        console.log("no");
         let tempEntries = taskReqInit.data[i].entries;
         let defaults = taskReqInit.data[i].defaults;
-  
+
         let entryToAdd = {
           date: currentDay,
           duration: parseInt(defaults.duration),
@@ -397,53 +393,53 @@ export default function TaskDisplay() {
           notes: defaults.notes == undefined,
           divisions: defaults.divisions,
           prev: defaults.prev,
-          next: defaults.next
+          next: defaults.next,
         };
-  
+
         tempEntries.push(entryToAdd);
         tempEntries.sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
-        console.log(tempEntries)
-  
+        console.log(tempEntries);
+
         // Patch the updated task
         let taskData = {
           name: taskReqInit.data[i].name,
           entries: tempEntries,
           defaults: taskReqInit.data[i].defaults,
         };
-  
+
         await axios.patch(
           `http://localhost:8282/task/${taskReqInit.data[i]._id}/`,
           taskData
         );
       }
     }
-  
+
     const taskReq = await axios.get("http://localhost:8282/task/");
-  
+
     let inactiveIterator = 0;
     let activeIterator = 0;
     let incompleteIterator = 0;
     let completeIterator = 0;
-  
+
     taskReq.data.map((task) => {
-      console.log("new task")
+      console.log("new task");
       let index = dateSearch(currentDay, task.entries);
-  
+
       let t = task.entries[index];
-  
+
       if (t.isActive === false) {
         inactiveIterator += 1;
       } else if (t.isActive === true) {
         activeIterator += 1;
       }
-  
+
       if (t.completed === false && t.isActive === true) {
         incompleteIterator += 1;
       } else if (t.completed === true && t.isActive === true) {
         completeIterator += 1;
       }
     });
-  
+
     // Set all state values at once
     setTaskState({
       tasks: taskReq.data,
@@ -456,7 +452,6 @@ export default function TaskDisplay() {
 
   //renders tasks based on active bool
   function renderTasks(active) {
-
     return taskState.tasks
       .filter((task) => {
         const nameMatch = task.name
@@ -503,8 +498,6 @@ export default function TaskDisplay() {
         }
       });
   }
-
-
 
   return (
     <>

@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Square, CheckSquare, DotsThreeOutline } from "phosphor-react";
+import {
+  Square,
+  CheckSquare,
+  DotsThreeOutline,
+  DotsThree,
+  DotsThreeCircle,
+} from "phosphor-react";
 import useToggle from "../../hooks/use-toggle";
 import styled from "styled-components";
 import axios from "axios";
@@ -8,6 +14,7 @@ import UpdateTaskSlideover from "./UpdateTaskSlideover";
 import DeleteTaskDialogue from "./DeleteTaskDialogue";
 import convertTime from "../../methods/convert-time";
 import sameDate from "../../methods/same-date";
+import { Menu, Transition } from "@headlessui/react";
 
 // const TaskContainer = styled.div`
 //   background-color: ${(props) => props.color || "pink"};
@@ -19,9 +26,21 @@ import sameDate from "../../methods/same-date";
 //   }
 // `;
 
-export default function Task({ task, getTasks }){
-  console.log("rendering task?")
-  const { name, priority, duration, _id, isActive, completed, time, currentDay, divisions, prev, next} = task;
+export default function Task({ task, getTasks }) {
+  console.log("rendering task?");
+  const {
+    name,
+    priority,
+    duration,
+    _id,
+    isActive,
+    completed,
+    time,
+    currentDay,
+    divisions,
+    prev,
+    next,
+  } = task;
 
   const [isExpanded, toggle] = useToggle(false);
   // priority 1 (red) first, 2 (yellow) second, 3 (green) third
@@ -45,7 +64,6 @@ export default function Task({ task, getTasks }){
 
   // TODO needs to be optimized
   async function toggleActive() {
-
     const taskReq = await axios.get(`http://localhost:8282/task/${_id}`);
     let tempEntries = taskReq.data.entries;
     for (let i = 0; i < tempEntries.length; i++) {
@@ -66,8 +84,8 @@ export default function Task({ task, getTasks }){
   return (
     <>
       <div
-        className={`w-full rounded-md py-3 pl-4 pr-20 shadow-md hover:cursor-pointer`}
-        onClick={toggleActive}
+        className={`w-full rounded-md py-3 pl-4 pr-4 shadow-md hover:cursor-pointer flex justify-between`}
+        // onClick={toggleActive}
         style={{
           border: `solid ${
             isActive ? "rgba(29, 78, 216)" : borderColors[priority - 1]
@@ -77,8 +95,51 @@ export default function Task({ task, getTasks }){
             : `${borderColors[priority - 1]}11`,
         }}
       >
-        <p className="text-xl capitalize">{name}</p>
-        <p className="font-light">{duration} minutes</p>
+        <div>
+          <p className="text-xl capitalize" onClick={toggleActive}>
+            {name}
+          </p>
+          <p className="font-light">{duration} minutes</p>
+        </div>
+        <div>
+          {/* <DotsThreeOutline size={20} weight="fill" /> */}
+          <Menu as="div" className="relative flex text-left">
+            <Menu.Button>
+              <DotsThreeOutline size={20} weight="fill" />
+            </Menu.Button>
+
+            <Transition
+              as={React.Fragment}
+              enter="transition ease-out duration-100"
+              enterFrom="transform opacity-0 scale-95"
+              enterTo="transform opacity-100 scale-100"
+              leave="transition ease-in duration-75"
+              leaveFrom="transform opacity-100 scale-100"
+              leaveTo="transform opacity-0 scale-95"
+            >
+              <Menu.Items className="z-10 origin-top-right absolute right-0 mt-6 w-48 rounded-md shadow-xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <div className="py-1">
+                  <Menu.Item>
+                    <button
+                      onClick={() => setShowUpdateTask(true)}
+                      className="flex px-4 py-2 text-sm font-normal"
+                    >
+                      <span>Edit</span>
+                    </button>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <button
+                      onClick={deleteTask}
+                      className="flex px-4 py-2 text-sm font-normal"
+                    >
+                      <span>Delete</span>
+                    </button>
+                  </Menu.Item>
+                </div>
+              </Menu.Items>
+            </Transition>
+          </Menu>
+        </div>
       </div>
     </>
     // <>
@@ -156,12 +217,12 @@ export default function Task({ task, getTasks }){
     //     _id={_id}
     //   ></UpdateTaskSlideover>
 
-    //   {/* <UpdateTaskForm
-    //     getTasks={getTasks}
-    //     _id={_id}
-    //     visible={showUpdateTask}
-    //     onClose={handleUpdateOnClose}
-    //   /> */}
+    // {/* <UpdateTaskForm
+    //   getTasks={getTasks}
+    //   _id={_id}
+    //   visible={showUpdateTask}
+    //   onClose={handleUpdateOnClose}
+    // /> */}
     // </>
 
     // <>
@@ -237,12 +298,12 @@ export default function Task({ task, getTasks }){
     //     task={task}
     //   ></DeleteTaskDialogue>
 
-    //   <UpdateTaskSlideover
-    //     open2={open2}
-    //     setOpen2={setOpen2}
-    //     getTasks={getTasks}
-    //     _id={_id}
-    //   ></UpdateTaskSlideover>
+    // <UpdateTaskSlideover
+    //   open2={open2}
+    //   setOpen2={setOpen2}
+    //   getTasks={getTasks}
+    //   _id={_id}
+    // ></UpdateTaskSlideover>
 
     //   {/* <UpdateTaskForm
     //     getTasks={getTasks}

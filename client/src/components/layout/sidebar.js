@@ -146,7 +146,7 @@ export default function Sidebar() {
     //   </div>
     // </>
     <>
-      <div className="max-h-screen bg-stone-50 border-r border-gray-200 w-20 justify-between flex flex-col pt-6 pb-6">
+      <div className="max-h-screen bg-slate-50 border-r border-slate-200 w-20 justify-between flex flex-col pt-6 pb-6">
         <h1 className="italic font-semibold text-xl mx-auto">V</h1>
         <div className="flex flex-col space-y-2 mx-auto">
           {tabs.map((tab, i) => (
@@ -154,8 +154,8 @@ export default function Sidebar() {
               to={tab?.link}
               className={({ isActive }) =>
                 isActive
-                  ? "bg-gray-200 rounded-md p-2 text-slate-900"
-                  : "hover:bg-gray-200 rounded-md p-2 text-slate-900"
+                  ? "bg-slate-200 rounded-md p-2 text-slate-900"
+                  : "hover:bg-slate-200 rounded-md p-2 text-slate-900"
               }
             >
               {React.createElement(tab?.icon, {
