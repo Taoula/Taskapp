@@ -92,7 +92,7 @@ async function resortSchedule(setSchedule, wakeDate, sleepDate, currentDay){
             }
 
             //let cutTime = taskTime - timeRemaining;
-            let cB = 1;
+        let cB = 1;
         while(taskTime > minutesRemaining) {
             console.log(taskTime);
             console.log(priorityOne)

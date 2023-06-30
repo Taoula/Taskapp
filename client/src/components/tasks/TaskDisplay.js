@@ -314,6 +314,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import useToggle from "../../hooks/use-toggle";
+import useGlobalStore from "../../context/useGlobalStore";
 import Task from "./Task";
 import "tw-elements";
 import DashboardFooter from "../layout/DashboardFooter";
@@ -332,136 +333,125 @@ import sameDate from "../../methods/same-date";
 import dateSearch from "../../methods/date-search";
 
 export default function TaskDisplay() {
-  const [tasks, setTasks] = useState([]);
-  const [currentDay, setCurrentDay] = useState(new Date());
-  const [dayDistance, setDayDistance] = useState(0);
-  const [taskFormId, setTaskFormId] = useState("");
-  const [newTask, toggle] = useToggle(false);
+  
   const [showCreateTask, setShowCreateTask] = useState(false);
   const [open, setOpen] = useState(false);
-  const [completedTasks, setCompletedTasks] = useState([]);
-  const [dayInitialized, setDayInitialized] = useState(false);
 
+  
+  /*const [tasks, setTasks] = useState([]);
   const [numberOfInactiveTasks, setNumberOfInactiveTasks] = useState(0);
   const [numberOfActiveTasks, setNumberOfActiveTasks] = useState(0);
   const [numberOfCompleteTasks, setNumberOfCompleteTasks] = useState(0);
-  const [numberOfIncompleteTasks, setNumberOfIncompleteTasks] = useState(0);
+  const [numberOfIncompleteTasks, setNumberOfIncompleteTasks] = useState(0);*/
+
+
+  const [taskState, setTaskState] = useState({
+    tasks: [],
+    numberOfInactiveTasks: 0,
+    numberOfActiveTasks: 0,
+    numberOfCompleteTasks: 0,
+    numberOfIncompleteTasks: 0,
+  });
 
   const [searchQuery, setSearchQuery] = useState("");
   const [filterPriority, setFilterPriority] = useState("");
   const [filterActive, setFilterActive] = useState("");
 
-  useEffect(() => {
-    getTasks();
-  }, []);
-
   // state for task menu
   const [toggleState, setToggleState] = useState(1);
 
-  // sets state value to the index of the clicked tab
-  const toggleTab = (index) => {
-    setToggleState(index);
-  };
 
-  // state for task status menu
-  const [secondToggleState, setSecondToggleState] = useState(1);
+  const currentDay = useGlobalStore((state) => state.currentDay);
 
-  const secondToggleTab = (index) => {
-    setSecondToggleState(index);
-  };
-
-  // handles form closure
-  const handleOnClose = () => {
-    // sets showCreateTask value to false which is passed to the visible prop in task and disables the create task form
-    setShowCreateTask(false);
-  };
-
-  function handleFilterSelect(priority, active) {
-    setFilterPriority(priority);
-    setFilterActive(active);
-  }
+  useEffect(() => {
+    console.log("useeffect")
+    getTasks();
+  }, [currentDay]);
 
   async function getTasks() {
-    //If first load / day change TODO clean this up binary serach etc
-
-    if (!dayInitialized) {
-      const taskReqInit = await axios.get("http://localhost:8282/task/");
-      console.log(taskReqInit.data);
-      //Loop through all tasks
-      for (let i = 0; i < taskReqInit.data.length; i++) {
-        //Add entry on current day if none exists
-        if (dateSearch(currentDay, taskReqInit.data[i].entries) == -1) {
-          let tempEntries = taskReqInit.data[i].entries;
-          let defaults = taskReqInit.data[i].defaults;
-
-          let entryToAdd = {
-            date: currentDay,
-            duration: defaults.duration,
-            priority: defaults.priority,
-            isActive: false,
-            completed: false,
-            time: defaults.time,
-          };
-
-          tempEntries.push(entryToAdd);
-          tempEntries.sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
-
-          //Patch the updated task
-          let taskData = {
-            name: taskReqInit.data[i].name,
-            entries: tempEntries,
-            defaults: taskReqInit.data[i].defaults,
-          };
-
-          await axios.patch(
-            `http://localhost:8282/task/${taskReqInit.data[i]._id}/`,
-            taskData
-          );
-        }
+    console.log("getting tasks")
+    // Get all tasks
+    const taskReqInit = await axios.get("http://localhost:8282/task/");
+    console.log(taskReqInit.data);
+  
+    // Loop through all tasks
+    for (let i = 0; i < taskReqInit.data.length; i++) {
+      // Add entry on current day if none exists
+      if (dateSearch(currentDay, taskReqInit.data[i].entries) == -1) {
+        console.log("no")
+        let tempEntries = taskReqInit.data[i].entries;
+        let defaults = taskReqInit.data[i].defaults;
+  
+        let entryToAdd = {
+          date: currentDay,
+          duration: parseInt(defaults.duration),
+          priority: defaults.priority,
+          isActive: false,
+          completed: false,
+          time: defaults.time,
+          notes: defaults.notes == undefined,
+          divisions: defaults.divisions,
+          prev: defaults.prev,
+          next: defaults.next
+        };
+  
+        tempEntries.push(entryToAdd);
+        tempEntries.sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
+        console.log(tempEntries)
+  
+        // Patch the updated task
+        let taskData = {
+          name: taskReqInit.data[i].name,
+          entries: tempEntries,
+          defaults: taskReqInit.data[i].defaults,
+        };
+  
+        await axios.patch(
+          `http://localhost:8282/task/${taskReqInit.data[i]._id}/`,
+          taskData
+        );
       }
-
-      setDayInitialized(true);
     }
-
+  
     const taskReq = await axios.get("http://localhost:8282/task/");
-    setTasks(taskReq.data);
-
+  
     let inactiveIterator = 0;
     let activeIterator = 0;
-
-    // complete and incomplete iterators
     let incompleteIterator = 0;
     let completeIterator = 0;
-
+  
     taskReq.data.map((task) => {
+      console.log("new task")
       let index = dateSearch(currentDay, task.entries);
-
+  
       let t = task.entries[index];
-
+  
       if (t.isActive === false) {
         inactiveIterator += 1;
       } else if (t.isActive === true) {
         activeIterator += 1;
       }
-
+  
       if (t.completed === false && t.isActive === true) {
         incompleteIterator += 1;
       } else if (t.completed === true && t.isActive === true) {
         completeIterator += 1;
       }
-
-      // set state values of inactive and active counters to the corresponding iterators
-      setNumberOfInactiveTasks(inactiveIterator);
-      setNumberOfActiveTasks(activeIterator);
-
-      // set state values of incomplete and complete counters to the corresponding iterators
-      setNumberOfCompleteTasks(completeIterator);
-      setNumberOfIncompleteTasks(incompleteIterator);
+    });
+  
+    // Set all state values at once
+    setTaskState({
+      tasks: taskReq.data,
+      numberOfInactiveTasks: inactiveIterator,
+      numberOfActiveTasks: activeIterator,
+      numberOfCompleteTasks: completeIterator,
+      numberOfIncompleteTasks: incompleteIterator,
     });
   }
 
   //renders tasks based on active bool
   function renderTasks(active) {
+
     return tasks
       .filter((task) => {
         const nameMatch = task.name
@@ -509,18 +499,7 @@ export default function TaskDisplay() {
       });
   }
 
-  /* renders tasks based on completed bool TODO: is this still being used?
-  function renderCompletedTasks(isComplete) {
-    return tasks.map((task, i) => {
-      if (task.completed === isComplete && task.isActive === true) {
-        return (
-          <CompletedTask key={i} task={task} getTasks={getTasks}>
-            {task.name}
-          </CompletedTask>
-        );
-      }
-    });
-  }*/
+
 
   return (
     <>
@@ -708,7 +687,7 @@ export default function TaskDisplay() {
               </span>
             </div>
           </div>
-          {numberOfInactiveTasks === 0 ? (
+          {taskState.numberOfInactiveTasks === 0 ? (
             <p className="font-light h-[19rem] flex items-center text-sm justify-center text-gray-500">
               No inactive tasks <br /> Click add task to start
             </p>
@@ -736,7 +715,7 @@ export default function TaskDisplay() {
               Add Task
             </span>
           </div>
-          {numberOfActiveTasks === 0 ? (
+          {taskState.numberOfActiveTasks === 0 ? (
             <p className="font-light h-[19rem] flex items-center text-sm justify-center text-gray-500">
               No active tasks
             </p>

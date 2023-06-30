@@ -19,17 +19,10 @@ import sameDate from "../../methods/same-date";
 //   }
 // `;
 
-export default function Task({ task, getTasks }) {
-  const {
-    name,
-    priority,
-    duration,
-    _id,
-    isActive,
-    completed,
-    time,
-    currentDay,
-  } = task;
+export default function Task({ task, getTasks }) 
+  console.log("rendering task?")
+  const { name, priority, duration, _id, isActive, completed, time, currentDay, divisions, prev, next} = task;
+
   const [isExpanded, toggle] = useToggle(false);
   // priority 1 (red) first, 2 (yellow) second, 3 (green) third
   const colors = ["#fecaca", "#fef9c3", "#bbf7d0"];
@@ -52,11 +45,13 @@ export default function Task({ task, getTasks }) {
 
   // TODO needs to be optimized
   async function toggleActive() {
+
     const taskReq = await axios.get(`http://localhost:8282/task/${_id}`);
     let tempEntries = taskReq.data.entries;
     for (let i = 0; i < tempEntries.length; i++) {
       if (sameDate(tempEntries[i].date, currentDay)) {
         tempEntries[i].isActive = !tempEntries[i].isActive;
+
         await axios.patch(`http://localhost:8282/task/${_id}`, {
           name,
           defaults: taskReq.data.defaults,

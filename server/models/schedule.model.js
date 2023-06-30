@@ -5,7 +5,8 @@ const scheduleSchema = mongoose.Schema({
     //start: {type: Date, required: false},
     //end: {type: Date, required: false},
     userId: {type: mongoose.ObjectId, required: true},
-    entries: {type: Array, required: true}
+    entries: {type: Array, required: true},
+    defaults: {type: Object, required: true}
 })
 
 const Schedule = mongoose.model("schedule", scheduleSchema);

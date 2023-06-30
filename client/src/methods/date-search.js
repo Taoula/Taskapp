@@ -13,7 +13,9 @@ function dateSearch(date, entries){
     let m
     
     while(l <= h){
-        m = 1 + Math.floor((h-1)/2)
+        console.log("searching")
+
+        m = Math.floor((l + h) / 2);
         let mDate = dayjs(entries[m].date)
 
         if (mDate.isSame(target, "day")) {
