@@ -9,6 +9,7 @@ import Step2 from "./Step2";
 import Step3 from "./Step3";
 import Step4 from "./Step4";
 import { CheckCircle, Circle } from "phosphor-react";
+import useSettingStore from "../../context/useSettingStore";
 
 export default function RegisterForm() {
   const history = useNavigate();
@@ -46,6 +47,8 @@ export default function RegisterForm() {
   const handleCheckboxChange = () => {
     setIsTermsChecked((prevChecked) => !prevChecked);
   };
+
+  const refreshSettings = useSettingStore(state => state.refreshSettings);
 
   // password regex
   const passRequirements = [
@@ -148,6 +151,7 @@ export default function RegisterForm() {
                 .then((res) => res.data)
                 .then(async(res) => {
                   getLoggedIn()
+                  refreshSettings()
                   history("/dashboard/schedule")
                 })
             })

@@ -1,19 +1,20 @@
-import {create} from 'zustand'
-import axios from 'axios'
+import {create} from 'zustand';
+import axios from 'axios';
 
-const useSettingStore = create((set, get) => ({
-    /*theme: fetch() | "light",
-    freeTimeProportions: [1,1,1],
+const useSettingStore = create(set => ({
+    theme: 'light',  // A default value
+    refreshSettings: async () => {
+        try {
+            const response = await axios.get("http://localhost:8282/settings");
+            set({ theme: response.data.theme });
+            console.log(response.data.theme)
+        } catch (err) {
+            console.error(err);
+        }
+    }
+}));
 
-    fetch: async() => {
-        const res = await axios.get("http://localhost:8282/auth/")
-        set({theme: await res.data.settings[0].value})
-        return res.data.settings[0].value
-    },
-    
-    toggleTheme: () => set((state) => ({
-        theme: state.theme === "light" ? "dark" : "light"
-    }))*/
-}))
+// Call refreshSettings to initialize theme from API
+useSettingStore.getState().refreshSettings();
 
-export default {useSettingStore}
+export default useSettingStore;

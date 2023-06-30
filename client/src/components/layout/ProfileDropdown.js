@@ -53,6 +53,7 @@ export default function ProfileDropdown() {
 
   return (
     <>
+    
       <div className="flex space-x-2">
         {/* profile image */}
         <img
@@ -95,6 +96,7 @@ export default function ProfileDropdown() {
                 href="#"
                 className="w-full font-medium text-slate-900 rounded-md flex gap-2 items-center py-3 px-4 text-sm hover:bg-gray-200"
                 role="menuitem"
+                onClick={()=> {history("/dashboard/accountSettings")}}
               >
                 <UserGear size={20} weight="fill" />
                 Account settings

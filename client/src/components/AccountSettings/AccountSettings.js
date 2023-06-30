@@ -1,13 +1,17 @@
-import { UserCircle } from "phosphor-react";
+import { UserCircle, CheckSquare, Square } from "phosphor-react";
 import React, { useState, useEffect } from "react";
 import "tw-elements";
 import axios from "axios";
+import useSettingStore from "../../context/useSettingStore"
 
 export default function AccountSettings() {
   const [settingsTabsToggle, setSettingsTabToggle] = useState(1);
   const [fName, setFirstName] = useState("");
   const [email, setEmail] = useState("");
   const [userRole, setUserRole] = useState("");
+
+  const gTheme = useSettingStore(state => state.theme);
+  const refreshSettings = useSettingStore(state => state.refreshSettings);
 
   async function loadData() {
     const user = await axios.get(`http://localhost:8282/auth/`);
@@ -22,6 +26,23 @@ export default function AccountSettings() {
     setUserRole(loadUserRole);
   }
 
+  async function toggleDarkMode(){
+    const settingsReq = await axios.get("http://localhost:8282/settings/")
+    let {theme, freeTimeProportions, freeTimeMethod, showPopUps} = settingsReq.data
+
+    if (theme == "light"){
+      theme = "dark"
+    } else {
+      theme = "light"
+    }
+
+    await axios.patch("http://localhost:8282/settings", {theme, freeTimeMethod, freeTimeProportions, showPopUps}, {new: true})
+    .then((res) => res.data)
+    .then(async (res) => {
+      refreshSettings()
+    })
+  }
+ 
   useEffect(() => {
     loadData();
   }, []);
@@ -73,6 +94,20 @@ export default function AccountSettings() {
               <h1 className="text-lg pb-1 font-normal">General</h1>
             </div>
             <form className="space-y-8 text-gray-500">
+              <div>
+                <p>Dark Mode</p>
+                {gTheme == "dark" ? 
+                  <CheckSquare
+                    size={20}
+                    onClick={toggleDarkMode}
+                    className="text-gray-500"/> :
+                    
+                  <Square
+                    size={20}
+                    onClick={toggleDarkMode}
+                    className="text-gray-500"
+                  />}
+              </div>
               <div className="border-b border-gray-200 w-full pb-8">
                 <span className="flex items-center w-3/4 justify-between">
                   <label className="font-normal text-sm">Name</label>

@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import useSettingStore from "../../context/useSettingStore";
 import axios from "axios";
 import AuthContext from "../../context/auth-context";
 import { FcGoogle } from "react-icons/fc";
@@ -37,6 +38,8 @@ export default function LoginForm() {
   // axios errors
   const [error, setError] = useState("");
 
+  const refreshSettings = useSettingStore(state => state.refreshSettings);
+
   // handles login
   async function loginUser(e) {
     try {
@@ -53,6 +56,7 @@ export default function LoginForm() {
 
       await axios.post("http://localhost:8282/auth/login", userData, {});
       getLoggedIn();
+      refreshSettings()
       history("/dashboard/overview");
     } catch (err) {
       console.error(err);

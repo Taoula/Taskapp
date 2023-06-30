@@ -370,7 +370,6 @@ export default function TaskDisplay() {
   }, [currentDay]);
 
   async function getTasks() {
-    console.log("getting tasks");
     // Get all tasks
     const taskReqInit = await axios.get("http://localhost:8282/task/");
     console.log(taskReqInit.data);
@@ -379,7 +378,6 @@ export default function TaskDisplay() {
     for (let i = 0; i < taskReqInit.data.length; i++) {
       // Add entry on current day if none exists
       if (dateSearch(currentDay, taskReqInit.data[i].entries) == -1) {
-        console.log("no");
         let tempEntries = taskReqInit.data[i].entries;
         let defaults = taskReqInit.data[i].defaults;
 
@@ -398,7 +396,7 @@ export default function TaskDisplay() {
 
         tempEntries.push(entryToAdd);
         tempEntries.sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
-        console.log(tempEntries);
+
 
         // Patch the updated task
         let taskData = {
@@ -422,7 +420,6 @@ export default function TaskDisplay() {
     let completeIterator = 0;
 
     taskReq.data.map((task) => {
-      console.log("new task");
       let index = dateSearch(currentDay, task.entries);
 
       let t = task.entries[index];
@@ -452,25 +449,30 @@ export default function TaskDisplay() {
 
   //renders tasks based on active bool
   function renderTasks(active) {
+    if (taskState == null){
+      return <div></div>
+    }
+
     return taskState.tasks
       .filter((task) => {
         let index = dateSearch(currentDay, task.entries);
+        if (index == -1){
+          return false
+        }
         const nameMatch = task.name
           .toLowerCase()
           .includes(searchQuery.toLowerCase());
-        const priorityMatch = filterPriority
-          ? task.entries[index].priority = filterPriority
-          : true;
-        const activeMatch = filterActive
-          ? task.entries[index].isActive.toString() === filterActive 
-          : true;
+        const priorityMatch = filterPriority == "" ? true : filterPriority == task.entries[index].priority.toString()
+
+
+        const activeMatch = filterActive.length === 0 ? true : filterActive == task.entries[index].isActive.toString() 
         return nameMatch && priorityMatch && activeMatch;
       })
       .map((task, i) => {
         //find today's entry
-        //console.log(task)
-        let index = dateSearch(currentDay, task.entries);
 
+        let index = dateSearch(currentDay, task.entries);
+        
         if (index > -1) {
           let t = task.entries[index];
 
@@ -530,7 +532,7 @@ export default function TaskDisplay() {
             </p>
             <Menu.Button>
               <div className="px-2 py-2 rounded-r-lg border border-gray-200 border-l-0 hover:bg-gray-200 hover:cursor-pointer hover:duration-100 duration-100">
-                <Funnel size={20} />
+                <Funnel size={20}/>
               </div>
             </Menu.Button>
 
@@ -564,14 +566,14 @@ export default function TaskDisplay() {
                   <Menu.Item>
                     {({ active }) => (
                       <button
-                        onClick={() => handleFilterSelect("high", "")}
+                        onClick={() => handleFilterSelect("1", "")}
                         className={`${
                           active ? "bg-gray-100 text-gray-900" : "text-gray-700"
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
                         <span>High Priority</span>
-                        {filterPriority === "high" && filterActive === "" && (
+                        {filterPriority === "1" && filterActive === "" && (
                           <Check className="h-5 w-5" aria-hidden="true" />
                         )}
                       </button>
@@ -580,14 +582,14 @@ export default function TaskDisplay() {
                   <Menu.Item>
                     {({ active }) => (
                       <button
-                        onClick={() => handleFilterSelect("medium", "")}
+                        onClick={() => handleFilterSelect("2", "")}
                         className={`${
                           active ? "bg-gray-100 text-gray-900" : "text-gray-700"
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
                         <span>Medium Priority</span>
-                        {filterPriority === "medium" && filterActive === "" && (
+                        {filterPriority === "2" && filterActive === "" && (
                           <Check className="h-5 w-5" aria-hidden="true" />
                         )}
                       </button>
@@ -596,14 +598,14 @@ export default function TaskDisplay() {
                   <Menu.Item>
                     {({ active }) => (
                       <button
-                        onClick={() => handleFilterSelect("low", "")}
+                        onClick={() => handleFilterSelect("3", "")}
                         className={`${
                           active ? "bg-gray-100 text-gray-900" : "text-gray-700"
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
                         <span>Low Priority</span>
-                        {filterPriority === "low" && filterActive === "" && (
+                        {filterPriority === "3" && filterActive === "" && (
                           <Check className="h-5 w-5" aria-hidden="true" />
                         )}
                       </button>
