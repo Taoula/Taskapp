@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Square,
-  CheckSquare,
-  DotsThreeOutline,
-  DotsThree,
-  DotsThreeCircle,
-} from "phosphor-react";
+import { Square, CheckSquare, DotsThreeOutline } from "phosphor-react";
 import useToggle from "../../hooks/use-toggle";
 import styled from "styled-components";
 import axios from "axios";
@@ -15,16 +9,6 @@ import DeleteTaskDialogue from "./DeleteTaskDialogue";
 import convertTime from "../../methods/convert-time";
 import sameDate from "../../methods/same-date";
 import { Menu, Transition } from "@headlessui/react";
-
-// const TaskContainer = styled.div`
-//   background-color: ${(props) => props.color || "pink"};
-//   transition: 1s;
-//   &:hover {
-//     transform: scale(0.98);
-//     transition: 0.2s;
-//     cursor: pointer;
-//   }
-// `;
 
 export default function Task({ task, getTasks }) {
   console.log("rendering task?");
@@ -43,9 +27,6 @@ export default function Task({ task, getTasks }) {
   } = task;
 
   const [isExpanded, toggle] = useToggle(false);
-  // priority 1 (red) first, 2 (yellow) second, 3 (green) third
-  const colors = ["#fecaca", "#fef9c3", "#bbf7d0"];
-  const borderColors = ["#dc2626", "#ca8a04", "#059669"];
   const [showUpdateTask, setShowUpdateTask] = useState(false);
   const [open2, setOpen2] = useState(false);
   const [deleteTaskDialogue, setDeleteTaskDialogueOpen] = useState(false);
@@ -84,27 +65,28 @@ export default function Task({ task, getTasks }) {
   return (
     <>
       <div
-        className={`w-full rounded-md py-3 pl-4 pr-4 shadow-md hover:cursor-pointer flex justify-between`}
-        // onClick={toggleActive}
-        style={{
-          border: `solid ${
-            isActive ? "rgba(29, 78, 216)" : borderColors[priority - 1]
-          } 1.5px`,
-          backgroundColor: isActive
-            ? "rgba(37, 99, 235, 0.2)"
-            : `${borderColors[priority - 1]}11`,
-        }}
+        className={`w-full rounded-md border-2 bg-opacity-70 py-3 pl-4 pr-4 shadow-md hover:cursor-pointer flex justify-between ${
+          isActive
+            ? "bg-blue-400 border-blue-600"
+            : priority === "1"
+            ? "bg-rose-400 border-red-600"
+            : priority === "2"
+            ? "bg-yellow-400 border-yellow-600"
+            : "bg-green-400 border-green-600"
+        }`}
+        onClick={toggleActive}
       >
         <div>
-          <p className="text-xl capitalize" onClick={toggleActive}>
-            {name}
-          </p>
+          <p className="text-xl capitalize">{name}</p>
           <p className="font-light">{duration} minutes</p>
         </div>
         <div>
-          {/* <DotsThreeOutline size={20} weight="fill" /> */}
           <Menu as="div" className="relative flex text-left">
-            <Menu.Button>
+            <Menu.Button
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            >
               <DotsThreeOutline size={20} weight="fill" />
             </Menu.Button>
 

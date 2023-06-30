@@ -397,7 +397,6 @@ export default function TaskDisplay() {
         tempEntries.push(entryToAdd);
         tempEntries.sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
 
-
         // Patch the updated task
         let taskData = {
           name: taskReqInit.data[i].name,
@@ -449,30 +448,35 @@ export default function TaskDisplay() {
 
   //renders tasks based on active bool
   function renderTasks(active) {
-    if (taskState == null){
-      return <div></div>
+    if (taskState == null) {
+      return <div></div>;
     }
 
     return taskState.tasks
       .filter((task) => {
         let index = dateSearch(currentDay, task.entries);
-        if (index == -1){
-          return false
+        if (index == -1) {
+          return false;
         }
         const nameMatch = task.name
           .toLowerCase()
           .includes(searchQuery.toLowerCase());
-        const priorityMatch = filterPriority == "" ? true : filterPriority == task.entries[index].priority.toString()
+        const priorityMatch =
+          filterPriority == ""
+            ? true
+            : filterPriority == task.entries[index].priority.toString();
 
-
-        const activeMatch = filterActive.length === 0 ? true : filterActive == task.entries[index].isActive.toString() 
+        const activeMatch =
+          filterActive.length === 0
+            ? true
+            : filterActive == task.entries[index].isActive.toString();
         return nameMatch && priorityMatch && activeMatch;
       })
       .map((task, i) => {
         //find today's entry
 
         let index = dateSearch(currentDay, task.entries);
-        
+
         if (index > -1) {
           let t = task.entries[index];
 
@@ -532,7 +536,7 @@ export default function TaskDisplay() {
             </p>
             <Menu.Button>
               <div className="px-2 py-2 rounded-r-lg border border-gray-200 border-l-0 hover:bg-gray-200 hover:cursor-pointer hover:duration-100 duration-100">
-                <Funnel size={20}/>
+                <Funnel size={20} />
               </div>
             </Menu.Button>
 
@@ -545,7 +549,7 @@ export default function TaskDisplay() {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="origin-top-right absolute right-0 mt-12 w-48 rounded-md shadow-xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <Menu.Items className="z-10 origin-top-right absolute right-0 mt-12 w-48 rounded-md shadow-xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div className="py-1">
                   <Menu.Item>
                     {({ active }) => (
@@ -556,7 +560,7 @@ export default function TaskDisplay() {
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
-                        <span>No Filter</span>
+                        <span>No filter</span>
                         {filterPriority === "" && filterActive === "" && (
                           <Check className="h-5 w-5" aria-hidden="true" />
                         )}
@@ -572,7 +576,7 @@ export default function TaskDisplay() {
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
-                        <span>High Priority</span>
+                        <span>High priority</span>
                         {filterPriority === "1" && filterActive === "" && (
                           <Check className="h-5 w-5" aria-hidden="true" />
                         )}
@@ -588,7 +592,7 @@ export default function TaskDisplay() {
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
-                        <span>Medium Priority</span>
+                        <span>Medium priority</span>
                         {filterPriority === "2" && filterActive === "" && (
                           <Check className="h-5 w-5" aria-hidden="true" />
                         )}
@@ -604,7 +608,7 @@ export default function TaskDisplay() {
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
-                        <span>Low Priority</span>
+                        <span>Low priority</span>
                         {filterPriority === "3" && filterActive === "" && (
                           <Check className="h-5 w-5" aria-hidden="true" />
                         )}
@@ -620,7 +624,7 @@ export default function TaskDisplay() {
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
-                        <span>Active Tasks</span>
+                        <span>Active</span>
                         {filterPriority === "" && filterActive === "true" && (
                           <Check className="h-5 w-5" aria-hidden="true" />
                         )}
@@ -636,7 +640,7 @@ export default function TaskDisplay() {
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
-                        <span>Inactive Tasks</span>
+                        <span>Inactive</span>
                         {filterPriority === "" && filterActive === "false" && (
                           <Check className="h-5 w-5" aria-hidden="true" />
                         )}
@@ -664,9 +668,27 @@ export default function TaskDisplay() {
       </div>
 
       {/* library */}
-      <div className="border border-gray-200 bg-slate-50 rounded-md p-6 grid grid-cols-4 gap-3">
-        {renderTasks(false)}
-        {renderTasks(true)}
+      <div
+        className={`border border-gray-200 bg-slate-50/30 backdrop-blur-md rounded-md p-6 max-h-fit ${
+          taskState.numberOfActiveTasks === 0 &&
+          taskState.numberOfInactiveTasks === 0
+            ? "flex"
+            : "grid grid-cols-4 gap-3"
+        }`}
+      >
+        {taskState.numberOfActiveTasks === 0 &&
+        taskState.numberOfInactiveTasks === 0 ? (
+          <>
+            <p className="text-md text-slate-500 font-light mx-auto">
+              No tasks! Add a task to get started
+            </p>
+          </>
+        ) : (
+          <>
+            {renderTasks(false)}
+            {renderTasks(true)}
+          </>
+        )}
       </div>
 
       <div className="space-y-6 flex flex-col hidden">
