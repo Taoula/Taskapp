@@ -35,11 +35,11 @@ export default function Datepicker() {
 
   return (
     <div className="flex">
-      <div className="rounded-l-lg hover:cursor-pointer flex gap-2 items-center px-4 py-2 border border-gray-200 bg-stone-50/50 backdrop-blur-md text-slate-900 hover:bg-gray-200 duration-100 hover:duration-100">
+      <div className="rounded-l-lg hover:cursor-pointer flex gap-2 items-center px-4 py-2 border border-gray-200 bg-stone-50 text-slate-900 hover:bg-gray-200 duration-100 hover:duration-100">
         <Calendar size={20} weight="fill" />
         {formatDate(currentDay)}
       </div>
-      <div className="px-4 flex items-center gap-3 border bg-white/50 backdrop-blur-md border-gray-200 border-l-0 py-2 rounded-r-lg">
+      <div className="px-4 flex items-center gap-3 border bg-white border-gray-200 border-l-0 py-2 rounded-r-lg">
         {!isToday && (
           <ArrowLeft
             size={20}

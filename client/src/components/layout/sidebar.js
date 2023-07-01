@@ -165,9 +165,35 @@ export default function Sidebar() {
             </NavLink>
           ))}
         </div>
-        <div className="mx-auto">
-          <ProfileDropdown />
+        <div className="flex flex-col space-y-2 mx-auto">
+          {/* <ProfileDropdown /> */}
+          <img
+            alt="profile"
+            src="https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+            className="rounded-md object-cover"
+          />
+          <NavLink
+            to="/dashboard/accountsettings"
+            className={({ isActive }) =>
+              isActive
+                ? "bg-slate-200 rounded-md p-2 text-slate-900"
+                : "hover:bg-slate-200 rounded-md p-2 text-slate-900"
+            }
+          >
+            <Gear size={25} weight="light" />
+          </NavLink>
+          <button
+            onClick={logOut}
+            className={({ isActive }) =>
+              isActive
+                ? "bg-slate-200 rounded-md p-2 text-slate-900"
+                : "hover:bg-slate-200 rounded-md p-2 text-slate-900"
+            }
+          >
+            <SignOut size={25} weight="light" />
+          </button>
         </div>
+
         {/* <div className="mx-auto"> */}
         {/* <img
             alt="profile"

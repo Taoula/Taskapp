@@ -35,7 +35,7 @@ export default function Header() {
 
   return (
     <>
-      <div className="px-10 py-4 items-center flex justify-between bg-white/30 backdrop-blur-md border-b border-gray-200 sticky top-0 z-20">
+      <div className="px-10 py-4 items-center flex justify-between bg-white border-b border-gray-200 sticky top-0 z-20">
         <div className="sm:hidden">
           <List size={25} />
         </div>

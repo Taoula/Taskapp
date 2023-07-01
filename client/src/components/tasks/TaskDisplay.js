@@ -133,8 +133,7 @@ export default function TaskDisplay() {
     });
   }
 
-  //renders tasks based on active bool
-  function renderTasks(active) {
+  function renderTasks() {
     if (taskState == null) {
       return <div></div>;
     }
@@ -161,32 +160,29 @@ export default function TaskDisplay() {
       })
       .map((task, i) => {
         //find today's entry
-
         let index = dateSearch(currentDay, task.entries);
 
         if (index > -1) {
           let t = task.entries[index];
 
-          if (t.isActive === active) {
-            return (
-              <Task
-                key={i}
-                task={{
-                  name: task.name,
-                  priority: t.priority,
-                  duration: t.duration,
-                  _id: task._id,
-                  isActive: t.isActive,
-                  completed: t.completed,
-                  time: t.time,
-                  currentDay,
-                }}
-                getTasks={getTasks}
-              >
-                {task.name}
-              </Task>
-            );
-          }
+          return (
+            <Task
+              key={i}
+              task={{
+                name: task.name,
+                priority: t.priority,
+                duration: t.duration,
+                _id: task._id,
+                isActive: t.isActive,
+                completed: t.completed,
+                time: t.time,
+                currentDay,
+              }}
+              getTasks={getTasks}
+            >
+              {task.name}
+            </Task>
+          );
         }
       });
   }
@@ -195,7 +191,7 @@ export default function TaskDisplay() {
     <>
       {/* Tasks menu */}
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-4xl font-semibold pt-1">Library</h1>
+        <h1 className="text-4xl font-semibold">Library</h1>
         <div className="flex gap-4">
           {/* search for task */}
           <div className="flex items-center">
@@ -360,7 +356,7 @@ export default function TaskDisplay() {
           taskState.numberOfActiveTasks === 0 &&
           taskState.numberOfInactiveTasks === 0
             ? "flex"
-            : "grid grid-cols-4 gap-3"
+            : "grid grid-cols-3 gap-3"
         }`}
       >
         {taskState.numberOfActiveTasks === 0 &&
@@ -371,10 +367,7 @@ export default function TaskDisplay() {
             </p>
           </>
         ) : (
-          <>
-            {renderTasks(false)}
-            {renderTasks(true)}
-          </>
+          <>{renderTasks()}</>
         )}
       </div>
 
