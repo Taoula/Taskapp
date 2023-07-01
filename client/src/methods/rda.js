@@ -1,7 +1,6 @@
 function rda(t, d) {
     // Calculate the quotient and remainder of t divided by d
-    console.log("---RDA---")
-    console.log("total duration is " + t + "and divisions is " + d)
+    console.log("RDA RDA RDA: t is " + t + " and d is " + d)
     var quotient = Math.floor(t / d);
     var remainder = t % d;
   
@@ -14,7 +13,16 @@ function rda(t, d) {
     for(var i=0; i<remainder; i++) {
       arr[i] += 1;
     }
-    console.log(arr)
+
+    let adj = 0
+    for (let i = 0; i < d; i++){
+      let rounded = Math.round(arr[i] / 5) * 5;
+      adj += arr[i] - rounded;
+      arr[i] = rounded;
+    }
+
+    arr[d-1] += adj
+
     return arr;
   }
 

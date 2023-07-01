@@ -73,8 +73,8 @@ async function newSort(setSchedule, currentDay, resort){
                 for (let i = 0; i < taskReq.data.length; i++){
                     let k = dateSearch(currentDay, taskReq.data[i].entries)
                     if (k >= 0){
-                        console.log("task found: ")
-                        console.log(taskReq.data[i].entries[k])
+                        //console.log("task found: ")
+                        //console.log(taskReq.data[i].entries[k])
                     }
                     if (k >= 0 && taskReq.data[i].entries[k].isActive && !taskReq.data[i].entries[k].completed) {
                         let {priority, duration, notes, links, completed, time, next, prev, divisions} = taskReq.data[i].entries[k]
@@ -128,7 +128,6 @@ async function newSort(setSchedule, currentDay, resort){
         // Calculate task sum time & free time pool
             let taskSum = tasks.reduce((total, task) => total + task.duration, 0)
             let freeTimePool = totalTime - taskSum
-            console.log("init ftp is " + freeTimePool)
 
         // If task sum > total time, shave time
             if (taskSum > totalTime){
@@ -136,6 +135,8 @@ async function newSort(setSchedule, currentDay, resort){
                 freeTimePool = 0
                 shave()
             }
+
+            console.log("init ftp is " + freeTimePool)
 
         // If free time > 0, calculate length & frequency (RDA & RPA)
             let freeTimes
@@ -195,14 +196,17 @@ async function newSort(setSchedule, currentDay, resort){
                 let durations = rda(tasks[i].duration, tasks[i].divisions)
                 console.log(durations)
                 for (let k = 0; k < durations.length; k++){
-                    let cloneTaskObject = tasks[i]
+                    let cloneTaskObject = {...tasks[i]};
+                    //let cloneTaskObject = tasks[i]
                     cloneTaskObject.duration = durations[k]
+                    
                     cloneTaskObject.divisionId = k
+                    console.log(cloneTaskObject)
                     cTasks.push(cloneTaskObject)
                 }
             }
     }
-
+    console.log(cTasks)
     tasks = cTasks
 
     //Add fixed time of day tasks to schedule. Add all child task trees (task.next). Remove from crude array.
@@ -259,9 +263,14 @@ async function newSort(setSchedule, currentDay, resort){
     let priorityOne = []
     let priorityTwo = []
     let priorityThree = []
+    let divided = []
+
 
     for (let i = 0; i < tasks.length; i++){
-        if (tasks[i].priority === 1) {
+        if(tasks[i].divisions > 1){
+            divided.push(tasks[i])
+        }
+        else if (tasks[i].priority === 1) {
             priorityOne.push(tasks[i]);
         }
 
@@ -275,6 +284,44 @@ async function newSort(setSchedule, currentDay, resort){
     }
 
     tasks = priorityOne.concat(priorityTwo).concat(priorityThree)
+
+    if (divided.length > 0){
+        // Calculate the total number of items with the same _id
+        const countMap = new Map();
+        for (let item of divided) {
+        if (countMap.has(item._id)) {
+            countMap.set(item._id, countMap.get(item._id) + 1);
+        } else {
+            countMap.set(item._id, 1);
+        }
+        }
+
+        // Create a map to track the current index for each unique _id in the tasks array
+        const indexMap = new Map();
+        for (let [_id, count] of countMap.entries()) {
+            indexMap.set(_id, 0);
+        }
+
+        // Sort divided based on _id for even distribution
+        divided.sort((a, b) => a._id - b._id);
+
+        // Distribute items in divided into tasks based on count
+        for (let item of divided) {
+            const _id = item._id;
+            const count = countMap.get(_id);
+            const index = indexMap.get(_id);
+
+            // Calculate the target index in tasks array for the current item
+            const targetIndex = Math.floor(index * (tasks.length / count));
+
+            // Insert the item into the tasks array at the calculated index
+            tasks.splice(targetIndex, 0, item);
+
+            // Update the current index for this _id in the index map
+            indexMap.set(_id, index + 1);
+        }
+
+    }
 
     //3 - SCHEDULE GENERATION-------------------------------------------------------
 
@@ -299,39 +346,90 @@ async function newSort(setSchedule, currentDay, resort){
         }
 
         function shave(amount){
+            console.log("shaving")
             let cB = 1;
             let p1 = []
             let p2 = []
             let p3 = []
+            console.log(tasks.length)
             for (let i = 0; i < tasks.length; i++){
-                if (tasks[i].time = ''){
-                    if (tasks[i].priority == 1){
+                if (tasks[i].time == '' || tasks[i].time == null){
+                    console.log(tasks[i])
+                    if (tasks[i].priority.toString() == "1"){
                         p1.push(tasks[i])
-                    } else if (tasks[i].priority == 2){
+                    } else if (tasks[i].priority.toString() == "2"){
                         p2.push(tasks[i])
-                    } else if (tasks[i].priority == 3){
+                    } else if (tasks[i].priority.toString() == "3"){
                         p3.push(tasks[i])
                     }
                 }
             }
 
+            //console.log(p1)
+            //console.log(p2)
+            //console.log(p3)
+
             while(taskSum > totalTime) {
                 checkTimeout()
-                console.log("here")
+                console.log(taskSum - totalTime)
+                let diff = taskSum - totalTime
+                //console.log(taskSum-totalTime)
                 //TODO qc for too many tod tasks, in case all non-tods are cut to 0 but time still exceeds sleep/wake.
-                p3.forEach(task => task.duration -= Math.floor(3*cB))
+                /*p3.forEach(task => task.duration -= Math.floor(3*cB))
                 taskSum -= Math.floor(p3.length * cB*3)
-                if (taskSum < totalTime){
+                if (taskSum <= totalTime){
                     break;
                 }
                 p2.forEach(task => task.duration -= Math.floor(2*cB))
                 taskSum -= Math.floor(p2.length * cB*2)
-                if (taskSum < totalTime){
+                if (taskSum <= totalTime){
                     break;
                 }
                 p1.forEach(task => task.duration-= Math.floor(1*cB))
                 taskSum -= Math.floor(p1.length * cB)
-                cB += 1;
+                cB += 1;*/
+
+                for (let i = 0; i < p3.length && diff > 0; i++){
+                    if (p3[i].duration > 5){
+                        if (diff >= 5){
+                            p3[i].duration -= 5
+                            diff -= 5
+                            taskSum -= 5
+                        } else {
+                            p3[i].duration -= diff
+                            taskSum -= diff
+                            diff = 0
+                        }
+                    }
+                }
+
+                for (let i = 0; i < p2.length && diff > 0; i++){
+                    if (p2[i].duration > 5){
+                        if (diff >= 5){
+                            p2[i].duration -= 5
+                            diff -= 5
+                            taskSum -= 5
+                        } else {
+                            p2[i].duration -= diff
+                            taskSum -= diff
+                            diff = 0
+                        }
+                    }
+                }
+
+                for (let i = 0; i < p1.length && diff > 0; i++){
+                    if (p1[i].duration > 5){
+                        if (diff >= 5){
+                            p1[i].duration -= 5
+                            diff -= 5
+                            taskSum -= 5
+                        } else {
+                            p1[i].duration -= diff
+                            taskSum -= diff
+                            diff = 0
+                        }
+                    }
+                }
             }
 
             tasks = p1.concat(p2).concat(p3)
@@ -489,10 +587,10 @@ async function newSort(setSchedule, currentDay, resort){
                     console.log("searching for a fitting task tree")
                     let foundIndex = -1
                     for (let i = 0; i < tasks.length; i++){
-                        console.log(tasks[i])
+                        //console.log(tasks[i])
                         //loop through every task, check its tree length
                         if (tasks[i].prev == ''){
-                            console.log('here 1')
+                            //console.log('here 1')
                             let treeLength = 0
                             let currentTask = tasks[i]
     
