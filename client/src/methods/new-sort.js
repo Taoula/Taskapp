@@ -193,6 +193,7 @@ async function newSort(setSchedule, currentDay, resort){
                 cTasks.push(tasks[i])
             } else {
                 let durations = rda(tasks[i].duration, tasks[i].divisions)
+                console.log(durations)
                 for (let k = 0; k < durations.length; k++){
                     let cloneTaskObject = tasks[i]
                     cloneTaskObject.duration = durations[k]
