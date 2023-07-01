@@ -265,7 +265,7 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                                 <h1 className="text-sm text-gray-700">
                                   Set a specific time
                                 </h1>
-                                {/* <span>
+                                 <span>
                               {fixed ? (
                                 <CheckSquare
                                   size={20}
@@ -279,18 +279,10 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                                   className="text-gray-500"
                                 />
                               )}
-                            </span> */}
+                            </span> 
                               </div>
-                              <input
-                                type="time"
-                                id="time"
-                                value={dayjs(time)}
-                                onChange={(newTime) => {
-                                  setTime(newTime.toDate());
-                                }}
-                                className="border border-gray-300 rounded px-3 py-2"
-                              />
-                              {/* {fixed && (
+ 
+                               {fixed && (
                             <TimeField
                               label="Controlled field"
                               value={dayjs(time)}
@@ -298,7 +290,7 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                                 setTime(newTime.toDate());
                               }}
                             />
-                          )} */}
+                          )} 
                             </>
                           )}
 
