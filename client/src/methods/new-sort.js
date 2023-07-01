@@ -13,7 +13,7 @@ async function newSort(setSchedule, currentDay, resort){
 
     
     let functionStart = dayjs(new Date())
-
+    
     function checkTimeout(){
         let rightNow = dayjs(new Date())
         if (rightNow.diff(functionStart, "seconds") > 2){
@@ -34,7 +34,8 @@ async function newSort(setSchedule, currentDay, resort){
 
     let wakeDate = entries[entryIndex].wake
     let sleepDate = entries[entryIndex].sleep
-
+    //console.log(entries)
+    console.log(scheduleReq.data)
     console.log(wakeDate)
     console.log(sleepDate)
 

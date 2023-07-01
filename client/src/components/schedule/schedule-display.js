@@ -95,14 +95,18 @@ export default function ScheduleDisplay(){
                 let tempSleep = dayjs(currentDay)
                 let defaultWake = dayjs(defaults.wake)
                 let defaultSleep = dayjs(defaults.sleep)
+                console.log(defaultWake)
+                console.log(defaultSleep)
 
+                tempWake = tempWake.hour(defaultWake.get('hour'))
+                tempWake = tempWake.minute(defaultWake.get('minute')) 
+                tempSleep = tempSleep.hour(defaultSleep.get('hour'))
+                tempSleep = tempSleep.minute(defaultSleep.get('minute'))
 
-                tempWake.set('hour', defaultWake.get('hour'))
-                tempWake.set('minute', defaultWake.get('minute'))
-                tempSleep.set('hour', defaultSleep.get('hour'))
-                tempSleep.set('minute', defaultSleep.get('minute'))
+                console.log(tempWake)
+                console.log(tempSleep)
                 if (tempWake.diff(tempSleep, 'minute') > 0){
-                    tempSleep.add(1, 'day')
+                    tempSleep = tempSleep.add(1, 'day')
                 }
                 entryToAdd = {schedule: [], wake: tempWake, sleep: tempSleep}
             }
