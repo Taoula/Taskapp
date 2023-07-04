@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
-import Navbar from "../components/layout/Navbar";
-import Hero from "../components/layout/Hero";
-import Features from "../components/layout/Features";
-import Footer from "../components/layout/Footer";
-import Pricing from "../components/layout/Pricing";
+import Navbar from "../components/layout/LandingPage/Navbar";
+import Hero from "../components/layout/LandingPage/Hero";
+import Features from "../components/layout/LandingPage/Features";
+import Footer from "../components/layout/LandingPage/Footer";
+import Pricing from "../components/layout/LandingPage/Pricing";
 
 export default function Landing() {
   const [scrollToFeatures, setScrollToFeatures] = useState(false);

@@ -4,7 +4,7 @@ import useToggle from "../../hooks/use-toggle";
 import useGlobalStore from "../../context/useGlobalStore";
 import Task from "./Task";
 import "tw-elements";
-import DashboardFooter from "../layout/DashboardFooter";
+import DashboardFooter from "../layout/Dashboard/DashboardFooter";
 import CreateTaskSlideover from "./CreateTaskSlideover";
 import { Menu, Transition } from "@headlessui/react";
 import CompletedTask from "./CompletedTask";

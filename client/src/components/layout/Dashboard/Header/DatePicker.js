@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import useGlobalStore from "../../context/useGlobalStore";
+import useGlobalStore from "../../../../context/useGlobalStore";
 import dayjs from "dayjs";
 import {
   CaretRight,
@@ -20,12 +20,9 @@ export default function Datepicker() {
 
   const formatDate = (date) => {
     const today = dayjs();
-    const yesterday = today.subtract(1, "day");
 
     if (date.isSame(today, "day")) {
       return "Today";
-    } else if (date.isSame(yesterday, "day")) {
-      return "Yesterday";
     } else if (date.isSame(today.add(1, "day"), "day")) {
       return "Tomorrow";
     } else {
@@ -40,13 +37,23 @@ export default function Datepicker() {
         {formatDate(currentDay)}
       </div>
       <div className="px-4 flex items-center gap-3 border bg-white border-gray-200 border-l-0 py-2 rounded-r-lg">
-        {!isToday && (
-          <ArrowLeft
-            size={20}
-            weight="bold"
-            className="text-gray-500 hover:text-slate-900 duration-100 hover:duration-100 hover:cursor-pointer"
-            onClick={decrementDay}
-          />
+        {!isToday ? (
+          <>
+            <ArrowLeft
+              size={20}
+              weight="bold"
+              className="text-gray-500 hover:text-slate-900 duration-100 hover:duration-100 hover:cursor-pointer"
+              onClick={decrementDay}
+            />
+          </>
+        ) : (
+          <>
+            <ArrowLeft
+              size={20}
+              weight="bold"
+              className="text-gray-200 duration-100 hover:duration-100 hover:cursor-not-allowed"
+            />
+          </>
         )}
         <p>{currentDay.format("MM/DD/YYYY")}</p>
         <ArrowRight

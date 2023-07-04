@@ -4,7 +4,7 @@ import LoginForm from "./components/auth/login-form";
 import RegisterForm from "./components/auth/register-form";
 import TaskPage from "./pages/task-page";
 import SchedulePage from "./pages/schedule-page";
-import Dashboard from "./components/layout/Dashboard";
+import Dashboard from "./components/layout/Dashboard/Dashboard";
 import AccountSettings from "./components/AccountSettings/AccountSettings";
 import Help from "./components/Help/Help";
 import Overview from "./components/Overview/Overview";

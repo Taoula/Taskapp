@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import BreakpointLabel from "../BreakpointLabel";
-import ProfileDropdown from "./ProfileDropdown";
+import BreakpointLabel from "../../BreakpointLabel";
+import ProfileDropdown from "../Dashboard/Sidebar/ProfileDropdown";
 import { ArrowRight, CaretRight } from "phosphor-react";
 import Footer from "./Footer";
 import Testimonials from "./Testimonials";

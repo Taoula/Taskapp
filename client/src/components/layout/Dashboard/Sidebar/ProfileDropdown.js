@@ -1,7 +1,7 @@
 import { Fragment, useState, useRef, useEffect, useContext } from "react";
 import { Menu, Transition, Popover } from "@headlessui/react";
 import { useNavigate, Link, NavLink } from "react-router-dom";
-import AuthContext from "../../context/auth-context";
+import AuthContext from "../../../../context/auth-context";
 import { ArrowRight, Gear, SignOut, UserGear } from "phosphor-react";
 import { usePopper } from "react-popper";
 import { placements } from "@popperjs/core";
@@ -53,7 +53,6 @@ export default function ProfileDropdown() {
 
   return (
     <>
-    
       <div className="flex space-x-2">
         {/* profile image */}
         <img
@@ -96,7 +95,9 @@ export default function ProfileDropdown() {
                 href="#"
                 className="w-full font-medium text-slate-900 rounded-md flex gap-2 items-center py-3 px-4 text-sm hover:bg-gray-200"
                 role="menuitem"
-                onClick={()=> {history("/dashboard/accountSettings")}}
+                onClick={() => {
+                  history("/dashboard/accountSettings");
+                }}
               >
                 <UserGear size={20} weight="fill" />
                 Account settings

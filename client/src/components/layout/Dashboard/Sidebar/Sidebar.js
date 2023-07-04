@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect, Fragment } from "react";
 import { useNavigate, Link, NavLink } from "react-router-dom";
-import AuthContext from "../../context/auth-context";
+import AuthContext from "../../../../context/auth-context";
 import { Menu, Transition } from "@headlessui/react";
 import axios from "axios";
 import {
@@ -19,7 +19,7 @@ import {
   CaretRight,
   PuzzlePiece,
 } from "phosphor-react";
-import LogoutDialogue from "./LogoutDialogue";
+import LogoutDialogue from "../../LogoutDialogue";
 import { faN } from "@fortawesome/free-solid-svg-icons";
 import ProfileDropdown from "./ProfileDropdown";
 
