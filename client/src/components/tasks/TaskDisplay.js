@@ -191,7 +191,7 @@ export default function TaskDisplay() {
     <>
       {/* Tasks menu */}
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-4xl font-semibold">Library</h1>
+        <h1 className="text-3xl font-medium">Library</h1>
         <div className="flex gap-4">
           {/* search for task */}
           <div className="flex items-center">

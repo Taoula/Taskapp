@@ -2,7 +2,11 @@ import { UserCircle, CheckSquare, Square } from "phosphor-react";
 import React, { useState, useEffect } from "react";
 import "tw-elements";
 import axios from "axios";
-import useSettingStore from "../../context/useSettingStore"
+import useSettingStore from "../../context/useSettingStore";
+import UpdateProfile from "./UpdateProfile";
+import UpdatePassword from "./UpdatePassword";
+import UpdatePlan from "./UpdatePlan";
+import UpdateBilling from "./UpdateBilling";
 
 export default function AccountSettings() {
   const [settingsTabsToggle, setSettingsTabToggle] = useState(1);
@@ -10,8 +14,8 @@ export default function AccountSettings() {
   const [email, setEmail] = useState("");
   const [userRole, setUserRole] = useState("");
 
-  const gTheme = useSettingStore(state => state.theme);
-  const refreshSettings = useSettingStore(state => state.refreshSettings);
+  const gTheme = useSettingStore((state) => state.theme);
+  const refreshSettings = useSettingStore((state) => state.refreshSettings);
 
   async function loadData() {
     const user = await axios.get(`http://localhost:8282/auth/`);
@@ -26,23 +30,30 @@ export default function AccountSettings() {
     setUserRole(loadUserRole);
   }
 
-  async function toggleDarkMode(){
-    const settingsReq = await axios.get("http://localhost:8282/settings/")
-    let {theme, freeTimeProportions, freeTimeMethod, showPopUps} = settingsReq.data
+  async function toggleDarkMode() {
+    const settingsReq = await axios.get("http://localhost:8282/settings/");
+    let { theme, freeTimeProportions, freeTimeMethod, showPopUps } =
+      settingsReq.data;
 
-    if (theme == "light"){
-      theme = "dark"
+    if (theme == "light") {
+      theme = "dark";
     } else {
-      theme = "light"
+      theme = "light";
     }
-    console.log(settingsReq.data)
-    await axios.patch("http://localhost:8282/settings/", {theme, freeTimeMethod, freeTimeProportions, showPopUps})
-    .then((res) => res.data)
-    .then(async (res) => {
-      refreshSettings()
-    })
+    console.log(settingsReq.data);
+    await axios
+      .patch("http://localhost:8282/settings/", {
+        theme,
+        freeTimeMethod,
+        freeTimeProportions,
+        showPopUps,
+      })
+      .then((res) => res.data)
+      .then(async (res) => {
+        refreshSettings();
+      });
   }
- 
+
   useEffect(() => {
     loadData();
   }, []);
@@ -50,37 +61,35 @@ export default function AccountSettings() {
   const toggleSettingsTab = (index) => {
     setSettingsTabToggle(index);
   };
+
+  const settingsTabs = [
+    { id: 1, label: "Profile" },
+    { id: 2, label: "Password" },
+    { id: 3, label: "Plan" },
+    { id: 4, label: "Billing" },
+  ];
+
   return (
     <>
-      <h1 className="text-2xl font-normal mb-5">Account Settings</h1>
+      <h1 className="text-3xl font-medium mb-8">Settings</h1>
 
       <div>
-        <div class="text-sm mb-5 text-center text-gray-500 border-b border-gray-500">
-          <ul class="flex flex-wrap -mb-px">
-            <li>
-              <span
-                className={
-                  settingsTabsToggle === 1
-                    ? "inline-block p-4 text-gray-900 rounded-t-lg border-b-2 border-gray-900 active"
-                    : "inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-900 hover:border-gray-900 font-normal"
-                }
-                onClick={() => toggleSettingsTab(1)}
-              >
-                Profile
-              </span>
-            </li>
-            <li>
-              <span
-                className={
-                  settingsTabsToggle === 2
-                    ? "inline-block p-4 text-gray-900 rounded-t-lg border-b-2 border-gray-900 active"
-                    : "inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-900 hover:border-gray-900 font-normal"
-                }
-                onClick={() => toggleSettingsTab(2)}
-              >
-                Password
-              </span>
-            </li>
+        <div className="text-md mb-5 text-center text-gray-500 border-b border-slate-300">
+          <ul className="flex flex-wrap -mb-px">
+            {settingsTabs.map((tab) => (
+              <li key={tab.id}>
+                <span
+                  className={`inline-block p-4 rounded-t-lg border-b-2 font-medium ${
+                    settingsTabsToggle === tab.id
+                      ? "text-slate-900 border-slate-900 active"
+                      : "border-transparent hover:text-slate-900 hover:border-slate-900"
+                  }`}
+                  onClick={() => toggleSettingsTab(tab.id)}
+                >
+                  {tab.label}
+                </span>
+              </li>
+            ))}
           </ul>
         </div>
 
@@ -89,24 +98,24 @@ export default function AccountSettings() {
             settingsTabsToggle === 1 ? "active-content content" : "content"
           }
         >
-          <div className="pl-5 pr-5">
-            <div className="mb-8">
-              <h1 className="text-lg pb-1 font-normal">General</h1>
-            </div>
+          <UpdateProfile />
+          {/* <div className="pl-5 pr-5">
             <form className="space-y-8 text-gray-500">
               <div>
                 <p>Dark Mode</p>
-                {gTheme == "dark" ? 
+                {gTheme == "dark" ? (
                   <CheckSquare
                     size={20}
                     onClick={toggleDarkMode}
-                    className="text-gray-500"/> :
-                    
+                    className="text-gray-500"
+                  />
+                ) : (
                   <Square
                     size={20}
                     onClick={toggleDarkMode}
                     className="text-gray-500"
-                  />}
+                  />
+                )}
               </div>
               <div className="border-b border-gray-200 w-full pb-8">
                 <span className="flex items-center w-3/4 justify-between">
@@ -173,7 +182,7 @@ export default function AccountSettings() {
                 </button>
               </div>
             </form>
-          </div>
+          </div> */}
         </div>
 
         <div
@@ -181,7 +190,8 @@ export default function AccountSettings() {
             settingsTabsToggle === 2 ? "active-content content" : "content"
           }
         >
-          <div className="pl-5 pr-5">
+          <UpdatePassword />
+          {/* <div className="pl-5 pr-5">
             <div className="mb-8">
               <h1 className="text-lg pb-1 font-normal">Password</h1>
               <h1 className="text-gray-500 text-sm font-light">
@@ -192,7 +202,9 @@ export default function AccountSettings() {
             <form className="space-y-8 text-gray-500">
               <div className="border-b border-gray-200 w-full pb-8">
                 <span className="flex items-center w-3/4 justify-between">
-                  <label className="font-normal text-sm">Current password</label>
+                  <label className="font-normal text-sm">
+                    Current password
+                  </label>
                   <input
                     type="text"
                     placeholder="Old password"
@@ -212,7 +224,9 @@ export default function AccountSettings() {
               </div>
               <div className="w-full">
                 <span className="flex items-center w-3/4 justify-between">
-                  <label className="font-normal text-sm">Confirm password</label>
+                  <label className="font-normal text-sm">
+                    Confirm password
+                  </label>
                   <input
                     type="text"
                     placeholder="Confirm password"
@@ -235,7 +249,23 @@ export default function AccountSettings() {
                 </button>
               </div>
             </form>
-          </div>
+          </div> */}
+        </div>
+
+        <div
+          className={
+            settingsTabsToggle === 3 ? "active-content content" : "content"
+          }
+        >
+          <UpdatePlan />
+        </div>
+
+        <div
+          className={
+            settingsTabsToggle === 4 ? "active-content content" : "content"
+          }
+        >
+          <UpdateBilling />
         </div>
       </div>
     </>
