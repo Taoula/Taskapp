@@ -10,13 +10,14 @@ import {
 } from "phosphor-react";
 
 export default function Datepicker() {
-  const [selectedDate, setSelectedDate] = useState(dayjs());
-  const currentDay = useGlobalStore((state) => state.currentDay);
-  const incrementDay = useGlobalStore((state) => state.incrementDay);
-  const decrementDay = useGlobalStore((state) => state.decrementDay);
-  const jumpToDay = useGlobalStore((state) => state.jumpToDay);
-  const resetDay = useGlobalStore((state) => state.resetDay);
-  const isToday = useGlobalStore((state) => state.isToday)();
+  const { currentDay, incrementDay, decrementDay, isToday } = useGlobalStore(
+    (state) => ({
+      currentDay: state.currentDay,
+      incrementDay: state.incrementDay,
+      decrementDay: state.decrementDay,
+      isToday: state.isToday(),
+    })
+  );
 
   const formatDate = (date) => {
     const today = dayjs();
