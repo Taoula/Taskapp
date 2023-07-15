@@ -1,4 +1,4 @@
-import { Envelope, Person, PersonSimple } from "phosphor-react";
+import { CloudArrowUp, Envelope, Person, PersonSimple } from "phosphor-react";
 import React from "react";
 
 export default function UpdateProfile({
@@ -9,11 +9,9 @@ export default function UpdateProfile({
   setFirstName,
   setLastName,
   setEmail,
-  setUserRole,
-}) {
+  setUserRole, }) {
   return (
-    <>
-      <form className="space-y-4 max-w-screen-md">
+    <> <form className="space-y-4 max-w-screen-md">
         <div className="flex gap-4">
           {/* first name */}
           <div className="relative rounded-md w-full">
@@ -61,7 +59,30 @@ export default function UpdateProfile({
 
         <div className="flex justify-between w-full border-b border-slate-200 pb-6">
           <p className="text-sm font-medium text-slate-900">Your photo</p>
-          <img src="/" className="h-20 w-20 rounded-full object-cover" />
+          <div className="flex gap-4">
+            <img src="/" className="h-20 w-20 rounded-full object-cover" />
+            <main class="flex items-center justify-center">
+              <label
+                for="dropzone-file"
+                class="mx-auto cursor-pointer flex w-full max-w-lg flex-col items-center rounded-xl border border-gray-200 bg-gray-50 px-20 py-8 text-center"
+              >
+                <CloudArrowUp size={30} />
+
+                <h2 class="mt-4 text-md font-medium text-gray-700 tracking-wide">
+                  Click to upload{" "}
+                  <span className="font-normal text-gray-400">
+                    or drag and drop
+                  </span>
+                </h2>
+
+                <p class="mt-2 text-sm text-gray-500 tracking-wide">
+                  JPG or PNG (max. 16mb)
+                </p>
+
+                <input id="dropzone-file" type="file" class="hidden" />
+              </label>
+            </main>
+          </div>
         </div>
       </form>
     </>
