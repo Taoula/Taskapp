@@ -157,7 +157,7 @@ export default function Step2({
       )}
 
       {/* recaptcha */}
-      <ReCAPTCHA sitekey="YOUR_ID" className="pt-4 flex justify-end" />
+      <ReCAPTCHA sitekey="6LdhXSgnAAAAANUbNl6vJpd4Lgtuhxt6p1FJeMSf" className="pt-4 flex justify-end" />
 
       {/* terms of agreement */}
       <span className="flex pt-4 items-center gap-2 justify-end">
