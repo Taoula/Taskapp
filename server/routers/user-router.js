@@ -3,6 +3,11 @@ const User = require("../models/user.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth")
+const Stripe = require("../Stripe")
+const productToPriceMap = {
+  MONTHLY: "price_1NUbO0B6OZ4o5CX1MScF90G6",
+  YEARLY: "price_1NUbOVB6OZ4o5CX12hCEXbqb",
+};
 
 //register
 router.post("/", async (req, res) => {
@@ -34,6 +39,13 @@ router.post("/", async (req, res) => {
         errorMessage: "An account with this email already exists",
       });
 
+    //Initialize stripe user
+
+    const customer = await Stripe.addNewCustomer(email);
+    //res.send("Customer created: " + JSON.stringify(customer));
+    req.session.customerID = customer
+    const billingID = customer.id
+
     //hash password
 
     const salt = await bcrypt.genSalt();
@@ -44,8 +56,12 @@ router.post("/", async (req, res) => {
       fName,
       lName,
       userRole,
+      billingID,
       email,
       passwordHash,
+      plan: "none",
+      hasTrial: false,
+      endDate: null
     });
 
     const savedUser = await newUser.save();
@@ -67,8 +83,8 @@ router.post("/", async (req, res) => {
       })
       .send();
   } catch (err) {
-    console.error(err);
-    res.status(500).send();
+    console.error(err.errorMessage);
+    res.status(500).json({ errorMessage: err.message });
   }
 });
 
@@ -76,6 +92,7 @@ router.post("/", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   try {
+    req.session.customerID = customer
     const { email, password } = req.body;
 
     if (!email || !password)
@@ -143,12 +160,37 @@ router.get("/loggedIn", (req, res) => {
 router.get("/", auth, async (req, res) => {
   try {
       const userId = req.user;
-      const {fName, lName, email, userRole} = await User.findById(userId);
-      res.json({fName, lName, email, userRole});
+      const {fName, lName, email, userRole, billingID, plan, hasTrial, endDate} = await User.findById(userId);
+      res.json({fName, lName, email, userRole, billingID});
   } catch (err){
       console.error(err)
       res.status(500).send()
   }
 });
+
+router.post("/checkout", auth, async(req, res) => {
+  try {
+    const { customerID, product } = req.body;
+    const price = productToPriceMap[product.toUpperCase()];
+    const session = await Stripe.createCheckoutSession(customerID, price);
+    res.json(session)
+  } catch (err) {
+    console.error(err)
+    res.status(501).send()
+  }
+})
+
+//PATCH NONSENSITIVE USER DATA
+router.patch("/", auth, async(req, res) => {
+  try{
+    const userId = req.user
+    const {billingID} = await User.findById(userId)
+    const {fName, lName, email, userRole, plan, hasTrial, endDate} = req.body
+    await User.findOneAndUpdate({_id: userId}, {fName, lName, email, userRole, plan, hasTrial, endDate})
+  } catch (err) {
+    console.error(err)
+    res.status(500).send()
+  }
+})
 
 module.exports = router;

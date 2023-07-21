@@ -1,19 +1,31 @@
 import { RadioButton, Check, Circle } from "phosphor-react";
+import axios from "axios"
 import React, { useState } from "react";
+import Stripe from "stripe";
 
 export default function Step3({ setStep }) {
-  const [selectedBox, setSelectedBox] = useState(null);
+  const [selectedPlan, setSelectedPlan] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
-  const handleBoxClick = (boxId) => {
-    if (boxId === selectedBox) {
-      setSelectedBox(null);
+  const handlePlanSelection = (boxId) => {
+    if (boxId === selectedPlan) {
+      setSelectedPlan(null);
       setIsButtonDisabled(true);
     } else {
-      setSelectedBox(boxId);
+      setSelectedPlan(boxId);
       setIsButtonDisabled(false);
     }
   };
+
+  async function redirectToCheckout(){
+    const userReq = await axios.get("http://localhost:8282/auth/")
+    const {billingID} = await userReq.data
+    await axios.post("http://localhost:8282/auth/checkout", {billingID, product: selectedPlan})
+      .then ((res) => res.data)
+      .then (({ sessionId }) => {
+        Stripe.redirectToCheckout(sessionId)
+      })
+  }
 
   return (
     <>
@@ -21,14 +33,14 @@ export default function Step3({ setStep }) {
         {/* monthly subscription plan */}
         <div
           className={`box w-full rounded-md bg-white border-2 p-6 ${
-            selectedBox === 1
+            selectedPlan === "monthly"
               ? "border-blue-600 bg-slate-50"
               : "border-gray-200"
           }`}
-          onClick={() => handleBoxClick(1)}
+          onClick={() => handlePlanSelection("monthly")}
         >
           <div className="flex gap-2 items-center">
-            {selectedBox === 1 ? (
+            {selectedPlan === "monthly" ? (
               <RadioButton size={20} weight="fill" className="text-blue-600" />
             ) : (
               <Circle size={20} />
@@ -57,14 +69,14 @@ export default function Step3({ setStep }) {
         {/* yearly subscription plan */}
         <div
           className={`box w-full rounded-md bg-white border-2 p-6 ${
-            selectedBox === 2
+            selectedPlan === "yearly"
               ? "border-blue-600 bg-slate-50"
               : "border-gray-200"
           }`}
-          onClick={() => handleBoxClick(2)}
+          onClick={() => handlePlanSelection("yearly")}
         >
           <div className="flex gap-2 items-center">
-            {selectedBox === 2 ? (
+            {selectedPlan === "yearly" ? (
               <RadioButton size={20} weight="fill" className="text-blue-600" />
             ) : (
               <Circle size={20} />
@@ -97,7 +109,8 @@ export default function Step3({ setStep }) {
       <div className="flex gap-4">
         {/* back button */}
         <button
-          type="bbutton"
+          disabled
+          type="button"
           onClick={() => {
             setStep((currentStep) => currentStep - 1);
           }}
@@ -114,7 +127,7 @@ export default function Step3({ setStep }) {
               : "bg-slate-900 duration-300 hover:duration-300 hover:shadow-2xl text-white"
           } py-3.5 max-w-md mx-auto rounded-md w-full text-sm tracking-wide font-medium mt-8`}
           onClick={() => {
-            setStep((currentStep) => currentStep + 1);
+            //setStep((currentStep) => currentStep + 1);
           }}
         >
           Continue to payment

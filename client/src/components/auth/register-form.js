@@ -141,24 +141,30 @@ export default function RegisterForm() {
       await axios.post("http://localhost:8282/auth/", userData, {})
         .then((res) => res.data)
         .then(async (res) => {
+          console.log("auth succeeded")
           await axios.post("http://localhost:8282/schedule/",{},{} /* Two empty brackets necessary TODO ?*/)
           .then((res) => res.data)
           .then(async (res) => {
+            console.log("schedule succeeded")
             await axios.post("http://localhost:8282/userStat/", {})
             .then((res) => res.data)
             .then(async (res) => {
+              console.log("userstat succeeded")
               await axios.post("http://localhost:8282/settings/", {})
                 .then((res) => res.data)
                 .then(async(res) => {
+                  console.log("settings succeeded")
                   getLoggedIn()
                   refreshSettings()
-                  history("/dashboard/schedule")
+                  setStep((currentStep) => currentStep + 1);
+                  //history("/dashboard/schedule")
                 })
             })
           })
         })
     } catch (err) {
-      console.error(err.response.data)
+      //console.error(err.response)
+      console.error(err.message)
     }
   }
 
@@ -208,6 +214,7 @@ export default function RegisterForm() {
     else if (step === 2) {
       return (
         <Step2
+          registerUser={registerUser}
           history={history}
           email={email}
           handleCheckboxChange={handleCheckboxChange}
@@ -241,11 +248,13 @@ setStep={setStep}/>;
               setStep={setStep}
               fName={fName}
               lName={lName}
+              history={history}
               email={email}
               userRole={userRole}
               password={password}
               passwordVerify={passwordVerify}
               registerUser={registerUser}/>;
+              
     }
   };
 

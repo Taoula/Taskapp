@@ -3,6 +3,9 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const session = require('express-session');
+const MemoryStore = require('memorystore')(session);
+
 
 dotenv.config();
 
@@ -19,6 +22,19 @@ app.use(cors({
     credentials:true,
  })
 )
+
+//Set up session for stripe
+app.use(session({
+	saveUninitialized: false,
+	cookie: {
+		maxAge: 86400000
+	},
+	store: new MemoryStore({
+		checkPeriod: 86400000
+	}),
+	resave: false,
+	secret: 'keyboard cat'
+}));
 
 //connect to mongodb
 

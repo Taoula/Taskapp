@@ -28,6 +28,7 @@ export default function Step2({
   isNextDisabled,
   handleCheckboxChange,
   isTermsChecked,
+  registerUser,
 }) {
   return (
     <>
@@ -221,8 +222,9 @@ export default function Step2({
         <button
           type="button"
           disabled={isNextDisabled()}
-          onClick={() => {
-            setStep((currentStep) => currentStep + 1);
+          onClick={(e) => {
+            //setStep((currentStep) => currentStep + 1);
+            registerUser(e)
           }}
           className={`${
             isNextDisabled()
