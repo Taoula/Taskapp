@@ -351,6 +351,25 @@ export default function TaskDisplay() {
       </div>
 
       {/* library */}
+      <table className="table-fixed w-full max-h-fit my-5">
+        <thead>
+          <tr className="bg-red-500">
+            <th>Task</th>
+            <th>Duration</th>
+            <th>Status</th>
+            <th>actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr className="bg-blue-500">
+            <th>Poop</th>
+            <th>5 min</th>
+            <th>active</th>
+            <th>edit</th>
+          </tr>
+        </tbody>
+      </table>
+
       <div
         className={`border border-gray-200 bg-slate-50/30 backdrop-blur-md rounded-md p-4 max-h-fit ${
           taskState.numberOfActiveTasks === 0 &&
