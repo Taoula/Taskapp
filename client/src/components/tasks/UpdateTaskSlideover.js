@@ -6,17 +6,16 @@ import convertTime from "../../methods/convert-time";
 import { Square, CheckSquare } from "phosphor-react";
 import modifyTime from "../../methods/modify-time";
 import getTimeValue from "../../methods/get-time-value";
-import { TimeField } from '@mui/x-date-pickers/TimeField';
-const dayjs = require('dayjs')
-dayjs().format()
-
+import { TimeField } from "@mui/x-date-pickers/TimeField";
+const dayjs = require("dayjs");
+dayjs().format();
 
 export default function UpdateTaskSlideover({
   open2,
   setOpen2,
   getTasks,
   _id,
-  currentDay
+  currentDay,
 }) {
   const [name, setName] = useState("");
   const [duration, setDuration] = useState("");
@@ -24,17 +23,17 @@ export default function UpdateTaskSlideover({
   const [isActive, setIsActive] = useState(false);
   const [fixed, setFixed] = useState(false);
   const [time, setTime] = useState(new Date());
-  const [entries, setEntries] = useState([]) //TODO idk if needed but saves a get request call
-  const [defaults, setDefaults] = useState({}) //same here
-  const [index, setIndex] = useState(0) //also might not be needed but saves an iteration of entries
+  const [entries, setEntries] = useState([]); //TODO idk if needed but saves a get request call
+  const [defaults, setDefaults] = useState({}); //same here
+  const [index, setIndex] = useState(0); //also might not be needed but saves an iteration of entries
 
   async function loadData() {
     const task = await axios.get(`http://localhost:8282/task/${_id}/`);
-    setEntries(task.data.entries)
-    setDefaults(task.data.defaults)
-    for (let i = 0; i < task.data.entries.length; i++){
-      if (sameDate(task.data.entries[i], currentDay)){
-        setIndex(i)
+    setEntries(task.data.entries);
+    setDefaults(task.data.defaults);
+    for (let i = 0; i < task.data.entries.length; i++) {
+      if (sameDate(task.data.entries[i], currentDay)) {
+        setIndex(i);
       }
     }
     const loadName = task.data.name;
@@ -43,16 +42,16 @@ export default function UpdateTaskSlideover({
       duration: loadDuration,
       priority: loadPriority,
       isActive: loadIsActive,
-      time: loadTime
+      time: loadTime,
     } = task.data.entries[index];
 
     setName(loadName);
     setDuration(loadDuration);
     setPriority(loadPriority);
     setIsActive(loadIsActive);
-    if (loadTime != null){
-      setFixed(true)
-      setTime(loadTime)
+    if (loadTime != null) {
+      setFixed(true);
+      setTime(loadTime);
     }
   }
 
@@ -61,26 +60,25 @@ export default function UpdateTaskSlideover({
   }, []);
 
   async function submit(e) {
-    console.log("SUBMITTING")
+    console.log("SUBMITTING");
     try {
       e.preventDefault();
 
-
       // TODO can this be refactored?
-      let tempEntries = entries
-      tempEntries[index].duration = duration
-      tempEntries[index].priority = priority
-      tempEntries[index].isActive = isActive
-      tempEntries[index].time = fixed ? time : null
+      let tempEntries = entries;
+      tempEntries[index].duration = duration;
+      tempEntries[index].priority = priority;
+      tempEntries[index].isActive = isActive;
+      tempEntries[index].time = fixed ? time : null;
 
       const taskData = {
         name,
         entries: tempEntries,
-        defaults
-      }
- 
-      console.log("taskdata")
-      console.log(taskData)
+        defaults,
+      };
+
+      console.log("taskdata");
+      console.log(taskData);
 
       await axios.patch(`http://localhost:8282/task/${_id}/`, taskData);
       getTasks();
@@ -179,33 +177,35 @@ export default function UpdateTaskSlideover({
                             </div>
 
                             <div className="flex items-center space-x-1 justify-end">
-                          <h1 className="font-light text-md text-gray-500">
-                            Set time:{" "}
-                          </h1>
-                          <span>
-                            {fixed ? (
-                              <CheckSquare
-                                size={20}
-                                onClick={() => setFixed(false)}
-                                className="text-gray-500"
-                              />
-                            ) : (
-                              <Square
-                                size={20}
-                                onClick={() => setFixed(true)}
-                                className="text-gray-500"
+                              <h1 className="font-light text-md text-gray-500">
+                                Set time:{" "}
+                              </h1>
+                              <span>
+                                {fixed ? (
+                                  <CheckSquare
+                                    size={20}
+                                    onClick={() => setFixed(false)}
+                                    className="text-gray-500"
+                                  />
+                                ) : (
+                                  <Square
+                                    size={20}
+                                    onClick={() => setFixed(true)}
+                                    className="text-gray-500"
+                                  />
+                                )}
+                              </span>
+                            </div>
+
+                            {fixed && (
+                              <TimeField
+                                label="Edit Time"
+                                value={dayjs(time)}
+                                onChange={(newTime) => {
+                                  setTime(newTime.toDate());
+                                }}
                               />
                             )}
-                          </span>
-                        </div>
-                            
-                        {fixed && (       
-                          <TimeField
-                            label="Edit Time"
-                            value={dayjs(time)}
-                            onChange={(newTime) => {setTime(newTime.toDate())}}
-                          />
-                        )}
 
                             <div className="space-x-2 flex justify-end">
                               <span
