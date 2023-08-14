@@ -38,7 +38,7 @@ export default function LoginForm() {
   // axios errors
   const [error, setError] = useState("");
 
-  const refreshSettings = useSettingStore(state => state.refreshSettings);
+  const refreshSettings = useSettingStore((state) => state.refreshSettings);
 
   // handles login
   async function loginUser(e) {
@@ -56,8 +56,8 @@ export default function LoginForm() {
 
       await axios.post("http://localhost:8282/auth/login", userData, {});
       getLoggedIn();
-      refreshSettings()
-      history("/dashboard/overview");
+      refreshSettings();
+      history("/dashboard/tasks");
     } catch (err) {
       console.error(err);
 
@@ -65,7 +65,7 @@ export default function LoginForm() {
         if (err.response.status === 401) {
           // error message for 401
           setError("Incorrect email or password!");
-          console.error(err.response.data)
+          console.error(err.response.data);
         } else if (err.response.status === 500) {
           // internal server error
           setError("Server error, please try again later!");
