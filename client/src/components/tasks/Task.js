@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Square, CheckSquare, DotsThreeOutline, Check } from "phosphor-react";
+import {
+  Square,
+  CheckSquare,
+  DotsThreeOutline,
+  Check,
+  Pen,
+} from "phosphor-react";
 import useToggle from "../../hooks/use-toggle";
 import styled from "styled-components";
 import axios from "axios";
@@ -65,15 +71,15 @@ export default function Task({ task, getTasks }) {
   return (
     <>
       <div
-        className={`w-full rounded-md border-2 bg-opacity-70 py-3 pl-4 pr-4 shadow-md hover:cursor-pointer flex items-center justify-between ${
+        className={`w-full rounded-md border hover:shadow-lg duration-300 bg-opacity-70 py-3 pl-4 pr-4 shadow-sm hover:cursor-pointer flex items-center justify-between ${
           isActive
-            ? "bg-blue-400 border-blue-600"
+            ? "border-blue-600"
             : priority === "1"
-            ? "bg-rose-400 border-red-600"
+            ? "border-red-600"
             : priority === "2"
-            ? "bg-yellow-400 border-yellow-600"
-            : "bg-green-400 border-green-600"
-        }`}
+            ? "border-yellow-600"
+            : "border-green-600"
+        } group`}
       >
         <div className="flex items-center gap-3">
           {isActive ? (
@@ -89,51 +95,10 @@ export default function Task({ task, getTasks }) {
             {name}: <span className="font-light">{duration} minutes</span>
           </p>
         </div>
-        <Menu as="div" className="relative flex text-left">
-          <Menu.Button
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-          >
-            <DotsThreeOutline size={20} weight="fill" />
-          </Menu.Button>
-
-          <Transition
-            as={React.Fragment}
-            enter="transition ease-out duration-100"
-            enterFrom="transform opacity-0 scale-95"
-            enterTo="transform opacity-100 scale-100"
-            leave="transition ease-in duration-75"
-            leaveFrom="transform opacity-100 scale-100"
-            leaveTo="transform opacity-0 scale-95"
-          >
-            <Menu.Items className="z-10 origin-top-right absolute right-0 mt-6 w-48 rounded-md shadow-xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-              <div className="py-1">
-                <Menu.Item>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setOpen2(true);
-                    }}
-                    className={` hover:bg-gray-100 hover:text-slate-900 text-gray-700
-                  flex justify-between w-full px-4 py-2 text-sm font-normal`}
-                  >
-                    <span>Edit</span>
-                  </button>
-                </Menu.Item>
-                <Menu.Item>
-                  <button
-                    onClick={deleteTask}
-                    className={` hover:bg-red-100 hover:text-red-600 text-gray-700
-                  flex justify-between w-full px-4 py-2 text-sm font-normal`}
-                  >
-                    <span>Delete</span>
-                  </button>
-                </Menu.Item>
-              </div>
-            </Menu.Items>
-          </Transition>
-        </Menu>
+        <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+          <Pen size={20} className="text-gray-600 hover:text-gray-900" />
+          <Trash size={20} className="text-gray-600 hover:text-gray-900" />
+        </div>
       </div>
 
       {/* update task form */}
