@@ -96,8 +96,16 @@ export default function Task({ task, getTasks }) {
           </p>
         </div>
         <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-          <Pen size={20} className="text-gray-600 hover:text-gray-900" />
-          <Trash size={20} className="text-gray-600 hover:text-gray-900" />
+          <Pen
+            size={20}
+            className="text-gray-600 hover:text-gray-900"
+            onClick={setOpen2(true)}
+          />
+          <Trash
+            size={20}
+            className="text-gray-600 hover:text-gray-900"
+            onClick={deleteTask}
+          />
         </div>
       </div>
 
