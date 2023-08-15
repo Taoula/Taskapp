@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Square,
-  CheckSquare,
-  DotsThreeOutline,
-  Check,
-  Pen,
-} from "phosphor-react";
+import { Square, CheckSquare, Pen, TrashSimple } from "phosphor-react";
 import useToggle from "../../hooks/use-toggle";
 import styled from "styled-components";
 import axios from "axios";
@@ -16,6 +10,7 @@ import convertTime from "../../methods/convert-time";
 import sameDate from "../../methods/same-date";
 import { Menu, Transition } from "@headlessui/react";
 import useGlobalStore from "../../context/useGlobalStore";
+import dayjs from "dayjs";
 
 export default function Task({ task, getTasks }) {
   console.log("rendering task?");
@@ -70,8 +65,20 @@ export default function Task({ task, getTasks }) {
     getTasks();
   }
 
+  function convertTimeToNormalFormat(timeString) {
+    const date = dayjs(timeString);
+
+    if (!date.isValid()) {
+      return ""; // Return empty string for invalid dates
+    }
+
+    const formattedTime = date.format("h:mm A");
+    return formattedTime;
+  }
+
   return (
     <>
+      {/* full size tiles */}
       {taskLayout === 1 && (
         <div
           className={`w-full rounded-md border hover:shadow-xl duration-300 bg-opacity-70 shadow-sm hover:cursor-pointer flex items-center justify-between group square-container aspect-w-1 aspect-h-1 ${
@@ -132,6 +139,7 @@ export default function Task({ task, getTasks }) {
         </div>
       )}
 
+      {/* collapsed tiles */}
       {taskLayout === 2 && (
         <div
           className={`w-full rounded-md border hover:shadow-xl duration-300 bg-opacity-70 py-3 pl-4 pr-4 shadow-sm hover:cursor-pointer flex items-center justify-between group`}
@@ -167,6 +175,74 @@ export default function Task({ task, getTasks }) {
         </div>
       )}
 
+      {/* table row layout */}
+      {taskLayout === 3 && (
+        <tr className="hover:bg-slate-200 duration-300">
+          {/* <td className="px-4">
+            {isActive ? (
+              <>
+                <CheckSquare size={20} onClick={toggleActive} />
+              </>
+            ) : (
+              <>
+                <Square size={20} onClick={toggleActive} />
+              </>
+            )}
+          </td> */}
+          <td class="px-4 py-4 text-sm font-medium text-left flex gap-4">
+            {isActive ? (
+              <>
+                <CheckSquare size={20} onClick={toggleActive} />
+              </>
+            ) : (
+              <>
+                <Square size={20} onClick={toggleActive} />
+              </>
+            )}
+            <h2 class="font-medium text-gray-800 capitalize">{name}</h2>
+          </td>
+          <td class="py-4 text-sm text-center">
+            <h4 class="text-gray-700">{duration} minutes</h4>
+          </td>
+          <td class="py-4 text-sm font-medium text-center">
+            <div
+              class={`inline px-2 py-1 border text-sm font-normal rounded-full ${
+                isActive
+                  ? "text-blue-500 border-blue-500 bg-blue-100/60"
+                  : priority === "1"
+                  ? "text-red-500 border-red-500 bg-red-100/60"
+                  : priority === "2"
+                  ? "text-yellow-500 border-yellow-500 bg-yellow-100/60"
+                  : "text-green-500 border-green-500 bg-green-100/60"
+              }`}
+            >
+              {priority}
+            </div>
+          </td>
+
+          <td class="py-4 text-sm text-center">
+            {convertTimeToNormalFormat(time)}
+          </td>
+
+          <td class="py-4 text-sm">
+            <div class="flex gap-4 justify-center">
+              <PencilSimple
+                size={20}
+                className="hover:text-red-500"
+                onClick={(e) => {
+                  setOpen2(true);
+                }}
+              />
+              <TrashSimple
+                size={20}
+                className="hover:text-red-500"
+                onClick={deleteTask}
+              />
+            </div>
+          </td>
+        </tr>
+      )}
+
       {/* update task form */}
       <UpdateTaskSlideover
         open2={open2}
@@ -176,59 +252,5 @@ export default function Task({ task, getTasks }) {
         _id={_id}
       ></UpdateTaskSlideover>
     </>
-    // <>
-    //   {/* <div
-    //     className={`w-full rounded-md border hover:shadow-lg duration-300 bg-opacity-70 py-3 pl-4 pr-4 shadow-sm hover:cursor-pointer flex items-center justify-between ${
-    //       isActive
-    //         ? "border-blue-600"
-    //         : priority === "1"
-    //         ? "border-red-600"
-    //         : priority === "2"
-    //         ? "border-yellow-600"
-    //         : "border-green-600"
-    //     } group`}
-    //   > */}
-    //   <div
-    //     className={`w-full rounded-md border hover:shadow-lg duration-300 bg-opacity-70 py-3 pl-4 pr-4 shadow-sm hover:cursor-pointer flex items-center justify-between group`}
-    //   >
-    //     <div className="flex items-center gap-3">
-    //       {isActive ? (
-    //         <>
-    //           <CheckSquare size={20} onClick={toggleActive} />
-    //         </>
-    //       ) : (
-    //         <>
-    //           <Square size={20} onClick={toggleActive} />
-    //         </>
-    //       )}
-    //       <p className="text-xl capitalize">
-    //         {name}: <span className="font-light">{duration} minutes</span>
-    //       </p>
-    //     </div>
-    //     <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-    //       <Pen
-    //         size={20}
-    //         className="text-gray-600 hover:text-gray-900"
-    //         onClick={(e) => {
-    //           setOpen2(true);
-    //         }}
-    //       />
-    //       <Trash
-    //         size={20}
-    //         className="text-gray-600 hover:text-gray-900"
-    //         onClick={deleteTask}
-    //       />
-    //     </div>
-    //   </div>
-
-    //   {/* update task form */}
-    //   <UpdateTaskSlideover
-    //     open2={open2}
-    //     setOpen2={setOpen2}
-    //     getTasks={getTasks}
-    //     currentDay={currentDay}
-    //     _id={_id}
-    //   ></UpdateTaskSlideover>
-    // </>
   );
 }
