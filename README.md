@@ -22,7 +22,7 @@ Popper.js
 1. redesign & re-implement schedule dashboard
 2. create a help feature
 3. overview page
-4. display welcome for user's first session & welcome back for every session afterwards
+4. ~~display welcome for user's first session & welcome back for every session afterwards~~
 5. Tasks completed out of order should float to the top, schedule resort.
 7. Clean up functions on login (if it is a new day)
 
@@ -63,17 +63,15 @@ Popper.js
 5. Custom task stats
 
 ## Tasks Page
-1. Search bars in task display to search for specific task
-2. Apply tags to tasks for specific focuses (work, school, etc.)
-3. Filters for tags
-5. sort tasks in task display from newest to oldest by default
+1. ~~Search bars in task display to search for specific task~~
+3. ~~Filters~~
+5. ~~sort tasks in task display from newest to oldest by default~~
 6. create and update task form validation
-7. multiselect tasks
 8. ~~Set fixed height for task displays and implement scrolling~~
 9. ~~display text in field if there are no tasks to display~~
 
 ## Account settings pages
-1. populate fields with current values
+1. ~~populate fields with current values~~
 2. implement update values
 3. implement change password
 4. Upload profile picture
