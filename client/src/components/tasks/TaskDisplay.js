@@ -643,7 +643,7 @@ export default function TaskDisplay() {
                   <table class="w-full table-auto divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                       <tr>
-                        <th class="px-4 py-4 text-sm flex gap-4 font-normal text-left text-gray-500 w-1/5">
+                        <th class="px-10 py-4 text-sm flex gap-4 font-normal text-left text-gray-500 w-1/5">
                           <span>Name</span>
                         </th>
 

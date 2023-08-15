@@ -189,7 +189,7 @@ export default function Task({ task, getTasks }) {
               </>
             )}
           </td> */}
-          <td class="px-4 py-4 text-sm font-medium text-left flex gap-4">
+          <td class="px-10 py-4 text-sm font-medium text-left flex gap-4">
             {isActive ? (
               <>
                 <CheckSquare size={20} onClick={toggleActive} />
