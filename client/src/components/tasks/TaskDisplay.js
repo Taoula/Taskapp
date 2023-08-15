@@ -26,6 +26,44 @@ export default function TaskDisplay() {
   const [open, setOpen] = useState(false);
   const { taskLayout, setTaskLayout } = useGlobalStore();
 
+  const [sortOption, setSortOption] = useState("oldestToNewest");
+
+  function handleSortSelect(option) {
+    setSortOption(option);
+  }
+
+  function sortByPriorityHighToLow(tasks) {
+    return [...tasks].sort((a, b) => {
+      const indexA = dateSearch(currentDay, a.entries);
+      const indexB = dateSearch(currentDay, b.entries);
+      return b.entries[indexB].priority - a.entries[indexA].priority;
+    });
+  }
+
+  function sortByPriorityLowToHigh(tasks) {
+    return [...tasks].sort((a, b) => {
+      const indexA = dateSearch(currentDay, a.entries);
+      const indexB = dateSearch(currentDay, b.entries);
+      return a.entries[indexA].priority - b.entries[indexB].priority;
+    });
+  }
+
+  function sortByDurationAscending(tasks) {
+    return [...tasks].sort((a, b) => {
+      const indexA = dateSearch(currentDay, a.entries);
+      const indexB = dateSearch(currentDay, b.entries);
+      return a.entries[indexA].duration - b.entries[indexB].duration;
+    });
+  }
+
+  function sortByDurationDescending(tasks) {
+    return [...tasks].sort((a, b) => {
+      const indexA = dateSearch(currentDay, a.entries);
+      const indexB = dateSearch(currentDay, b.entries);
+      return b.entries[indexB].duration - a.entries[indexA].duration;
+    });
+  }
+
   function handleLayoutChange(newLayout) {
     setTaskLayout(newLayout); // Update the global layout state
     setTaskLayout(newLayout); // Update the local layout state
@@ -141,33 +179,110 @@ export default function TaskDisplay() {
     });
   }
 
+  // function renderTasks() {
+  //   if (taskState == null) {
+  //     return <div></div>;
+  //   }
+
+  //   return taskState.tasks
+  //     .filter((task) => {
+  //       let index = dateSearch(currentDay, task.entries);
+  //       if (index == -1) {
+  //         return false;
+  //       }
+  //       const nameMatch = task.name
+  //         .toLowerCase()
+  //         .includes(searchQuery.toLowerCase());
+  //       const priorityMatch =
+  //         filterPriority == ""
+  //           ? true
+  //           : filterPriority == task.entries[index].priority.toString();
+
+  //       const activeMatch =
+  //         filterActive.length === 0
+  //           ? true
+  //           : filterActive == task.entries[index].isActive.toString();
+  //       return nameMatch && priorityMatch && activeMatch;
+  //     })
+  //     .map((task, i) => {
+  //       //find today's entry
+  //       let index = dateSearch(currentDay, task.entries);
+
+  //       if (index > -1) {
+  //         let t = task.entries[index];
+
+  //         return (
+  //           <Task
+  //             key={i}
+  //             task={{
+  //               name: task.name,
+  //               priority: t.priority,
+  //               duration: t.duration,
+  //               _id: task._id,
+  //               isActive: t.isActive,
+  //               completed: t.completed,
+  //               time: t.time,
+  //               currentDay,
+  //             }}
+  //             getTasks={getTasks}
+  //           >
+  //             {task.name}
+  //           </Task>
+  //         );
+  //       }
+  //     });
+  // }
+
   function renderTasks() {
-    if (taskState == null) {
+    if (taskState === null) {
       return <div></div>;
     }
 
-    return taskState.tasks
+    let sortedTasks = [...taskState.tasks];
+
+    if (sortOption === "newestToOldest") {
+      sortedTasks.reverse();
+    } else {
+      switch (sortOption) {
+        case "priorityHighToLow":
+          sortedTasks = sortByPriorityHighToLow(sortedTasks);
+          break;
+        case "priorityLowToHigh":
+          sortedTasks = sortByPriorityLowToHigh(sortedTasks);
+          break;
+        case "durationAscending":
+          sortedTasks = sortByDurationAscending(sortedTasks);
+          break;
+        case "durationDescending":
+          sortedTasks = sortByDurationDescending(sortedTasks);
+          break;
+        default:
+          break;
+      }
+    }
+
+    return sortedTasks
       .filter((task) => {
         let index = dateSearch(currentDay, task.entries);
-        if (index == -1) {
+        if (index === -1) {
           return false;
         }
         const nameMatch = task.name
           .toLowerCase()
           .includes(searchQuery.toLowerCase());
         const priorityMatch =
-          filterPriority == ""
+          filterPriority === ""
             ? true
-            : filterPriority == task.entries[index].priority.toString();
+            : filterPriority === task.entries[index].priority.toString();
 
         const activeMatch =
           filterActive.length === 0
             ? true
-            : filterActive == task.entries[index].isActive.toString();
+            : filterActive === task.entries[index].isActive.toString();
+
         return nameMatch && priorityMatch && activeMatch;
       })
       .map((task, i) => {
-        //find today's entry
         let index = dateSearch(currentDay, task.entries);
 
         if (index > -1) {
@@ -368,6 +483,127 @@ export default function TaskDisplay() {
                   <Menu.Item>
                     {({ active }) => (
                       <button
+                        onClick={() => handleSortSelect("oldestToNewest")}
+                        className={`${
+                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                        }
+                  flex justify-between w-full px-4 py-2 text-sm font-normal`}
+                      >
+                        <span>Oldest to newest</span>
+                        {sortOption === "oldestToNewest" && (
+                          <Check className="h-5 w-5" aria-hidden="true" />
+                        )}
+                      </button>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
+                        onClick={() => handleSortSelect("newestToOldest")}
+                        className={`${
+                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                        }
+                  flex justify-between w-full px-4 py-2 text-sm font-normal`}
+                      >
+                        <span>Newest to oldest</span>
+                        {sortOption === "newestToOldest" && (
+                          <Check className="h-5 w-5" aria-hidden="true" />
+                        )}
+                      </button>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
+                        onClick={() => handleSortSelect("priorityHighToLow")}
+                        className={`${
+                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                        }
+                  flex justify-between w-full px-4 py-2 text-sm font-normal`}
+                      >
+                        <span>Low to high priority</span>
+                        {sortOption === "priorityHighToLow" && (
+                          <Check className="h-5 w-5" aria-hidden="true" />
+                        )}
+                      </button>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
+                        onClick={() => handleSortSelect("priorityLowToHigh")}
+                        className={`${
+                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                        }
+                  flex justify-between w-full px-4 py-2 text-sm font-normal`}
+                      >
+                        <span>High to low priority</span>
+                        {sortOption === "priorityLowToHigh" && (
+                          <Check className="h-5 w-5" aria-hidden="true" />
+                        )}
+                      </button>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
+                        onClick={() => handleSortSelect("durationAscending")}
+                        className={`${
+                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                        }
+                  flex justify-between w-full px-4 py-2 text-sm font-normal`}
+                      >
+                        <span>Duration ascending</span>
+                        {sortOption === "durationAscending" && (
+                          <Check className="h-5 w-5" aria-hidden="true" />
+                        )}
+                      </button>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
+                        onClick={() => handleSortSelect("durationDescending")}
+                        className={`${
+                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                        }
+                  flex justify-between w-full px-4 py-2 text-sm font-normal`}
+                      >
+                        <span>Duration descending</span>
+                        {sortOption === "durationDescending" && (
+                          <Check className="h-5 w-5" aria-hidden="true" />
+                        )}
+                      </button>
+                    )}
+                  </Menu.Item>
+                </div>
+              </Menu.Items>
+            </Transition>
+          </Menu>
+          {/* <Menu as="div" className="relative flex text-left">
+            <p className="border border-gray-200 bg-stone-50 text-slate-900 rounded-l-lg px-4 py-2 text-sm">
+              Sort
+            </p>
+            <Menu.Button>
+              <div className="px-2 py-2 rounded-r-lg border border-gray-200 border-l-0 hover:bg-gray-200 hover:cursor-pointer hover:duration-100 duration-100">
+                <Funnel size={20} />
+              </div>
+            </Menu.Button>
+
+            <Transition
+              as={React.Fragment}
+              enter="transition ease-out duration-100"
+              enterFrom="transform opacity-0 scale-95"
+              enterTo="transform opacity-100 scale-100"
+              leave="transition ease-in duration-75"
+              leaveFrom="transform opacity-100 scale-100"
+              leaveTo="transform opacity-0 scale-95"
+            >
+              <Menu.Items className="z-10 origin-top-right absolute right-0 mt-12 w-48 rounded-md shadow-xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <div className="py-1">
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
                         onClick={() => handleFilterSelect("", "")}
                         className={`${
                           active ? "bg-gray-100 text-gray-900" : "text-gray-700"
@@ -470,7 +706,7 @@ export default function TaskDisplay() {
                 </div>
               </Menu.Items>
             </Transition>
-          </Menu>
+          </Menu> */}
 
           {/* add task */}
           <div className="flex items-center">
