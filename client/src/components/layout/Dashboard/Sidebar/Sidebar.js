@@ -22,6 +22,7 @@ import {
 import LogoutDialogue from "../../LogoutDialogue";
 import { faN } from "@fortawesome/free-solid-svg-icons";
 import ProfileDropdown from "./ProfileDropdown";
+import Fab from "./Fab";
 
 export default function Sidebar() {
   const { getLoggedIn } = useContext(AuthContext);
@@ -76,6 +77,23 @@ export default function Sidebar() {
     { name: "Performance", link: "/dashboard/overview", icon: ChartLineUp },
   ];
 
+  const actions = [
+    {
+      label: "Manage account",
+      icon: (
+        <NavLink to="/dashboard/accountsettings">
+          <Gear size={25} weight="light" />
+        </NavLink>
+      ),
+      onClick: console.log,
+    },
+    {
+      label: "Log out",
+      icon: <SignOut size={25} weight="light" onClick={logOut} />,
+      onClick: console.log,
+    },
+  ];
+
   return (
     <>
       <div className="max-h-screen bg-slate-50 border-r border-slate-200 w-20 justify-between flex flex-col pt-6 pb-6">
@@ -98,23 +116,7 @@ export default function Sidebar() {
           ))}
         </div>
         <div className="flex flex-col items-center space-y-3 mx-auto">
-          {/* <ProfileDropdown /> */}
-          <NavLink to="/dashboard/accountsettings">
-            <img
-              alt="profile"
-              src="https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-              className="rounded-md object-cover w-10 h-10"
-            />
-          </NavLink>
-          <button className="rounded-md p-2 hover:bg-slate-200 text-slate-900">
-            <Gear size={25} weight="light" />
-          </button>
-          <button
-            onClick={logOut}
-            className="rounded-md p-2 hover:bg-red-100 hover:text-red-600 text-slate-900"
-          >
-            <SignOut size={25} weight="light" />
-          </button>
+          <Fab actions={actions} />
         </div>
       </div>
     </>

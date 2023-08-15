@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Square, CheckSquare, DotsThreeOutline, Check } from "phosphor-react";
+import { Square, CheckSquare, Pen, TrashSimple } from "phosphor-react";
 import useToggle from "../../hooks/use-toggle";
 import styled from "styled-components";
 import axios from "axios";
@@ -9,6 +9,8 @@ import DeleteTaskDialogue from "./DeleteTaskDialogue";
 import convertTime from "../../methods/convert-time";
 import sameDate from "../../methods/same-date";
 import { Menu, Transition } from "@headlessui/react";
+import useGlobalStore from "../../context/useGlobalStore";
+import dayjs from "dayjs";
 
 export default function Task({ task, getTasks }) {
   console.log("rendering task?");
@@ -30,6 +32,7 @@ export default function Task({ task, getTasks }) {
   const [showUpdateTask, setShowUpdateTask] = useState(false);
   const [open2, setOpen2] = useState(false);
   const [deleteTaskDialogue, setDeleteTaskDialogueOpen] = useState(false);
+  const { taskLayout } = useGlobalStore();
 
   const handleUpdateOnClose = () => {
     setShowUpdateTask(false);
@@ -62,79 +65,183 @@ export default function Task({ task, getTasks }) {
     getTasks();
   }
 
+  function convertTimeToNormalFormat(timeString) {
+    const date = dayjs(timeString);
+
+    if (!date.isValid()) {
+      return ""; // Return empty string for invalid dates
+    }
+
+    const formattedTime = date.format("h:mm A");
+    return formattedTime;
+  }
+
   return (
     <>
-      <div
-        className={`w-full rounded-md border-2 bg-opacity-70 py-3 pl-4 pr-4 shadow-md hover:cursor-pointer flex items-center justify-between ${
-          isActive
-            ? "bg-blue-400 border-blue-600"
-            : priority === "1"
-            ? "bg-rose-400 border-red-600"
-            : priority === "2"
-            ? "bg-yellow-400 border-yellow-600"
-            : "bg-green-400 border-green-600"
-        }`}
-      >
-        <div className="flex items-center gap-3">
-          {isActive ? (
-            <>
-              <CheckSquare size={20} onClick={toggleActive} />
-            </>
-          ) : (
-            <>
-              <Square size={20} onClick={toggleActive} />
-            </>
-          )}
-          <p className="text-xl capitalize">
-            {name}: <span className="font-light">{duration} minutes</span>
-          </p>
-        </div>
-        <Menu as="div" className="relative flex text-left">
-          <Menu.Button
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-          >
-            <DotsThreeOutline size={20} weight="fill" />
-          </Menu.Button>
-
-          <Transition
-            as={React.Fragment}
-            enter="transition ease-out duration-100"
-            enterFrom="transform opacity-0 scale-95"
-            enterTo="transform opacity-100 scale-100"
-            leave="transition ease-in duration-75"
-            leaveFrom="transform opacity-100 scale-100"
-            leaveTo="transform opacity-0 scale-95"
-          >
-            <Menu.Items className="z-10 origin-top-right absolute right-0 mt-6 w-48 rounded-md shadow-xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-              <div className="py-1">
-                <Menu.Item>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setOpen2(true);
-                    }}
-                    className={` hover:bg-gray-100 hover:text-slate-900 text-gray-700
-                  flex justify-between w-full px-4 py-2 text-sm font-normal`}
-                  >
-                    <span>Edit</span>
-                  </button>
-                </Menu.Item>
-                <Menu.Item>
-                  <button
-                    onClick={deleteTask}
-                    className={` hover:bg-red-100 hover:text-red-600 text-gray-700
-                  flex justify-between w-full px-4 py-2 text-sm font-normal`}
-                  >
-                    <span>Delete</span>
-                  </button>
-                </Menu.Item>
+      {/* full size tiles */}
+      {taskLayout === 1 && (
+        <div
+          className={`w-full rounded-md border hover:shadow-xl duration-300 bg-opacity-70 shadow-sm hover:cursor-pointer flex items-center justify-between group square-container aspect-w-1 aspect-h-1 ${
+            isActive
+              ? "border-blue-600"
+              : priority === "1"
+              ? "border-red-600"
+              : priority === "2"
+              ? "border-yellow-600"
+              : "border-green-600"
+          }`}
+        >
+          <div className="m-5">
+            <div className="flex flex-col justify-between">
+              <div>
+                {isActive ? (
+                  <>
+                    <CheckSquare size={20} onClick={toggleActive} />
+                  </>
+                ) : (
+                  <>
+                    <Square size={20} onClick={toggleActive} />
+                  </>
+                )}
+                <p className="capitalize text-2xl">{name}</p>
+                <p className="text-lg text-gray-600">{duration} minutes</p>
               </div>
-            </Menu.Items>
-          </Transition>
-        </Menu>
-      </div>
+              <p
+                className={`${
+                  isActive
+                    ? "text-blue-600"
+                    : priority === "1"
+                    ? "text-red-600"
+                    : priority === "2"
+                    ? "text-yellow-600"
+                    : "text-green-600"
+                }`}
+              >
+                Priority {priority}
+              </p>
+            </div>
+
+            <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+              <Pen
+                size={20}
+                className="text-gray-600 hover:text-gray-900"
+                onClick={(e) => {
+                  setOpen2(true);
+                }}
+              />
+              <Trash
+                size={20}
+                className="text-gray-600 hover:text-gray-900"
+                onClick={deleteTask}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* collapsed tiles */}
+      {taskLayout === 2 && (
+        <div
+          className={`w-full rounded-md border hover:shadow-xl duration-300 bg-opacity-70 py-3 pl-4 pr-4 shadow-sm hover:cursor-pointer flex items-center justify-between group`}
+        >
+          <div className="flex items-center gap-3">
+            {isActive ? (
+              <>
+                <CheckSquare size={20} onClick={toggleActive} />
+              </>
+            ) : (
+              <>
+                <Square size={20} onClick={toggleActive} />
+              </>
+            )}
+            <p className="text-xl capitalize">
+              {name}: <span className="font-light">{duration} minutes</span>
+            </p>
+          </div>
+          <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+            <Pen
+              size={20}
+              className="text-gray-600 hover:text-gray-900"
+              onClick={(e) => {
+                setOpen2(true);
+              }}
+            />
+            <Trash
+              size={20}
+              className="text-gray-600 hover:text-gray-900"
+              onClick={deleteTask}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* table row layout */}
+      {taskLayout === 3 && (
+        <tr className="hover:bg-slate-200 duration-300">
+          {/* <td className="px-4">
+            {isActive ? (
+              <>
+                <CheckSquare size={20} onClick={toggleActive} />
+              </>
+            ) : (
+              <>
+                <Square size={20} onClick={toggleActive} />
+              </>
+            )}
+          </td> */}
+          <td class="px-10 py-4 text-sm font-medium text-left flex gap-4">
+            {isActive ? (
+              <>
+                <CheckSquare size={20} onClick={toggleActive} />
+              </>
+            ) : (
+              <>
+                <Square size={20} onClick={toggleActive} />
+              </>
+            )}
+            <h2 class="font-medium text-gray-800 capitalize">{name}</h2>
+          </td>
+          <td class="py-4 text-sm text-center">
+            <h4 class="text-gray-700">{duration} minutes</h4>
+          </td>
+          <td class="py-4 text-sm font-medium text-center">
+            <div
+              class={`inline px-2 py-1 border text-sm font-normal rounded-full ${
+                isActive
+                  ? "text-blue-500 border-blue-500 bg-blue-100/60"
+                  : priority === "1"
+                  ? "text-red-500 border-red-500 bg-red-100/60"
+                  : priority === "2"
+                  ? "text-yellow-500 border-yellow-500 bg-yellow-100/60"
+                  : "text-green-500 border-green-500 bg-green-100/60"
+              }`}
+            >
+              {priority}
+            </div>
+          </td>
+
+          <td class="py-4 text-sm text-center">
+            {convertTimeToNormalFormat(time)}
+          </td>
+
+          <td class="py-4 text-sm">
+            <div class="flex gap-4 justify-center">
+              <PencilSimple
+                size={20}
+                className="hover:text-red-500"
+                onClick={(e) => {
+                  setOpen2(true);
+                }}
+              />
+              <TrashSimple
+                size={20}
+                className="hover:text-red-500"
+                onClick={deleteTask}
+              />
+            </div>
+          </td>
+        </tr>
+      )}
 
       {/* update task form */}
       <UpdateTaskSlideover
