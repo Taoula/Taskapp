@@ -10,14 +10,13 @@ import { Menu, Transition } from "@headlessui/react";
 import CompletedTask from "./CompletedTask";
 import {
   MagnifyingGlass,
-  ArrowsDownUp,
   Plus,
-  CaretDown,
   Funnel,
   Check,
   SquaresFour,
   Rows,
   Table,
+  SortAscending,
 } from "phosphor-react";
 import sameDate from "../../methods/same-date";
 import dateSearch from "../../methods/date-search";
@@ -25,6 +24,12 @@ import dateSearch from "../../methods/date-search";
 export default function TaskDisplay() {
   const [showCreateTask, setShowCreateTask] = useState(false);
   const [open, setOpen] = useState(false);
+  const { taskLayout, setTaskLayout } = useGlobalStore();
+
+  function handleLayoutChange(newLayout) {
+    setTaskLayout(newLayout); // Update the global layout state
+    setTaskLayout(newLayout); // Update the local layout state
+  }
 
   /*const [tasks, setTasks] = useState([]);
   const [numberOfInactiveTasks, setNumberOfInactiveTasks] = useState(0);
@@ -262,7 +267,7 @@ export default function TaskDisplay() {
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
-                        <span>High priority</span>
+                        <span className="text-red-600">High priority</span>
                         {filterPriority === "1" && filterActive === "" && (
                           <Check className="h-5 w-5" aria-hidden="true" />
                         )}
@@ -278,7 +283,7 @@ export default function TaskDisplay() {
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
-                        <span>Medium priority</span>
+                        <span className="text-yellow-600">Medium priority</span>
                         {filterPriority === "2" && filterActive === "" && (
                           <Check className="h-5 w-5" aria-hidden="true" />
                         )}
@@ -294,7 +299,7 @@ export default function TaskDisplay() {
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
-                        <span>Low priority</span>
+                        <span className="text-green-600">Low priority</span>
                         {filterPriority === "3" && filterActive === "" && (
                           <Check className="h-5 w-5" aria-hidden="true" />
                         )}
@@ -310,7 +315,7 @@ export default function TaskDisplay() {
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
-                        <span>Active</span>
+                        <span className="text-blue-600">Active</span>
                         {filterPriority === "" && filterActive === "true" && (
                           <Check className="h-5 w-5" aria-hidden="true" />
                         )}
@@ -338,6 +343,135 @@ export default function TaskDisplay() {
             </Transition>
           </Menu>
 
+          {/* sort tasks */}
+          <Menu as="div" className="relative flex text-left">
+            <p className="border border-gray-200 bg-stone-50 text-slate-900 rounded-l-lg px-4 py-2 text-sm">
+              Sort
+            </p>
+            <Menu.Button>
+              <div className="px-2 py-2 rounded-r-lg border border-gray-200 border-l-0 hover:bg-gray-200 hover:cursor-pointer hover:duration-100 duration-100">
+                <Funnel size={20} />
+              </div>
+            </Menu.Button>
+
+            <Transition
+              as={React.Fragment}
+              enter="transition ease-out duration-100"
+              enterFrom="transform opacity-0 scale-95"
+              enterTo="transform opacity-100 scale-100"
+              leave="transition ease-in duration-75"
+              leaveFrom="transform opacity-100 scale-100"
+              leaveTo="transform opacity-0 scale-95"
+            >
+              <Menu.Items className="z-10 origin-top-right absolute right-0 mt-12 w-48 rounded-md shadow-xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <div className="py-1">
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
+                        onClick={() => handleFilterSelect("", "")}
+                        className={`${
+                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                        }
+                  flex justify-between w-full px-4 py-2 text-sm font-normal`}
+                      >
+                        <span>Oldest to newest</span>
+                        {filterPriority === "" && filterActive === "" && (
+                          <Check className="h-5 w-5" aria-hidden="true" />
+                        )}
+                      </button>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
+                        onClick={() => handleFilterSelect("1", "")}
+                        className={`${
+                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                        }
+                  flex justify-between w-full px-4 py-2 text-sm font-normal`}
+                      >
+                        <span className="text-red-600">Newest to oldest</span>
+                        {filterPriority === "1" && filterActive === "" && (
+                          <Check className="h-5 w-5" aria-hidden="true" />
+                        )}
+                      </button>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
+                        onClick={() => handleFilterSelect("2", "")}
+                        className={`${
+                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                        }
+                  flex justify-between w-full px-4 py-2 text-sm font-normal`}
+                      >
+                        <span className="text-yellow-600">
+                          Highest to lowest priority
+                        </span>
+                        {filterPriority === "2" && filterActive === "" && (
+                          <Check className="h-5 w-5" aria-hidden="true" />
+                        )}
+                      </button>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
+                        onClick={() => handleFilterSelect("3", "")}
+                        className={`${
+                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                        }
+                  flex justify-between w-full px-4 py-2 text-sm font-normal`}
+                      >
+                        <span className="text-green-600">
+                          Lowest to highest priority
+                        </span>
+                        {filterPriority === "3" && filterActive === "" && (
+                          <Check className="h-5 w-5" aria-hidden="true" />
+                        )}
+                      </button>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
+                        onClick={() => handleFilterSelect("", "true")}
+                        className={`${
+                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                        }
+                  flex justify-between w-full px-4 py-2 text-sm font-normal`}
+                      >
+                        <span className="text-blue-600">
+                          Duration ascending
+                        </span>
+                        {filterPriority === "" && filterActive === "true" && (
+                          <Check className="h-5 w-5" aria-hidden="true" />
+                        )}
+                      </button>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
+                        onClick={() => handleFilterSelect("", "false")}
+                        className={`${
+                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                        }
+                  flex justify-between w-full px-4 py-2 text-sm font-normal`}
+                      >
+                        <span>Duration descending</span>
+                        {filterPriority === "" && filterActive === "false" && (
+                          <Check className="h-5 w-5" aria-hidden="true" />
+                        )}
+                      </button>
+                    )}
+                  </Menu.Item>
+                </div>
+              </Menu.Items>
+            </Transition>
+          </Menu>
+
           {/* add task */}
           <div className="flex items-center">
             <p className="border border-gray-200 bg-stone-50 text-slate-900 rounded-l-lg px-4 py-2 text-sm">
@@ -352,16 +486,36 @@ export default function TaskDisplay() {
           </div>
 
           <div className="flex items-center gap-1">
-            <SquaresFour
-              size={30}
-              className="text-slate-400 hover:text-slate-900 duration-200"
-              weight="fill"
-            />
-            <Rows
-              size={30}
-              className="text-slate-400 hover:text-slate-900 duration-200"
-              weight="fill"
-            />
+            {taskLayout === 1 ? (
+              <SquaresFour
+                size={30}
+                className="text-slate-900 hover:text-slate-900 duration-200"
+                weight="fill"
+              />
+            ) : (
+              <SquaresFour
+                size={30}
+                className="text-slate-400 hover:text-slate-900 duration-200"
+                weight="fill"
+                onClick={() => handleLayoutChange(1)}
+              />
+            )}
+
+            {taskLayout === 2 ? (
+              <Rows
+                size={30}
+                className="text-slate-900 hover:text-slate-900 duration-200"
+                weight="fill"
+              />
+            ) : (
+              <Rows
+                size={30}
+                className="text-slate-400 hover:text-slate-900 duration-200"
+                weight="fill"
+                onClick={() => handleLayoutChange(2)}
+              />
+            )}
+
             <Table
               size={30}
               className="text-slate-400 hover:text-slate-900 duration-200"
@@ -371,25 +525,49 @@ export default function TaskDisplay() {
         </div>
       </div>
 
-      <div
-        className={`max-h-fit ${
-          taskState.numberOfActiveTasks === 0 &&
-          taskState.numberOfInactiveTasks === 0
-            ? "flex"
-            : "grid grid-cols-3 gap-3"
-        }`}
-      >
-        {taskState.numberOfActiveTasks === 0 &&
-        taskState.numberOfInactiveTasks === 0 ? (
-          <>
-            <p className="text-md text-slate-500 font-light mx-auto">
-              No tasks! Add a task to get started
-            </p>
-          </>
-        ) : (
-          <>{renderTasks()}</>
-        )}
-      </div>
+      {taskLayout === 1 && (
+        <div
+          className={`max-h-fit ${
+            taskState.numberOfActiveTasks === 0 &&
+            taskState.numberOfInactiveTasks === 0
+              ? "flex"
+              : "grid grid-cols-5 gap-5"
+          }`}
+        >
+          {taskState.numberOfActiveTasks === 0 &&
+          taskState.numberOfInactiveTasks === 0 ? (
+            <>
+              <p className="text-md text-slate-500 font-light mx-auto">
+                No tasks! Add a task to get started
+              </p>
+            </>
+          ) : (
+            <>{renderTasks()}</>
+          )}
+        </div>
+      )}
+
+      {taskLayout === 2 && (
+        <div
+          className={`max-h-fit ${
+            taskState.numberOfActiveTasks === 0 &&
+            taskState.numberOfInactiveTasks === 0
+              ? "flex"
+              : "grid grid-cols-3 gap-3"
+          }`}
+        >
+          {taskState.numberOfActiveTasks === 0 &&
+          taskState.numberOfInactiveTasks === 0 ? (
+            <>
+              <p className="text-md text-slate-500 font-light mx-auto">
+                No tasks! Add a task to get started
+              </p>
+            </>
+          ) : (
+            <>{renderTasks()}</>
+          )}
+        </div>
+      )}
 
       {/* create task form */}
       <CreateTaskSlideover
