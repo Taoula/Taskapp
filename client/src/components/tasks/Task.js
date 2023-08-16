@@ -177,7 +177,7 @@ export default function Task({ task, getTasks }) {
 
       {/* table row layout */}
       {taskLayout === 3 && (
-        <tr className="hover:bg-slate-200 duration-300">
+        <tr className="hover:bg-slate-200 duration-100">
           {/* <td className="px-4">
             {isActive ? (
               <>
