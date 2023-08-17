@@ -143,6 +143,17 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
     setLinks([...linksClone]);
   }
 
+  const [settingsTabsToggle, setSettingsTabToggle] = useState(1);
+
+  const toggleSettingsTab = (index) => {
+    setSettingsTabToggle(index);
+  };
+
+  const settingsTabs = [
+    { id: 1, label: "General" },
+    { id: 2, label: "Advanced" },
+  ];
+
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-30" onClose={setOpen}>
@@ -170,83 +181,90 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                 leaveFrom="translate-x-0"
                 leaveTo="translate-x-full"
               >
-                <Dialog.Panel className="pointer-events-auto relative w-screen max-w-lg">
+                <Dialog.Panel className="pointer-events-auto relative w-screen max-w-md">
                   <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
-                    <div className="px-8 flex items-center justify-between pb-4 pt-6 border-b border-gray-200">
+                    <div className="px-8 pb-4 pt-6">
                       <Dialog.Title className="text-2xl text-slate-900 font-semibold">
                         Create a task
                       </Dialog.Title>
-                      <div>
-                        <X
-                          type="button"
-                          size={20}
-                          weight="bold"
-                          onClick={closeSlideover}
-                          className="text-slate-500 hover:text-slate-900 duration-300 hover:duration-300"
-                        />
+
+                      <div className="text-sm text-center text-gray-500 border-b border-slate-300 mt-10">
+                        <ul className="flex flex-wrap -mb-px">
+                          {settingsTabs.map((tab) => (
+                            <li key={tab.id} className="">
+                              <span
+                                className={`inline-block px-4 pb-4 rounded-t-lg border-b-2 font-normal ${
+                                  settingsTabsToggle === tab.id
+                                    ? "text-slate-900 border-slate-900 active"
+                                    : "border-transparent hover:text-slate-900 hover:border-slate-900"
+                                }`}
+                                onClick={() => toggleSettingsTab(tab.id)}
+                              >
+                                {tab.label}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
-                    <div className="mt-8 px-8 h-full">
+                    <div className="mt-4 px-8 h-full">
                       <form
                         className="flex flex-col h-full justify-between"
                         onSubmit={(e) => onSubmit(e)}
                       >
-                        <div className="space-y-5">
-                          <div>
-                            <label className="text-sm">Task name</label>
-                            <input
-                              type="text"
-                              placeholder="Name"
-                              className="rounded-md mt-2 pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-md text-sm w-full"
-                              value={name}
-                              onChange={(e) => setName(e.target.value)}
-                            />
-                          </div>
-                          <div>
-                            <label className="text-sm">
-                              Duration (in minutes)
-                            </label>
-                            <input
-                              type="number"
-                              placeholder="Duration"
-                              className="mt-2 rounded-md pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-md text-sm w-full"
-                              min="5"
-                              value={duration}
-                              onChange={(e) => setDuration(e.target.value)}
-                            ></input>
-                          </div>
-                          <div>
-                            <label className="text-sm">Priority (1 - 3)</label>
-                            <input
-                              type="number"
-                              placeholder="Priority"
-                              className="rounded-md mt-2 pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-md text-sm w-full"
-                              min="1"
-                              max="3"
-                              value={priority}
-                              onChange={(e) => setPriority(e.target.value)}
-                            ></input>
-                          </div>
-                          <div className="pt-8 text-gray-700 flex items-center gap-2 text-sm">
-                            <p className="">Advanced options</p>
-                            {advancedOptions ? (
-                              <CaretDown
-                                size={15}
-                                weight="bold"
-                                className="text-blue-600"
-                                onClick={() => setAdvancedOptions(false)}
+                        {/* general settings */}
+                        {settingsTabsToggle === 1 && (
+                          <div className="space-y-5">
+                            <div>
+                              <label className="text-sm font-medium text-gray-600">
+                                Task name
+                              </label>
+                              <input
+                                type="text"
+                                placeholder="Name"
+                                className="rounded-md mt-2 pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-md text-sm w-full"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
                               />
-                            ) : (
-                              <CaretRight
-                                size={15}
-                                weight="bold"
-                                onClick={() => setAdvancedOptions(true)}
-                              />
-                            )}
+                            </div>
+                            <div>
+                              <label className="text-sm font-medium text-gray-600">
+                                Duration (in minutes)
+                              </label>
+                              <input
+                                type="number"
+                                placeholder="Duration"
+                                className="mt-2 rounded-md pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-md text-sm w-full"
+                                min="5"
+                                value={duration}
+                                onChange={(e) => setDuration(e.target.value)}
+                              ></input>
+                            </div>
+                            <div>
+                              <label className="text-sm font-medium text-gray-600">
+                                Priority (1 - 3)
+                              </label>
+                              <input
+                                type="number"
+                                placeholder="Priority"
+                                className="rounded-md mt-2 pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-md text-sm w-full"
+                                min="1"
+                                max="3"
+                                value={priority}
+                                onChange={(e) => setPriority(e.target.value)}
+                              ></input>
+                            </div>
                           </div>
-                          {advancedOptions && (
-                            <>
-                              <div className="relative rounded-md">
+                        )}
+
+                        {/* advanced settings */}
+                        {settingsTabsToggle === 2 && (
+                          <div className="space-y-5">
+                            <div>
+                              <label className="text-sm font-medium text-gray-600">
+                                Divide task into parts
+                              </label>
+                              <div className="relative rounded-md mt-2">
                                 <div className="pointer-events-none text-gray-400 absolute inset-y-0 left-0 flex items-center pl-4">
                                   <MdSplitscreen size={20} />
                                 </div>
@@ -260,102 +278,97 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                                   onChange={(e) => setDivisions(e.target.value)}
                                 />
                               </div>
+                            </div>
 
-                              <div className="pt-4">
-                                <h1 className="text-sm text-gray-700">
-                                  Set a specific time
-                                </h1>
-                                 <span>
-                              {fixed ? (
-                                <CheckSquare
-                                  size={20}
-                                  onClick={() => setFixed(false)}
-                                  className="text-gray-500"
-                                />
-                              ) : (
-                                <Square
-                                  size={20}
-                                  onClick={() => setFixed(true)}
-                                  className="text-gray-500"
-                                />
-                              )}
-                            </span> 
-                              </div>
- 
-                               {fixed && (
-                            <TimeField
-                              label="Controlled field"
-                              value={dayjs(time)}
-                              onChange={(newTime) => {
-                                setTime(newTime.toDate());
-                              }}
-                            />
-                          )} 
-                            </>
-                          )}
+                            <div className="pt-4">
+                              <h1 className="text-sm text-gray-700">
+                                Set a specific time
+                              </h1>
+                              <span>
+                                {fixed ? (
+                                  <CheckSquare
+                                    size={20}
+                                    onClick={() => setFixed(false)}
+                                    className="text-gray-500"
+                                  />
+                                ) : (
+                                  <Square
+                                    size={20}
+                                    onClick={() => setFixed(true)}
+                                    className="text-gray-500"
+                                  />
+                                )}
+                              </span>
+                            </div>
 
-                          {advancedOptions && (
-                            <>
-                              <div className="flex items-center gap-2 text-sm text-gray-700">
-                                <p>Add a note</p>
-                                <Plus
-                                  size={15}
-                                  weight="bold"
-                                  onClick={() => addNote()}
-                                  className="text-blue-600"
-                                />
-                              </div>
+                            {fixed && (
+                              <TimeField
+                                label="Controlled field"
+                                value={dayjs(time)}
+                                onChange={(newTime) => {
+                                  setTime(newTime.toDate());
+                                }}
+                              />
+                            )}
+                            <div className="flex items-center gap-2 text-sm text-gray-700">
+                              <p>Add a note</p>
+                              <Plus
+                                size={15}
+                                weight="bold"
+                                onClick={() => addNote()}
+                                className="text-blue-600"
+                              />
+                            </div>
 
-                              {notes.map((note, i) => {
-                                return (
-                                  <div>
-                                    <textarea
-                                      type="text"
-                                      value={notes[i]}
-                                      onChange={(e) => updateNotes(e, i)}
-                                      className="w-full rounded-md bg-gray-50 border border-gray-200 focus:bg-white text-gray-600 text-sm"
-                                    />
-                                    <p
-                                      onClick={() => deleteNote(i)}
-                                      className="text-red-500 text-sm hover:cursor-pointer hover:underline flex justify-end"
-                                    >
-                                      Delete note
-                                    </p>
-                                  </div>
-                                );
-                              })}
+                            {notes.map((note, i) => {
+                              return (
+                                <div>
+                                  <textarea
+                                    type="text"
+                                    value={notes[i]}
+                                    onChange={(e) => updateNotes(e, i)}
+                                    className="w-full rounded-md bg-gray-50 border border-gray-200 focus:bg-white text-gray-600 text-sm"
+                                  />
+                                  <p
+                                    onClick={() => deleteNote(i)}
+                                    className="text-red-500 text-sm hover:cursor-pointer hover:underline flex justify-end"
+                                  >
+                                    Delete note
+                                  </p>
+                                </div>
+                              );
+                            })}
 
-                              <div className="flex items-center gap-2 text-sm text-gray-700">
-                                <p>Add a link</p>
-                                <Plus
-                                  size={15}
-                                  weight="bold"
-                                  onClick={() => addLink()}
-                                  className="text-blue-600"
-                                />
-                              </div>
+                            <div className="flex items-center gap-2 text-sm text-gray-700">
+                              <p>Add a link</p>
+                              <Plus
+                                size={15}
+                                weight="bold"
+                                onClick={() => addLink()}
+                                className="text-blue-600"
+                              />
+                            </div>
 
-                              {links.map((link, i) => {
-                                return (
-                                  <div>
-                                    <input
-                                      type="url"
-                                      value={links[i]}
-                                      onChange={(e) => updateLinks(e, i)}
-                                      className="w-full rounded-md bg-gray-50 border border-gray-200 focus:bg-white text-gray-600 text-sm"
-                                    />
-                                    <p
-                                      onClick={() => deleteLink(i)}
-                                      className="text-red-500 text-sm hover:cursor-pointer hover:underline flex justify-end mt-2"
-                                    >
-                                      Delete note
-                                    </p>
-                                  </div>
-                                );
-                              })}
-                            </>
-                          )}
-                        </div>
+                            {links.map((link, i) => {
+                              return (
+                                <div>
+                                  <input
+                                    type="url"
+                                    value={links[i]}
+                                    onChange={(e) => updateLinks(e, i)}
+                                    className="w-full rounded-md bg-gray-50 border border-gray-200 focus:bg-white text-gray-600 text-sm"
+                                  />
+                                  <p
+                                    onClick={() => deleteLink(i)}
+                                    className="text-red-500 text-sm hover:cursor-pointer hover:underline flex justify-end mt-2"
+                                  >
+                                    Delete note
+                                  </p>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
 
                         {/* <div className="space-x-2 flex justify-end">
                           <span
@@ -375,11 +388,11 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                             Create
                           </button>
                         </div> */}
-                        <div className="pb-8 flex gap-4 fixed-bottom px-8 pt-4 bg-white">
+                        <div className="pb-6 flex gap-4 fixed-bottom px-8 pt-4 bg-white">
                           <button
                             type="button"
                             onClick={closeSlideover}
-                            className="w-1/3 text-sm tracking-wide py-3.5 border border-solid border-gray-500 font-medium text-gray-500 rounded-md hover:text-white hover:bg-red-500 hover:border-red-600 hover:duration-200 duration-200"
+                            className="w-1/3 text-sm tracking-wide py-3.5 border border-solid border-gray-500 bg-gray-500/10 font-normal text-gray-600 rounded-md hover:text-white hover:bg-red-500 hover:border-red-600 hover:duration-200 duration-200"
                           >
                             Cancel
                           </button>
@@ -387,9 +400,9 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                             type="submit"
                             input={+true}
                             value="submit"
-                            className="w-2/3 text-sm tracking-wide py-3.5 bg-green-600 font-medium text-white rounded-md hover:text-white hover:bg-green-700 duration-200 hover:duration-200"
+                            className="w-2/3 text-sm tracking-wide py-3.5 bg-green-600 font-normal text-white rounded-md hover:text-white hover:bg-green-700 duration-200 hover:duration-200"
                           >
-                            Create task
+                            Create
                           </button>
                         </div>
                       </form>
