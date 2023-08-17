@@ -268,9 +268,13 @@ export default function AccountSettings() {
                 <div className="flex gap-4">
                   <button
                     onClick={(e) => setEditPersonalInfo(!editPersonalInfo)}
-                    className="px-6 py-2 font-normal bg-blue-500 hover:bg-blue-600 duration-200 rounded-md text-md text-white"
+                    className={`${
+                      editPersonalInfo === true
+                        ? "bg-blue-500 hover:bg-blue-600"
+                        : "bg-red-500 hover:bg-red-600"
+                    } px-6 py-2 font-normal  duration-200 rounded-md text-md text-white`}
                   >
-                    Edit
+                    {editPersonalInfo === true ? "Edit" : "Cancel"}
                   </button>
                   <button
                     className={`px-6 py-2 font-normal rounded-md duration-200 ${
@@ -466,9 +470,9 @@ export default function AccountSettings() {
               <p className="text-lg font-normal">More themes on the way!</p>
               <button
                 onClick={(e) => setBannerClosed(true)}
-                className="shrink-0 rounded-lg bg-black/10 p-2 transition hover:bg-black/20"
+                className="shrink-0"
               >
-                <X size={18} />
+                <X size={20} />
               </button>
             </div>
           )}
