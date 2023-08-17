@@ -24,6 +24,7 @@
     "dayjs": "^1.11.7",
     "flowbite": "^1.4.7",
     "flowbite-react": "^0.1.0",
+    "framer-motion": "^10.16.0",
     "moment": "^2.29.3",
     "phosphor-react": "^1.4.1",
     "react": "^18.2.0",

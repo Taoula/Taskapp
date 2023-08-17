@@ -602,9 +602,9 @@ export default function TaskDisplay() {
           {taskState.numberOfActiveTasks === 0 &&
           taskState.numberOfInactiveTasks === 0 ? (
             <>
-              <p className="text-md text-slate-500 font-light mx-auto">
+              {/* <p className="text-md text-slate-500 font-light mx-auto">
                 No tasks! Add a task to get started
-              </p>
+              </p> */}
             </>
           ) : (
             <>{renderTasks()}</>
@@ -624,9 +624,9 @@ export default function TaskDisplay() {
           {taskState.numberOfActiveTasks === 0 &&
           taskState.numberOfInactiveTasks === 0 ? (
             <>
-              <p className="text-md text-slate-500 font-light mx-auto">
+              {/* <p className="text-md text-slate-500 font-light mx-auto">
                 No tasks! Add a task to get started
-              </p>
+              </p> */}
             </>
           ) : (
             <>{renderTasks()}</>
@@ -643,10 +643,9 @@ export default function TaskDisplay() {
                   <table class="w-full table-auto divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                       <tr>
-                        <th class="px-10 py-4 text-sm flex gap-4 font-normal text-left text-gray-500 w-1/5">
-                          <span>Name</span>
+                        <th class="py-4 text-sm font-normal text-center text-gray-500 w-1/5">
+                          Name
                         </th>
-
                         <th class="py-4 text-sm font-normal text-center text-gray-500 w-1/5">
                           Duration
                         </th>

@@ -21,7 +21,7 @@ export default function Navbar() {
             </button>
             <button
               onClick={() => history("/login")}
-              className="px-6 py-2.5 text-lg border border-solid border-gray-200 font-medium tracking-wide hover:border-slate-900 rounded-md text-slate-800 hover:duration-300 duration-300"
+              className="px-6 py-2.5 text-lg border border-solid border-gray-200 font-medium tracking-wide hover:border-slate-900 bg-white rounded-md text-slate-800 hover:duration-300 duration-300"
             >
               Sign in
             </button>
