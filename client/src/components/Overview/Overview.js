@@ -21,19 +21,25 @@ export default function Overview() {
 
   return (
     <>
-      <div className="space-y-2">
-        {streak > 0 ? (
-          <p className="text-3xl text-slate-900">{streak} day streak</p>
-        ) : (
-          <p className="text-3xl font-medium text-slate-900">No streak!</p>
-        )}
-        {daysCompleted > 0 ? (
-          <p className="text-slate-500">{daysCompleted} total days completed</p>
-        ) : (
-          <p className="text-slate-500">You haven't completed any days yet 🫤</p>
-        )}
+      <div className="mx-10 my-10">
+        <div className="space-y-2">
+          {streak > 0 ? (
+            <p className="text-3xl text-slate-900">{streak} day streak</p>
+          ) : (
+            <p className="text-3xl font-medium text-slate-900">No streak!</p>
+          )}
+          {daysCompleted > 0 ? (
+            <p className="text-slate-500">
+              {daysCompleted} total days completed
+            </p>
+          ) : (
+            <p className="text-slate-500">
+              You haven't completed any days yet 🫤
+            </p>
+          )}
+        </div>
+        <TaskStatGraph />
       </div>
-      <TaskStatGraph />
     </>
   );
 }

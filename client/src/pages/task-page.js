@@ -9,8 +9,9 @@ export default function TaskPage() {
         This is the task page{" "}
         <Link to="/dashboard/schedule">go to schedule page</Link>
       </div> */}
-      
-      <TaskDisplay />
+      <div className="mx-10 my-10">
+        <TaskDisplay />
+      </div>
     </>
   );
 }

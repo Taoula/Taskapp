@@ -48,7 +48,7 @@ export default function RegisterForm() {
     setIsTermsChecked((prevChecked) => !prevChecked);
   };
 
-  const refreshSettings = useSettingStore(state => state.refreshSettings);
+  const refreshSettings = useSettingStore((state) => state.refreshSettings);
 
   // password regex
   const passRequirements = [
@@ -136,29 +136,37 @@ export default function RegisterForm() {
         passwordVerify,
       };
 
-      console.log(userData)
+      console.log(userData);
 
-      await axios.post("http://localhost:8282/auth/", userData, {})
+      await axios
+        .post("http://localhost:8282/auth/", userData, {})
         .then((res) => res.data)
         .then(async (res) => {
-          await axios.post("http://localhost:8282/schedule/",{},{} /* Two empty brackets necessary TODO ?*/)
-          .then((res) => res.data)
-          .then(async (res) => {
-            await axios.post("http://localhost:8282/userStat/", {})
+          await axios
+            .post(
+              "http://localhost:8282/schedule/",
+              {},
+              {} /* Two empty brackets necessary TODO ?*/
+            )
             .then((res) => res.data)
             .then(async (res) => {
-              await axios.post("http://localhost:8282/settings/", {})
+              await axios
+                .post("http://localhost:8282/userStat/", {})
                 .then((res) => res.data)
-                .then(async(res) => {
-                  getLoggedIn()
-                  refreshSettings()
-                  history("/dashboard/schedule")
-                })
-            })
-          })
-        })
+                .then(async (res) => {
+                  await axios
+                    .post("http://localhost:8282/settings/", {})
+                    .then((res) => res.data)
+                    .then(async (res) => {
+                      getLoggedIn();
+                      refreshSettings();
+                      history("/dashboard/schedule");
+                    });
+                });
+            });
+        });
     } catch (err) {
-      console.error(err.response.data)
+      console.error(err.response.data);
     }
   }
 
@@ -234,18 +242,20 @@ export default function RegisterForm() {
         />
       );
     } else if (step === 3) {
-      return <Step3 
-setStep={setStep}/>;
+      return <Step3 setStep={setStep} />;
     } else if (step === 4) {
-      return <Step4 
-              setStep={setStep}
-              fName={fName}
-              lName={lName}
-              email={email}
-              userRole={userRole}
-              password={password}
-              passwordVerify={passwordVerify}
-              registerUser={registerUser}/>;
+      return (
+        <Step4
+          setStep={setStep}
+          fName={fName}
+          lName={lName}
+          email={email}
+          userRole={userRole}
+          password={password}
+          passwordVerify={passwordVerify}
+          registerUser={registerUser}
+        />
+      );
     }
   };
 
