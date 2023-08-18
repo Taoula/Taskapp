@@ -1,6 +1,4 @@
 # Libraries
-Calendar: https://www.npmjs.com/package/react-awesome-calendar
-<br />
 Phosophor Icons: https://phosphoricons.com
 <br />
 Chart.js: https://www.chartjs.org
@@ -8,6 +6,12 @@ Chart.js: https://www.chartjs.org
 HeadlessUI: https://headlessui.com/react/combobox
 <br />
 Popper.js
+<br />
+Day.js: https://www.npmjs.com/package/dayjs
+<br />
+Framer Motion: https://www.framer.com/motion/
+<br />
+TailwindCSS: https://tailwindcss.com
 
 # Bugs
 1. Set time toggle stays active and doesn't disable when the create task slideover is closed
