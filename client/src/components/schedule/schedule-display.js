@@ -327,73 +327,106 @@ export default function ScheduleDisplay() {
 
   return (
     <>
-      {/* <div>
+      <div className="mb-64">
         <PageTitle>{getDateValue(currentDay, "numeric")}</PageTitle>
         <SubHeading>A scheduling app</SubHeading>
-        {<button onClick={()=>setHoursExpanded(!hoursExpanded)}>Edit Hours</button>}
-        {hoursExpanded &&
-            <ExpandableContainer>
-                <TimeField
-                    label="Start Time"
-                    value={dayjs(wake)}
-                    onChange={(newWake) => {setWake(newWake.toDate())}}
-                />
-
-                <TimeField
-                    label="End Time"
-                    value={dayjs(sleep)}
-                    onChange={(newSleep) => {setSleep(newSleep.toDate())}}
-                />
-                <div>
-                    {
-                    updateDefault ?
-                        (<CheckSquare
-                            size={20}
-                            onClick={() => setUpdateDefault(false)}
-                            classNameName="text-gray-500"
-                        />) :
-                        (<Square
-                            size={20}
-                            onClick={() => setUpdateDefault(true)}
-                            classNameName="text-gray-500"
-                        />)
-                }
-                <p>Set As Default Hours</p>
-                </div>
-                <button onClick={()=>updateHours()}>Done</button>
-            </ExpandableContainer>
+        {
+          <button onClick={() => setHoursExpanded(!hoursExpanded)}>
+            Edit Hours
+          </button>
         }
+        {hoursExpanded && (
+          <ExpandableContainer>
+            <TimeField
+              label="Start Time"
+              value={dayjs(wake)}
+              onChange={(newWake) => {
+                setWake(newWake.toDate());
+              }}
+            />
+
+            <TimeField
+              label="End Time"
+              value={dayjs(sleep)}
+              onChange={(newSleep) => {
+                setSleep(newSleep.toDate());
+              }}
+            />
+            <div>
+              {updateDefault ? (
+                <CheckSquare
+                  size={20}
+                  onClick={() => setUpdateDefault(false)}
+                  classNameName="text-gray-500"
+                />
+              ) : (
+                <Square
+                  size={20}
+                  onClick={() => setUpdateDefault(true)}
+                  classNameName="text-gray-500"
+                />
+              )}
+              <p>Set As Default Hours</p>
+            </div>
+            <button onClick={() => updateHours()}>Done</button>
+          </ExpandableContainer>
+        )}
 
         <span>
           {isToday && <p>Focus Mode</p>}
-          { isToday && focusMode ? (
-
+          {isToday && focusMode ? (
             <CheckSquare
               size={20}
               onClick={() => setFocusMode(false)}
               classNameName="text-gray-500"
             />
-        ) : isToday && (
-            <Square
-            size={20}
-            onClick={() => setFocusMode(true)}
-            classNameName="text-gray-500"
-            />
-        )}
+          ) : (
+            isToday && (
+              <Square
+                size={20}
+                onClick={() => setFocusMode(true)}
+                classNameName="text-gray-500"
+              />
+            )
+          )}
         </span>
 
-        {focusMode && isToday ? <div><Countdown schedule={schedule} currentDay={currentDay} getSchedule={getSchedule}/></div> :
-        <div>
+        {focusMode && isToday ? (
+          <div>
+            <Countdown
+              schedule={schedule}
+              currentDay={currentDay}
+              getSchedule={getSchedule}
+            />
+          </div>
+        ) : (
+          <div>
             <div>{renderSchedule()}</div>
-            {wake != null && wake != "Invalid Date" && sleep != null && sleep != "Invalid Date" ?
-            <div>
-
-                <ScheduleButton onClick={()=> newSort(setSchedule, currentDay, false)}><ScheduleText>Sort Schedule</ScheduleText></ScheduleButton>
-                {isToday && <ScheduleButton onClick={()=> updateStats()}><ScheduleText>Call It A Day</ScheduleText></ScheduleButton>}
-            </div> :
-            <p>You must set your schedule's start and end hours before generating.</p>}
-        </div>}
-        </div> */}
+            {wake != null &&
+            wake != "Invalid Date" &&
+            sleep != null &&
+            sleep != "Invalid Date" ? (
+              <div>
+                <ScheduleButton
+                  onClick={() => newSort(setSchedule, currentDay, false)}
+                >
+                  <ScheduleText>Sort Schedule</ScheduleText>
+                </ScheduleButton>
+                {isToday && (
+                  <ScheduleButton onClick={() => updateStats()}>
+                    <ScheduleText>Call It A Day</ScheduleText>
+                  </ScheduleButton>
+                )}
+              </div>
+            ) : (
+              <p>
+                You must set your schedule's start and end hours before
+                generating.
+              </p>
+            )}
+          </div>
+        )}
+      </div>
 
       <div className="flex h-full flex-col">
         <div className="mb-6 flex justify-between items-center">
