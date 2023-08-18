@@ -156,18 +156,44 @@ export default function ScheduleDisplay() {
       sleep,
     });
   }
+  /*
+    start time: 2 + (hours since wake * 12)
+    height: duration in hours * 12
+    schedule => gridStyles ={...}
+    foreach(item in schedule){
+      
+        const gridRowStyles3 = {
+    gridRow: "2 / span 12",
+  };
+    }
+  */
+  function renderSchedule() { 
+    console.log("rendering schedule!")
+    console.log(schedule)
+    const scWake = dayjs(wake).second(0).millisecond(0)
+    
 
-  function renderSchedule() {
     return schedule.map((task) => {
+      let taskStart = dayjs(task.start).second(0).millisecond(0)
+      let gridStart = 2 + (taskStart.diff(scWake, "hour", true) * 12)
+      let gridHeight = (task.duration / 60) * 12
+      let gridRowStyles = {
+        gridRow: `${gridStart} / span ${gridHeight}`
+      }
+
+      console.log(gridRowStyles)
       return (
         <ScheduleBlock
           task={task}
           refreshSchedule={refreshSchedule}
           getSchedule={getSchedule}
           currentDay={currentDay}
+          gridRowStyles={gridRowStyles}
         ></ScheduleBlock>
       );
     });
+
+    console.log("render complete")
   }
 
   async function updateStats() {
@@ -313,18 +339,6 @@ export default function ScheduleDisplay() {
     gridTemplateRows: "1.75rem repeat(288, minmax(0, 1fr)) auto",
   };
 
-  const gridRowStyles3 = {
-    gridRow: "74 / span 12",
-  };
-
-  const gridRowStyles4 = {
-    gridRow: "92 / span 30",
-  };
-
-  const gridRowStyles5 = {
-    gridRow: "134 / span 18",
-  };
-
   return (
     <>
       <div className="mb-64">
@@ -400,35 +414,9 @@ export default function ScheduleDisplay() {
             />
           </div>
         ) : (
+          
           <div>
-            <div>{renderSchedule()}</div>
-            {wake != null &&
-            wake != "Invalid Date" &&
-            sleep != null &&
-            sleep != "Invalid Date" ? (
-              <div>
-                <ScheduleButton
-                  onClick={() => newSort(setSchedule, currentDay, false)}
-                >
-                  <ScheduleText>Sort Schedule</ScheduleText>
-                </ScheduleButton>
-                {isToday && (
-                  <ScheduleButton onClick={() => updateStats()}>
-                    <ScheduleText>Call It A Day</ScheduleText>
-                  </ScheduleButton>
-                )}
-              </div>
-            ) : (
-              <p>
-                You must set your schedule's start and end hours before
-                generating.
-              </p>
-            )}
-          </div>
-        )}
-      </div>
-
-      <div className="flex h-full flex-col">
+                  <div className="flex h-full flex-col">
         <div className="mb-6 flex justify-between items-center">
           <h1 className="text-3xl font-medium">Today's schedule</h1>
           <div className="flex gap-4">
@@ -602,57 +590,41 @@ export default function ScheduleDisplay() {
                   className="col-start-1 col-end-2 row-start-1 grid grid-cols-1"
                   style={gridStyles1}
                 >
-                  <li className="relative mt-px flex" style={gridRowStyles3}>
-                    <a
-                      href="/"
-                      className="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-blue-50 p-2 text-xs leading-5 hover:bg-blue-100"
-                    >
-                      <p className="order-1 font-semibold text-blue-700">
-                        Breakfast
-                      </p>
-                      <p className="text-blue-500 group-hover:text-blue-700">
-                        <time dateTime="2022-01-22T06:00">6:00 AM</time>
-                      </p>
-                    </a>
-                  </li>
-                  <li className="relative mt-px flex" style={gridRowStyles4}>
-                    <a
-                      href="/"
-                      className="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-pink-50 p-2 text-xs leading-5 hover:bg-pink-100"
-                    >
-                      <p className="order-1 font-semibold text-pink-700">
-                        Flight to Paris
-                      </p>
-                      <p className="order-1 text-pink-500 group-hover:text-pink-700">
-                        John F. Kennedy International Airport
-                      </p>
-                      <p className="text-pink-500 group-hover:text-pink-700">
-                        <time dateTime="2022-01-22T07:30">7:30 AM</time>
-                      </p>
-                    </a>
-                  </li>
-                  <li className="relative mt-px flex" style={gridRowStyles5}>
-                    <a
-                      href="/"
-                      className="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-indigo-50 p-2 text-xs leading-5 hover:bg-indigo-100"
-                    >
-                      <p className="order-1 font-semibold text-indigo-700">
-                        Sightseeing
-                      </p>
-                      <p className="order-1 text-indigo-500 group-hover:text-indigo-700">
-                        Eiffel Tower
-                      </p>
-                      <p className="text-indigo-500 group-hover:text-indigo-700">
-                        <time dateTime="2022-01-22T11:00">11:00 AM</time>
-                      </p>
-                    </a>
-                  </li>
+                  {renderSchedule()}
+                  
                 </ol>
               </div>
             </div>
           </div>
         </div>
       </div>
+            {wake != null &&
+            wake != "Invalid Date" &&
+            sleep != null &&
+            sleep != "Invalid Date" ? (
+              <div>
+                <ScheduleButton
+                  onClick={() => newSort(setSchedule, currentDay, false)}
+                >
+                  <ScheduleText>Sort Schedule</ScheduleText>
+                </ScheduleButton>
+                {isToday && (
+                  <ScheduleButton onClick={() => updateStats()}>
+                    <ScheduleText>Call It A Day</ScheduleText>
+                  </ScheduleButton>
+                )}
+              </div>
+            ) : (
+              <p>
+                You must set your schedule's start and end hours before
+                generating.
+              </p>
+            )}
+          </div>
+        )}
+      </div>
+
+
     </>
   );
 }

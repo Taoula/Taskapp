@@ -25,6 +25,7 @@ async function newSort(setSchedule, currentDay, resort){
     const scheduleReq = await axios.get("http://localhost:8282/schedule/")
     let populated = false
     let {entries} = scheduleReq.data
+    console.log(entries)
     let entryIndex
     for (let i = 0; i < entries.length; i++){
         if (sameDate(entries[i].wake, currentDay)){
