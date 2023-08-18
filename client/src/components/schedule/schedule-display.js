@@ -175,13 +175,16 @@ export default function ScheduleDisplay() {
 
     return schedule.map((task) => {
       let taskStart = dayjs(task.start).second(0).millisecond(0)
-      let gridStart = 2 + (taskStart.diff(scWake, "hour", true) * 12)
-      let gridHeight = (task.duration / 60) * 12
+      let gridStart = (taskStart.diff(scWake, "minute")) -2
+      let gridHeight = task.duration
       let gridRowStyles = {
         gridRow: `${gridStart} / span ${gridHeight}`
       }
 
       console.log(gridRowStyles)
+      if (task.name == "Free Time") {
+        return 
+      }
       return (
         <ScheduleBlock
           task={task}
@@ -331,12 +334,15 @@ export default function ScheduleDisplay() {
   }, [currentDay]);
 
   // calendar styles (convert to tailwind later)
-  const gridStyles = {
-    gridTemplateRows: "repeat(48, minmax(3.5rem, 1fr))",
-  };
 
+  let djSleep = dayjs(sleep).second(0).millisecond(0)
+  let djWake = dayjs(wake).second(0).millisecond(0)
+  let totalTime = djSleep.diff(djWake, "minutes")
+  const gridStyles = {
+    gridTemplateRows: `repeat(${Math.floor(totalTime / 30)}, minmax(4rem, 1fr))`,
+  };
   const gridStyles1 = {
-    gridTemplateRows: "1.75rem repeat(288, minmax(0, 1fr)) auto",
+    gridTemplateRows: `2rem repeat(${totalTime}, minmax(0, 1fr)) auto`,
   };
 
   return (
