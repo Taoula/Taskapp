@@ -5,7 +5,7 @@ Chart.js: https://www.chartjs.org
 <br />
 HeadlessUI: https://headlessui.com/react/combobox
 <br />
-Popper.js
+Popper.js: https://popper.js.org
 <br />
 Day.js: https://www.npmjs.com/package/dayjs
 <br />
