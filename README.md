@@ -61,6 +61,7 @@ Popper.js
 3. Add time completed to task stats
 4. Scatterplots between productivity & duration, productivity & time of day
 5. Custom task stats
+6. Possible metrics to measure - https://www.activtrak.com/solutions/productivity-management/productivity-metrics/#metrics
 
 ## Tasks Page
 1. ~~Search bars in task display to search for specific task~~
