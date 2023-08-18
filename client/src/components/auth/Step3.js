@@ -1,11 +1,14 @@
 import { RadioButton, Check, Circle } from "phosphor-react";
 import axios from "axios"
 import React, { useState } from "react";
-import Stripe from "stripe";
+import Stripe from "stripe"
 
 export default function Step3({ setStep }) {
   const [selectedPlan, setSelectedPlan] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const STRIPE_SECRET_KEY = "sk_test_51NUGgYB6OZ4o5CX1z1o0IIpN2vjGxMQ9TxChlo5iT6o4ctimbyNIVFOu4VauIpyYfuo7z7Vne1kfmun6JZSEGHiP00uLp9fxQq"
+  const stripe = Stripe(STRIPE_SECRET_KEY)
+
 
   const handlePlanSelection = (boxId) => {
     if (boxId === selectedPlan) {
@@ -17,13 +20,13 @@ export default function Step3({ setStep }) {
     }
   };
 
-  async function redirectToCheckout(){
-    const userReq = await axios.get("http://localhost:8282/auth/")
-    const {billingID} = await userReq.data
-    await axios.post("http://localhost:8282/auth/checkout", {billingID, product: selectedPlan})
+  async function redirectToCheckout(e){
+    e.preventDefault()
+    await axios.post("http://localhost:8282/auth/checkout", {product: selectedPlan})
       .then ((res) => res.data)
-      .then (({ sessionId }) => {
-        Stripe.redirectToCheckout(sessionId)
+      .then (({ id }) => {
+        console.log(id)
+        Stripe.redirectToCheckout({sessionId: id})
       })
   }
 
@@ -126,8 +129,8 @@ export default function Step3({ setStep }) {
               ? "bg-gray-200 text-gray-500 cursor-not-allowed"
               : "bg-slate-900 duration-300 hover:duration-300 hover:shadow-2xl text-white"
           } py-3.5 max-w-md mx-auto rounded-md w-full text-sm tracking-wide font-medium mt-8`}
-          onClick={() => {
-            //setStep((currentStep) => currentStep + 1);
+          onClick={(e) => {
+            redirectToCheckout(e)
           }}
         >
           Continue to payment

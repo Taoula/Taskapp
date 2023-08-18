@@ -170,9 +170,14 @@ router.get("/", auth, async (req, res) => {
 
 router.post("/checkout", auth, async(req, res) => {
   try {
-    const { customerID, product } = req.body;
-    const price = productToPriceMap[product.toUpperCase()];
-    const session = await Stripe.createCheckoutSession(customerID, price);
+    const userId = req.user
+    const {billingID} = await User.findById(userId)
+
+    const {  product } = req.body;
+    const price = productToPriceMap[product.toUpperCase()]; 
+    const session = await Stripe.createCheckoutSession(billingID, price);
+    console.log(session)
+    //Stripe.redirectToCheckout({sessionId: session.id})
     res.json(session)
   } catch (err) {
     console.error(err)
