@@ -18,6 +18,7 @@ import {
   Table,
   SortAscending,
   CheckSquare,
+  Square,
 } from "phosphor-react";
 import sameDate from "../../methods/same-date";
 import dateSearch from "../../methods/date-search";
@@ -636,7 +637,7 @@ export default function TaskDisplay() {
 
       {taskLayout === 3 && (
         <>
-          <div class="flex flex-col mt-6">
+          {/* <div class="flex flex-col mt-6">
             <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                 <div class="overflow-hidden border border-gray-200 rounded-md">
@@ -667,7 +668,51 @@ export default function TaskDisplay() {
                 </div>
               </div>
             </div>
+          </div> */}
+
+          <div class="relative overflow-x-auto rounded-md border border-gray-200 ">
+            <table class="w-full text-sm text-left text-gray-500 divide-y divide-gray-200">
+              <thead class="text-xs text-gray-700 bg-gray-50">
+                <tr>
+                  <th scope="col" class="p-4"></th>
+                  <th
+                    scope="col"
+                    class="px-6 py-4 text-sm font-normal text-gray-500"
+                  >
+                    Name
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-4 text-sm font-normal text-gray-500"
+                  >
+                    Duration
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-4 text-sm font-normal text-gray-500"
+                  >
+                    Priority
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-4 text-sm font-normal text-gray-500"
+                  >
+                    Time
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-4 text-sm font-normal text-gray-500"
+                  >
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <>{renderTasks()}</>
+              </tbody>
+            </table>
           </div>
+
           {/* <div class="flex flex-col mt-6">
             <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">

@@ -187,42 +187,111 @@ export default function Task({ task, getTasks }) {
 
       {/* table row layout */}
       {taskLayout === 3 && (
+        // <tr
+        // className={`hover:bg-slate-100 duration-100 ${
+        //   isActive ? "border-blue-500 bg-blue-100/60" : ""
+        // }`}
+        // >
+        //   {/* <td className="px-4">
+        //     {isActive ? (
+        //       <>
+        //         <CheckSquare size={20} onClick={toggleActive} />
+        //       </>
+        //     ) : (
+        //       <>
+        //         <Square size={20} onClick={toggleActive} />
+        //       </>
+        //     )}
+        //   </td> */}
+        //   <td class="py-4 text-sm font-medium justify-center flex gap-4">
+        //     {isActive ? (
+        //       <>
+        //         <CheckSquare
+        //           size={20}
+        //           onClick={toggleActive}
+        //           className={`${isActive ? "text-blue-500" : ""}`}
+        //         />
+        //       </>
+        //     ) : (
+        //       <>
+        //         <Square size={20} onClick={toggleActive} />
+        //       </>
+        //     )}
+        //     <h2 class="font-medium text-gray-800 capitalize">{name}</h2>
+        //   </td>
+        //   <td class="py-4 text-sm text-center">
+        //     <h4 class="text-gray-700">{duration} minutes</h4>
+        //   </td>
+        //   <td class="py-4 text-sm font-medium text-center">
+        //     <div
+        //       class={`inline px-2 py-1 border text-sm font-normal rounded-full ${
+        //         isActive
+        //           ? "text-blue-500 border-blue-500 bg-blue-100/60"
+        //           : priority === "1"
+        //           ? "text-red-500 border-red-500 bg-red-100/60"
+        //           : priority === "2"
+        //           ? "text-yellow-500 border-yellow-500 bg-yellow-100/60"
+        //           : "text-green-500 border-green-500 bg-green-100/60"
+        //       }`}
+        //     >
+        //       {priority}
+        //     </div>
+        //   </td>
+
+        //   <td class="py-4 text-sm text-center">
+        //     {convertTimeToNormalFormat(time)}
+        //   </td>
+
+        //   <td class="py-4 text-sm">
+        //     <div class="flex gap-4 justify-center">
+        //       <Pen
+        //         size={20}
+        //         className="hover:text-red-500"
+        //         onClick={(e) => {
+        //           setOpen2(true);
+        //         }}
+        //       />
+        //       <TrashSimple
+        //         size={20}
+        //         className="hover:text-red-500"
+        //         onClick={deleteTask}
+        //       />
+        //     </div>
+        //   </td>
+        // </tr>
+
         <tr
-          className={`hover:bg-slate-100 duration-100 ${
+          className={`bg-white hover:bg-gray-50 ${
             isActive ? "border-blue-500 bg-blue-100/60" : ""
           }`}
         >
-          {/* <td className="px-4">
-            {isActive ? (
-              <>
-                <CheckSquare size={20} onClick={toggleActive} />
-              </>
-            ) : (
-              <>
-                <Square size={20} onClick={toggleActive} />
-              </>
-            )}
-          </td> */}
-          <td class="py-4 text-sm font-medium justify-center flex gap-4">
-            {isActive ? (
-              <>
-                <CheckSquare
-                  size={20}
-                  onClick={toggleActive}
-                  className={`${isActive ? "text-blue-500" : ""}`}
-                />
-              </>
-            ) : (
-              <>
-                <Square size={20} onClick={toggleActive} />
-              </>
-            )}
-            <h2 class="font-medium text-gray-800 capitalize">{name}</h2>
+          <td class="w-4 p-4 text-sm font-medium">
+            <div class="flex items-center">
+              {isActive ? (
+                <>
+                  <CheckSquare
+                    size={20}
+                    onClick={toggleActive}
+                    className={`${isActive ? "text-blue-500" : ""}`}
+                  />
+                </>
+              ) : (
+                <>
+                  <Square size={20} onClick={toggleActive} />
+                </>
+              )}
+            </div>
           </td>
-          <td class="py-4 text-sm text-center">
-            <h4 class="text-gray-700">{duration} minutes</h4>
+          <th
+            scope="row"
+            class="px-6 py-4 text-sm font-medium text-gray-800 capitalize whitespace-nowrap"
+          >
+            {name}
+          </th>
+          <td class="px-6 py-4 text-sm font-normal text-gray-800">
+            {duration} minutes
           </td>
-          <td class="py-4 text-sm font-medium text-center">
+          <td class="px-6 py-4">
             <div
               class={`inline px-2 py-1 border text-sm font-normal rounded-full ${
                 isActive
@@ -237,26 +306,22 @@ export default function Task({ task, getTasks }) {
               {priority}
             </div>
           </td>
-
-          <td class="py-4 text-sm text-center">
+          <td class="px-6 py-4 text-sm font-normal text-gray-800">
             {convertTimeToNormalFormat(time)}
           </td>
-
-          <td class="py-4 text-sm">
-            <div class="flex gap-4 justify-center">
-              <Pen
-                size={20}
-                className="hover:text-red-500"
-                onClick={(e) => {
-                  setOpen2(true);
-                }}
-              />
-              <TrashSimple
-                size={20}
-                className="hover:text-red-500"
-                onClick={deleteTask}
-              />
-            </div>
+          <td class="flex items-center px-6 py-4 space-x-3">
+            <Pen
+              size={20}
+              className="hover:text-red-500"
+              onClick={(e) => {
+                setOpen2(true);
+              }}
+            />
+            <TrashSimple
+              size={20}
+              className="hover:text-red-500"
+              onClick={deleteTask}
+            />
           </td>
         </tr>
       )}
