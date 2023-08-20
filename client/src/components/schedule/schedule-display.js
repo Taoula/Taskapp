@@ -19,6 +19,7 @@ import {
 import Countdown from "./countdown";
 import { TimeField } from "@mui/x-date-pickers/TimeField";
 import newSort from "../../methods/new-sort";
+import convertTimeNew from "../../methods/convert-time-new";
 import { Popover, Transition, Dialog } from "@headlessui/react";
 
 const dayjs = require("dayjs");
@@ -90,6 +91,8 @@ export default function ScheduleDisplay() {
         found = true;
       }
     }
+
+
 
     // Add an entry for the selected day if none exists, then get data again
     if (!found) {
@@ -179,14 +182,17 @@ export default function ScheduleDisplay() {
     const scWake = dayjs(wake).second(0).millisecond(0);
 
     return schedule.map((task) => {
-      let taskStart = dayjs(task.start).second(0).millisecond(0);
-      let gridStart = 2 + taskStart.diff(scWake, "hour", true) * 12;
-      let gridHeight = (task.duration / 60) * 12;
+      let taskStart = dayjs(task.start).second(0).millisecond(0)
+      let gridStart = (taskStart.diff(scWake, "minute")) +1
+      let gridHeight = task.duration
       let gridRowStyles = {
         gridRow: `${gridStart} / span ${gridHeight}`,
       };
 
-      console.log(gridRowStyles);
+      console.log(gridRowStyles)
+      if (task.name == "Free Time") {
+        return 
+      }
       return (
         <ScheduleBlock
           task={task}
@@ -336,13 +342,33 @@ export default function ScheduleDisplay() {
   }, [currentDay]);
 
   // calendar styles (convert to tailwind later)
+
+  let djSleep = dayjs(sleep).second(0).millisecond(0)
+  let djWake = dayjs(wake).second(0).millisecond(0)
+  let totalTime = djSleep.diff(djWake, "minutes")
   const gridStyles = {
-    gridTemplateRows: "repeat(48, minmax(3.5rem, 1fr))",
+    gridTemplateRows: `repeat(${Math.floor(totalTime / 60)}, minmax(6rem, 1fr))`,
+  };
+  const gridStyles1 = {
+    gridTemplateRows: `2rem repeat(${totalTime}, minmax(0, 1fr)) auto`,
   };
 
-  const gridStyles1 = {
-    gridTemplateRows: "1.75rem repeat(288, minmax(0, 1fr)) auto",
-  };
+  function renderGridLines (){
+      let arr = []
+
+      for (let i = 0; i < totalTime / 60; i++){
+        let toPush = <>
+        <div>
+        <div className="-ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
+          {convertTimeNew(djWake.add(i, "hour"))}
+        </div>
+      </div>
+      </>
+
+        arr.push(toPush)
+      }
+      return arr
+  }
 
   let [isOpen, setIsOpen] = useState(false);
 
@@ -544,154 +570,11 @@ export default function ScheduleDisplay() {
               <div className="grid flex-auto grid-cols-1 grid-rows-1">
                 {/* <!-- Horizontal lines --> */}
                 <div
-                  className="col-start-1 col-end-2 row-start-1 grid divide-y divide-gray-100"
+                  className="col-start-1 col-end-2 row-start-1 grid divide-y divide-gray-900"
                   style={gridStyles}
                 >
                   <div className="row-end-1 h-7"></div>
-                  <div>
-                    <div className="-ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                      12AM
-                    </div>
-                  </div>
-                  <div></div>
-                  <div>
-                    <div className="-ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                      1AM
-                    </div>
-                  </div>
-                  <div></div>
-                  <div>
-                    <div className="-ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                      2AM
-                    </div>
-                  </div>
-                  <div></div>
-                  <div>
-                    <div className="-ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                      3AM
-                    </div>
-                  </div>
-                  <div></div>
-                  <div>
-                    <div className="-ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                      4AM
-                    </div>
-                  </div>
-                  <div></div>
-                  <div>
-                    <div className="-ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                      5AM
-                    </div>
-                  </div>
-                  <div></div>
-                  <div>
-                    <div className="-ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                      6AM
-                    </div>
-                  </div>
-                  <div></div>
-                  <div>
-                    <div className="-ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                      7AM
-                    </div>
-                  </div>
-                  <div></div>
-                  <div>
-                    <div className="-ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                      8AM
-                    </div>
-                  </div>
-                  <div></div>
-                  <div>
-                    <div className="-ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                      9AM
-                    </div>
-                  </div>
-                  <div></div>
-                  <div>
-                    <div className="-ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                      10AM
-                    </div>
-                  </div>
-                  <div></div>
-                  <div>
-                    <div className="-ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                      11AM
-                    </div>
-                  </div>
-                  <div></div>
-                  <div>
-                    <div className="-ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                      12PM
-                    </div>
-                  </div>
-                  <div></div>
-                  <div>
-                    <div className="-ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                      1PM
-                    </div>
-                  </div>
-                  <div></div>
-                  <div>
-                    <div className="-ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                      2PM
-                    </div>
-                  </div>
-                  <div></div>
-                  <div>
-                    <div className="-ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                      3PM
-                    </div>
-                  </div>
-                  <div></div>
-                  <div>
-                    <div className="-ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                      4PM
-                    </div>
-                  </div>
-                  <div></div>
-                  <div>
-                    <div className="-ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                      5PM
-                    </div>
-                  </div>
-                  <div></div>
-                  <div>
-                    <div className="-ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                      6PM
-                    </div>
-                  </div>
-                  <div></div>
-                  <div>
-                    <div className="-ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                      7PM
-                    </div>
-                  </div>
-                  <div></div>
-                  <div>
-                    <div className="-ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                      8PM
-                    </div>
-                  </div>
-                  <div></div>
-                  <div>
-                    <div className="-ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                      9PM
-                    </div>
-                  </div>
-                  <div></div>
-                  <div>
-                    <div className="-ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                      10PM
-                    </div>
-                  </div>
-                  <div></div>
-                  <div>
-                    <div className="-ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                      11PM
-                    </div>
-                  </div>
-                  <div></div>
+                  {renderGridLines()}
                 </div>
 
                 {/* <!-- Events --> */}
