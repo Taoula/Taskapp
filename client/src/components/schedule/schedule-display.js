@@ -442,7 +442,7 @@ export default function ScheduleDisplay() {
         ) : (
           
           <div>
-                  <div className="flex h-full flex-col">
+                  <div className="flex mt-64 h-full flex-col">
         <div className="mb-6 flex justify-between items-center">
           <h1 className="text-3xl font-medium">Today's schedule</h1>
           <div className="flex gap-4">
@@ -461,7 +461,7 @@ export default function ScheduleDisplay() {
               <div className="grid flex-auto grid-cols-1 grid-rows-1">
                 {/* <!-- Horizontal lines --> */}
                 <div
-                  className="col-start-1 col-end-2 row-start-1 grid divide-y divide-gray-100"
+                  className="col-start-1 col-end-2 row-start-1 grid divide-y divide-gray-900"
                   style={gridStyles}
                 >
                   <div className="row-end-1 h-7"></div>
