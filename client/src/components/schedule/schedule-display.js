@@ -506,14 +506,14 @@ export default function ScheduleDisplay() {
             wake != "Invalid Date" &&
             sleep != null &&
             sleep != "Invalid Date" ? (
-              <div>
+              <div className="flex gap-4">
                 <div className="flex">
                   <p className="border border-gray-200 bg-stone-50 text-slate-900 rounded-l-lg px-4 py-2 text-sm">
                     Generate schedule
                   </p>
                   <button
                     onClick={() => newSort(setSchedule, currentDay, false)}
-                    className="px-2 py-2 rounded-r-lg border border-gray-200 border-l-0 hover:bg-gray-200 hover:cursor-pointer hover:duration-100 duration-100"
+                    className="px-2 py-2 rounded-r-lg border border-solid border-gray-200 border-l-0 hover:bg-gray-200 hover:cursor-pointer hover:duration-100 duration-100"
                   >
                     <FunnelSimple size={20} />
                   </button>
@@ -525,7 +525,7 @@ export default function ScheduleDisplay() {
                     </p>
                     <button
                       onClick={() => updateStats()}
-                      className="px-2 py-2 rounded-r-lg border border-gray-200 border-l-0 hover:bg-gray-200 hover:cursor-pointer hover:duration-100 duration-100"
+                      className="px-2 py-2 rounded-r-lg border border-solid border-gray-200 border-l-0 hover:bg-gray-200 hover:cursor-pointer hover:duration-100 duration-100"
                     >
                       <CheckCircle size={20} />
                     </button>
