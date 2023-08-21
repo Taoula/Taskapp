@@ -273,17 +273,17 @@ export default function AccountSettings() {
                   onClick={(e) => setEditPersonalInfo(!editPersonalInfo)}
                   className={`${
                     editPersonalInfo === true
-                      ? "bg-blue-500 hover:bg-blue-600"
-                      : "bg-red-500 hover:bg-red-600"
-                  } px-4 py-2 font-normal  duration-200 rounded-md text-sm text-white`}
+                      ? "bg-blue-500/10 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white"
+                      : "bg-red-500/10 hover:bg-red-500 text-red-500 border-red-500 hover:text-white"
+                  } px-4 py-2 font-normal border border-solid duration-200 rounded-md text-sm text-white`}
                 >
                   {editPersonalInfo === true ? "Edit" : "Cancel"}
                 </button>
                 <button
-                  className={`px-4 py-2 font-normal rounded-md text-sm duration-200 ${
+                  className={`px-4 py-2 font-normal border border-solid rounded-md text-sm duration-200 ${
                     editPersonalInfo === true
-                      ? "cursor-not-allowed bg-gray-200 text-gray-900 "
-                      : "bg-green-600 hover:bg-green-700 text-white"
+                      ? "cursor-not-allowed bg-gray-500/10 border-gray-300 text-gray-400"
+                      : "bg-green-600/10 hover:bg-green-600 hover:text-white border-green-600 text-green-600"
                   }`}
                 >
                   Save
@@ -436,7 +436,7 @@ export default function AccountSettings() {
                   </ul>
                 )}
               </div>
-              <button className="px-4 py-2 mt-8 font-normal text-sm text-gray-900 rounded-md bg-gray-200 hover:bg-gray-300 duration-200">
+              <button className="px-4 py-2 mt-8 font-normal rounded-md text-sm bg-gray-500/10 border border-solid border-gray-300 text-gray-400 duration-200">
                 Change password
               </button>
             </div>
@@ -456,7 +456,7 @@ export default function AccountSettings() {
               </p>
             </div>
             <div className="w-2/3">
-              <button className="rounded-md bg-red-500 text-white font-normal text-sm hover:bg-red-600 duration-200 px-4 py-2">
+              <button className="rounded-md bg-red-500/10 border border-solid border-red-500 text-red-500 hover:text-white font-normal text-sm hover:bg-red-500 duration-200 px-4 py-2">
                 Yes, delete my account
               </button>
             </div>

@@ -390,7 +390,7 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                             isCreateDisabled === true
                               ? "bg-gray-500/10 border-gray-300 text-gray-400 cursor-not-allowed"
                               : "bg-green-600/10 border-green-600 text-green-600 hover:text-white hover:bg-green-600"
-                          } w-full text-sm mb-6 py-3.5  border border-solid font-normal rounded-md duration-200`}
+                          } w-full text-sm mb-6 py-3 border border-solid font-normal rounded-md duration-200`}
                         >
                           Create task
                         </button>
