@@ -92,8 +92,6 @@ export default function ScheduleDisplay() {
       }
     }
 
-
-
     // Add an entry for the selected day if none exists, then get data again
     if (!found) {
       console.log("an entry was not found :(");
@@ -182,16 +180,16 @@ export default function ScheduleDisplay() {
     const scWake = dayjs(wake).second(0).millisecond(0);
 
     return schedule.map((task) => {
-      let taskStart = dayjs(task.start).second(0).millisecond(0)
-      let gridStart = (taskStart.diff(scWake, "minute")) +1
-      let gridHeight = task.duration
+      let taskStart = dayjs(task.start).second(0).millisecond(0);
+      let gridStart = taskStart.diff(scWake, "minute") + 1;
+      let gridHeight = task.duration;
       let gridRowStyles = {
         gridRow: `${gridStart} / span ${gridHeight}`,
       };
 
-      console.log(gridRowStyles)
+      console.log(gridRowStyles);
       if (task.name == "Free Time") {
-        return 
+        return;
       }
       return (
         <ScheduleBlock
@@ -343,31 +341,35 @@ export default function ScheduleDisplay() {
 
   // calendar styles (convert to tailwind later)
 
-  let djSleep = dayjs(sleep).second(0).millisecond(0)
-  let djWake = dayjs(wake).second(0).millisecond(0)
-  let totalTime = djSleep.diff(djWake, "minutes")
+  let djSleep = dayjs(sleep).second(0).millisecond(0);
+  let djWake = dayjs(wake).second(0).millisecond(0);
+  let totalTime = djSleep.diff(djWake, "minutes");
   const gridStyles = {
-    gridTemplateRows: `repeat(${Math.floor(totalTime / 60)}, minmax(6rem, 1fr))`,
+    gridTemplateRows: `repeat(${Math.floor(
+      totalTime / 60
+    )}, minmax(6rem, 1fr))`,
   };
   const gridStyles1 = {
     gridTemplateRows: `2rem repeat(${totalTime}, minmax(0, 1fr)) auto`,
   };
 
-  function renderGridLines (){
-      let arr = []
+  function renderGridLines() {
+    let arr = [];
 
-      for (let i = 0; i < totalTime / 60; i++){
-        let toPush = <>
-        <div>
-        <div className="-ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-          {convertTimeNew(djWake.add(i, "hour"))}
-        </div>
-      </div>
-      </>
+    for (let i = 0; i < totalTime / 60; i++) {
+      let toPush = (
+        <>
+          <div>
+            <div className="-ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
+              {convertTimeNew(djWake.add(i, "hour"))}
+            </div>
+          </div>
+        </>
+      );
 
-        arr.push(toPush)
-      }
-      return arr
+      arr.push(toPush);
+    }
+    return arr;
   }
 
   let [isOpen, setIsOpen] = useState(false);

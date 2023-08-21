@@ -466,13 +466,15 @@ export default function AccountSettings() {
         <>
           {/* more themes annoucement */}
           {bannerClosed === false && (
-            <div className="relative flex items-center justify-between gap-4 bg-blue-500 px-10 py-3 text-white">
-              <p className="text-lg font-normal">More themes on the way!</p>
+            <div className="relative flex items-center justify-between gap-4 bg-blue-500/10 border border-blue-500 px-10 py-3 text-white">
+              <p className="text-lg font-light text-blue-500">
+                More themes on the way!
+              </p>
               <button
                 onClick={(e) => setBannerClosed(true)}
                 className="shrink-0"
               >
-                <X size={20} />
+                <X size={20} className="text-blue-500" />
               </button>
             </div>
           )}
