@@ -34,6 +34,13 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
   const [divisions, setDivisions] = useState(1);
   const [advancedOptions, setAdvancedOptions] = useState(false);
 
+  useEffect(() => {
+    // Check if name, duration, and priority have values
+    const hasValues = name.trim() !== "" && duration !== "" && priority !== "";
+    // Update isCreateDisabled based on the result
+    setIsCreateDisabled(!hasValues);
+  }, [name, duration, priority]);
+
   // function handles form submission
   async function onSubmit(e) {
     try {
@@ -144,15 +151,7 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
   }
 
   const [settingsTabsToggle, setSettingsTabToggle] = useState(1);
-
-  const toggleSettingsTab = (index) => {
-    setSettingsTabToggle(index);
-  };
-
-  const settingsTabs = [
-    { id: 1, label: "General" },
-    { id: 2, label: "Advanced" },
-  ];
+  const [isCreateDisabled, setIsCreateDisabled] = useState(true);
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -183,77 +182,89 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
               >
                 <Dialog.Panel className="pointer-events-auto relative w-screen max-w-md">
                   <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
-                    <div className="px-8 pb-4 pt-6">
-                      <Dialog.Title className="text-2xl text-slate-900 font-semibold">
-                        Create a task
-                      </Dialog.Title>
+                    <div className="px-8 pt-6">
+                      <div className="flex items-center justify-between">
+                        <Dialog.Title className="text-2xl text-slate-900 font-semibold">
+                          Create a task
+                        </Dialog.Title>
+                        <X
+                          size={25}
+                          className="hover:scale-75 duration-300"
+                          onClick={closeSlideover}
+                        />
+                      </div>
 
-                      <div className="text-sm text-center text-gray-500 border-b border-slate-300 mt-10">
-                        <ul className="flex flex-wrap -mb-px">
-                          {settingsTabs.map((tab) => (
-                            <li key={tab.id} className="">
-                              <span
-                                className={`inline-block px-4 pb-4 rounded-t-lg border-b-2 font-normal ${
-                                  settingsTabsToggle === tab.id
-                                    ? "text-slate-900 border-slate-900 active"
-                                    : "border-transparent hover:text-slate-900 hover:border-slate-900"
-                                }`}
-                                onClick={() => toggleSettingsTab(tab.id)}
-                              >
-                                {tab.label}
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
+                      {/* tabs */}
+                      <div className="w-full mt-8 flex p-1.5 gap-2 rounded-lg bg-gray-100">
+                        <button
+                          className={`text-gray-700 py-2 w-full rounded-md text-sm font-light ${
+                            settingsTabsToggle === 1
+                              ? "text-gray-800 bg-white shadow-md font-normal"
+                              : ""
+                          }`}
+                          onClick={(e) => setSettingsTabToggle(1)}
+                        >
+                          General
+                        </button>
+                        <button
+                          className={`text-gray-700 py-2 w-full rounded-md text-sm font-light ${
+                            settingsTabsToggle === 2
+                              ? "text-gray-800 bg-white shadow-md font-normal"
+                              : ""
+                          }`}
+                          onClick={(e) => setSettingsTabToggle(2)}
+                        >
+                          Advanced
+                        </button>
                       </div>
                     </div>
-                    <div className="mt-4 px-8 h-full">
+                    <div className="mt-8 px-8 h-full">
                       <form
                         className="flex flex-col h-full justify-between"
                         onSubmit={(e) => onSubmit(e)}
                       >
                         {/* general settings */}
                         {settingsTabsToggle === 1 && (
-                          <div className="space-y-5">
-                            <div>
-                              <label className="text-sm font-medium text-gray-600">
-                                Task name
-                              </label>
-                              <input
-                                type="text"
-                                placeholder="Name"
-                                className="rounded-md mt-2 pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-md text-sm w-full"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                              />
-                            </div>
-                            <div>
-                              <label className="text-sm font-medium text-gray-600">
-                                Duration (in minutes)
-                              </label>
-                              <input
-                                type="number"
-                                placeholder="Duration"
-                                className="mt-2 rounded-md pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-md text-sm w-full"
-                                min="5"
-                                value={duration}
-                                onChange={(e) => setDuration(e.target.value)}
-                              ></input>
-                            </div>
-                            <div>
-                              <label className="text-sm font-medium text-gray-600">
-                                Priority (1 - 3)
-                              </label>
-                              <input
-                                type="number"
-                                placeholder="Priority"
-                                className="rounded-md mt-2 pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-md text-sm w-full"
-                                min="1"
-                                max="3"
-                                value={priority}
-                                onChange={(e) => setPriority(e.target.value)}
-                              ></input>
-                            </div>
+                          <div className="space-y-4">
+                            <input
+                              type="text"
+                              placeholder="Task name"
+                              className="rounded-md pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-sm w-full"
+                              value={name}
+                              onChange={(e) => setName(e.target.value)}
+                            />
+
+                            <input
+                              type="number"
+                              placeholder="Duration (minutes)"
+                              className="rounded-md pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-sm w-full"
+                              min="5"
+                              value={duration}
+                              onChange={(e) => setDuration(e.target.value)}
+                            />
+
+                            {/* <input
+                              type="number"
+                              placeholder="Priority (1 - 3)"
+                              className="rounded-md pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-sm w-full"
+                              min="1"
+                              max="3"
+                              value={priority}
+                              onChange={(e) => setPriority(e.target.value)}
+                            ></input> */}
+
+                            <select
+                              value={priority}
+                              onChange={(e) => setPriority(e.target.value)}
+                              className="w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 text-gray-600 focus:bg-white text-sm"
+                            >
+                              <option value="" disabled>
+                                Priority
+                              </option>
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                            </select>
                           </div>
                         )}
 
@@ -370,41 +381,19 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                           </div>
                         )}
 
-                        {/* <div className="space-x-2 flex justify-end">
-                          <span
-                            type="button"
-                            className="border px-4 py-2 rounded-md text-sm font-normal bg-opacity-50 border-red-600 text-red-600 hover:bg-red-600 hover:text-white"
-                            onClick={closeSlideover}
-                          >
-                            Cancel
-                          </span>
-
-                          <button
-                            type="submit"
-                            input={+true}
-                            value="submit"
-                            className="px-4 py-2 rounded-md text-sm font-normal text-white bg-green-600 hover:bg-green-700"
-                          >
-                            Create
-                          </button>
-                        </div> */}
-                        <div className="pb-6 flex gap-4 fixed-bottom px-8 pt-4 bg-white">
-                          <button
-                            type="button"
-                            onClick={closeSlideover}
-                            className="w-1/3 text-sm tracking-wide py-3.5 border border-solid border-gray-500 bg-gray-500/10 font-normal text-gray-600 rounded-md hover:text-white hover:bg-red-500 hover:border-red-600 hover:duration-200 duration-200"
-                          >
-                            Cancel
-                          </button>
-                          <button
-                            type="submit"
-                            input={+true}
-                            value="submit"
-                            className="w-2/3 text-sm tracking-wide py-3.5 bg-green-600 font-normal text-white rounded-md hover:text-white hover:bg-green-700 duration-200 hover:duration-200"
-                          >
-                            Create
-                          </button>
-                        </div>
+                        {/* create button */}
+                        <button
+                          type="submit"
+                          value="submit"
+                          disabled={isCreateDisabled}
+                          className={`${
+                            isCreateDisabled === true
+                              ? "bg-gray-500/10 border-gray-300 text-gray-400 cursor-not-allowed"
+                              : "bg-green-600/10 border-green-600 text-green-600 hover:text-white hover:bg-green-600"
+                          } w-full text-sm mb-6 py-3.5  border border-solid font-normal rounded-md duration-200`}
+                        >
+                          Create task
+                        </button>
                       </form>
                     </div>
                   </div>
