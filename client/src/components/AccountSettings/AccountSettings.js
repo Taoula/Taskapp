@@ -130,10 +130,10 @@ export default function AccountSettings() {
   return (
     <>
       <div>
-        <ul className="flex gap-4 py-4 px-10 border-b cursor-pointer bg-white text-gray-500">
+        <ul className="flex gap-2 py-3 px-10 border-b cursor-pointer bg-white text-gray-500">
           <li
             onClick={(e) => setSettingsPage(1)}
-            className={`flex gap-2 px-4 py-2 hover:bg-gray-200 duration-200 rounded-md items-center ${
+            className={`flex gap-2 px-4 py-2 hover:bg-gray-200 text-sm duration-200 rounded-md items-center ${
               settingsPage === 1
                 ? "text-gray-900 bg-gray-200 rounded-md px-4 py-2"
                 : ""
@@ -143,7 +143,8 @@ export default function AccountSettings() {
             <p>Account</p>
           </li>
           <li
-            className={`flex gap-2 px-4 py-2 hover:bg-gray-200 duration-200 rounded-md items-center ${
+            onClick={(e) => setSettingsPage(2)}
+            className={`flex gap-2 px-4 py-2 hover:bg-gray-200 text-sm duration-200 rounded-md items-center ${
               settingsPage === 2
                 ? "text-gray-900 bg-gray-200 rounded-md px-4 py-2"
                 : ""
@@ -153,7 +154,8 @@ export default function AccountSettings() {
             <p>Notifications & Security</p>
           </li>
           <li
-            className={`flex gap-2 px-4 py-2 hover:bg-gray-200 duration-200 rounded-md items-center ${
+            onClick={(e) => setSettingsPage(3)}
+            className={`flex gap-2 px-4 py-2 hover:bg-gray-200 text-sm duration-200 rounded-md items-center ${
               settingsPage === 3
                 ? "text-gray-900 bg-gray-200 rounded-md px-4 py-2"
                 : ""
@@ -164,7 +166,7 @@ export default function AccountSettings() {
           </li>
           <li
             onClick={(e) => setSettingsPage(4)}
-            className={`flex gap-2 px-4 py-2 hover:bg-gray-200 duration-200 rounded-md items-center ${
+            className={`flex gap-2 px-4 py-2 hover:bg-gray-200 text-sm duration-200 rounded-md items-center ${
               settingsPage === 4
                 ? "text-gray-900 bg-gray-200 rounded-md px-4 py-2"
                 : ""
@@ -181,7 +183,7 @@ export default function AccountSettings() {
           {/* personal information section */}
           <section className="flex px-10 gap-20 py-20 border-b">
             <div className="w-1/3">
-              <h1 className="text-md font-medium tracking-wide pb-2">
+              <h1 className="text-lg font-normal tracking-wide pb-1">
                 Personal Information
               </h1>
               <p className="font-light text-gray-500">
@@ -189,8 +191,8 @@ export default function AccountSettings() {
               </p>
             </div>
             <div className="w-2/3">
-              <div className="max-w-xl space-y-6">
-                <div className="flex gap-6 pb-4 items-center">
+              <div className="max-w-xl space-y-4">
+                <div className="flex gap-8 pb-4 items-center">
                   <img
                     alt="profile"
                     src="https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
@@ -199,7 +201,7 @@ export default function AccountSettings() {
                   <div className="space-y-3">
                     <button
                       disabled={editPersonalInfo}
-                      className={`rounded-md px-4 py-3 text-md font-medium tracking-wide bg-gray-200 text-gray-900 duration-200 ${
+                      className={`rounded-md px-4 py-2 text-sm font-medium tracking-wide bg-gray-200 text-gray-900 duration-200 ${
                         editPersonalInfo === true
                           ? "cursor-not-allowed"
                           : "hover:bg-gray-300"
@@ -265,27 +267,27 @@ export default function AccountSettings() {
                     <option value="Designer">Designer</option>
                   </select>
                 </div>
-                <div className="flex gap-4">
-                  <button
-                    onClick={(e) => setEditPersonalInfo(!editPersonalInfo)}
-                    className={`${
-                      editPersonalInfo === true
-                        ? "bg-blue-500 hover:bg-blue-600"
-                        : "bg-red-500 hover:bg-red-600"
-                    } px-6 py-2 font-normal  duration-200 rounded-md text-md text-white`}
-                  >
-                    {editPersonalInfo === true ? "Edit" : "Cancel"}
-                  </button>
-                  <button
-                    className={`px-6 py-2 font-normal rounded-md duration-200 ${
-                      editPersonalInfo === true
-                        ? "cursor-not-allowed bg-gray-200 text-gray-900 "
-                        : "bg-green-600 hover:bg-green-700 text-white"
-                    }`}
-                  >
-                    Save
-                  </button>
-                </div>
+              </div>
+              <div className="flex gap-2 mt-8">
+                <button
+                  onClick={(e) => setEditPersonalInfo(!editPersonalInfo)}
+                  className={`${
+                    editPersonalInfo === true
+                      ? "bg-blue-500 hover:bg-blue-600"
+                      : "bg-red-500 hover:bg-red-600"
+                  } px-4 py-2 font-normal  duration-200 rounded-md text-sm text-white`}
+                >
+                  {editPersonalInfo === true ? "Edit" : "Cancel"}
+                </button>
+                <button
+                  className={`px-4 py-2 font-normal rounded-md text-sm duration-200 ${
+                    editPersonalInfo === true
+                      ? "cursor-not-allowed bg-gray-200 text-gray-900 "
+                      : "bg-green-600 hover:bg-green-700 text-white"
+                  }`}
+                >
+                  Save
+                </button>
               </div>
             </div>
           </section>
@@ -293,7 +295,7 @@ export default function AccountSettings() {
           {/* change password section */}
           <section className="flex px-10 gap-20 py-20 border-b">
             <div className="w-1/3">
-              <h1 className="text-md font-medium tracking-wide pb-2">
+              <h1 className="text-lg font-normal tracking-wide pb-1">
                 Change password
               </h1>
               <p className="font-light text-gray-500">
@@ -301,7 +303,7 @@ export default function AccountSettings() {
               </p>
             </div>
             <div className="w-2/3">
-              <div className="max-w-xl space-y-6">
+              <div className="max-w-xl space-y-4">
                 <input
                   type="password"
                   placeholder="Current password"
@@ -433,17 +435,17 @@ export default function AccountSettings() {
                     </li>
                   </ul>
                 )}
-                <button className="px-6 py-2 font-normal text-gray-900 rounded-md bg-gray-200 hover:bg-gray-300 duration-200">
-                  Change password
-                </button>
               </div>
+              <button className="px-4 py-2 mt-8 font-normal text-sm text-gray-900 rounded-md bg-gray-200 hover:bg-gray-300 duration-200">
+                Change password
+              </button>
             </div>
           </section>
 
           {/* delete account section */}
           <section className="flex px-10 gap-20 py-20 border-b">
             <div className="w-1/3">
-              <h1 className="text-md font-medium tracking-wide pb-2">
+              <h1 className="text-lg font-normal tracking-wide pb-1">
                 Delete account
               </h1>
               <p className="font-light text-gray-500">
@@ -454,7 +456,7 @@ export default function AccountSettings() {
               </p>
             </div>
             <div className="w-2/3">
-              <button className="rounded-md bg-red-500 text-white font-normal text-md hover:bg-red-600 duration-200 px-4 py-2">
+              <button className="rounded-md bg-red-500 text-white font-normal text-sm hover:bg-red-600 duration-200 px-4 py-2">
                 Yes, delete my account
               </button>
             </div>
@@ -462,6 +464,19 @@ export default function AccountSettings() {
         </>
       )}
 
+      {settingsPage === 2 && (
+        <>
+          <p>Notifications</p>
+        </>
+      )}
+
+      {settingsPage === 3 && (
+        <>
+          <p>Billing</p>
+        </>
+      )}
+
+      {/* appearance */}
       {settingsPage === 4 && (
         <>
           {/* more themes annoucement */}
@@ -482,7 +497,7 @@ export default function AccountSettings() {
           {/* theme selection */}
           <section className="flex px-10 gap-20 py-20">
             <div className="w-1/4">
-              <h1 className="text-md font-medium tracking-wide pb-2">
+              <h1 className="text-lg font-normal tracking-wide pb-1">
                 Interface theme
               </h1>
               <p className="font-light text-gray-500">
@@ -533,204 +548,5 @@ export default function AccountSettings() {
         </>
       )}
     </>
-    // <>
-    //   <h1 className="text-3xl font-medium mb-8">Settings</h1>
-
-    //   <div>
-    //     <div className="text-md mb-5 text-center text-gray-500 border-b border-slate-300">
-    //       <ul className="flex flex-wrap -mb-px">
-    //         {settingsTabs.map((tab) => (
-    //           <li key={tab.id}>
-    //             <span
-    //               className={`inline-block p-4 rounded-t-lg border-b-2 font-medium ${
-    //                 settingsTabsToggle === tab.id
-    //                   ? "text-slate-900 border-slate-900 active"
-    //                   : "border-transparent hover:text-slate-900 hover:border-slate-900"
-    //               }`}
-    //               onClick={() => toggleSettingsTab(tab.id)}
-    //             >
-    //               {tab.label}
-    //             </span>
-    //           </li>
-    //         ))}
-    //       </ul>
-    //     </div>
-
-    //     <div
-    //       className={
-    //         settingsTabsToggle === 1 ? "active-content content" : "content"
-    //       }
-    //     >
-    //       <UpdateProfile />
-    //       {/* <div className="pl-5 pr-5">
-    //         <form className="space-y-8 text-gray-500">
-    //           <div>
-    //             <p>Dark Mode</p>
-    //             {gTheme == "dark" ? (
-    //               <CheckSquare
-    //                 size={20}
-    //                 onClick={toggleDarkMode}
-    //                 className="text-gray-500"
-    //               />
-    //             ) : (
-    //               <Square
-    //                 size={20}
-    //                 onClick={toggleDarkMode}
-    //                 className="text-gray-500"
-    //               />
-    //             )}
-    //           </div>
-    //           <div className="border-b border-gray-200 w-full pb-8">
-    //             <span className="flex items-center w-3/4 justify-between">
-    //               <label className="font-normal text-sm">Name</label>
-    //               <input
-    //                 type="text"
-    //                 placeholder="name"
-    //                 className="border rounded-sm px-4 py-3 text-sm font-light text-gray-500 w-96"
-    //                 value={fName}
-    //                 onChange={(e) => setFirstName(e.target.value)}
-    //               ></input>
-    //             </span>
-    //           </div>
-    //           <div className="border-b border-gray-200 w-full pb-8">
-    //             <span className="flex items-center w-3/4 justify-between">
-    //               <label className="font-normal text-sm">Email</label>
-    //               <input
-    //                 type="text"
-    //                 placeholder="email"
-    //                 className="border rounded-sm px-4 py-3 text-sm font-light text-gray-500 w-96"
-    //                 value={email}
-    //                 onChange={(e) => setEmail(e.target.value)}
-    //               ></input>
-    //             </span>
-    //           </div>
-    //           <div className="border-b border-gray-200 w-full pb-8">
-    //             <span className="flex items-center w-3/4 justify-between">
-    //               <label className="font-normal text-sm">Profile Picture</label>
-    //               <span className="w-96">
-    //                 <UserCircle size={45} weight="light" className="" />
-    //               </span>
-    //             </span>
-    //           </div>
-    //           <span className="flex items-center w-3/4 justify-between">
-    //             <label className="font-normal text-sm">Role</label>
-    //             <select
-    //               type="text"
-    //               placeholder="role"
-    //               className="border rounded-sm px-4 py-3 text-sm font-light text-gray-500 w-96"
-    //               value={userRole}
-    //               onChange={(e) => setUserRole(e.target.value)}
-    //             >
-    //               <option defaultValue>{userRole}</option>
-    //               <option value="student">Student</option>
-    //               <option value="teacher">Teacher</option>
-    //               <option value="manager">Manager</option>
-    //               <option value="business owner">Business Owner</option>
-    //               <option value="developer">Developer</option>
-    //               <option value="designer">Designer</option>
-    //             </select>
-    //           </span>
-    //           <div className="space-x-2 flex justify-end">
-    //             <button
-    //               type="button"
-    //               className="border px-4 py-2 rounded-md text-xs font-normal bg-opacity-50 border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
-    //             >
-    //               Reset
-    //             </button>
-    //             <button
-    //               type="submit"
-    //               className="border px-4 py-2 rounded-md text-xs font-normal border-indigo-500 bg-indigo-500 hover:bg-indigo-900 text-white"
-    //             >
-    //               Update
-    //             </button>
-    //           </div>
-    //         </form>
-    //       </div> */}
-    //     </div>
-
-    //     <div
-    //       className={
-    //         settingsTabsToggle === 2 ? "active-content content" : "content"
-    //       }
-    //     >
-    //       <UpdatePassword />
-    //       {/* <div className="pl-5 pr-5">
-    //         <div className="mb-8">
-    //           <h1 className="text-lg pb-1 font-normal">Password</h1>
-    //           <h1 className="text-gray-500 text-sm font-light">
-    //             Enter your current password and new password to reset your
-    //             password
-    //           </h1>
-    //         </div>
-    //         <form className="space-y-8 text-gray-500">
-    //           <div className="border-b border-gray-200 w-full pb-8">
-    //             <span className="flex items-center w-3/4 justify-between">
-    //               <label className="font-normal text-sm">
-    //                 Current password
-    //               </label>
-    //               <input
-    //                 type="text"
-    //                 placeholder="Old password"
-    //                 className="border rounded-sm px-4 py-3 text-sm font-light text-gray-500 w-96"
-    //               ></input>
-    //             </span>
-    //           </div>
-    //           <div className="border-b border-gray-200 w-full pb-8">
-    //             <span className="flex items-center w-3/4 justify-between">
-    //               <label className="font-normal text-sm">New password</label>
-    //               <input
-    //                 type="text"
-    //                 placeholder="New password"
-    //                 className="border rounded-sm px-4 py-3 text-sm font-light text-gray-500 w-96"
-    //               ></input>
-    //             </span>
-    //           </div>
-    //           <div className="w-full">
-    //             <span className="flex items-center w-3/4 justify-between">
-    //               <label className="font-normal text-sm">
-    //                 Confirm password
-    //               </label>
-    //               <input
-    //                 type="text"
-    //                 placeholder="Confirm password"
-    //                 className="border rounded-sm px-4 py-3 text-sm font-light text-gray-500 w-96"
-    //               ></input>
-    //             </span>
-    //           </div>
-    //           <div className="space-x-2 flex justify-end">
-    //             <button
-    //               type="button"
-    //               className="border px-4 py-2 rounded-md text-xs font-normal bg-opacity-50 border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
-    //             >
-    //               Reset
-    //             </button>
-    //             <button
-    //               type="submit"
-    //               className="border px-4 py-2 rounded-md text-xs font-normal border-indigo-500 bg-indigo-500 hover:bg-indigo-900 text-white"
-    //             >
-    //               Update Password
-    //             </button>
-    //           </div>
-    //         </form>
-    //       </div> */}
-    //     </div>
-
-    //     <div
-    //       className={
-    //         settingsTabsToggle === 3 ? "active-content content" : "content"
-    //       }
-    //     >
-    //       <UpdatePlan />
-    //     </div>
-
-    //     <div
-    //       className={
-    //         settingsTabsToggle === 4 ? "active-content content" : "content"
-    //       }
-    //     >
-    //       <UpdateBilling />
-    //     </div>
-    //   </div>
-    // </>
   );
 }

@@ -97,7 +97,9 @@ export default function Sidebar() {
   return (
     <>
       <div className="max-h-screen shadow-inner shadow-sm bg-slate-50 border-r border-slate-200 w-20 justify-between flex flex-col pt-6 pb-6">
-        <h1 className="italic font-semibold text-xl mx-auto">V</h1>
+        <h1 className="italic font-semibold text-xl mx-auto cursor-default">
+          V
+        </h1>
         <div className="flex flex-col space-y-3 mx-auto">
           {tabs.map((tab, i) => (
             <NavLink
