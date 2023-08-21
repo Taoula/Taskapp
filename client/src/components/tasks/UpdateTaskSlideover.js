@@ -20,10 +20,15 @@ export default function UpdateTaskSlideover({
   const [name, setName] = useState("");
   const [duration, setDuration] = useState("");
   const [priority, setPriority] = useState("");
-
   const [isActive, setIsActive] = useState(false);
   const [fixed, setFixed] = useState(false);
   const [time, setTime] = useState(new Date());
+
+  const [originalName, setOriginalName] = useState("");
+  const [originalDuration, setOriginalDuration] = useState("");
+  const [originalPriority, setOriginalPriority] = useState("");
+
+  const [hasChanges, setHasChanges] = useState(false);
 
   const [entries, setEntries] = useState([]); //TODO idk if needed but saves a get request call
   const [defaults, setDefaults] = useState({}); //same here
@@ -47,6 +52,10 @@ export default function UpdateTaskSlideover({
       time: loadTime,
     } = task.data.entries[index];
 
+    setOriginalName(loadName);
+    setOriginalDuration(loadDuration);
+    setOriginalPriority(loadPriority);
+
     setName(loadName);
     setDuration(loadDuration);
     setPriority(loadPriority);
@@ -61,6 +70,22 @@ export default function UpdateTaskSlideover({
   useEffect(() => {
     loadData();
   }, []);
+
+  useEffect(() => {
+    // Check for changes and set hasChanges accordingly
+    const nameChanged = name !== originalName;
+    const durationChanged = duration !== originalDuration;
+    const priorityChanged = priority !== originalPriority;
+
+    setHasChanges(nameChanged || durationChanged || priorityChanged);
+  }, [
+    name,
+    duration,
+    priority,
+    originalName,
+    originalDuration,
+    originalPriority,
+  ]);
 
   async function submit(e) {
     console.log("SUBMITTING");
@@ -268,9 +293,9 @@ export default function UpdateTaskSlideover({
                               type="submit"
                               value="submit"
                               onClick={(e) => submit(e)}
-                              disabled={true}
+                              disabled={!hasChanges}
                               className={`${
-                                true === true
+                                !hasChanges
                                   ? "bg-gray-500/10 border-gray-300 text-gray-400 cursor-not-allowed"
                                   : "bg-green-600/10 border-green-600 text-green-600 hover:text-white hover:bg-green-600"
                               } w-full text-sm py-3 border border-solid font-normal rounded-md duration-200`}
