@@ -164,9 +164,11 @@ export default function AccountSettings() {
             <CreditCard size={20} />
             <p>Billing</p>
           </li>
+
+          {/* remove cursor not allowed and uncomment onclick function after beta testing */}
           <li
-            onClick={(e) => setSettingsPage(4)}
-            className={`flex gap-2 px-4 py-2 hover:bg-gray-200 text-sm duration-200 rounded-md items-center ${
+            // onClick={(e) => setSettingsPage(4)}
+            className={`cursor-not-allowed flex gap-2 px-4 py-2 hover:bg-gray-200 text-sm duration-200 rounded-md items-center ${
               settingsPage === 4
                 ? "text-gray-900 bg-gray-200 rounded-md px-4 py-2"
                 : ""

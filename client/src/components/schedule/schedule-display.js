@@ -436,7 +436,7 @@ export default function ScheduleDisplay() {
                 onClose={() => setIsOpen(false)}
                 className="relative z-50 "
               >
-                <div className="fixed inset-0 flex items-center justify-center p-4 backdrop-blur-lg">
+                <div className="fixed inset-0 flex items-center justify-center p-4 backdrop-blur-xl">
                   <Dialog.Panel>
                     <Countdown
                       schedule={schedule}
@@ -445,7 +445,7 @@ export default function ScheduleDisplay() {
                     />
                     <div className="fixed-top flex justify-end pt-10 px-16">
                       <button onClick={() => setIsOpen(false)}>
-                        <X size={30} className="hover:text-red-500" />
+                        <X size={30} className="hover:scale-75 duration-300" />
                       </button>
                     </div>
                   </Dialog.Panel>

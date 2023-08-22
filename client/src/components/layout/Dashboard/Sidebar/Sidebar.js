@@ -32,6 +32,7 @@ export default function Sidebar() {
   const [fName, setfName] = useState([]);
   const [lName, setlName] = useState([]);
   const [email, setEmail] = useState([]);
+  const [profilePicture, setProfilePicture] = useState("");
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -47,6 +48,7 @@ export default function Sidebar() {
     setfName(userReq.data.fName);
     setlName(userReq.data.lName);
     setEmail(userReq.data.email);
+    setProfilePicture(userReq.data.profilePicture);
   }
 
   // capitalizes user's name

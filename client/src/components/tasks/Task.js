@@ -39,8 +39,8 @@ export default function Task({ task, getTasks }) {
   };
 
   async function deleteTask() {
-    if (isExpanded) {
-    }
+    // if (isExpanded) {
+    // }
     const url = `http://localhost:8282/task/${_id}/`;
     await axios.delete(url);
     getTasks();
