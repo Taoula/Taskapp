@@ -6,7 +6,7 @@ import Sidebar from "./Sidebar/Sidebar";
 export default function Dashboard() {
   return (
     <>
-      <div className="flex flex-row h-screen bg-white">
+      <div className="flex flex-row h-screen bg-white dark:bg-gray-800">
         <Sidebar />
         <div className="flex-1 overflow-scroll remove-scrollbar">
           <Header />

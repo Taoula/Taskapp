@@ -33,6 +33,7 @@ export default function AccountSettings() {
   const [userRole, setUserRole] = useState("");
   const [settingsPage, setSettingsPage] = useState(1);
   const [bannerClosed, setBannerClosed] = useState(false);
+  const [profilePicture, setProfilePicture] = useState("");
 
   const [editPersonalInfo, setEditPersonalInfo] = useState(true);
 
@@ -47,6 +48,7 @@ export default function AccountSettings() {
       email: loadEmail,
       userRole: loadUserRole,
       password: loadPassword,
+      profilePicture: loadProfilePicture,
     } = user.data;
     console.log(user.data);
     setFirstName(loadFirstName);
@@ -54,6 +56,7 @@ export default function AccountSettings() {
     setEmail(loadEmail);
     setPassword(loadPassword);
     setUserRole(loadUserRole);
+    setProfilePicture(loadProfilePicture);
   }
 
   async function toggleDarkMode() {
@@ -197,8 +200,9 @@ export default function AccountSettings() {
                 <div className="flex gap-8 pb-4 items-center">
                   <img
                     alt="profile"
-                    src="https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-                    className="rounded-md h-28 w-28 object-cover"
+                    // src="https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+                    src={profilePicture}
+                    className="rounded-md h-28 w-28 object-cover bg-black/40"
                   />
                   <div className="space-y-3">
                     <button
@@ -277,7 +281,7 @@ export default function AccountSettings() {
                     editPersonalInfo === true
                       ? "bg-blue-500/10 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white"
                       : "bg-red-500/10 hover:bg-red-500 text-red-500 border-red-500 hover:text-white"
-                  } px-4 py-2 font-normal border border-solid duration-200 rounded-md text-sm text-white`}
+                  } px-4 py-2 font-normal border border-solid duration-200 rounded-md text-sm`}
                 >
                   {editPersonalInfo === true ? "Edit" : "Cancel"}
                 </button>

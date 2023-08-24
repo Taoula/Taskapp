@@ -262,15 +262,15 @@ export default function TaskDisplay() {
     <>
       {/* Tasks menu */}
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-medium">Library</h1>
+        <h1 className="text-3xl font-medium dark:text-white">Library</h1>
         <div className="flex gap-4">
           {/* search for task */}
           <div className="flex items-center">
-            <p className="border border-gray-200 bg-stone-50 text-slate-900 rounded-l-lg px-4 py-2 text-sm">
+            <p className="border border-gray-200 bg-stone-50 text-slate-900 rounded-l-lg px-4 py-2 text-sm dark:bg-gray-700 dark:text-gray-200 dark:border-gray-500">
               Search
             </p>
             <div className="relative">
-              <div className="pointer-events-non text-slate-900 absolute inset-y-0 right-0 flex items-center pr-3">
+              <div className="pointer-events-non text-slate-900 dark:text-gray-200 absolute inset-y-0 right-0 flex items-center pr-3">
                 <MagnifyingGlass size={20} />
               </div>
               <input
@@ -278,18 +278,18 @@ export default function TaskDisplay() {
                 autoComplete="off"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="block w-full pl-4 pr-8 text-sm rounded-r-lg border border-gray-200 border-l-0 focus:outline-none focus:ring-0 focus:border-gray-200"
+                className="block w-full pl-4 pr-8 text-sm rounded-r-lg border border-gray-200 border-l-0 focus:outline-none focus:ring-0 focus:border-gray-200 dark:bg-gray-600 dark:focus:border-gray-500 dark:text-gray-200 dark:border-gray-500"
               />
             </div>
           </div>
 
           {/* filter tasks */}
           <Menu as="div" className="relative flex text-left">
-            <p className="border border-gray-200 bg-stone-50 text-slate-900 rounded-l-lg px-4 py-2 text-sm">
+            <p className="border border-gray-200 bg-stone-50 text-slate-900 rounded-l-lg px-4 py-2 text-sm dark:bg-gray-700 dark:text-gray-200 dark:border-gray-500">
               Filter
             </p>
             <Menu.Button>
-              <div className="px-2 py-2 rounded-r-lg border border-gray-200 border-l-0 hover:bg-gray-200 hover:cursor-pointer hover:duration-100 duration-100">
+              <div className="px-2 py-2 rounded-r-lg border border-gray-200 border-l-0 hover:bg-gray-200 hover:cursor-pointer hover:duration-100 duration-100 dark:hover:bg-gray-500 dark:bg-gray-600 dark:focus:border-gray-500 dark:text-gray-200 dark:border-gray-500">
                 <Funnel size={20} />
               </div>
             </Menu.Button>
@@ -303,14 +303,16 @@ export default function TaskDisplay() {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="z-10 origin-top-right absolute right-0 mt-12 w-48 rounded-md shadow-xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <Menu.Items className="z-10 origin-top-right absolute right-0 mt-12 w-48 rounded-md shadow-xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-500">
                 <div className="py-1">
                   <Menu.Item>
                     {({ active }) => (
                       <button
                         onClick={() => handleFilterSelect("", "")}
                         className={`${
-                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                          active
+                            ? "bg-gray-100 text-gray-900 dark:text-white dark:bg-gray-600"
+                            : "text-gray-700 dark:text-white"
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
@@ -326,11 +328,15 @@ export default function TaskDisplay() {
                       <button
                         onClick={() => handleFilterSelect("1", "")}
                         className={`${
-                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                          active
+                            ? "bg-gray-100 text-gray-900 dark:text-white dark:bg-red-600/50"
+                            : "text-gray-700 dark:text-white"
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
-                        <span className="text-red-600">High priority</span>
+                        <span className="text-red-600 dark:text-white">
+                          High priority
+                        </span>
                         {filterPriority === "1" && filterActive === "" && (
                           <Check className="h-5 w-5" aria-hidden="true" />
                         )}
@@ -342,11 +348,15 @@ export default function TaskDisplay() {
                       <button
                         onClick={() => handleFilterSelect("2", "")}
                         className={`${
-                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                          active
+                            ? "bg-gray-100 text-gray-900 dark:text-white dark:bg-yellow-600/50"
+                            : "text-gray-700 dark:text-white"
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
-                        <span className="text-yellow-600">Medium priority</span>
+                        <span className="text-yellow-600 dark:text-white">
+                          Medium priority
+                        </span>
                         {filterPriority === "2" && filterActive === "" && (
                           <Check className="h-5 w-5" aria-hidden="true" />
                         )}
@@ -358,11 +368,15 @@ export default function TaskDisplay() {
                       <button
                         onClick={() => handleFilterSelect("3", "")}
                         className={`${
-                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                          active
+                            ? "bg-gray-100 text-gray-900 dark:text-white dark:bg-green-600/50"
+                            : "text-gray-700 dark:text-white"
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
-                        <span className="text-green-600">Low priority</span>
+                        <span className="text-green-600 dark:text-white">
+                          Low priority
+                        </span>
                         {filterPriority === "3" && filterActive === "" && (
                           <Check className="h-5 w-5" aria-hidden="true" />
                         )}
@@ -374,11 +388,15 @@ export default function TaskDisplay() {
                       <button
                         onClick={() => handleFilterSelect("", "true")}
                         className={`${
-                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                          active
+                            ? "bg-gray-100 text-gray-900 dark:text-white dark:bg-blue-600/50"
+                            : "text-gray-700 dark:text-white"
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
-                        <span className="text-blue-600">Active</span>
+                        <span className="text-blue-600 dark:text-white">
+                          Active
+                        </span>
                         {filterPriority === "" && filterActive === "true" && (
                           <Check className="h-5 w-5" aria-hidden="true" />
                         )}
@@ -390,7 +408,9 @@ export default function TaskDisplay() {
                       <button
                         onClick={() => handleFilterSelect("", "false")}
                         className={`${
-                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                          active
+                            ? "bg-gray-100 text-gray-900 dark:text-white dark:bg-gray-600"
+                            : "text-gray-700 dark:text-white"
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
@@ -408,11 +428,11 @@ export default function TaskDisplay() {
 
           {/* sort tasks */}
           <Menu as="div" className="relative flex text-left">
-            <p className="border border-gray-200 bg-stone-50 text-slate-900 rounded-l-lg px-4 py-2 text-sm">
+            <p className="border border-gray-200 bg-stone-50 text-slate-900 rounded-l-lg px-4 py-2 text-sm dark:bg-gray-700 dark:text-gray-200 dark:border-gray-500">
               Sort
             </p>
             <Menu.Button>
-              <div className="px-2 py-2 rounded-r-lg border border-gray-200 border-l-0 hover:bg-gray-200 hover:cursor-pointer hover:duration-100 duration-100">
+              <div className="px-2 py-2 rounded-r-lg border border-gray-200 border-l-0 hover:bg-gray-200 hover:cursor-pointer hover:duration-100 duration-100 dark:hover:bg-gray-500 dark:bg-gray-600 dark:focus:border-gray-500 dark:text-gray-200 dark:border-gray-500">
                 <SortAscending size={20} />
               </div>
             </Menu.Button>
@@ -426,14 +446,16 @@ export default function TaskDisplay() {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="z-10 origin-top-right absolute right-0 mt-12 w-48 rounded-md shadow-xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <Menu.Items className="z-10 origin-top-right absolute right-0 mt-12 w-48 rounded-md shadow-xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-500">
                 <div className="py-1">
                   <Menu.Item>
                     {({ active }) => (
                       <button
                         onClick={() => handleSortSelect("oldestToNewest")}
                         className={`${
-                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                          active
+                            ? "bg-gray-100 text-gray-900 dark:text-white dark:bg-gray-600"
+                            : "text-gray-700 dark:text-white"
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
@@ -449,7 +471,9 @@ export default function TaskDisplay() {
                       <button
                         onClick={() => handleSortSelect("newestToOldest")}
                         className={`${
-                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                          active
+                            ? "bg-gray-100 text-gray-900 dark:text-white dark:bg-gray-600"
+                            : "text-gray-700 dark:text-white"
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
@@ -465,7 +489,9 @@ export default function TaskDisplay() {
                       <button
                         onClick={() => handleSortSelect("priorityHighToLow")}
                         className={`${
-                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                          active
+                            ? "bg-gray-100 text-gray-900 dark:text-white dark:bg-gray-600"
+                            : "text-gray-700 dark:text-white"
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
@@ -481,7 +507,9 @@ export default function TaskDisplay() {
                       <button
                         onClick={() => handleSortSelect("priorityLowToHigh")}
                         className={`${
-                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                          active
+                            ? "bg-gray-100 text-gray-900 dark:text-white dark:bg-gray-600"
+                            : "text-gray-700 dark:text-white"
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
@@ -497,7 +525,9 @@ export default function TaskDisplay() {
                       <button
                         onClick={() => handleSortSelect("durationAscending")}
                         className={`${
-                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                          active
+                            ? "bg-gray-100 text-gray-900 dark:text-white dark:bg-gray-600"
+                            : "text-gray-700 dark:text-white"
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
@@ -513,7 +543,9 @@ export default function TaskDisplay() {
                       <button
                         onClick={() => handleSortSelect("durationDescending")}
                         className={`${
-                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                          active
+                            ? "bg-gray-100 text-gray-900 dark:text-white dark:bg-gray-600"
+                            : "text-gray-700 dark:text-white"
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
@@ -531,12 +563,12 @@ export default function TaskDisplay() {
 
           {/* add task */}
           <div className="flex items-center">
-            <p className="border border-gray-200 bg-stone-50 text-slate-900 rounded-l-lg px-4 py-2 text-sm">
+            <p className="border border-gray-200 bg-stone-50 text-slate-900 rounded-l-lg px-4 py-2 text-sm dark:bg-gray-700 dark:text-gray-200 dark:border-gray-500">
               Add task
             </p>
             <div
               onClick={() => setOpen(true)}
-              className="px-2 py-2 rounded-r-lg border border-gray-200 border-l-0 hover:bg-gray-200 hover:cursor-pointer hover:duration-100 duration-100"
+              className="px-2 py-2 rounded-r-lg border border-gray-200 border-l-0 hover:bg-gray-200 hover:cursor-pointer hover:duration-100 duration-100 dark:hover:bg-gray-500 dark:bg-gray-600 dark:focus:border-gray-500 dark:text-gray-200 dark:border-gray-500"
             >
               <Plus size={20} />
             </div>
@@ -546,13 +578,13 @@ export default function TaskDisplay() {
             {taskLayout === 1 ? (
               <SquaresFour
                 size={30}
-                className="text-slate-900 hover:text-slate-900 duration-200"
+                className="text-slate-900 hover:text-slate-900 duration-200 dark:text-indigo-500 dark:hover:text-indigo-500"
                 weight="fill"
               />
             ) : (
               <SquaresFour
                 size={30}
-                className="text-slate-400 hover:text-slate-900 duration-200"
+                className="text-slate-400 hover:text-slate-900 duration-200 dark:text-gray-400 dark:hover:text-indigo-500"
                 weight="fill"
                 onClick={() => handleLayoutChange(1)}
               />
@@ -561,13 +593,13 @@ export default function TaskDisplay() {
             {taskLayout === 2 ? (
               <Rows
                 size={30}
-                className="text-slate-900 hover:text-slate-900 duration-200"
+                className="text-slate-900 hover:text-slate-900 duration-200 dark:text-indigo-500 dark:hover:text-indigo-500"
                 weight="fill"
               />
             ) : (
               <Rows
                 size={30}
-                className="text-slate-400 hover:text-slate-900 duration-200"
+                className="text-slate-400 hover:text-slate-900 duration-200 dark:text-gray-400 dark:hover:text-indigo-500"
                 weight="fill"
                 onClick={() => handleLayoutChange(2)}
               />
@@ -576,13 +608,13 @@ export default function TaskDisplay() {
             {taskLayout === 3 ? (
               <Table
                 size={30}
-                className="text-slate-900 hover:text-slate-900 duration-200"
+                className="text-slate-900 hover:text-slate-900 duration-200 dark:text-indigo-500 dark:hover:text-indigo-500"
                 weight="fill"
               />
             ) : (
               <Table
                 size={30}
-                className="text-slate-400 hover:text-slate-900 duration-200"
+                className="text-slate-400 hover:text-slate-900 duration-200 dark:text-gray-400 dark:hover:text-indigo-500"
                 weight="fill"
                 onClick={() => handleLayoutChange(3)}
               />

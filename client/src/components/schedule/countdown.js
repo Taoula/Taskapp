@@ -153,36 +153,38 @@ function Countdown({ schedule, currentDay, getSchedule }) {
 
   return (
     <>
-      <h1 className="text-center text-5xl pb-8">
-        {index !== -1 && schedule[index].name}
-      </h1>
-      <table className="w-full table-fixed max-w-sm">
-        <thead>
-          <tr>
-            <th className="text-lg font-normal pb-4">Hours</th>
-            <th className="text-lg font-normal pb-4">Minutes</th>
-            <th className="text-lg font-normal pb-4">Seconds</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td className="text-7xl text-center px-4">{hours}</td>
-            <td className="text-7xl text-center px-4">{minutes}</td>
-            <td className="text-7xl text-center px-4">{seconds}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div className="flex flex-col h-screen items-center justify-center">
+        <h1 className="text-center text-5xl pb-8 capitalize">
+          {index !== -1 && schedule[index].name}
+        </h1>
+        <table className="w-full table-fixed max-w-sm">
+          <thead>
+            <tr>
+              <th className="text-lg font-normal pb-4">Hours</th>
+              <th className="text-lg font-normal pb-4">Minutes</th>
+              <th className="text-lg font-normal pb-4">Seconds</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="text-7xl text-center px-4">{hours}</td>
+              <td className="text-7xl text-center px-4">{minutes}</td>
+              <td className="text-7xl text-center px-4">{seconds}</td>
+            </tr>
+          </tbody>
+        </table>
 
-      {/* <p className="text-7xl">{formatTime(hours, minutes, seconds)}</p> */}
-      {elapsed && <button onClick={() => completeTask()}>I'm Done!</button>}
-      {index !== -1 &&
-        schedule[index].notes.map((note, idx) => <p key={idx}>{note}</p>)}
-      {index !== -1 &&
-        schedule[index].links.map((link, idx) => (
-          <a key={idx} href={link}>
-            {link}
-          </a>
-        ))}
+        {/* <p className="text-7xl">{formatTime(hours, minutes, seconds)}</p> */}
+        {elapsed && <button onClick={() => completeTask()}>I'm Done!</button>}
+        {index !== -1 &&
+          schedule[index].notes.map((note, idx) => <p key={idx}>{note}</p>)}
+        {index !== -1 &&
+          schedule[index].links.map((link, idx) => (
+            <a key={idx} href={link}>
+              {link}
+            </a>
+          ))}
+      </div>
     </>
   );
 }

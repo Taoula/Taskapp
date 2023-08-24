@@ -84,12 +84,12 @@ export default function Task({ task, getTasks }) {
           onClick={toggleActive}
           className={`w-full overflow-hidden rounded-md border hover:shadow-xl duration-300 bg-opacity-70 shadow-sm hover:cursor-pointer justify-between group square-container aspect-w-1 aspect-h-1 ${
             isActive
-              ? "border-blue-600 bg-blue-500/10"
+              ? "border-blue-600 bg-blue-500/10 dark:border-blue-500 dark:bg-blue-400/50"
               : priority === "1"
-              ? "border-red-600 bg-red-500/10"
+              ? "border-red-600 bg-red-500/10 dark:border-red-500 dark:bg-red-400/50"
               : priority === "2"
-              ? "border-yellow-600 bg-yellow-500/10"
-              : "border-green-600 bg-green-500/10"
+              ? "border-yellow-600 bg-yellow-500/10 dark:border-yellow-500 dark:bg-yellow-400/50"
+              : "border-green-600 bg-green-500/10 dark:border-green-500 dark:bg-green-400/50"
           }`}
         >
           <div className="p-5">
@@ -130,8 +130,12 @@ export default function Task({ task, getTasks }) {
                     />
                   </div>
                 </div>
-                <p className="capitalize text-2xl pt-4">{name}</p>
-                <p className="text-lg text-gray-600">{duration} minutes</p>
+                <p className="capitalize text-2xl pt-4 dark:text-white">
+                  {name}
+                </p>
+                <p className="text-lg text-gray-600 dark:text-white">
+                  {duration} minutes
+                </p>
                 <p
                   className={`text-md ${
                     isActive

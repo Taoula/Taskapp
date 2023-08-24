@@ -165,7 +165,7 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity dark:bg-black/50" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-hidden">
@@ -181,25 +181,25 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                 leaveTo="translate-x-full"
               >
                 <Dialog.Panel className="pointer-events-auto relative w-screen max-w-md">
-                  <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
+                  <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl dark:bg-gray-700">
                     <div className="px-8 pt-6">
                       <div className="flex items-center justify-between">
-                        <Dialog.Title className="text-2xl text-slate-900 font-semibold">
+                        <Dialog.Title className="text-2xl text-slate-900 font-semibold dark:text-white">
                           Create a task
                         </Dialog.Title>
                         <X
                           size={25}
-                          className="hover:scale-75 duration-300"
+                          className="hover:scale-75 duration-300 dark:text-white"
                           onClick={closeSlideover}
                         />
                       </div>
 
                       {/* tabs */}
-                      <div className="w-full mt-8 flex p-1.5 gap-2 rounded-lg bg-gray-100">
+                      <div className="w-full mt-8 flex p-1.5 gap-2 rounded-lg bg-gray-100 dark:bg-gray-600">
                         <button
-                          className={`text-gray-700 py-2 w-full rounded-md text-sm font-light ${
+                          className={`text-gray-700 dark:text-gray-200 py-2 w-full rounded-md text-sm font-light ${
                             settingsTabsToggle === 1
-                              ? "text-gray-800 bg-white shadow-md font-normal"
+                              ? "text-gray-800 bg-white shadow-md font-normal dark:text-gray-200 dark:bg-gray-800"
                               : ""
                           }`}
                           onClick={(e) => setSettingsTabToggle(1)}
@@ -207,9 +207,9 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                           General
                         </button>
                         <button
-                          className={`text-gray-700 py-2 w-full rounded-md text-sm font-light ${
+                          className={`text-gray-700 dark:text-gray-200 py-2 w-full rounded-md text-sm font-light ${
                             settingsTabsToggle === 2
-                              ? "text-gray-800 bg-white shadow-md font-normal"
+                              ? "text-gray-800 bg-white shadow-md font-normal dark:text-gray-200 dark:bg-gray-800"
                               : ""
                           }`}
                           onClick={(e) => setSettingsTabToggle(2)}
@@ -229,7 +229,7 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                             <input
                               type="text"
                               placeholder="Task name"
-                              className="rounded-md pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-sm w-full"
+                              className="rounded-md pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-sm w-full dark:bg-gray-800 dark:border-gray-600 dark:placeholder:text-gray-500 dark:focus:bg-gray-800 dark:focus-within:placeholder:text-gray-500 dark:text-gray-200"
                               value={name}
                               onChange={(e) => setName(e.target.value)}
                             />
@@ -237,7 +237,7 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                             <input
                               type="number"
                               placeholder="Duration (minutes)"
-                              className="rounded-md pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-sm w-full"
+                              className="rounded-md pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-sm w-full dark:bg-gray-800 dark:border-gray-600 dark:placeholder:text-gray-500 dark:focus:bg-gray-800 dark:focus-within:placeholder:text-gray-500 dark:text-gray-200"
                               min="5"
                               value={duration}
                               onChange={(e) => setDuration(e.target.value)}
@@ -256,7 +256,7 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                             <select
                               value={priority}
                               onChange={(e) => setPriority(e.target.value)}
-                              className="w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 text-gray-600 focus:bg-white text-sm"
+                              className="w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 text-gray-600 focus:bg-white text-sm dark:bg-gray-800 dark:border-gray-600 dark:placeholder:text-gray-500 dark:focus:bg-gray-800 dark:focus-within:placeholder:text-gray-500 dark:text-gray-200"
                             >
                               <option value="" disabled>
                                 Priority
@@ -272,7 +272,7 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                         {settingsTabsToggle === 2 && (
                           <div className="space-y-5">
                             <div>
-                              <label className="text-sm font-medium text-gray-600">
+                              <label className="text-sm font-medium text-gray-600 dark:text-gray-200">
                                 Divide task into parts
                               </label>
                               <div className="relative rounded-md mt-2">
@@ -282,7 +282,7 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                                 <input
                                   type="number"
                                   placeholder="divisions (1-10)"
-                                  className="block rounded-md pl-11 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-md text-sm w-full"
+                                  className="block rounded-md pl-11 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-md text-sm w-full dark:bg-gray-800 dark:border-gray-600 dark:placeholder:text-gray-500 dark:focus:bg-gray-800 dark:focus-within:placeholder:text-gray-500 dark:text-gray-200"
                                   min="1"
                                   max="10"
                                   value={divisions}
@@ -292,7 +292,7 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                             </div>
 
                             <div className="pt-4">
-                              <h1 className="text-sm text-gray-700">
+                              <h1 className="text-sm text-gray-700 dark:text-gray-200">
                                 Set a specific time
                               </h1>
                               <span>
@@ -300,13 +300,13 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                                   <CheckSquare
                                     size={20}
                                     onClick={() => setFixed(false)}
-                                    className="text-gray-500"
+                                    className="text-gray-500 dark:text-gray-200"
                                   />
                                 ) : (
                                   <Square
                                     size={20}
                                     onClick={() => setFixed(true)}
-                                    className="text-gray-500"
+                                    className="text-gray-500 dark:text-gray-200"
                                   />
                                 )}
                               </span>
@@ -321,7 +321,7 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                                 }}
                               />
                             )}
-                            <div className="flex items-center gap-2 text-sm text-gray-700">
+                            <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-200">
                               <p>Add a note</p>
                               <Plus
                                 size={15}
@@ -350,7 +350,7 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                               );
                             })}
 
-                            <div className="flex items-center gap-2 text-sm text-gray-700">
+                            <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-200">
                               <p>Add a link</p>
                               <Plus
                                 size={15}
@@ -388,8 +388,8 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
                           disabled={isCreateDisabled}
                           className={`${
                             isCreateDisabled === true
-                              ? "bg-gray-500/10 border-gray-300 text-gray-400 cursor-not-allowed"
-                              : "bg-green-600/10 border-green-600 text-green-600 hover:text-white hover:bg-green-600"
+                              ? "bg-gray-500/10 border-gray-300 text-gray-400 cursor-not-allowed dark:bg-gray-800 dark:border-gray-600 dark:text-gray-500"
+                              : "bg-green-600/10 border-green-600 text-green-600 hover:text-white hover:bg-green-600 dark:bg-green-600/80 dark:text-white"
                           } w-full text-sm mb-6 py-3 border border-solid font-normal rounded-md duration-200`}
                         >
                           Create task
