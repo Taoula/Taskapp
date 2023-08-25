@@ -9,20 +9,18 @@ import {
   Calendar,
 } from "phosphor-react";
 import { usePopper } from "react-popper";
-import { Popover, Transition } from "@headlessui/react";
+import { Transition } from "@headlessui/react";
 
 export default function Datepicker() {
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+
+  // positioning for calendar dropdown
   let [referenceElement, setReferenceElement] = useState();
   let [popperElement, setPopperElement] = useState();
   let { styles, attributes } = usePopper(referenceElement, popperElement, {
     placement: "bottom",
   });
-
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-
-  function toggleCalendar() {
-    setIsCalendarOpen(!isCalendarOpen);
-  }
 
   const { currentDay, incrementDay, decrementDay, isToday } = useGlobalStore(
     (state) => ({
@@ -33,6 +31,7 @@ export default function Datepicker() {
     })
   );
 
+  // displays message depending on selected date
   const formatDate = (date) => {
     const today = dayjs();
 
@@ -45,8 +44,7 @@ export default function Datepicker() {
     }
   };
 
-  const [currentMonth, setCurrentMonth] = useState(new Date());
-
+  // calculates days and weeks for calendar dropdown
   const getDaysInMonth = (year, month) =>
     new Date(year, month + 1, 0).getDate();
   const getFirstDayOfWeek = (year, month) => new Date(year, month, 1).getDay();
@@ -60,6 +58,7 @@ export default function Datepicker() {
     currentMonth.getMonth()
   );
 
+  // disables previous month toggle if on current month
   const isPreviousMonthDisabled = () => {
     const today = new Date();
     return (
@@ -68,13 +67,34 @@ export default function Datepicker() {
     );
   };
 
+  // formats and renders dates in calendar dropdown
   const renderCalendar = () => {
     const days = [];
+    const today = dayjs(); // Get the current real-life date
+
     for (let day = 1; day <= daysInMonth; day++) {
+      const date = dayjs(
+        new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day)
+      );
+
       days.push(
         <td key={day}>
-          <div className="px-2 py-2 cursor-pointer flex hover:bg-slate-100 dark:hover:bg-gray-600 w-full justify-center">
-            <p className="text-base text-gray-500 font-medium dark:text-gray-200">
+          {/* highlights current day and removes styling for all days before current day */}
+          <div
+            className={`px-2 py-2 cursor-pointer rounded-md flex   ${
+              date.isSame(today, "day")
+                ? "bg-blue-500 text-white "
+                : date.isBefore(today, "day")
+                ? "hover:cursor-not-allowed"
+                : "dark:hover:bg-gray-500 hover:bg-slate-100"
+            } w-full justify-center`}
+          >
+            {/* muted color for all days before current day */}
+            <p
+              className={`text-base font-medium text-gray-500 dark:text-gray-200 ${
+                date.isBefore(today, "day") ? "dark:text-gray-500" : ""
+              }`}
+            >
               {day}
             </p>
           </div>
@@ -99,6 +119,7 @@ export default function Datepicker() {
     return weeks;
   };
 
+  // handles month switching in calendar dropdown
   const handlePrevMonth = () => {
     setCurrentMonth(
       new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1)
@@ -111,6 +132,7 @@ export default function Datepicker() {
     );
   };
 
+  // closes calendar dropdown if clicked outside of calendar
   const handleClickOutsideCalendar = (event) => {
     if (
       popperElement &&
@@ -133,6 +155,7 @@ export default function Datepicker() {
   return (
     <>
       <div className="flex">
+        {/* dropdown button */}
         <div
           ref={setReferenceElement}
           onClick={(e) => setIsCalendarOpen(!isCalendarOpen)}
@@ -142,6 +165,7 @@ export default function Datepicker() {
           <p className="font-normal text-md">{formatDate(currentDay)}</p>
         </div>
 
+        {/* calendar dropdown */}
         <Transition
           show={isCalendarOpen}
           enter="transition-opacity duration-100"
@@ -167,14 +191,19 @@ export default function Datepicker() {
               <div className="flex items-center">
                 <button
                   aria-label="calendar backward"
-                  className="focus:text-gray-400 hover:text-gray-400 text-gray-800 dark:text-gray-200"
+                  className={`${
+                    isPreviousMonthDisabled() === true
+                      ? "dark:text-gray-500 cursor-not-allowed"
+                      : "hover:text-gray-400 text-gray-800 dark:text-gray-200"
+                  }`}
                   onClick={handlePrevMonth}
+                  disabled={isPreviousMonthDisabled()}
                 >
                   <CaretLeft size={20} />
                 </button>
                 <button
                   aria-label="calendar forward"
-                  className="focus:text-gray-400 hover:text-gray-400 ml-3 text-gray-800 dark:text-gray-200"
+                  className=" hover:text-gray-400 ml-3 text-gray-800 dark:text-gray-200"
                   onClick={handleNextMonth}
                 >
                   <CaretRight size={20} />
@@ -202,14 +231,15 @@ export default function Datepicker() {
           </div>
         </Transition>
 
+        {/* date toggler */}
         <div className="px-4 flex items-center gap-3 border bg-white border-gray-200 border-l-0 py-2 rounded-r-lg dark:bg-gray-600 dark:border-gray-800">
           {!isToday ? (
             <>
               <ArrowLeft
+                onClick={decrementDay}
                 size={20}
                 weight="bold"
                 className="text-gray-500 hover:text-slate-900 duration-100 hover:duration-100 hover:cursor-pointer dark:text-gray-200"
-                onClick={decrementDay}
               />
             </>
           ) : (
