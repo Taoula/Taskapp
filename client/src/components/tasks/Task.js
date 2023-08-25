@@ -84,12 +84,12 @@ export default function Task({ task, getTasks }) {
           onClick={toggleActive}
           className={`w-full overflow-hidden rounded-md border hover:shadow-xl duration-300 bg-opacity-70 shadow-sm hover:cursor-pointer justify-between group square-container aspect-w-1 aspect-h-1 ${
             isActive
-              ? "border-blue-600 bg-blue-500/10 dark:border-blue-500 dark:bg-blue-400/50"
+              ? "border-blue-600 bg-blue-500/10 dark:border-blue-400 dark:bg-blue-500/90"
               : priority === "1"
-              ? "border-red-600 bg-red-500/10 dark:border-red-500 dark:bg-red-400/50"
+              ? "border-red-600 bg-red-500/10 dark:border-red-400 dark:bg-red-500/90"
               : priority === "2"
-              ? "border-yellow-600 bg-yellow-500/10 dark:border-yellow-500 dark:bg-yellow-400/50"
-              : "border-green-600 bg-green-500/10 dark:border-green-500 dark:bg-green-400/50"
+              ? "border-yellow-600 bg-yellow-500/10 dark:border-yellow-400 dark:bg-yellow-500/90"
+              : "border-green-600 bg-green-500/10 dark:border-green-400 dark:bg-green-500/90"
           }`}
         >
           <div className="p-5">
@@ -101,12 +101,14 @@ export default function Task({ task, getTasks }) {
                       <CheckSquare
                         size={20}
                         // onClick={toggleActive}
+                        className="dark:text-white"
                       />
                     </>
                   ) : (
                     <>
                       <Square
                         size={20}
+                        className="dark:text-white"
                         // onClick={toggleActive}
                       />
                     </>
@@ -139,12 +141,12 @@ export default function Task({ task, getTasks }) {
                 <p
                   className={`text-md ${
                     isActive
-                      ? "text-blue-600"
+                      ? "text-blue-950"
                       : priority === "1"
-                      ? "text-red-600"
+                      ? "text-red-950"
                       : priority === "2"
-                      ? "text-yellow-600"
-                      : "text-green-600"
+                      ? "text-yellow-950"
+                      : "text-green-950"
                   }`}
                 >
                   Priority {priority}
@@ -215,7 +217,7 @@ export default function Task({ task, getTasks }) {
       {taskLayout === 3 && (
         <tr
           onClick={toggleActive}
-          className={`bg-white hover:bg-gray-50 ${
+          className={`bg-white hover:bg-gray-50 dark:bg-gray-600 dark:hover:bg-gray-700 ${
             isActive ? "border-blue-500 bg-blue-100/60" : ""
           }`}
         >
@@ -233,6 +235,7 @@ export default function Task({ task, getTasks }) {
                 <>
                   <Square
                     size={20}
+                    className="dark:text-gray-200"
                     // onClick={toggleActive}
                   />
                 </>
@@ -241,11 +244,11 @@ export default function Task({ task, getTasks }) {
           </td>
           <th
             scope="row"
-            class="px-6 py-4 text-sm font-medium text-gray-800 capitalize whitespace-nowrap"
+            class="px-6 py-4 text-sm font-medium text-gray-800 capitalize whitespace-nowrap dark:text-gray-200"
           >
             {name}
           </th>
-          <td class="px-6 py-4 text-sm font-normal text-gray-800">
+          <td class="px-6 py-4 text-sm font-normal text-gray-800 dark:text-gray-200">
             {duration} minutes
           </td>
           <td class="px-6 py-4">
@@ -263,13 +266,13 @@ export default function Task({ task, getTasks }) {
               {priority}
             </div>
           </td>
-          <td class="px-6 py-4 text-sm font-normal text-gray-800">
+          <td class="px-6 py-4 text-sm font-normal text-gray-800 dark:text-gray-200">
             {convertTimeToNormalFormat(time)}
           </td>
           <td class="flex items-center px-6 py-4 space-x-3">
             <Pen
               size={20}
-              className="hover:text-red-500"
+              className="hover:text-red-500 dark:text-gray-200"
               onClick={(e) => {
                 e.stopPropagation(); // Prevent event propagation
                 setOpen2(true);
@@ -277,7 +280,7 @@ export default function Task({ task, getTasks }) {
             />
             <TrashSimple
               size={20}
-              className="hover:text-red-500"
+              className="hover:text-red-500 dark:text-gray-200"
               onClick={(e) => {
                 e.stopPropagation(); // Prevent event propagation
                 deleteTask();

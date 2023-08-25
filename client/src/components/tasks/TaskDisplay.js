@@ -303,7 +303,7 @@ export default function TaskDisplay() {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="z-10 origin-top-right absolute right-0 mt-12 w-48 rounded-md shadow-xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-500">
+              <Menu.Items className="z-10 origin-top-right absolute right-0 mt-12 w-48 rounded-md shadow-xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-700">
                 <div className="py-1">
                   <Menu.Item>
                     {({ active }) => (
@@ -446,7 +446,7 @@ export default function TaskDisplay() {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="z-10 origin-top-right absolute right-0 mt-12 w-48 rounded-md shadow-xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-500">
+              <Menu.Items className="z-10 origin-top-right absolute right-0 mt-12 w-48 rounded-md shadow-xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-700">
                 <div className="py-1">
                   <Menu.Item>
                     {({ active }) => (
@@ -669,38 +669,38 @@ export default function TaskDisplay() {
 
       {taskLayout === 3 && (
         <>
-          <div class="relative overflow-x-auto rounded-md border border-gray-200 ">
-            <table class="w-full text-sm text-left text-gray-500 divide-y divide-gray-200">
-              <thead class="text-xs text-gray-700 bg-gray-50">
+          <div class="relative overflow-x-auto rounded-md border border-gray-200 dark:border-gray-500">
+            <table class="w-full text-sm text-left text-gray-500 divide-y divide-gray-200 dark:divide-gray-500">
+              <thead class="text-xs text-gray-700 bg-gray-50 dark:bg-gray-700">
                 <tr>
                   <th scope="col" class="p-4"></th>
                   <th
                     scope="col"
-                    class="px-6 py-4 text-sm font-normal text-gray-500"
+                    class="px-6 py-4 text-sm font-normal text-gray-500 dark:text-gray-200"
                   >
                     Name
                   </th>
                   <th
                     scope="col"
-                    class="px-6 py-4 text-sm font-normal text-gray-500"
+                    class="px-6 py-4 text-sm font-normal text-gray-500 dark:text-gray-200"
                   >
                     Duration
                   </th>
                   <th
                     scope="col"
-                    class="px-6 py-4 text-sm font-normal text-gray-500"
+                    class="px-6 py-4 text-sm font-normal text-gray-500 dark:text-gray-200"
                   >
                     Priority
                   </th>
                   <th
                     scope="col"
-                    class="px-6 py-4 text-sm font-normal text-gray-500"
+                    class="px-6 py-4 text-sm font-normal text-gray-500 dark:text-gray-200"
                   >
                     Time
                   </th>
                   <th
                     scope="col"
-                    class="px-6 py-4 text-sm font-normal text-gray-500"
+                    class="px-6 py-4 text-sm font-normal text-gray-500 dark:text-gray-200"
                   >
                     Actions
                   </th>

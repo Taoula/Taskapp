@@ -23,6 +23,7 @@ import UpdatePassword from "./UpdatePassword";
 import UpdatePlan from "./UpdatePlan";
 import UpdateBilling from "./UpdateBilling";
 import { faN } from "@fortawesome/free-solid-svg-icons";
+import firebase from "../../firebase";
 
 export default function AccountSettings() {
   const [settingsTabsToggle, setSettingsTabToggle] = useState(1);
@@ -133,12 +134,12 @@ export default function AccountSettings() {
   return (
     <>
       <div>
-        <ul className="flex gap-2 py-3 px-10 border-b cursor-pointer bg-white text-gray-500">
+        <ul className="flex gap-2 py-3 px-10 border-b cursor-pointer bg-white text-gray-500 dark:text-gray-200 dark:bg-gray-700 dark:border-gray-600">
           <li
             onClick={(e) => setSettingsPage(1)}
-            className={`flex gap-2 px-4 py-2 hover:bg-gray-200 text-sm duration-200 rounded-md items-center ${
+            className={`flex gap-2 px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-800 text-sm duration-200 rounded-md items-center ${
               settingsPage === 1
-                ? "text-gray-900 bg-gray-200 rounded-md px-4 py-2"
+                ? "text-gray-900 bg-gray-200 rounded-md px-4 py-2 dark:bg-gray-800 dark:text-gray-200"
                 : ""
             }`}
           >
@@ -147,9 +148,9 @@ export default function AccountSettings() {
           </li>
           <li
             onClick={(e) => setSettingsPage(2)}
-            className={`flex gap-2 px-4 py-2 hover:bg-gray-200 text-sm duration-200 rounded-md items-center ${
+            className={`flex gap-2 px-4 py-2 hover:bg-gray-200 text-sm dark:hover:bg-gray-800 duration-200 rounded-md items-center ${
               settingsPage === 2
-                ? "text-gray-900 bg-gray-200 rounded-md px-4 py-2"
+                ? "text-gray-900 bg-gray-200 rounded-md px-4 py-2 dark:bg-gray-800 dark:text-gray-200"
                 : ""
             }`}
           >
@@ -158,9 +159,9 @@ export default function AccountSettings() {
           </li>
           <li
             onClick={(e) => setSettingsPage(3)}
-            className={`flex gap-2 px-4 py-2 hover:bg-gray-200 text-sm duration-200 rounded-md items-center ${
+            className={`flex gap-2 px-4 py-2 hover:bg-gray-200 text-sm dark:hover:bg-gray-800 duration-200 rounded-md items-center ${
               settingsPage === 3
-                ? "text-gray-900 bg-gray-200 rounded-md px-4 py-2"
+                ? "text-gray-900 bg-gray-200 rounded-md px-4 py-2 dark:bg-gray-800 dark:text-gray-200"
                 : ""
             }`}
           >
@@ -171,9 +172,9 @@ export default function AccountSettings() {
           {/* remove cursor not allowed and uncomment onclick function after beta testing */}
           <li
             // onClick={(e) => setSettingsPage(4)}
-            className={`cursor-not-allowed flex gap-2 px-4 py-2 hover:bg-gray-200 text-sm duration-200 rounded-md items-center ${
+            className={`cursor-not-allowed flex gap-2 px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-800 text-sm duration-200 rounded-md items-center ${
               settingsPage === 4
-                ? "text-gray-900 bg-gray-200 rounded-md px-4 py-2"
+                ? "text-gray-900 bg-gray-200 rounded-md px-4 py-2 dark:bg-gray-800 dark:text-gray-200"
                 : ""
             }`}
           >
@@ -186,12 +187,12 @@ export default function AccountSettings() {
       {settingsPage === 1 && (
         <>
           {/* personal information section */}
-          <section className="flex px-10 gap-20 py-20 border-b">
+          <section className="flex px-10 gap-20 py-20 border-b dark:border-gray-700">
             <div className="w-1/3">
-              <h1 className="text-lg font-normal tracking-wide pb-1">
+              <h1 className="text-lg font-normal tracking-wide pb-1 dark:text-gray-200">
                 Personal Information
               </h1>
-              <p className="font-light text-gray-500">
+              <p className="font-light text-gray-500 dark:text-gray-400">
                 Personal information will not be publicly displayed.
               </p>
             </div>
@@ -224,7 +225,7 @@ export default function AccountSettings() {
                     placeholder="First name"
                     disabled={editPersonalInfo}
                     value={fName}
-                    className={`block w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 text-sm ${
+                    className={`block w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder:text-gray-500 dark:focus:bg-gray-800 dark:focus-within:placeholder:text-gray-500 dark:text-gray-200 ${
                       editPersonalInfo === true ? "cursor-not-allowed" : ""
                     }`}
                   />
@@ -233,13 +234,13 @@ export default function AccountSettings() {
                     placeholder="Last name"
                     disabled={editPersonalInfo}
                     value={lName}
-                    className={`block w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 text-sm ${
+                    className={`block w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder:text-gray-500 dark:focus:bg-gray-800 dark:focus-within:placeholder:text-gray-500 dark:text-gray-200 ${
                       editPersonalInfo === true ? "cursor-not-allowed" : ""
                     }`}
                   />
                 </div>
                 <div className="relative rounded-md">
-                  <div className="pointer-events-none text-gray-400 absolute inset-y-0 left-0 flex items-center pl-4">
+                  <div className="pointer-events-none text-gray-400 absolute inset-y-0 left-0 flex items-center pl-4 dark:text-gray-200">
                     <Envelope size={20} />
                   </div>
                   <input
@@ -248,7 +249,7 @@ export default function AccountSettings() {
                     value={email}
                     disabled={editPersonalInfo}
                     id="email"
-                    className={`block w-full rounded-md py-3 pl-11 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 text-sm ${
+                    className={`block w-full rounded-md py-3 pl-11 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder:text-gray-500 dark:focus:bg-gray-800 dark:focus-within:placeholder:text-gray-500 dark:text-gray-200 ${
                       editPersonalInfo === true ? "cursor-not-allowed" : ""
                     }`}
                   />
@@ -258,7 +259,7 @@ export default function AccountSettings() {
                     id="userRole"
                     value={userRole}
                     disabled={editPersonalInfo}
-                    className={`w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 pr-11 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm ${
+                    className={`w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 pr-11 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder:text-gray-500 dark:focus:bg-gray-800 dark:focus-within:placeholder:text-gray-500 dark:text-gray-200 ${
                       editPersonalInfo === true ? "cursor-not-allowed" : ""
                     }`}
                   >
@@ -299,12 +300,12 @@ export default function AccountSettings() {
           </section>
 
           {/* change password section */}
-          <section className="flex px-10 gap-20 py-20 border-b">
+          <section className="flex px-10 gap-20 py-20 border-b dark:border-gray-700">
             <div className="w-1/3">
-              <h1 className="text-lg font-normal tracking-wide pb-1">
+              <h1 className="text-lg font-normal tracking-wide pb-1 dark:text-gray-200">
                 Change password
               </h1>
-              <p className="font-light text-gray-500">
+              <p className="font-light text-gray-500 dark:text-gray-400">
                 Update the password associated with your account.
               </p>
             </div>
@@ -313,7 +314,7 @@ export default function AccountSettings() {
                 <input
                   type="password"
                   placeholder="Current password"
-                  className="block w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 text-sm"
+                  className="block w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder:text-gray-500 dark:focus:bg-gray-800 dark:focus-within:placeholder:text-gray-500 dark:text-gray-200"
                 />
                 {/* password */}
                 <div className={`relative rounded-md mt-4`}>
@@ -328,7 +329,7 @@ export default function AccountSettings() {
                       setTypingStarted(true);
                     }}
                     id="password"
-                    className="block w-full rounded-md py-3 pl-11 bg-gray-50 border border-gray-200 pr-11 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
+                    className="block w-full rounded-md py-3 pl-11 bg-gray-50 border border-gray-200 pr-11 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder:text-gray-500 dark:focus:bg-gray-800 dark:focus-within:placeholder:text-gray-500 dark:text-gray-200"
                   />
                   <div className="absolute inset-y-0 right-0 pr-4 flex items-center">
                     {passwordShown ? (
@@ -394,7 +395,7 @@ export default function AccountSettings() {
                       setVerifyTypingStarted(true);
                     }}
                     id="password"
-                    className="block w-full rounded-md py-3 pl-11 bg-gray-50 border border-gray-200 pr-11 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
+                    className="block w-full rounded-md py-3 pl-11 bg-gray-50 border border-gray-200 pr-11 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder:text-gray-500 dark:focus:bg-gray-800 dark:focus-within:placeholder:text-gray-500 dark:text-gray-200"
                   />
 
                   {/* password visibility */}
@@ -449,12 +450,12 @@ export default function AccountSettings() {
           </section>
 
           {/* delete account section */}
-          <section className="flex px-10 gap-20 py-20 border-b">
+          <section className="flex px-10 gap-20 py-20 border-b dark:border-gray-700">
             <div className="w-1/3">
-              <h1 className="text-lg font-normal tracking-wide pb-1">
+              <h1 className="text-lg font-normal tracking-wide pb-1 dark:text-gray-200">
                 Delete account
               </h1>
-              <p className="font-light text-gray-500">
+              <p className="font-light text-gray-500 dark:text-gray-400">
                 No longer want to use our service? You can delete your account
                 here. This action is not reversible. All information related to
                 this account will be deleted permanently and your subscription
