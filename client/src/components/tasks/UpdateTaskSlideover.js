@@ -7,6 +7,7 @@ import { Square, CheckSquare, X } from "phosphor-react";
 import modifyTime from "../../methods/modify-time";
 import getTimeValue from "../../methods/get-time-value";
 import { TimeField } from "@mui/x-date-pickers/TimeField";
+
 const dayjs = require("dayjs");
 dayjs().format();
 
@@ -24,11 +25,11 @@ export default function UpdateTaskSlideover({
   const [fixed, setFixed] = useState(false);
   const [time, setTime] = useState(new Date());
 
-  const [originalName, setOriginalName] = useState("");
-  const [originalDuration, setOriginalDuration] = useState("");
-  const [originalPriority, setOriginalPriority] = useState("");
+  //const [originalName, setOriginalName] = useState("");
+  //const [originalDuration, setOriginalDuration] = useState("");
+  //const [originalPriority, setOriginalPriority] = useState("");
 
-  const [hasChanges, setHasChanges] = useState(false);
+  //const [hasChanges, setHasChanges] = useState(false);
 
   const [entries, setEntries] = useState([]); //TODO idk if needed but saves a get request call
   const [defaults, setDefaults] = useState({}); //same here
@@ -39,7 +40,8 @@ export default function UpdateTaskSlideover({
     setEntries(task.data.entries);
     setDefaults(task.data.defaults);
     for (let i = 0; i < task.data.entries.length; i++) {
-      if (sameDate(task.data.entries[i], currentDay)) {
+      
+      if (sameDate(task.data.entries[i].date, currentDay)) {
         setIndex(i);
       }
     }
@@ -52,9 +54,9 @@ export default function UpdateTaskSlideover({
       time: loadTime,
     } = task.data.entries[index];
 
-    setOriginalName(loadName);
-    setOriginalDuration(loadDuration);
-    setOriginalPriority(loadPriority);
+    //setOriginalName(loadName);
+    //setOriginalDuration(loadDuration);
+    //setOriginalPriority(loadPriority);
 
     setName(loadName);
     setDuration(loadDuration);
@@ -69,9 +71,9 @@ export default function UpdateTaskSlideover({
 
   useEffect(() => {
     loadData();
-  }, []);
+  }, [open2]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     // Check for changes and set hasChanges accordingly
     const nameChanged = name !== originalName;
     const durationChanged = duration !== originalDuration;
@@ -85,7 +87,7 @@ export default function UpdateTaskSlideover({
     originalName,
     originalDuration,
     originalPriority,
-  ]);
+  ]);*/
 
   async function submit(e) {
     console.log("SUBMITTING");
@@ -93,6 +95,7 @@ export default function UpdateTaskSlideover({
       e.preventDefault();
 
       // TODO can this be refactored?
+      console.log("DURATION IS " + duration)
       let tempEntries = entries;
       tempEntries[index].duration = duration;
       tempEntries[index].priority = priority;
@@ -293,9 +296,9 @@ export default function UpdateTaskSlideover({
                               type="submit"
                               value="submit"
                               onClick={(e) => submit(e)}
-                              disabled={!hasChanges}
+                              //disabled={!hasChanges}
                               className={`${
-                                !hasChanges
+                                1 != 1 // todo
                                   ? "bg-gray-500/10 border-gray-300 text-gray-400 cursor-not-allowed"
                                   : "bg-green-600/10 border-green-600 text-green-600 hover:text-white hover:bg-green-600"
                               } w-full text-sm py-3 border border-solid font-normal rounded-md duration-200`}
