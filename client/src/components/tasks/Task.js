@@ -164,12 +164,12 @@ export default function Task({ task, getTasks }) {
           onClick={toggleActive}
           className={`w-full rounded-md border hover:shadow-xl duration-300 bg-opacity-70 py-3 pl-4 pr-4 shadow-sm hover:cursor-pointer flex items-center justify-between group ${
             isActive
-              ? "border-blue-600 bg-blue-500/10"
+              ? "border-blue-600 bg-blue-500/10 dark:border-blue-400 dark:bg-blue-500/90"
               : priority === "1"
-              ? "border-red-600 bg-red-500/10"
+              ? "border-red-600 bg-red-500/10 dark:border-red-400 dark:bg-red-500/90"
               : priority === "2"
-              ? "border-yellow-600 bg-yellow-500/10"
-              : "border-green-600 bg-green-500/10"
+              ? "border-yellow-600 bg-yellow-500/10 dark:border-yellow-400 dark:bg-yellow-500/90"
+              : "border-green-600 bg-green-500/10 dark:border-green-400 dark:bg-green-500/90"
           }`}
         >
           <div className="flex items-center gap-3">
@@ -177,6 +177,7 @@ export default function Task({ task, getTasks }) {
               <>
                 <CheckSquare
                   size={20}
+                  className="dark:text-white"
                   // onClick={toggleActive}
                 />
               </>
@@ -184,18 +185,32 @@ export default function Task({ task, getTasks }) {
               <>
                 <Square
                   size={20}
+                  className="dark:text-white"
                   // onClick={toggleActive}
                 />
               </>
             )}
-            <p className="text-xl capitalize">
-              {name}: <span className="font-light">{duration} minutes</span>
-            </p>
+            <div className="flex gap-2 items-center">
+              <p className="text-xl capitalize dark:text-white">{name}:</p>
+              <p
+                className={`font-light text-lg ${
+                  isActive
+                    ? "text-blue-950"
+                    : priority === "1"
+                    ? "text-red-950"
+                    : priority === "2"
+                    ? "text-yellow-950"
+                    : "text-green-950"
+                }`}
+              >
+                {duration} minutes
+              </p>
+            </div>
           </div>
           <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
             <Pen
               size={20}
-              className="text-gray-600 hover:text-red-500"
+              className="text-gray-600 hover:text-red-500 dark:text-gray-900 dark:hover:text-white"
               onClick={(e) => {
                 e.stopPropagation(); // Prevent event propagation
                 setOpen2(true);
@@ -203,7 +218,7 @@ export default function Task({ task, getTasks }) {
             />
             <Trash
               size={20}
-              className="text-gray-600 hover:text-red-500"
+              className="text-gray-600 hover:text-red-500 dark:text-gray-900 dark:hover:text-white"
               onClick={(e) => {
                 e.stopPropagation(); // Prevent event propagation
                 deleteTask();
@@ -218,7 +233,7 @@ export default function Task({ task, getTasks }) {
         <tr
           onClick={toggleActive}
           className={`bg-white hover:bg-gray-50 dark:bg-gray-600 dark:hover:bg-gray-700 ${
-            isActive ? "border-blue-500 bg-blue-100/60" : ""
+            isActive ? "border-blue-500 bg-blue-100/60 dark:bg-blue-500/30" : ""
           }`}
         >
           <td class="w-4 p-4 text-sm font-medium">
@@ -228,7 +243,7 @@ export default function Task({ task, getTasks }) {
                   <CheckSquare
                     size={20}
                     // onClick={toggleActive}
-                    className={`${isActive ? "text-blue-500" : ""}`}
+                    className={`${isActive ? "text-white" : ""}`}
                   />
                 </>
               ) : (
@@ -255,12 +270,12 @@ export default function Task({ task, getTasks }) {
             <div
               class={`inline px-2 py-1 border text-sm font-normal rounded-full ${
                 isActive
-                  ? "text-blue-500 border-blue-500 bg-blue-100/60"
+                  ? "text-blue-500 border-blue-500 bg-blue-100/60 dark:bg-blue-500/50 dark:text-white dark:border-blue-400"
                   : priority === "1"
-                  ? "text-red-500 border-red-500 bg-red-100/60"
+                  ? "text-red-500 border-red-500 bg-red-100/60 dark:bg-red-500/50 dark:text-white dark:border-red-400"
                   : priority === "2"
-                  ? "text-yellow-500 border-yellow-500 bg-yellow-100/60"
-                  : "text-green-500 border-green-500 bg-green-100/60"
+                  ? "text-yellow-500 border-yellow-500 bg-yellow-100/60 dark:bg-yellow-500/50 dark:text-white dark:border-yellow-400"
+                  : "text-green-500 border-green-500 bg-green-100/60 dark:bg-green-500/50 dark:text-white dark:border-green-400"
               }`}
             >
               {priority}
