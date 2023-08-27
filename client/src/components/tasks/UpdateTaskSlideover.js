@@ -40,7 +40,6 @@ export default function UpdateTaskSlideover({
     setEntries(task.data.entries);
     setDefaults(task.data.defaults);
     for (let i = 0; i < task.data.entries.length; i++) {
-      
       if (sameDate(task.data.entries[i].date, currentDay)) {
         setIndex(i);
       }
@@ -95,7 +94,7 @@ export default function UpdateTaskSlideover({
       e.preventDefault();
 
       // TODO can this be refactored?
-      console.log("DURATION IS " + duration)
+      console.log("DURATION IS " + duration);
       let tempEntries = entries;
       tempEntries[index].duration = duration;
       tempEntries[index].priority = priority;
@@ -124,6 +123,12 @@ export default function UpdateTaskSlideover({
     setOpen2(false);
   }
 
+  async function deleteTask() {
+    const url = `http://localhost:8282/task/${_id}/`;
+    await axios.delete(url);
+    getTasks();
+  }
+
   const [settingsTabsToggle, setSettingsTabToggle] = useState(1);
 
   return (
@@ -139,7 +144,7 @@ export default function UpdateTaskSlideover({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity dark:bg-black/50" />
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-hidden">
@@ -155,25 +160,25 @@ export default function UpdateTaskSlideover({
                   leaveTo="translate-x-full"
                 >
                   <Dialog.Panel className="pointer-events-auto relative w-screen max-w-md">
-                    <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
+                    <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl dark:bg-gray-700">
                       <div className="px-8 pt-6">
                         <div className="flex items-center justify-between">
-                          <Dialog.Title className="text-2xl text-slate-900 font-semibold">
+                          <Dialog.Title className="text-2xl text-slate-900 font-semibold dark:text-white">
                             Update task
                           </Dialog.Title>
                           <X
                             size={25}
-                            className="hover:scale-75 duration-300"
+                            className="hover:scale-75 duration-300 dark:text-white"
                             onClick={closeSlideover}
                           />
                         </div>
 
                         {/* tabs */}
-                        <div className="w-full mt-8 flex p-1.5 gap-2 rounded-lg bg-gray-100">
+                        <div className="w-full mt-8 flex p-1.5 gap-2 rounded-lg bg-gray-100 dark:bg-gray-600">
                           <button
-                            className={`text-gray-700 py-2 w-full rounded-md text-sm font-light ${
+                            className={`text-gray-700 dark:text-gray-200 py-2 w-full rounded-md text-sm font-light ${
                               settingsTabsToggle === 1
-                                ? "text-gray-800 bg-white shadow-md font-normal"
+                                ? "text-gray-800 bg-white shadow-md font-normal dark:text-gray-200 dark:bg-gray-800"
                                 : ""
                             }`}
                             onClick={(e) => setSettingsTabToggle(1)}
@@ -181,9 +186,9 @@ export default function UpdateTaskSlideover({
                             General
                           </button>
                           <button
-                            className={`text-gray-700 py-2 w-full rounded-md text-sm font-light ${
+                            className={`text-gray-700 dark:text-gray-200 py-2 w-full rounded-md text-sm font-light ${
                               settingsTabsToggle === 2
-                                ? "text-gray-800 bg-white shadow-md font-normal"
+                                ? "text-gray-800 bg-white shadow-md font-normal dark:text-gray-200 dark:bg-gray-800"
                                 : ""
                             }`}
                             onClick={(e) => setSettingsTabToggle(2)}
@@ -203,7 +208,7 @@ export default function UpdateTaskSlideover({
                               <input
                                 type="text"
                                 placeholder="Task name"
-                                className="rounded-md pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-sm w-full"
+                                className="rounded-md pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-sm w-full dark:bg-gray-800 dark:border-gray-600 dark:placeholder:text-gray-500 dark:focus:bg-gray-800 dark:focus-within:placeholder:text-gray-500 dark:text-gray-200"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                               />
@@ -211,7 +216,7 @@ export default function UpdateTaskSlideover({
                               <input
                                 type="number"
                                 placeholder="Duration (minutes)"
-                                className="rounded-md pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-sm w-full"
+                                className="rounded-md pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 py-3 text-sm w-full dark:bg-gray-800 dark:border-gray-600 dark:placeholder:text-gray-500 dark:focus:bg-gray-800 dark:focus-within:placeholder:text-gray-500 dark:text-gray-200"
                                 min="5"
                                 value={duration}
                                 onChange={(e) => setDuration(e.target.value)}
@@ -230,7 +235,7 @@ export default function UpdateTaskSlideover({
                               <select
                                 value={priority}
                                 onChange={(e) => setPriority(e.target.value)}
-                                className="w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 text-gray-600 focus:bg-white text-sm"
+                                className="w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 text-gray-600 focus:bg-white text-sm dark:bg-gray-800 dark:border-gray-600 dark:placeholder:text-gray-500 dark:focus:bg-gray-800 dark:focus-within:placeholder:text-gray-500 dark:text-gray-200"
                               >
                                 <option value="" disabled>
                                   Priority
@@ -286,8 +291,10 @@ export default function UpdateTaskSlideover({
                                   window.confirm(
                                     "Are you sure you want to delete this task? This action cannot be undone."
                                   )
-                                )
+                                ) {
+                                  deleteTask();
                                   this.onCancel();
+                                }
                               }}
                             >
                               Delete task

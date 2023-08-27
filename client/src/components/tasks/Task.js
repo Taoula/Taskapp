@@ -116,7 +116,7 @@ export default function Task({ task, getTasks }) {
                   <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     <Pen
                       size={20}
-                      className="text-gray-600 hover:text-red-500"
+                      className="text-gray-600 hover:text-red-500 dark:text-gray-900 dark:hover:text-white"
                       onClick={(e) => {
                         e.stopPropagation(); // Prevent event propagation
                         setOpen2(true);
@@ -124,7 +124,7 @@ export default function Task({ task, getTasks }) {
                     />
                     <Trash
                       size={20}
-                      className="text-gray-600 hover:text-red-500"
+                      className="text-gray-600 hover:text-red-500 dark:text-gray-900 dark:hover:text-white"
                       onClick={(e) => {
                         e.stopPropagation(); // Prevent event propagation
                         deleteTask();

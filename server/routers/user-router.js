@@ -145,7 +145,7 @@ router.get("/loggedIn", (req, res) => {
     res.json(false);
   }
 });
- 
+
 router.get("/", auth, async (req, res) => {
   try {
     const userId = req.user;
@@ -158,15 +158,18 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
-router.patch("/", auth, async(req, res) => {
+router.patch("/", auth, async (req, res) => {
   try {
     const userId = req.user;
-    const {fName, lName, email, userRole, profilePicture} = req.body
-    const updatedUser = User.findByIdAndUpdate({userId}, {fName, lName, email, userRole, profilePicture})
-  } catch (err){
-    console.error(err)
-    res.status(500).send()
+    const { fName, lName, email, userRole, profilePicture } = req.body;
+    const updatedUser = User.findByIdAndUpdate(
+      { userId },
+      { fName, lName, email, userRole, profilePicture }
+    );
+  } catch (err) {
+    console.error(err);
+    res.status(500).send();
   }
-})
+});
 
 module.exports = router;
