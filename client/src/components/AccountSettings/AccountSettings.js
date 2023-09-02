@@ -41,6 +41,14 @@ export default function AccountSettings() {
   const gTheme = useSettingStore((state) => state.theme);
   const refreshSettings = useSettingStore((state) => state.refreshSettings);
 
+  // useEffect(() => {
+  //   if (gTheme === "dark") {
+  //     document.documentElement.classList.add("dark");
+  //   } else {
+  //     document.documentElement.classList.remove("dark");
+  //   }
+  // }, [gTheme]);
+
   async function loadData() {
     const user = await axios.get(`http://localhost:8282/auth/`);
     const {
@@ -65,7 +73,7 @@ export default function AccountSettings() {
     let { theme, freeTimeProportions, freeTimeMethod, showPopUps } =
       settingsReq.data;
 
-    if (theme == "light") {
+    if (theme === "light") {
       theme = "dark";
     } else {
       theme = "light";
@@ -171,8 +179,8 @@ export default function AccountSettings() {
 
           {/* remove cursor not allowed and uncomment onclick function after beta testing */}
           <li
-            // onClick={(e) => setSettingsPage(4)}
-            className={`cursor-not-allowed flex gap-2 px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-800 text-sm duration-200 rounded-md items-center ${
+            onClick={(e) => setSettingsPage(4)}
+            className={`flex gap-2 px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-800 text-sm duration-200 rounded-md items-center ${
               settingsPage === 4
                 ? "text-gray-900 bg-gray-200 rounded-md px-4 py-2 dark:bg-gray-800 dark:text-gray-200"
                 : ""
@@ -205,6 +213,8 @@ export default function AccountSettings() {
                     src={profilePicture}
                     className="rounded-md h-28 w-28 object-cover bg-black/40"
                   />
+                  <button onClick={toggleDarkMode}>toggle dark</button>
+
                   <div className="space-y-3">
                     <button
                       disabled={editPersonalInfo}
