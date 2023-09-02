@@ -261,6 +261,7 @@ export default function RegisterForm() {
 
   return (
     <>
+      {" "}
       <nav className="sticky top-0 flex items-center justify-between px-8 py-5 border-b border-gray-200 backdrop-blur-md bg-white/30">
         <a href="/" className="text-xl font-semibold italic text-slate-900">
           Velocity
@@ -275,153 +276,194 @@ export default function RegisterForm() {
           </a>
         </p>
       </nav>
-      <div className="flex flex-row">
-        {/* Left Section */}
-        <div className="hidden lg:block mt-16 fixed left-0">
-          <div className="h-full px-14">
-            <ul className="space-y-6">
-              {step === 1 && (
-                <>
-                  <li className="flex items-center gap-2 text-blue-600">
-                    <CheckCircle size={22} weight="bold" />
-                    <p className="font-medium text-md">Step 1</p>
-                  </li>
-                  <li className="flex items-center gap-2 text-gray-400">
-                    <Circle size={22} weight="bold" />
-                    <p className="font-medium">Step 2</p>
-                  </li>
-                  <li className="flex items-center gap-2 text-gray-400">
-                    <Circle size={22} weight="bold" />
-                    <p className="font-medium">Step 3</p>
-                  </li>
-                  <li className="flex items-center gap-2 text-gray-400">
-                    <Circle size={22} weight="bold" />
-                    <p className="font-medium">Step 4</p>
-                  </li>
-                </>
-              )}
-              {step === 2 && (
-                <>
-                  <li className="flex items-center gap-2 text-green-600">
-                    <CheckCircle size={22} weight="bold" />
-                    <p className="font-medium text-md">Step 1</p>
-                  </li>
-                  <li className="flex items-center gap-2 text-blue-600">
-                    <CheckCircle size={22} weight="bold" />
-                    <p className="font-medium">Step 2</p>
-                  </li>
-                  <li className="flex items-center gap-2 text-gray-400">
-                    <Circle size={22} weight="bold" />
-                    <p className="font-medium">Step 3</p>
-                  </li>
-                  <li className="flex items-center gap-2 text-gray-400">
-                    <Circle size={22} weight="bold" />
-                    <p className="font-medium">Step 4</p>
-                  </li>
-                </>
-              )}
-              {step === 3 && (
-                <>
-                  <li className="flex items-center gap-2 text-green-600">
-                    <CheckCircle size={22} weight="bold" />
-                    <p className="font-medium text-md">Step 1</p>
-                  </li>
-                  <li className="flex items-center gap-2 text-green-600">
-                    <CheckCircle size={22} weight="bold" />
-                    <p className="font-medium">Step 2</p>
-                  </li>
-                  <li className="flex items-center gap-2 text-blue-600">
-                    <CheckCircle size={22} weight="bold" />
-                    <p className="font-medium">Step 3</p>
-                  </li>
-                  <li className="flex items-center gap-2 text-gray-400">
-                    <Circle size={22} weight="bold" />
-                    <p className="font-medium">Step 4</p>
-                  </li>
-                </>
-              )}
-              {step === 4 && (
-                <>
-                  <li className="flex items-center gap-2 text-green-600">
-                    <CheckCircle size={22} weight="bold" />
-                    <p className="font-medium text-md">Step 1</p>
-                  </li>
-                  <li className="flex items-center gap-2 text-green-600">
-                    <CheckCircle size={22} weight="bold" />
-                    <p className="font-medium">Step 2</p>
-                  </li>
-                  <li className="flex items-center gap-2 text-green-600">
-                    <CheckCircle size={22} weight="bold" />
-                    <p className="font-medium">Step 3</p>
-                  </li>
-                  <li className="flex items-center gap-2 text-blue-600">
-                    <CheckCircle size={22} weight="bold" />
-                    <p className="font-medium">Step 4</p>
-                  </li>
-                </>
-              )}
-            </ul>
+      <section className="max-w-7xl mx-auto">
+        <div className="flex gap-16 mt-20">
+          <div className="w-3/5">
+            <h1 className="text-4xl font-semibold pb-12">create an account</h1>
+            <ol className="">
+              <li className="border-t py-8 text-lg text-gray-400">
+                1. Your plan
+              </li>
+              <li className="border-t py-8 text-lg text-gray-400">
+                2. Enter your email
+              </li>
+              <li className="border-t py-8 text-lg text-gray-400">
+                3. Choose a password
+              </li>
+              <li className="border-t py-8 text-lg text-gray-400">
+                4. Personal information
+              </li>
+              <li className="border-t py-8 text-lg text-gray-400">
+                5. Payment details
+              </li>
+            </ol>
           </div>
+          <div className="rounded-md border mt-20 w-2/5"></div>
         </div>
-
-        {/* Right Section */}
-        <div className="flex-1">
-          <div
-            className={`mx-auto mt-16 ${step === 3 ? "max-w-2xl" : "max-w-md"}`}
-          >
-            {/* step titles */}
-            {step === 1 && (
-              <h1 className="text-3xl text-slate-900">Your information</h1>
-            )}
-
-            {step === 2 && (
-              <h1 className="text-3xl text-slate-900">
-                Enter a secure password
-              </h1>
-            )}
-
-            {step === 3 && (
-              <h1 className="text-3xl text-slate-900">
-                Select a subscription plan
-              </h1>
-            )}
-
-            {step === 4 && (
-              <h1 className="text-3xl text-slate-900">
-                Enter your billing information
-              </h1>
-            )}
-
-            {step === 1 && (
-              <>
-                {/* login with google button */}
-                <div className={`flex flex-row gap-4 pb-8 pt-8`}>
-                  <span className="flex items-center bg-white w-full justify-center py-4 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md hover:duration-300 duration-300">
-                    <FcGoogle size={25} />
-                    <p className="text-gray-700 font-semibold text-sm">
-                      Google
-                    </p>
-                  </span>
-
-                  {/* login with apple button */}
-                  <span className="flex items-center bg-white w-full justify-center py-4 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md hover:duration-300 duration-300">
-                    <FaApple size={25} />
-                    <p className="text-gray-700 font-semibold text-sm">Apple</p>
-                  </span>
-                </div>
-
-                {/* divider */}
-                <div className="flex items-center w-full">
-                  <hr className="w-full text-gray-300" />
-                  <p className="px-4 text-gray-300 font-light">or</p>
-                  <hr className="w-full text-gray-300" />
-                </div>
-              </>
-            )}
-            <form className="pt-8">{inputDisplay()}</form>
-          </div>
-        </div>
-      </div>
+      </section>
     </>
+    // <>
+    // <nav className="sticky top-0 flex items-center justify-between px-8 py-5 border-b border-gray-200 backdrop-blur-md bg-white/30">
+    //   <a href="/" className="text-xl font-semibold italic text-slate-900">
+    //     Velocity
+    //   </a>
+    //   <p className="text-sm">
+    //     Already have an account?{" "}
+    //     <a
+    //       className="hover:underline cursor-pointer text-blue-600"
+    //       onClick={() => history("/login")}
+    //     >
+    //       Log in
+    //     </a>
+    //   </p>
+    // </nav>
+    //   <div className="flex flex-row">
+    //     {/* Left Section */}
+    //     <div className="hidden lg:block mt-16 fixed left-0">
+    //       <div className="h-full px-14">
+    //         <ul className="space-y-6">
+    //           {step === 1 && (
+    //             <>
+    //               <li className="flex items-center gap-2 text-blue-600">
+    //                 <CheckCircle size={22} weight="bold" />
+    //                 <p className="font-medium text-md">Step 1</p>
+    //               </li>
+    //               <li className="flex items-center gap-2 text-gray-400">
+    //                 <Circle size={22} weight="bold" />
+    //                 <p className="font-medium">Step 2</p>
+    //               </li>
+    //               <li className="flex items-center gap-2 text-gray-400">
+    //                 <Circle size={22} weight="bold" />
+    //                 <p className="font-medium">Step 3</p>
+    //               </li>
+    //               <li className="flex items-center gap-2 text-gray-400">
+    //                 <Circle size={22} weight="bold" />
+    //                 <p className="font-medium">Step 4</p>
+    //               </li>
+    //             </>
+    //           )}
+    //           {step === 2 && (
+    //             <>
+    //               <li className="flex items-center gap-2 text-green-600">
+    //                 <CheckCircle size={22} weight="bold" />
+    //                 <p className="font-medium text-md">Step 1</p>
+    //               </li>
+    //               <li className="flex items-center gap-2 text-blue-600">
+    //                 <CheckCircle size={22} weight="bold" />
+    //                 <p className="font-medium">Step 2</p>
+    //               </li>
+    //               <li className="flex items-center gap-2 text-gray-400">
+    //                 <Circle size={22} weight="bold" />
+    //                 <p className="font-medium">Step 3</p>
+    //               </li>
+    //               <li className="flex items-center gap-2 text-gray-400">
+    //                 <Circle size={22} weight="bold" />
+    //                 <p className="font-medium">Step 4</p>
+    //               </li>
+    //             </>
+    //           )}
+    //           {step === 3 && (
+    //             <>
+    //               <li className="flex items-center gap-2 text-green-600">
+    //                 <CheckCircle size={22} weight="bold" />
+    //                 <p className="font-medium text-md">Step 1</p>
+    //               </li>
+    //               <li className="flex items-center gap-2 text-green-600">
+    //                 <CheckCircle size={22} weight="bold" />
+    //                 <p className="font-medium">Step 2</p>
+    //               </li>
+    //               <li className="flex items-center gap-2 text-blue-600">
+    //                 <CheckCircle size={22} weight="bold" />
+    //                 <p className="font-medium">Step 3</p>
+    //               </li>
+    //               <li className="flex items-center gap-2 text-gray-400">
+    //                 <Circle size={22} weight="bold" />
+    //                 <p className="font-medium">Step 4</p>
+    //               </li>
+    //             </>
+    //           )}
+    //           {step === 4 && (
+    //             <>
+    //               <li className="flex items-center gap-2 text-green-600">
+    //                 <CheckCircle size={22} weight="bold" />
+    //                 <p className="font-medium text-md">Step 1</p>
+    //               </li>
+    //               <li className="flex items-center gap-2 text-green-600">
+    //                 <CheckCircle size={22} weight="bold" />
+    //                 <p className="font-medium">Step 2</p>
+    //               </li>
+    //               <li className="flex items-center gap-2 text-green-600">
+    //                 <CheckCircle size={22} weight="bold" />
+    //                 <p className="font-medium">Step 3</p>
+    //               </li>
+    //               <li className="flex items-center gap-2 text-blue-600">
+    //                 <CheckCircle size={22} weight="bold" />
+    //                 <p className="font-medium">Step 4</p>
+    //               </li>
+    //             </>
+    //           )}
+    //         </ul>
+    //       </div>
+    //     </div>
+
+    //     {/* Right Section */}
+    //     <div className="flex-1">
+    //       <div
+    //         className={`mx-auto mt-16 ${step === 3 ? "max-w-2xl" : "max-w-md"}`}
+    //       >
+    //         {/* step titles */}
+    //         {step === 1 && (
+    //           <h1 className="text-3xl text-slate-900">Your information</h1>
+    //         )}
+
+    //         {step === 2 && (
+    //           <h1 className="text-3xl text-slate-900">
+    //             Enter a secure password
+    //           </h1>
+    //         )}
+
+    //         {step === 3 && (
+    //           <h1 className="text-3xl text-slate-900">
+    //             Select a subscription plan
+    //           </h1>
+    //         )}
+
+    //         {step === 4 && (
+    //           <h1 className="text-3xl text-slate-900">
+    //             Enter your billing information
+    //           </h1>
+    //         )}
+
+    //         {step === 1 && (
+    //           <>
+    //             {/* login with google button */}
+    //             <div className={`flex flex-row gap-4 pb-8 pt-8`}>
+    //               <span className="flex items-center bg-white w-full justify-center py-4 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md hover:duration-300 duration-300">
+    //                 <FcGoogle size={25} />
+    //                 <p className="text-gray-700 font-semibold text-sm">
+    //                   Google
+    //                 </p>
+    //               </span>
+
+    //               {/* login with apple button */}
+    //               <span className="flex items-center bg-white w-full justify-center py-4 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md hover:duration-300 duration-300">
+    //                 <FaApple size={25} />
+    //                 <p className="text-gray-700 font-semibold text-sm">Apple</p>
+    //               </span>
+    //             </div>
+
+    //             {/* divider */}
+    //             <div className="flex items-center w-full">
+    //               <hr className="w-full text-gray-300" />
+    //               <p className="px-4 text-gray-300 font-light">or</p>
+    //               <hr className="w-full text-gray-300" />
+    //             </div>
+    //           </>
+    //         )}
+    //         <form className="pt-8">{inputDisplay()}</form>
+    //       </div>
+    //     </div>
+    //   </div>
+    // </>
   );
 }
