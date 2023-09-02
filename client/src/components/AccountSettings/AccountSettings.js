@@ -41,13 +41,7 @@ export default function AccountSettings() {
   const gTheme = useSettingStore((state) => state.theme);
   const refreshSettings = useSettingStore((state) => state.refreshSettings);
 
-  // useEffect(() => {
-  //   if (gTheme === "dark") {
-  //     document.documentElement.classList.add("dark");
-  //   } else {
-  //     document.documentElement.classList.remove("dark");
-  //   }
-  // }, [gTheme]);
+
 
   async function loadData() {
     const user = await axios.get(`http://localhost:8282/auth/`);
