@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../context/auth-context";
 import useSettingStore from "../../context/useSettingStore";
@@ -19,34 +19,86 @@ export default function RegisterForm() {
   const history = useNavigate();
   const { getLoggedIn } = useContext(AuthContext);
 
+  const initialFormData = {
+    step: 1,
+    plan: "default",
+    fName: "",
+    lName: "",
+    userRole: "default",
+    email: "",
+    password: "",
+    passwordVerify: "",
+  };
+
+  const [formData, setFormData] = useState(
+    JSON.parse(localStorage.getItem("formData")) || initialFormData
+  );
+
+  // const [formData, setFormData] = useState({
+  //   step: 1,
+  //   plan: "default",
+  //   fName: "",
+  //   lName: "",
+  //   userRole: "default",
+  //   email: "",
+  //   password: "",
+  //   passwordVerify: "",
+  // });
+
+  useEffect(() => {
+    // Save form data to localStorage whenever it changes
+    localStorage.setItem("formData", JSON.stringify(formData));
+  }, [formData]);
+
+  const {
+    step,
+    plan,
+    fName,
+    lName,
+    userRole,
+    email,
+    password,
+    passwordVerify,
+  } = formData;
+
+  const handleFieldChange = (field, value) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [field]: value,
+    }));
+  };
+
+  // terms of agreement
+  const [isTermsChecked, setIsTermsChecked] = useState(false);
+
   // registration steps
-  const [step, setStep] = useState(1);
+  // const [step, setStep] = useState(1);
 
   // plan
-  const [plan, setPlan] = useState("default");
+  // const [plan, setPlan] = useState("default");
 
   // first name
-  const [fName, setFirstName] = useState("");
+  // const [fName, setFirstName] = useState("");
   const [firstNameTypingStarted, setFirstNameTypingStarted] = useState(false);
 
   // last name
-  const [lName, setLastName] = useState("");
+  // const [lName, setLastName] = useState("");
   const [lastNameTypingStarted, setLastNameTypingStarted] = useState(false);
 
   // user role
-  const [userRole, setUserRole] = useState("default");
+  // const [userRole, setUserRole] = useState("default");
 
   // email
-  const [email, setEmail] = useState("");
+  // const [email, setEmail] = useState("");
   const [emailTypingStarted, setEmailTypingStarted] = useState(false);
 
   // pass
-  const [password, setPassword] = useState("");
+  // const [password, setPassword] = useState("");
   const [passwordShown, setPasswordShown] = useState(false);
   const [typingStarted, setTypingStarted] = useState(false);
 
   // verify pass
-  const [passwordVerify, setPasswordVerify] = useState("");
+  // const [passwordVerify, setPasswordVerify] = useState("");
   const [verifyPasswordShown, setVerifyPasswordShown] = useState(false);
   const [verifyTypingStarted, setVerifyTypingStarted] = useState(false);
 
@@ -54,8 +106,6 @@ export default function RegisterForm() {
 
   const refreshSettings = useSettingStore((state) => state.refreshSettings);
 
-  // terms of agreement
-  const [isTermsChecked, setIsTermsChecked] = useState(false);
   const handleCheckboxChange = () => {
     setIsTermsChecked((prevChecked) => !prevChecked);
   };
@@ -104,7 +154,7 @@ export default function RegisterForm() {
     setVerifyPasswordShown(!verifyPasswordShown);
   };
 
-  const isStepValid = () => {
+  const isStepValid = (step) => {
     switch (step) {
       case 1:
         return plan !== "default";
@@ -127,6 +177,28 @@ export default function RegisterForm() {
     }
   };
 
+  const arePreviousStepsComplete = () => {
+    console.log("Step 1 valid:", isStepValid(1));
+    console.log("Step 2 valid:", isStepValid(2));
+    console.log("Step 3 valid:", isStepValid(3));
+    console.log("Step 4 valid:", isStepValid(4));
+    console.log("Is Terms Checked:", isTermsChecked);
+
+    return (
+      isStepValid(1) &&
+      isStepValid(2) &&
+      isStepValid(3) &&
+      isStepValid(4) &&
+      isTermsChecked
+    );
+  };
+
+  const moveToNextStep = () => {
+    const nextStep = step + 1;
+
+    handleFieldChange("step", nextStep);
+  };
+
   // handles form submission
   async function registerUser(e) {
     try {
@@ -145,7 +217,12 @@ export default function RegisterForm() {
 
       await axios
         .post("http://localhost:8282/auth/", userData, {})
-        .then((res) => res.data)
+        .then((res) => {
+          if (res.status === 200) {
+            localStorage.removeItem("formData");
+          }
+          return res.data;
+        })
         .then(async (res) => {
           await axios
             .post(
@@ -197,13 +274,15 @@ export default function RegisterForm() {
 
       {/* content */}
       <section className="max-w-7xl mx-auto">
-        <div className="flex gap-16 mt-20 mb-20">
+        <div className="flex gap-16 mt-16 mb-20">
           <div className="w-3/5">
             <h1 className="text-4xl font-semibold pb-12">Create an account</h1>
             <ol>
               {/* choose a plan */}
               <li className="border-t py-8 text-lg text-gray-400">
-                <p>1. Your plan</p>
+                <p className={`${step === 1 ? "text-ultramarine" : ""}`}>
+                  1. Your plan
+                </p>
                 {step === 1 && (
                   <>
                     <div className="flex gap-4 pt-4">
@@ -211,7 +290,8 @@ export default function RegisterForm() {
                         id="plan"
                         value={plan}
                         onChange={(e) => {
-                          setPlan(e.target.value);
+                          // setPlan(e.target.value);
+                          handleFieldChange("plan", e.target.value);
                         }}
                         className="w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 pr-11 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
                       >
@@ -228,12 +308,13 @@ export default function RegisterForm() {
                     <div className="flex justify-end">
                       <button
                         onClick={() => {
-                          if (isStepValid()) {
-                            setStep((prevStep) => prevStep + 1);
+                          if (isStepValid(1)) {
+                            // setStep((prevStep) => prevStep + 1);
+                            moveToNextStep();
                           }
                         }}
                         className={`rounded-md bg-ultramarineLightest text-ultramarine font-medium px-4 py-2 mt-8 duration-100 ${
-                          isStepValid()
+                          isStepValid(1)
                             ? "hover:bg-ultramarine hover:text-white"
                             : "opacity-50 cursor-not-allowed"
                         }`}
@@ -247,7 +328,9 @@ export default function RegisterForm() {
 
               {/* enter email */}
               <li className="border-t py-8 text-lg text-gray-400">
-                <p>2. What's your email?</p>
+                <p className={`${step === 2 ? "text-ultramarine" : ""}`}>
+                  2. What's your email?
+                </p>
                 {step === 2 && (
                   <>
                     {/* email */}
@@ -260,7 +343,8 @@ export default function RegisterForm() {
                         placeholder="Enter your email address"
                         value={email}
                         onChange={(e) => {
-                          setEmail(e.target.value);
+                          // setEmail(e.target.value);
+                          handleFieldChange("email", e.target.value);
                           setEmailTypingStarted(true);
                         }}
                         id="email"
@@ -301,12 +385,13 @@ export default function RegisterForm() {
                     <div className="flex justify-end">
                       <button
                         onClick={() => {
-                          if (isStepValid()) {
-                            setStep((prevStep) => prevStep + 1);
+                          if (isStepValid(2)) {
+                            // setStep((prevStep) => prevStep + 1);
+                            moveToNextStep();
                           }
                         }}
                         className={`rounded-md bg-ultramarineLightest text-ultramarine font-medium px-4 py-2 mt-8 duration-100 ${
-                          isStepValid()
+                          isStepValid(2)
                             ? "hover:bg-ultramarine hover:text-white"
                             : "opacity-50 cursor-not-allowed"
                         }`}
@@ -320,7 +405,9 @@ export default function RegisterForm() {
 
               {/* enter password */}
               <li className="border-t py-8 text-lg text-gray-400">
-                <p>3. Choose a password</p>
+                <p className={`${step === 3 ? "text-ultramarine" : ""}`}>
+                  3. Choose a password
+                </p>
                 {step === 3 && (
                   <>
                     {/* password */}
@@ -333,7 +420,8 @@ export default function RegisterForm() {
                         placeholder="Password"
                         value={password}
                         onChange={(e) => {
-                          setPassword(e.target.value);
+                          // setPassword(e.target.value);
+                          handleFieldChange("password", e.target.value);
                           setTypingStarted(true);
                         }}
                         id="password"
@@ -400,7 +488,8 @@ export default function RegisterForm() {
                         placeholder="Verify password"
                         value={passwordVerify}
                         onChange={(e) => {
-                          setPasswordVerify(e.target.value);
+                          // setPasswordVerify(e.target.value);
+                          handleFieldChange("passwordVerify", e.target.value);
                           setVerifyTypingStarted(true);
                         }}
                         id="password"
@@ -455,12 +544,13 @@ export default function RegisterForm() {
                     <div className="flex justify-end">
                       <button
                         onClick={() => {
-                          if (isStepValid()) {
-                            setStep((prevStep) => prevStep + 1);
+                          if (isStepValid(3)) {
+                            // setStep((prevStep) => prevStep + 1);
+                            moveToNextStep();
                           }
                         }}
                         className={`rounded-md bg-ultramarineLightest text-ultramarine font-medium px-4 py-2 mt-8 duration-100 ${
-                          isStepValid()
+                          isStepValid(3)
                             ? "hover:bg-ultramarine hover:text-white"
                             : "opacity-50 cursor-not-allowed"
                         }`}
@@ -474,7 +564,9 @@ export default function RegisterForm() {
 
               {/* personal information */}
               <li className="border-t py-8 text-lg text-gray-400">
-                <p>4. Tell us about yourself</p>
+                <p className={`${step === 4 ? "text-ultramarine" : ""}`}>
+                  4. Tell us about yourself
+                </p>
                 {step === 4 && (
                   <>
                     {/* first name */}
@@ -484,7 +576,8 @@ export default function RegisterForm() {
                         placeholder="First Name"
                         value={fName}
                         onChange={(e) => {
-                          setFirstName(e.target.value);
+                          // setFirstName(e.target.value);
+                          handleFieldChange("fName", e.target.value);
                           setFirstNameTypingStarted(true);
                         }}
                         className="block w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 text-sm"
@@ -527,7 +620,8 @@ export default function RegisterForm() {
                         placeholder="Last name"
                         value={lName}
                         onChange={(e) => {
-                          setLastName(e.target.value);
+                          // setLastName(e.target.value);
+                          handleFieldChange("lName", e.target.value);
                           setLastNameTypingStarted(true);
                         }}
                         className="block w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
@@ -569,7 +663,8 @@ export default function RegisterForm() {
                         id="userRole"
                         value={userRole}
                         onChange={(e) => {
-                          setUserRole(e.target.value);
+                          // setUserRole(e.target.value);
+                          handleFieldChange("userRole", e.target.value);
                         }}
                         className="w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 pr-11 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
                       >
@@ -589,12 +684,13 @@ export default function RegisterForm() {
                     <div className="flex justify-end">
                       <button
                         onClick={() => {
-                          if (isStepValid()) {
-                            setStep((prevStep) => prevStep + 1);
+                          if (isStepValid(4)) {
+                            // setStep((prevStep) => prevStep + 1);
+                            moveToNextStep();
                           }
                         }}
                         className={`rounded-md bg-ultramarineLightest text-ultramarine font-medium px-4 py-2 mt-8 duration-100 ${
-                          isStepValid()
+                          isStepValid(4)
                             ? "hover:bg-ultramarine hover:text-white"
                             : "opacity-50 cursor-not-allowed"
                         }`}
@@ -608,37 +704,43 @@ export default function RegisterForm() {
 
               {/* TODO - replace inputs with stripe elements */}
               {/* payment details */}
-              {/* <li className="border-t py-8 text-lg text-gray-400">
-                <p>5. Billing</p>
-                <div className="flex mt-4 gap-4">
-                  <input
-                    placeholder="credit card"
-                    className="w-3/5 block rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
-                  />
-                  <input
-                    placeholder="expiration date"
-                    className="block w-1/5 rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
-                  />
-                  <input
-                    placeholder="security code"
-                    className="block w-1/5 rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
-                  />
-                </div>
-                <input
-                  placeholder="cardholder name"
-                  className="block mt-4 w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
-                />
-                <div className="flex gap-4">
-                  <input
-                    placeholder="zip code"
-                    className="block mt-4 w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
-                  />
-                  <input
-                    placeholder="country"
-                    className="block mt-4 w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
-                  />
-                </div>
-              </li> */}
+              <li className="border-t py-8 text-lg text-gray-400">
+                <p className={`${step === 5 ? "text-ultramarine" : ""}`}>
+                  5. Billing
+                </p>
+                {step === 5 && (
+                  <>
+                    <div className="flex mt-4 gap-4">
+                      <input
+                        placeholder="credit card"
+                        className="w-3/5 block rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
+                      />
+                      <input
+                        placeholder="expiration date"
+                        className="block w-1/5 rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
+                      />
+                      <input
+                        placeholder="security code"
+                        className="block w-1/5 rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
+                      />
+                    </div>
+                    <input
+                      placeholder="cardholder name"
+                      className="block mt-4 w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
+                    />
+                    <div className="flex gap-4">
+                      <input
+                        placeholder="zip code"
+                        className="block mt-4 w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
+                      />
+                      <input
+                        placeholder="country"
+                        className="block mt-4 w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
+                      />
+                    </div>
+                  </>
+                )}
+              </li>
             </ol>
           </div>
 
@@ -647,34 +749,9 @@ export default function RegisterForm() {
             <h1 className="text-center text-gray-900 text-3xl pb-10">
               Order summary
             </h1>
-            <div className="space-y-1">
-              <div className="flex items-center justify-between text-md font-light">
-                <p>Plan</p>
-                <p>
-                  {plan === "monthly"
-                    ? "Monthly"
-                    : plan === "yearly"
-                    ? "Yearly"
-                    : ""}
-                </p>
-              </div>
-              <div className="flex items-center justify-between text-md font-light">
-                <p>Email</p>
-                <p>{email}</p>
-              </div>
-              <div className="flex items-center justify-between text-md font-light">
-                <p>Name</p>
-                <p>
-                  {fName} {lName}
-                </p>
-              </div>
-              <div className="flex items-center justify-between text-md font-light">
-                <p>Role</p>
-                <p>{userRole === "default" ? "" : userRole}</p>
-              </div>
-            </div>
+
             <p className="text-sm pt-10">Enter a promo code</p>
-            <div className="flex gap-4 items-center mt-2">
+            <div className="flex gap-2 items-center mt-2">
               <input className="block w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm" />
               <button className="bg-ultramarineLightest rounded-md px-4 py-3 text-ultramarine hover:bg-ultramarine hover:text-white duration-100">
                 Apply
@@ -719,9 +796,15 @@ export default function RegisterForm() {
 
             <button
               onClick={(e) => {
-                registerUser(e);
+                if (arePreviousStepsComplete()) {
+                  registerUser(e);
+                }
               }}
-              className="bg-ultramarineLightest w-full py-4 rounded-md text-lg text-ultramarine font-medium mb-6 hover:bg-ultramarine hover:text-white duration-100"
+              className={`bg-ultramarineLightest w-full py-4 rounded-md text-lg text-ultramarine font-medium mb-6 duration-100 ${
+                arePreviousStepsComplete()
+                  ? "hover:bg-ultramarine hover:text-white"
+                  : "opacity-50 cursor-not-allowed"
+              }`}
             >
               Create my account
             </button>
