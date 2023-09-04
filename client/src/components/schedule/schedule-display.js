@@ -502,13 +502,13 @@ export default function ScheduleDisplay() {
                             <CheckSquare
                               size={20}
                               onClick={() => setUpdateDefault(false)}
-                              classNameName="text-gray-500"
+                              className="text-gray-500"
                             />
                           ) : (
                             <Square
                               size={20}
                               onClick={() => setUpdateDefault(true)}
-                              classNameName="text-gray-500"
+                              className="text-gray-500"
                             />
                           )}
                         </div>
