@@ -199,6 +199,10 @@ export default function RegisterForm() {
     handleFieldChange("step", nextStep);
   };
 
+  const handleStepClick = (step) => {
+    handleFieldChange("step", step);
+  };
+
   // handles form submission
   async function registerUser(e) {
     try {
@@ -273,14 +277,21 @@ export default function RegisterForm() {
       </nav>
 
       {/* content */}
-      <section className="max-w-7xl mx-auto">
-        <div className="flex gap-16 mt-16 mb-20">
+      <section className="max-w-6xl mx-auto">
+        <div className="flex gap-16 mt-20 mb-20">
           <div className="w-3/5">
-            <h1 className="text-4xl font-semibold pb-12">Create an account</h1>
+            <h1 className="text-4xl font-semibold pb-10">Create an account</h1>
             <ol>
               {/* choose a plan */}
               <li className="border-t py-8 text-lg text-gray-400">
-                <p className={`${step === 1 ? "text-ultramarine" : ""}`}>
+                <p
+                  className={`${
+                    step === 1 ? "text-ultramarine" : ""
+                  } cursor-pointer`}
+                  onClick={() => {
+                    handleStepClick(1);
+                  }}
+                >
                   1. Your plan
                 </p>
                 {step === 1 && (
@@ -328,7 +339,14 @@ export default function RegisterForm() {
 
               {/* enter email */}
               <li className="border-t py-8 text-lg text-gray-400">
-                <p className={`${step === 2 ? "text-ultramarine" : ""}`}>
+                <p
+                  className={`${
+                    step === 2 ? "text-ultramarine" : ""
+                  } cursor-pointer`}
+                  onClick={() => {
+                    handleStepClick(2);
+                  }}
+                >
                   2. What's your email?
                 </p>
                 {step === 2 && (
@@ -405,7 +423,14 @@ export default function RegisterForm() {
 
               {/* enter password */}
               <li className="border-t py-8 text-lg text-gray-400">
-                <p className={`${step === 3 ? "text-ultramarine" : ""}`}>
+                <p
+                  className={`${
+                    step === 3 ? "text-ultramarine" : ""
+                  } cursor-pointer`}
+                  onClick={() => {
+                    handleStepClick(3);
+                  }}
+                >
                   3. Choose a password
                 </p>
                 {step === 3 && (
@@ -564,7 +589,14 @@ export default function RegisterForm() {
 
               {/* personal information */}
               <li className="border-t py-8 text-lg text-gray-400">
-                <p className={`${step === 4 ? "text-ultramarine" : ""}`}>
+                <p
+                  className={`${
+                    step === 4 ? "text-ultramarine" : ""
+                  } cursor-pointer`}
+                  onClick={() => {
+                    handleStepClick(4);
+                  }}
+                >
                   4. Tell us about yourself
                 </p>
                 {step === 4 && (
@@ -705,7 +737,14 @@ export default function RegisterForm() {
               {/* TODO - replace inputs with stripe elements */}
               {/* payment details */}
               <li className="border-t py-8 text-lg text-gray-400">
-                <p className={`${step === 5 ? "text-ultramarine" : ""}`}>
+                <p
+                  className={`${
+                    step === 5 ? "text-ultramarine" : ""
+                  } cursor-pointer`}
+                  onClick={() => {
+                    handleStepClick(5);
+                  }}
+                >
                   5. Billing
                 </p>
                 {step === 5 && (
