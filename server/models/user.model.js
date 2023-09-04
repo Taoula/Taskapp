@@ -11,14 +11,6 @@ const userSchema = new mongoose.Schema({
     default: "https://i.imgur.com/mrSQg7N.png",
     required: false,
   },
-  // stripeCustomerId: {
-  //   type: String,
-  //   required: false,
-  // },
-  // stripeSubscriptionId: {
-  //   type: String,
-  //   required: false,
-  // },
 });
 
 const User = mongoose.model("user", userSchema);

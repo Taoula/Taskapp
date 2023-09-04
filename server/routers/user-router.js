@@ -46,18 +46,6 @@ router.post("/", async (req, res) => {
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
 
-    // Create a Stripe customer
-    const customerId = await stripeService.createStripeCustomer(email);
-
-    // Create a Stripe subscription for the customer
-    const subscriptionId = await stripeService.createStripeSubscription(
-      customerId,
-      "price_1NmQ1AEW7fzDQnQtVQqiDDPm"
-    );
-
-    // Save Stripe-related data in the StripeData model
-    await stripeService.createStripeData(email, customerId, subscriptionId);
-
     //save new user
 
     const newUser = new User({
@@ -71,18 +59,17 @@ router.post("/", async (req, res) => {
 
     const savedUser = await newUser.save();
 
-    // create a customer in stripe
-    // const customer = await stripe.customers.create({ email: email });
+    // Create a Stripe customer
+    const customerId = await stripeService.createStripeCustomer(email);
 
-    // create a stripe subscription for the customer
-    // const subscription = await stripe.subscriptions.create({
-    //   customer: customer.id,
-    //   items: [{ price: "price_1NmQ1wEW7fzDQnQtv3EBp5YY" }],
-    // });
+    // Create a Stripe subscription for the customer
+    const subscriptionId = await stripeService.createStripeSubscription(
+      customerId,
+      "price_1NmQ1AEW7fzDQnQtVQqiDDPm"
+    );
 
-    // newUser.stripeCustomerId = customer.id;
-    // newUser.stripeSubscriptionId = subscription.id;
-    // await newUser.save();
+    // Save Stripe-related data in the StripeData model
+    await stripeService.createStripeData(email, customerId, subscriptionId);
 
     //sign token
 

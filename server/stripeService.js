@@ -14,7 +14,7 @@ async function createStripeCustomer(email) {
 async function createStripeSubscription(customerId, priceId) {
   const subscription = await stripe.subscriptions.create({
     customer: customerId,
-    items: [{ price: "priceId" }],
+    items: [{ price: priceId }],
   });
   return subscription.id;
 }
