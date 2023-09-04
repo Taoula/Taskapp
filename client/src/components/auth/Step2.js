@@ -47,6 +47,8 @@ export default function Step2({
           id="password"
           className="block w-full rounded-md py-3 pl-11 bg-gray-50 border border-gray-200 pr-11 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
         />
+
+        {/* password visibility */}
         <div className="absolute inset-y-0 right-0 pr-4 flex items-center">
           {passwordShown ? (
             <EyeClosed
@@ -157,7 +159,10 @@ export default function Step2({
       )}
 
       {/* recaptcha */}
-      <ReCAPTCHA sitekey="6LdhXSgnAAAAANUbNl6vJpd4Lgtuhxt6p1FJeMSf" className="pt-4 flex justify-end" />
+      <ReCAPTCHA
+        sitekey="6LdhXSgnAAAAANUbNl6vJpd4Lgtuhxt6p1FJeMSf"
+        className="pt-4 flex justify-end"
+      />
 
       {/* terms of agreement */}
       <span className="flex pt-4 items-center gap-2 justify-end">

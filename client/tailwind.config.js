@@ -25,6 +25,10 @@ module.exports = {
         heroBackgroundColor: "#f0f0f0",
         green1: "#d9fb51",
         green2: "#c3e249",
+        ultramarine: "#0f0ade",
+        ultramarineDark: "#082b9b",
+        ultramarineLight: "#86a3ff",
+        ultramarineLightest: "#c3d1ff",
       },
       height: {
         128: "32rem",

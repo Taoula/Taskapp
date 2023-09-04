@@ -1,15 +1,18 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import AuthContext from "../../context/auth-context";
-import { FcGoogle } from "react-icons/fc";
-import { FaApple } from "react-icons/fa";
-import Step1 from "./Step1";
-import Step2 from "./Step2";
-import Step3 from "./Step3";
-import Step4 from "./Step4";
-import { CheckCircle, Circle } from "phosphor-react";
 import useSettingStore from "../../context/useSettingStore";
+import axios from "axios";
+import {
+  CheckCircle,
+  CheckSquare,
+  Circle,
+  Envelope,
+  Eye,
+  EyeClosed,
+  Lock,
+  Square,
+} from "phosphor-react";
 
 export default function RegisterForm() {
   const history = useNavigate();
@@ -17,6 +20,9 @@ export default function RegisterForm() {
 
   // registration steps
   const [step, setStep] = useState(1);
+
+  // plan
+  const [plan, setPlan] = useState("default");
 
   // first name
   const [fName, setFirstName] = useState("");
@@ -40,15 +46,18 @@ export default function RegisterForm() {
 
   // verify pass
   const [passwordVerify, setPasswordVerify] = useState("");
+  const [verifyPasswordShown, setVerifyPasswordShown] = useState(false);
   const [verifyTypingStarted, setVerifyTypingStarted] = useState(false);
+
+  const isPasswordRegexMet = (regex) => regex.test(password);
+
+  const refreshSettings = useSettingStore((state) => state.refreshSettings);
 
   // terms of agreement
   const [isTermsChecked, setIsTermsChecked] = useState(false);
   const handleCheckboxChange = () => {
     setIsTermsChecked((prevChecked) => !prevChecked);
   };
-
-  const refreshSettings = useSettingStore((state) => state.refreshSettings);
 
   // password regex
   const passRequirements = [
@@ -58,8 +67,6 @@ export default function RegisterForm() {
     { regex: /[^A-Za-z0-9]/, text: "At least 1 special symbol (!...$)" },
     { regex: /[A-Z]/, text: "At least 1 uppercase letter (A...Z)" },
   ];
-
-  const isPasswordRegexMet = (regex) => regex.test(password);
 
   // checks if verify pass matches
   const isPasswordMatching = (password, passwordVerify) => {
@@ -87,34 +94,35 @@ export default function RegisterForm() {
     return lNameRegex.test(lName);
   };
 
-  // verifies inputs on step 2
-  const isSubmitDisabled = () => {
-    return true;
-  };
-
   // password visibility toggle handler
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
   };
 
-  // checks if all requirements are met to enable button
-  const isNextDisabled = () => {
-    if (step === 1) {
-      return !(
-        isFirstNameValid(fName) &&
-        isLastNameValid(lName) &&
-        isEmailValid(email) &&
-        // isTermsChecked &&
-        userRole !== "default"
-      );
-    } else if (step === 2) {
-      return !(
-        passRequirements.every((requirement) =>
-          isPasswordRegexMet(requirement.regex, password)
-        ) &&
-        isTermsChecked &&
-        isPasswordMatching(password, passwordVerify)
-      );
+  const toggleVerifyPassword = () => {
+    setVerifyPasswordShown(!verifyPasswordShown);
+  };
+
+  const isStepValid = () => {
+    switch (step) {
+      case 1:
+        return plan !== "default";
+      case 2:
+        return isEmailValid(email);
+      case 3:
+        return (
+          passRequirements.every((requirement) =>
+            isPasswordRegexMet(requirement.regex)
+          ) && isPasswordMatching(password, passwordVerify)
+        );
+      case 4:
+        return (
+          isFirstNameValid(fName) &&
+          isLastNameValid(lName) &&
+          userRole !== "default"
+        );
+      default:
+        return false;
     }
   };
 
@@ -122,10 +130,6 @@ export default function RegisterForm() {
   async function registerUser(e) {
     try {
       e.preventDefault();
-
-      // if (isNextDisabled()) {
-      //   return;
-      // }
 
       const userData = {
         fName,
@@ -170,300 +174,562 @@ export default function RegisterForm() {
     }
   }
 
-  const inputDisplay = () => {
-    // renders first step of sign up
-    if (step === 1) {
-      return (
-        <Step1
-          history={history}
-          email={email}
-          lName={lName}
-          fName={fName}
-          setFirstName={setFirstName}
-          setLastName={setLastName}
-          setEmail={setEmail}
-          emailTypingStarted={emailTypingStarted}
-          setEmailTypingStarted={setEmailTypingStarted}
-          password={password}
-          setPassword={setPassword}
-          passwordShown={passwordShown}
-          typingStarted={typingStarted}
-          setTypingStarted={setTypingStarted}
-          setUserRole={setUserRole}
-          passwordVerify={passwordVerify}
-          setPasswordVerify={setPasswordVerify}
-          verifyTypingStarted={verifyTypingStarted}
-          setVerifyTypingStarted={setVerifyTypingStarted}
-          setStep={setStep}
-          passRequirements={passRequirements}
-          isPasswordRegexMet={isPasswordRegexMet}
-          isPasswordMatching={isPasswordMatching}
-          isEmailValid={isEmailValid}
-          userRole={userRole}
-          togglePassword={togglePassword}
-          isNextDisabled={isNextDisabled}
-          isFirstNameValid={isFirstNameValid}
-          isLastNameValid={isLastNameValid}
-          firstNameTypingStarted={firstNameTypingStarted}
-          setFirstNameTypingStarted={setFirstNameTypingStarted}
-          lastNameTypingStarted={lastNameTypingStarted}
-          setLastNameTypingStarted={setLastNameTypingStarted}
-        />
-      );
-    }
-
-    // renders second step of sign up
-    else if (step === 2) {
-      return (
-        <Step2
-          history={history}
-          email={email}
-          handleCheckboxChange={handleCheckboxChange}
-          setEmail={setEmail}
-          isTermsChecked={isTermsChecked}
-          emailTypingStarted={emailTypingStarted}
-          setEmailTypingStarted={setEmailTypingStarted}
-          password={password}
-          setPassword={setPassword}
-          passwordShown={passwordShown}
-          typingStarted={typingStarted}
-          setTypingStarted={setTypingStarted}
-          passwordVerify={passwordVerify}
-          setPasswordVerify={setPasswordVerify}
-          verifyTypingStarted={verifyTypingStarted}
-          setVerifyTypingStarted={setVerifyTypingStarted}
-          setStep={setStep}
-          passRequirements={passRequirements}
-          isPasswordRegexMet={isPasswordRegexMet}
-          isPasswordMatching={isPasswordMatching}
-          isEmailValid={isEmailValid}
-          togglePassword={togglePassword}
-          isNextDisabled={isNextDisabled}
-        />
-      );
-    } else if (step === 3) {
-      return <Step3 setStep={setStep} />;
-    } else if (step === 4) {
-      return (
-        <Step4
-          setStep={setStep}
-          fName={fName}
-          lName={lName}
-          email={email}
-          userRole={userRole}
-          password={password}
-          passwordVerify={passwordVerify}
-          registerUser={registerUser}
-        />
-      );
-    }
-  };
-
   return (
     <>
-      {" "}
-      <nav className="sticky top-0 flex items-center justify-between px-8 py-5 border-b border-gray-200 backdrop-blur-md bg-white/30">
-        <a href="/" className="text-xl font-semibold italic text-slate-900">
+      {/* navbar */}
+      <nav className="sticky top-0 flex items-center justify-between px-8 py-5 border-b border-gray-200 backdrop-blur-md bg-white">
+        {/* logo */}
+        <a href="/" className="text-xl font-semibold italic text-ultramarine">
           Velocity
         </a>
+        {/* redirect to login */}
         <p className="text-sm">
           Already have an account?{" "}
           <a
-            className="hover:underline cursor-pointer text-blue-600"
+            className="hover:underline cursor-pointer text-ultramarine"
             onClick={() => history("/login")}
           >
             Log in
           </a>
         </p>
       </nav>
+
+      {/* content */}
       <section className="max-w-7xl mx-auto">
-        <div className="flex gap-16 mt-20">
+        <div className="flex gap-16 mt-20 mb-20">
           <div className="w-3/5">
-            <h1 className="text-4xl font-semibold pb-12">create an account</h1>
-            <ol className="">
+            <h1 className="text-4xl font-semibold pb-12">Create an account</h1>
+            <ol>
+              {/* choose a plan */}
               <li className="border-t py-8 text-lg text-gray-400">
-                1. Your plan
+                <p>1. Your plan</p>
+                {step === 1 && (
+                  <>
+                    <div className="flex gap-4 pt-4">
+                      <select
+                        id="plan"
+                        value={plan}
+                        onChange={(e) => {
+                          setPlan(e.target.value);
+                        }}
+                        className="w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 pr-11 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
+                      >
+                        <option value="default" disabled>
+                          Choose a plan
+                        </option>
+                        <option value="monthly">Monthly - $3.00</option>
+                        <option value="yearly">
+                          Yearly - $30.00 (2 months free!)
+                        </option>
+                      </select>
+                    </div>
+
+                    <div className="flex justify-end">
+                      <button
+                        onClick={() => {
+                          if (isStepValid()) {
+                            setStep((prevStep) => prevStep + 1);
+                          }
+                        }}
+                        className={`rounded-md bg-ultramarineLightest text-ultramarine font-medium px-4 py-2 mt-8 duration-100 ${
+                          isStepValid()
+                            ? "hover:bg-ultramarine hover:text-white"
+                            : "opacity-50 cursor-not-allowed"
+                        }`}
+                      >
+                        Next
+                      </button>
+                    </div>
+                  </>
+                )}
               </li>
+
+              {/* enter email */}
               <li className="border-t py-8 text-lg text-gray-400">
-                2. Enter your email
+                <p>2. What's your email?</p>
+                {step === 2 && (
+                  <>
+                    {/* email */}
+                    <div className="relative rounded-md mt-4">
+                      <div className="pointer-events-none text-gray-400 absolute inset-y-0 left-0 flex items-center pl-4">
+                        <Envelope size={20} />
+                      </div>
+                      <input
+                        type="text"
+                        placeholder="Enter your email address"
+                        value={email}
+                        onChange={(e) => {
+                          setEmail(e.target.value);
+                          setEmailTypingStarted(true);
+                        }}
+                        id="email"
+                        className="block w-full rounded-md py-3 pl-11 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 text-sm"
+                      />
+                    </div>
+
+                    {/* email validation */}
+                    {emailTypingStarted && (
+                      <ul className="mt-4 list-none list-inside">
+                        <li
+                          className={`text-sm flex items-center ${
+                            isEmailValid(email)
+                              ? "text-green-600"
+                              : "text-red-500"
+                          }`}
+                        >
+                          {isEmailValid(email) ? (
+                            <CheckCircle
+                              size={16}
+                              weight="bold"
+                              color="#34D399"
+                              className="mr-2"
+                            />
+                          ) : (
+                            <Circle
+                              size={16}
+                              weight="bold"
+                              className="mr-2 text-red-400"
+                            />
+                          )}
+                          Valid email
+                        </li>
+                      </ul>
+                    )}
+
+                    {/* next button */}
+                    <div className="flex justify-end">
+                      <button
+                        onClick={() => {
+                          if (isStepValid()) {
+                            setStep((prevStep) => prevStep + 1);
+                          }
+                        }}
+                        className={`rounded-md bg-ultramarineLightest text-ultramarine font-medium px-4 py-2 mt-8 duration-100 ${
+                          isStepValid()
+                            ? "hover:bg-ultramarine hover:text-white"
+                            : "opacity-50 cursor-not-allowed"
+                        }`}
+                      >
+                        Next
+                      </button>
+                    </div>
+                  </>
+                )}
               </li>
+
+              {/* enter password */}
               <li className="border-t py-8 text-lg text-gray-400">
-                3. Choose a password
+                <p>3. Choose a password</p>
+                {step === 3 && (
+                  <>
+                    {/* password */}
+                    <div className={`relative rounded-md mt-4`}>
+                      <div className="pointer-events-none text-gray-400 absolute inset-y-0 left-0 flex items-center pl-4">
+                        <Lock size={20} />
+                      </div>
+                      <input
+                        type={passwordShown ? "text" : "password"}
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => {
+                          setPassword(e.target.value);
+                          setTypingStarted(true);
+                        }}
+                        id="password"
+                        className="block w-full rounded-md py-3 pl-11 bg-gray-50 border border-gray-200 pr-11 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
+                      />
+                      <div className="absolute inset-y-0 right-0 pr-4 flex items-center">
+                        {passwordShown ? (
+                          <EyeClosed
+                            size={20}
+                            className="text-gray-400"
+                            onClick={togglePassword}
+                            type="button"
+                          />
+                        ) : (
+                          <Eye
+                            size={20}
+                            className="text-gray-400"
+                            onClick={togglePassword}
+                            type="button"
+                          />
+                        )}
+                      </div>
+                    </div>
+
+                    {/* password validation */}
+                    {typingStarted && (
+                      <ul className="mt-4 list-inside list-none space-y-2">
+                        {passRequirements.map((requirement, index) => (
+                          <li
+                            key={index}
+                            className={`text-sm flex items-center ${
+                              isPasswordRegexMet(requirement.regex)
+                                ? "text-green-600"
+                                : "text-red-500"
+                            }`}
+                          >
+                            {isPasswordRegexMet(requirement.regex) ? (
+                              <CheckCircle
+                                size={16}
+                                weight="bold"
+                                color="#34D399"
+                                className="mr-2"
+                              />
+                            ) : (
+                              <Circle
+                                size={16}
+                                weight="bold"
+                                className="mr-2 text-red-400"
+                              />
+                            )}
+                            {requirement.text}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+
+                    {/* verify password */}
+                    <div className="relative rounded-md mt-4">
+                      <div className="pointer-events-none text-gray-400 absolute inset-y-0 left-0 flex items-center pl-4">
+                        <Lock size={20} />
+                      </div>
+                      <input
+                        type={verifyPasswordShown ? "text" : "password"}
+                        placeholder="Verify password"
+                        value={passwordVerify}
+                        onChange={(e) => {
+                          setPasswordVerify(e.target.value);
+                          setVerifyTypingStarted(true);
+                        }}
+                        id="password"
+                        className="block w-full rounded-md py-3 pl-11 bg-gray-50 border border-gray-200 pr-11 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
+                      />
+
+                      {/* password visibility */}
+                      <div className="absolute inset-y-0 right-0 pr-4 flex items-center">
+                        {verifyPasswordShown ? (
+                          <EyeClosed
+                            size={20}
+                            className="text-gray-400"
+                            onClick={toggleVerifyPassword}
+                            type="button"
+                          />
+                        ) : (
+                          <Eye
+                            size={20}
+                            className="text-gray-400"
+                            onClick={toggleVerifyPassword}
+                            type="button"
+                          />
+                        )}
+                      </div>
+                    </div>
+
+                    {/* verify password validation */}
+                    {verifyTypingStarted && (
+                      <ul className="mt-4 list-none list-inside">
+                        <li
+                          className={`text-sm flex items-center ${
+                            isPasswordMatching(password, passwordVerify)
+                              ? "text-green-600"
+                              : "text-red-500"
+                          }`}
+                        >
+                          {isPasswordMatching(password, passwordVerify) ? (
+                            <CheckCircle
+                              size={16}
+                              weight="bold"
+                              color="#34D399"
+                              className="mr-2 text-red-400"
+                            />
+                          ) : (
+                            <Circle size={16} weight="bold" className="mr-2" />
+                          )}
+                          Passwords must match
+                        </li>
+                      </ul>
+                    )}
+
+                    <div className="flex justify-end">
+                      <button
+                        onClick={() => {
+                          if (isStepValid()) {
+                            setStep((prevStep) => prevStep + 1);
+                          }
+                        }}
+                        className={`rounded-md bg-ultramarineLightest text-ultramarine font-medium px-4 py-2 mt-8 duration-100 ${
+                          isStepValid()
+                            ? "hover:bg-ultramarine hover:text-white"
+                            : "opacity-50 cursor-not-allowed"
+                        }`}
+                      >
+                        Next
+                      </button>
+                    </div>
+                  </>
+                )}
               </li>
+
+              {/* personal information */}
               <li className="border-t py-8 text-lg text-gray-400">
-                4. Personal information
+                <p>4. Tell us about yourself</p>
+                {step === 4 && (
+                  <>
+                    {/* first name */}
+                    <div className="relative rounded-md mt-4">
+                      <input
+                        type="text"
+                        placeholder="First Name"
+                        value={fName}
+                        onChange={(e) => {
+                          setFirstName(e.target.value);
+                          setFirstNameTypingStarted(true);
+                        }}
+                        className="block w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-gray-600 text-sm"
+                      />
+                    </div>
+
+                    {/* first name validation */}
+                    {firstNameTypingStarted && (
+                      <ul className="mt-4 list-none list-inside">
+                        <li
+                          className={`text-sm flex items-center ${
+                            isFirstNameValid(fName)
+                              ? "text-green-600"
+                              : "text-red-500"
+                          }`}
+                        >
+                          {isFirstNameValid(fName) ? (
+                            <CheckCircle
+                              size={16}
+                              weight="bold"
+                              color="#34D399"
+                              className="mr-2"
+                            />
+                          ) : (
+                            <Circle
+                              size={16}
+                              weight="bold"
+                              className="mr-2 text-red-400"
+                            />
+                          )}
+                          Valid first name
+                        </li>
+                      </ul>
+                    )}
+
+                    {/* last name */}
+                    <div className={`relative rounded-md mt-4`}>
+                      <input
+                        type="text"
+                        placeholder="Last name"
+                        value={lName}
+                        onChange={(e) => {
+                          setLastName(e.target.value);
+                          setLastNameTypingStarted(true);
+                        }}
+                        className="block w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
+                      />
+                    </div>
+
+                    {/* last name validation */}
+                    {lastNameTypingStarted && (
+                      <ul className="mt-4 list-none list-inside">
+                        <li
+                          className={`text-sm flex items-center ${
+                            isLastNameValid(lName)
+                              ? "text-green-600"
+                              : "text-red-500"
+                          }`}
+                        >
+                          {isLastNameValid(lName) ? (
+                            <CheckCircle
+                              size={16}
+                              weight="bold"
+                              color="#34D399"
+                              className="mr-2"
+                            />
+                          ) : (
+                            <Circle
+                              size={16}
+                              weight="bold"
+                              className="mr-2 text-red-400"
+                            />
+                          )}
+                          Valid last name
+                        </li>
+                      </ul>
+                    )}
+
+                    {/* user role */}
+                    <div className="rounded-md mt-4">
+                      <select
+                        id="userRole"
+                        value={userRole}
+                        onChange={(e) => {
+                          setUserRole(e.target.value);
+                        }}
+                        className="w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 pr-11 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
+                      >
+                        <option value="default" disabled>
+                          What do you do?
+                        </option>
+                        <option value="Student">Student</option>
+                        <option value="Teacher">Teacher</option>
+                        <option value="Manager">Manager</option>
+                        <option value="Business Owner">Business Owner</option>
+                        <option value="Developer">Developer</option>
+                        <option value="Designer">Designer</option>
+                      </select>
+                    </div>
+
+                    {/* next button */}
+                    <div className="flex justify-end">
+                      <button
+                        onClick={() => {
+                          if (isStepValid()) {
+                            setStep((prevStep) => prevStep + 1);
+                          }
+                        }}
+                        className={`rounded-md bg-ultramarineLightest text-ultramarine font-medium px-4 py-2 mt-8 duration-100 ${
+                          isStepValid()
+                            ? "hover:bg-ultramarine hover:text-white"
+                            : "opacity-50 cursor-not-allowed"
+                        }`}
+                      >
+                        Next
+                      </button>
+                    </div>
+                  </>
+                )}
               </li>
-              <li className="border-t py-8 text-lg text-gray-400">
-                5. Payment details
-              </li>
+
+              {/* TODO - replace inputs with stripe elements */}
+              {/* payment details */}
+              {/* <li className="border-t py-8 text-lg text-gray-400">
+                <p>5. Billing</p>
+                <div className="flex mt-4 gap-4">
+                  <input
+                    placeholder="credit card"
+                    className="w-3/5 block rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
+                  />
+                  <input
+                    placeholder="expiration date"
+                    className="block w-1/5 rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
+                  />
+                  <input
+                    placeholder="security code"
+                    className="block w-1/5 rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
+                  />
+                </div>
+                <input
+                  placeholder="cardholder name"
+                  className="block mt-4 w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
+                />
+                <div className="flex gap-4">
+                  <input
+                    placeholder="zip code"
+                    className="block mt-4 w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
+                  />
+                  <input
+                    placeholder="country"
+                    className="block mt-4 w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm"
+                  />
+                </div>
+              </li> */}
             </ol>
           </div>
-          <div className="rounded-md border mt-20 w-2/5"></div>
+
+          {/* plan summary and submission */}
+          <div className="rounded-md border mt-20 w-2/5 p-10 h-fit">
+            <h1 className="text-center text-ultramarine text-3xl pb-10">
+              Order summary
+            </h1>
+            <div className="space-y-1">
+              <div className="flex items-center justify-between text-md">
+                <p>Plan:</p>
+                <p>
+                  {plan === "monthly"
+                    ? "Monthly"
+                    : plan === "yearly"
+                    ? "Yearly"
+                    : ""}
+                </p>
+              </div>
+              <div className="flex items-center justify-between text-md">
+                <p>Email:</p>
+                <p>{email}</p>
+              </div>
+              <div className="flex items-center justify-between text-md">
+                <p>Name:</p>
+                <p>
+                  {fName} {lName}
+                </p>
+              </div>
+              <div className="flex items-center justify-between text-md">
+                <p>Role:</p>
+                <p>{userRole === "default" ? "" : userRole}</p>
+              </div>
+            </div>
+            <p className="text-sm pt-10">Enter a promo code</p>
+            <div className="flex gap-4 items-center mt-2">
+              <input className="block w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm" />
+              <button className="bg-ultramarineLightest rounded-md px-4 py-3 text-ultramarine hover:bg-ultramarine hover:text-white duration-100">
+                Apply
+              </button>
+            </div>
+            <div className="flex justify-between mb-10 mt-6 border-t pt-4">
+              <p className="text-2xl">Total</p>
+              <p className="text-2xl">
+                {plan === "monthly"
+                  ? "$3.00"
+                  : plan === "yearly"
+                  ? "$30.00"
+                  : ""}
+              </p>
+            </div>
+            <div className="flex items-center mb-6 gap-2">
+              {isTermsChecked ? (
+                <CheckSquare
+                  size={18}
+                  weight="bold"
+                  onClick={handleCheckboxChange}
+                  className="text-ultramarine"
+                />
+              ) : (
+                <Square
+                  size={18}
+                  weight="bold"
+                  onClick={handleCheckboxChange}
+                />
+              )}{" "}
+              <p className="tracking-wide text-gray-900 text-sm">
+                I agree to Velocity's{" "}
+                <a href="/" className="hover:underline text-ultramarine">
+                  Terms of Agreement
+                </a>{" "}
+                &{" "}
+                <a href="/" className="hover:underline text-ultramarine">
+                  Privacy Policy
+                </a>
+              </p>
+            </div>
+
+            <button
+              onClick={(e) => {
+                registerUser(e);
+              }}
+              className="bg-ultramarineLightest w-full py-4 rounded-md text-lg text-ultramarine font-medium mb-6 hover:bg-ultramarine hover:text-white duration-100"
+            >
+              Create my account
+            </button>
+            <p className="italic text-xs text-center">
+              Renews automatically. Cancel anytime.
+            </p>
+          </div>
         </div>
       </section>
     </>
-    // <>
-    // <nav className="sticky top-0 flex items-center justify-between px-8 py-5 border-b border-gray-200 backdrop-blur-md bg-white/30">
-    //   <a href="/" className="text-xl font-semibold italic text-slate-900">
-    //     Velocity
-    //   </a>
-    //   <p className="text-sm">
-    //     Already have an account?{" "}
-    //     <a
-    //       className="hover:underline cursor-pointer text-blue-600"
-    //       onClick={() => history("/login")}
-    //     >
-    //       Log in
-    //     </a>
-    //   </p>
-    // </nav>
-    //   <div className="flex flex-row">
-    //     {/* Left Section */}
-    //     <div className="hidden lg:block mt-16 fixed left-0">
-    //       <div className="h-full px-14">
-    //         <ul className="space-y-6">
-    //           {step === 1 && (
-    //             <>
-    //               <li className="flex items-center gap-2 text-blue-600">
-    //                 <CheckCircle size={22} weight="bold" />
-    //                 <p className="font-medium text-md">Step 1</p>
-    //               </li>
-    //               <li className="flex items-center gap-2 text-gray-400">
-    //                 <Circle size={22} weight="bold" />
-    //                 <p className="font-medium">Step 2</p>
-    //               </li>
-    //               <li className="flex items-center gap-2 text-gray-400">
-    //                 <Circle size={22} weight="bold" />
-    //                 <p className="font-medium">Step 3</p>
-    //               </li>
-    //               <li className="flex items-center gap-2 text-gray-400">
-    //                 <Circle size={22} weight="bold" />
-    //                 <p className="font-medium">Step 4</p>
-    //               </li>
-    //             </>
-    //           )}
-    //           {step === 2 && (
-    //             <>
-    //               <li className="flex items-center gap-2 text-green-600">
-    //                 <CheckCircle size={22} weight="bold" />
-    //                 <p className="font-medium text-md">Step 1</p>
-    //               </li>
-    //               <li className="flex items-center gap-2 text-blue-600">
-    //                 <CheckCircle size={22} weight="bold" />
-    //                 <p className="font-medium">Step 2</p>
-    //               </li>
-    //               <li className="flex items-center gap-2 text-gray-400">
-    //                 <Circle size={22} weight="bold" />
-    //                 <p className="font-medium">Step 3</p>
-    //               </li>
-    //               <li className="flex items-center gap-2 text-gray-400">
-    //                 <Circle size={22} weight="bold" />
-    //                 <p className="font-medium">Step 4</p>
-    //               </li>
-    //             </>
-    //           )}
-    //           {step === 3 && (
-    //             <>
-    //               <li className="flex items-center gap-2 text-green-600">
-    //                 <CheckCircle size={22} weight="bold" />
-    //                 <p className="font-medium text-md">Step 1</p>
-    //               </li>
-    //               <li className="flex items-center gap-2 text-green-600">
-    //                 <CheckCircle size={22} weight="bold" />
-    //                 <p className="font-medium">Step 2</p>
-    //               </li>
-    //               <li className="flex items-center gap-2 text-blue-600">
-    //                 <CheckCircle size={22} weight="bold" />
-    //                 <p className="font-medium">Step 3</p>
-    //               </li>
-    //               <li className="flex items-center gap-2 text-gray-400">
-    //                 <Circle size={22} weight="bold" />
-    //                 <p className="font-medium">Step 4</p>
-    //               </li>
-    //             </>
-    //           )}
-    //           {step === 4 && (
-    //             <>
-    //               <li className="flex items-center gap-2 text-green-600">
-    //                 <CheckCircle size={22} weight="bold" />
-    //                 <p className="font-medium text-md">Step 1</p>
-    //               </li>
-    //               <li className="flex items-center gap-2 text-green-600">
-    //                 <CheckCircle size={22} weight="bold" />
-    //                 <p className="font-medium">Step 2</p>
-    //               </li>
-    //               <li className="flex items-center gap-2 text-green-600">
-    //                 <CheckCircle size={22} weight="bold" />
-    //                 <p className="font-medium">Step 3</p>
-    //               </li>
-    //               <li className="flex items-center gap-2 text-blue-600">
-    //                 <CheckCircle size={22} weight="bold" />
-    //                 <p className="font-medium">Step 4</p>
-    //               </li>
-    //             </>
-    //           )}
-    //         </ul>
-    //       </div>
-    //     </div>
-
-    //     {/* Right Section */}
-    //     <div className="flex-1">
-    //       <div
-    //         className={`mx-auto mt-16 ${step === 3 ? "max-w-2xl" : "max-w-md"}`}
-    //       >
-    //         {/* step titles */}
-    //         {step === 1 && (
-    //           <h1 className="text-3xl text-slate-900">Your information</h1>
-    //         )}
-
-    //         {step === 2 && (
-    //           <h1 className="text-3xl text-slate-900">
-    //             Enter a secure password
-    //           </h1>
-    //         )}
-
-    //         {step === 3 && (
-    //           <h1 className="text-3xl text-slate-900">
-    //             Select a subscription plan
-    //           </h1>
-    //         )}
-
-    //         {step === 4 && (
-    //           <h1 className="text-3xl text-slate-900">
-    //             Enter your billing information
-    //           </h1>
-    //         )}
-
-    //         {step === 1 && (
-    //           <>
-    //             {/* login with google button */}
-    //             <div className={`flex flex-row gap-4 pb-8 pt-8`}>
-    //               <span className="flex items-center bg-white w-full justify-center py-4 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md hover:duration-300 duration-300">
-    //                 <FcGoogle size={25} />
-    //                 <p className="text-gray-700 font-semibold text-sm">
-    //                   Google
-    //                 </p>
-    //               </span>
-
-    //               {/* login with apple button */}
-    //               <span className="flex items-center bg-white w-full justify-center py-4 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md hover:duration-300 duration-300">
-    //                 <FaApple size={25} />
-    //                 <p className="text-gray-700 font-semibold text-sm">Apple</p>
-    //               </span>
-    //             </div>
-
-    //             {/* divider */}
-    //             <div className="flex items-center w-full">
-    //               <hr className="w-full text-gray-300" />
-    //               <p className="px-4 text-gray-300 font-light">or</p>
-    //               <hr className="w-full text-gray-300" />
-    //             </div>
-    //           </>
-    //         )}
-    //         <form className="pt-8">{inputDisplay()}</form>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </>
   );
 }
