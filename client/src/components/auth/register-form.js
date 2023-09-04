@@ -13,6 +13,7 @@ import {
   Lock,
   Square,
 } from "phosphor-react";
+import Sitemap from "../layout/sitemap";
 
 export default function RegisterForm() {
   const history = useNavigate();
@@ -642,13 +643,13 @@ export default function RegisterForm() {
           </div>
 
           {/* plan summary and submission */}
-          <div className="rounded-md border mt-20 w-2/5 p-10 h-fit">
-            <h1 className="text-center text-ultramarine text-3xl pb-10">
+          <div className="rounded-md border mt-20 w-2/5 px-12 py-10 h-fit">
+            <h1 className="text-center text-gray-900 text-3xl pb-10">
               Order summary
             </h1>
             <div className="space-y-1">
-              <div className="flex items-center justify-between text-md">
-                <p>Plan:</p>
+              <div className="flex items-center justify-between text-md font-light">
+                <p>Plan</p>
                 <p>
                   {plan === "monthly"
                     ? "Monthly"
@@ -657,18 +658,18 @@ export default function RegisterForm() {
                     : ""}
                 </p>
               </div>
-              <div className="flex items-center justify-between text-md">
-                <p>Email:</p>
+              <div className="flex items-center justify-between text-md font-light">
+                <p>Email</p>
                 <p>{email}</p>
               </div>
-              <div className="flex items-center justify-between text-md">
-                <p>Name:</p>
+              <div className="flex items-center justify-between text-md font-light">
+                <p>Name</p>
                 <p>
                   {fName} {lName}
                 </p>
               </div>
-              <div className="flex items-center justify-between text-md">
-                <p>Role:</p>
+              <div className="flex items-center justify-between text-md font-light">
+                <p>Role</p>
                 <p>{userRole === "default" ? "" : userRole}</p>
               </div>
             </div>
@@ -730,6 +731,9 @@ export default function RegisterForm() {
           </div>
         </div>
       </section>
+
+      {/* footer */}
+      <Sitemap />
     </>
   );
 }
