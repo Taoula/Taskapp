@@ -167,6 +167,7 @@ export default function RegisterForm() {
         });
     } catch (err) {
       console.error(err.response.data);
+      console.error(err);
     }
   }
 

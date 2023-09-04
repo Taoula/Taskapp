@@ -9,6 +9,15 @@ const userSchema = new mongoose.Schema({
   profilePicture: {
     type: String,
     default: "https://i.imgur.com/mrSQg7N.png",
+    required: false,
+  },
+  stripeCustomerId: {
+    type: String,
+    required: false,
+  },
+  stripeSubscriptionId: {
+    type: String,
+    required: false,
   },
 });
 

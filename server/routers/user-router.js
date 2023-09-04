@@ -3,6 +3,7 @@ const User = require("../models/user.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth");
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 //register
 router.post("/", async (req, res) => {
@@ -55,6 +56,19 @@ router.post("/", async (req, res) => {
     });
 
     const savedUser = await newUser.save();
+
+    // create a customer in stripe
+    const customer = await stripe.customers.create({ email: email });
+
+    // create a stripe subscription for the customer
+    const subscription = await stripe.subscriptions.create({
+      customer: customer.id,
+      items: [{ price: "price_1NmQ1wEW7fzDQnQtv3EBp5YY" }],
+    });
+
+    newUser.stripeCustomerId = customer.id;
+    newUser.stripeSubscriptionId = subscription.id;
+    await newUser.save();
 
     //sign token
 
