@@ -31,7 +31,7 @@ export default function RegisterForm() {
   };
 
   const [formData, setFormData] = useState(
-    JSON.parse(localStorage.getItem("formData")) || initialFormData
+    JSON.parse(sessionStorage.getItem("formData")) || initialFormData
   );
 
   // const [formData, setFormData] = useState({
@@ -47,7 +47,7 @@ export default function RegisterForm() {
 
   useEffect(() => {
     // Save form data to localStorage whenever it changes
-    localStorage.setItem("formData", JSON.stringify(formData));
+    sessionStorage.setItem("formData", JSON.stringify(formData));
   }, [formData]);
 
   const {
@@ -223,7 +223,7 @@ export default function RegisterForm() {
         .post("http://localhost:8282/auth/", userData, {})
         .then((res) => {
           if (res.status === 200) {
-            localStorage.removeItem("formData");
+            sessionStorage.removeItem("formData");
           }
           return res.data;
         })
@@ -278,7 +278,7 @@ export default function RegisterForm() {
 
       {/* content */}
       <section className="max-w-6xl mx-auto">
-        <div className="flex gap-16 mt-20 mb-20">
+        <div className="flex gap-16 my-20">
           <div className="w-3/5">
             <h1 className="text-4xl font-semibold pb-10">Create an account</h1>
             <ol>
@@ -788,7 +788,25 @@ export default function RegisterForm() {
             <h1 className="text-center text-gray-900 text-3xl pb-10">
               Order summary
             </h1>
-
+            <div className="flex justify-between">
+              <p>
+                {plan === "monthly"
+                  ? "Velocity Monthly Plan"
+                  : plan === "yearly"
+                  ? "Velocity Yearly Plan"
+                  : ""}
+              </p>
+              <p>
+                {" "}
+                <p>
+                  {plan === "monthly"
+                    ? "$3.00"
+                    : plan === "yearly"
+                    ? "$30.00"
+                    : ""}
+                </p>
+              </p>
+            </div>
             <p className="text-sm pt-10">Enter a promo code</p>
             <div className="flex gap-2 items-center mt-2">
               <input className="block w-full rounded-md py-3 pl-4 bg-gray-50 border border-gray-200 text-gray-600 placeholder:text-gray-400 focus:bg-white focus-within:placeholder:text-gray-600 text-sm" />
