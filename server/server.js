@@ -1,16 +1,30 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const session = require('express-session')
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
-dotenv.config();
+const passport = require("passport");
 
+dotenv.config();
+const passportStrategy = require("./passport");
 //set up server
 
 app = express();
 const PORT = process.env.PORT || 8282;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`))
+
+app.use(session({
+    secret: process.env.JWT_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {secure: false,
+            maxAge: 345600000}
+}))
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(express.json())
 app.use(cookieParser())

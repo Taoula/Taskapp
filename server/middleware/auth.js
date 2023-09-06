@@ -2,12 +2,13 @@ const jwt = require("jsonwebtoken");
 
 function auth(req, res, next) {
     try {
-        const token = req.cookies.token;
-
-        if (!token) return res.status(401).json({errorMessage: "Unauthorized"})
+        console.log("BRUH")
+        console.log(req.session.passport)
+        const uid = req.session.passport.user
         
-        const verified = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = verified.user;
+        if (!uid) return res.status(401).json({errorMessage: "Unauthorized"})
+        
+        req.user = uid
         next();
     } catch (err) {
         console.error(err);

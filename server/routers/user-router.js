@@ -3,8 +3,19 @@ const User = require("../models/user.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth");
+const passport = require("passport");
+
 
 //register
+router.get(
+	"/google/callback",
+	passport.authenticate("google", {
+		successRedirect: process.env.CLIENT_URL,
+		failureRedirect: "/login/failed",
+	})
+);
+
+
 router.post("/", async (req, res) => {
   try {
     const {
@@ -54,7 +65,7 @@ router.post("/", async (req, res) => {
       profilePicture,
     });
 
-    const savedUser = await newUser.save();
+    /*const savedUser = await newUser.save();
 
     //sign token
 
@@ -71,7 +82,7 @@ router.post("/", async (req, res) => {
       .cookie("token", token, {
         httpOnly: true,
       })
-      .send();
+      .send();*/
   } catch (err) {
     console.error(err);
     res.status(500).send();
@@ -81,6 +92,7 @@ router.post("/", async (req, res) => {
 //login
 
 router.post("/login", async (req, res) => {
+  console.log("LOGGING IN BITch")
   try {
     const { email, password } = req.body;
 
@@ -147,7 +159,9 @@ router.get("/loggedIn", (req, res) => {
 });
 
 router.get("/", auth, async (req, res) => {
+  console.log("gettin user")
   try {
+    console.log(req.user)
     const userId = req.user;
     const { fName, lName, email, userRole, profilePicture } =
       await User.findById(userId);

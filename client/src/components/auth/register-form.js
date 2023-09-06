@@ -12,6 +12,15 @@ import { CheckCircle, Circle } from "phosphor-react";
 import useSettingStore from "../../context/useSettingStore";
 
 export default function RegisterForm() {
+
+  const googleAuth = () => {
+    console.log("GOOGLEAUTH")
+		window.open(
+			`http://localhost:8282/auth/google/callback`,
+			"_self"
+		);
+	};
+
   const history = useNavigate();
   const { getLoggedIn } = useContext(AuthContext);
 
@@ -396,12 +405,12 @@ export default function RegisterForm() {
               <>
                 {/* login with google button */}
                 <div className={`flex flex-row gap-4 pb-8 pt-8`}>
-                  <span className="flex items-center bg-white w-full justify-center py-4 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md hover:duration-300 duration-300">
+                  <button onClick={googleAuth} className="flex items-center bg-white w-full justify-center py-4 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md hover:duration-300 duration-300">
                     <FcGoogle size={25} />
                     <p className="text-gray-700 font-semibold text-sm">
                       Google
                     </p>
-                  </span>
+                  </button>
 
                   {/* login with apple button */}
                   <span className="flex items-center bg-white w-full justify-center py-4 gap-2 rounded-md border border-gray-200 shadow-sm hover:cursor-pointer hover:shadow-md hover:duration-300 duration-300">
