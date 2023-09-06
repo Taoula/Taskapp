@@ -2,13 +2,20 @@ const router = require("express").Router();
 const User = require("../models/user.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const auth = require("../middleware/auth")
+const auth = require("../middleware/auth");
 
 //register
 router.post("/", async (req, res) => {
   try {
-    const { fName, lName, userRole, email, password, passwordVerify } =
-      req.body;
+    const {
+      fName,
+      lName,
+      userRole,
+      email,
+      password,
+      passwordVerify,
+      profilePicture,
+    } = req.body;
 
     if (!fName || !lName || !userRole || !email || !password || !passwordVerify)
       return res
@@ -16,11 +23,9 @@ router.post("/", async (req, res) => {
         .json({ errorMessage: "Please enter all required fields" });
 
     if (password.length < 6)
-      return res
-        .status(400)
-        .json({
-          errorMessage: "Your password must be longer than 6 characters",
-        });
+      return res.status(400).json({
+        errorMessage: "Your password must be longer than 6 characters",
+      });
 
     if (password !== passwordVerify)
       return res
@@ -46,6 +51,7 @@ router.post("/", async (req, res) => {
       userRole,
       email,
       passwordHash,
+      profilePicture,
     });
 
     const savedUser = await newUser.save();
@@ -142,12 +148,27 @@ router.get("/loggedIn", (req, res) => {
 
 router.get("/", auth, async (req, res) => {
   try {
-      const userId = req.user;
-      const {fName, lName, email, userRole} = await User.findById(userId);
-      res.json({fName, lName, email, userRole});
-  } catch (err){
-      console.error(err)
-      res.status(500).send()
+    const userId = req.user;
+    const { fName, lName, email, userRole, profilePicture } =
+      await User.findById(userId);
+    res.json({ fName, lName, email, userRole, profilePicture });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send();
+  }
+});
+
+router.patch("/", auth, async (req, res) => {
+  try {
+    const userId = req.user;
+    const { fName, lName, email, userRole, profilePicture } = req.body;
+    const updatedUser = User.findByIdAndUpdate(
+      { userId },
+      { fName, lName, email, userRole, profilePicture }
+    );
+  } catch (err) {
+    console.error(err);
+    res.status(500).send();
   }
 });
 

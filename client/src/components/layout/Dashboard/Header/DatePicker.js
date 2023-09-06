@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import useGlobalStore from "../../../../context/useGlobalStore";
 import dayjs from "dayjs";
 import {
@@ -9,20 +9,18 @@ import {
   Calendar,
 } from "phosphor-react";
 import { usePopper } from "react-popper";
-import { Popover, Transition } from "@headlessui/react";
+import { Transition } from "@headlessui/react";
 
 export default function Datepicker() {
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+
+  // positioning for calendar dropdown
   let [referenceElement, setReferenceElement] = useState();
   let [popperElement, setPopperElement] = useState();
   let { styles, attributes } = usePopper(referenceElement, popperElement, {
     placement: "bottom",
   });
-
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-
-  function toggleCalendar() {
-    setIsCalendarOpen(!isCalendarOpen);
-  }
 
   const { currentDay, incrementDay, decrementDay, isToday } = useGlobalStore(
     (state) => ({
@@ -33,6 +31,7 @@ export default function Datepicker() {
     })
   );
 
+  // displays message depending on selected date
   const formatDate = (date) => {
     const today = dayjs();
 
@@ -45,8 +44,7 @@ export default function Datepicker() {
     }
   };
 
-  const [currentMonth, setCurrentMonth] = useState(new Date());
-
+  // calculates days and weeks for calendar dropdown
   const getDaysInMonth = (year, month) =>
     new Date(year, month + 1, 0).getDate();
   const getFirstDayOfWeek = (year, month) => new Date(year, month, 1).getDay();
@@ -60,6 +58,7 @@ export default function Datepicker() {
     currentMonth.getMonth()
   );
 
+  // disables previous month toggle if on current month
   const isPreviousMonthDisabled = () => {
     const today = new Date();
     return (
@@ -68,13 +67,36 @@ export default function Datepicker() {
     );
   };
 
+  // formats and renders dates in calendar dropdown
   const renderCalendar = () => {
     const days = [];
+    const today = dayjs(); // Get the current real-life date
+
     for (let day = 1; day <= daysInMonth; day++) {
+      const date = dayjs(
+        new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day)
+      );
+
       days.push(
         <td key={day}>
-          <div className="px-2 py-2 cursor-pointer flex hover:bg-slate-100 w-full justify-center">
-            <p className="text-base text-gray-500 font-medium">{day}</p>
+          {/* highlights current day and removes styling for all days before current day */}
+          <div
+            className={`px-2 py-2 cursor-pointer rounded-md flex   ${
+              date.isSame(today, "day")
+                ? "bg-blue-500 text-white "
+                : date.isBefore(today, "day")
+                ? "hover:cursor-not-allowed"
+                : "dark:hover:bg-gray-500 hover:bg-slate-100"
+            } w-full justify-center`}
+          >
+            {/* muted color for all days before current day */}
+            <p
+              className={`text-base font-medium text-gray-500 dark:text-gray-200 ${
+                date.isBefore(today, "day") ? "dark:text-gray-500" : ""
+              }`}
+            >
+              {day}
+            </p>
           </div>
         </td>
       );
@@ -97,6 +119,7 @@ export default function Datepicker() {
     return weeks;
   };
 
+  // handles month switching in calendar dropdown
   const handlePrevMonth = () => {
     setCurrentMonth(
       new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1)
@@ -109,23 +132,114 @@ export default function Datepicker() {
     );
   };
 
+  // closes calendar dropdown if clicked outside of calendar
+  const handleClickOutsideCalendar = (event) => {
+    if (
+      popperElement &&
+      !popperElement.contains(event.target) &&
+      referenceElement &&
+      !referenceElement.contains(event.target)
+    ) {
+      setIsCalendarOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutsideCalendar);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutsideCalendar);
+    };
+  }, [popperElement, referenceElement]);
+
   return (
     <>
-      <Popover className="relative flex text-left">
-        <Popover.Button ref={setReferenceElement}>
-          <div className="px-4 py-2 rounded-l-lg flex gap-2 items-center border border-gray-200 border-r-0 hover:bg-gray-200 hover:cursor-pointer hover:duration-100 duration-100">
-            <Calendar size={20} />
-            <p className="font-normal text-md">{formatDate(currentDay)}</p>
+      <div className="flex">
+        {/* dropdown button */}
+        <div
+          ref={setReferenceElement}
+          onClick={(e) => setIsCalendarOpen(!isCalendarOpen)}
+          className="rounded-l-lg hover:cursor-pointer flex gap-2 items-center px-4 py-2 bg-gray-200 text-slate-900 hover:bg-gray-300 duration-200 hover:duration-100 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-800/50"
+        >
+          <Calendar size={20} weight="fill" />
+          <p className="font-normal text-md">{formatDate(currentDay)}</p>
+        </div>
+
+        {/* calendar dropdown */}
+        <Transition
+          show={isCalendarOpen}
+          enter="transition-opacity duration-100"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="transition-opacity duration-100"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div
+            className="p-8 mt-4 bg-white w-1/4 shadow-xl rounded-md border absolute dark:bg-gray-600 dark:border-gray-500"
+            ref={setPopperElement}
+            style={styles.popper}
+            {...attributes.popper}
+          >
+            <div className="px-4 flex items-center justify-between">
+              <div className="focus:outline-none text-base font-bold text-gray-800 dark:text-gray-200">
+                {currentMonth.toLocaleString("en-US", {
+                  month: "long",
+                  year: "numeric",
+                })}
+              </div>
+              <div className="flex items-center">
+                <button
+                  aria-label="calendar backward"
+                  className={`${
+                    isPreviousMonthDisabled() === true
+                      ? "dark:text-gray-500 cursor-not-allowed"
+                      : "hover:text-gray-400 text-gray-800 dark:text-gray-200"
+                  }`}
+                  onClick={handlePrevMonth}
+                  disabled={isPreviousMonthDisabled()}
+                >
+                  <CaretLeft size={20} />
+                </button>
+                <button
+                  aria-label="calendar forward"
+                  className=" hover:text-gray-400 ml-3 text-gray-800 dark:text-gray-200"
+                  onClick={handleNextMonth}
+                >
+                  <CaretRight size={20} />
+                </button>
+              </div>
+            </div>
+            <div className="flex items-center justify-between pt-12 overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr>
+                    {["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"].map((day) => (
+                      <th key={day}>
+                        <div className="w-full flex justify-center">
+                          <p className="text-base font-medium text-center text-gray-800 pb-4 dark:text-gray-200">
+                            {day}
+                          </p>
+                        </div>
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>{renderCalendar()}</tbody>
+              </table>
+            </div>
           </div>
-        </Popover.Button>
-        <p className="border border-gray-200 bg-stone-50 flex items-center gap-3 text-slate-900 rounded-r-lg px-4 py-2 text-sm">
+        </Transition>
+
+        {/* date toggler */}
+        <div className="px-4 flex items-center gap-3 border bg-white border-gray-200 border-l-0 py-2 rounded-r-lg dark:bg-gray-600 dark:border-gray-800">
           {!isToday ? (
             <>
               <ArrowLeft
+                onClick={decrementDay}
                 size={20}
                 weight="bold"
-                className="text-gray-500 hover:text-slate-900 duration-100 hover:duration-100 hover:cursor-pointer"
-                onClick={decrementDay}
+                className="text-gray-500 hover:text-slate-900 duration-100 hover:duration-100 hover:cursor-pointer dark:text-gray-200"
               />
             </>
           ) : (
@@ -133,86 +247,21 @@ export default function Datepicker() {
               <ArrowLeft
                 size={20}
                 weight="bold"
-                className="text-gray-200 duration-100 hover:duration-100 hover:cursor-not-allowed"
+                className="text-gray-200 duration-100 hover:duration-100 hover:cursor-not-allowed dark:text-gray-500"
               />
             </>
           )}
-          <p className="">{currentDay.format("MM/DD/YYYY")}</p>
+          <p className="dark:text-gray-200">
+            {currentDay.format("MM/DD/YYYY")}
+          </p>
           <ArrowRight
             size={20}
             weight="bold"
-            className="text-gray-500 hover:text-slate-900 duration-100 hover:duration-100 hover:cursor-pointer"
+            className="text-gray-500 hover:text-slate-900 duration-100 hover:duration-100 hover:cursor-pointer dark:text-gray-200"
             onClick={incrementDay}
           />
-        </p>
-
-        <Transition
-          as={React.Fragment}
-          enter="transition ease-out duration-100"
-          enterFrom="transform opacity-0 scale-95"
-          enterTo="transform opacity-100 scale-100"
-          leave="transition ease-in duration-75"
-          leaveFrom="transform opacity-100 scale-100"
-          leaveTo="transform opacity-0 scale-95"
-        >
-          <Popover.Panel
-            className="z-10 absolute w-full rounded-md shadow-xl bg-white focus:outline-none"
-            ref={setPopperElement}
-            style={styles.popper}
-            {...attributes.popper}
-          >
-            <div className="px-8 py-6 mt-4 bg-white max-w-sm shadow-xl rounded-md border absolute">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center justify-between w-full">
-                  <button
-                    aria-label="calendar backward"
-                    className={`focus:text-gray-400 hover:text-gray-400 text-gray-800 ${
-                      isPreviousMonthDisabled() === true
-                        ? "cursor-not-allowed"
-                        : ""
-                    }`}
-                    onClick={handlePrevMonth}
-                    disabled={isPreviousMonthDisabled()}
-                  >
-                    <CaretLeft size={20} />
-                  </button>
-                  <span className="focus:outline-none text-base font-bold text-gray-800">
-                    {currentMonth.toLocaleString("en-US", {
-                      month: "long",
-                      year: "numeric",
-                    })}
-                  </span>
-                  <button
-                    aria-label="calendar forward"
-                    className="focus:text-gray-400 hover:text-gray-400 ml-3 text-gray-800"
-                    onClick={handleNextMonth}
-                  >
-                    <CaretRight size={20} />
-                  </button>
-                </div>
-              </div>
-              <div className="flex items-center justify-between pt-8 overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr>
-                      {["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"].map((day) => (
-                        <th key={day}>
-                          <div className="w-full flex justify-center">
-                            <p className="text-base font-medium text-center text-gray-800 pb-4">
-                              {day}
-                            </p>
-                          </div>
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>{renderCalendar()}</tbody>
-                </table>
-              </div>
-            </div>
-          </Popover.Panel>
-        </Transition>
-      </Popover>
+        </div>
+      </div>
     </>
   );
 }

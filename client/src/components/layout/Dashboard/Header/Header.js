@@ -50,13 +50,13 @@ export default function Header() {
 
   return (
     <>
-      <div className="shadow-b shadow-sm px-10 py-4 items-center flex justify-between bg-white border-b border-gray-200 sticky top-0 z-20">
+      <div className="shadow-b shadow-sm px-10 py-4 items-center flex justify-between bg-white border-b border-gray-200 sticky top-0 z-20 dark:bg-gray-700 dark:border-gray-600">
         <div className="sm:hidden">
           <List size={25} />
         </div>
         <div className="flex gap-4 items-center">
           {/* greeting */}
-          <p className="text-lg font-normal text-slate-900 invisible sm:visible">
+          <p className="text-lg font-normal text-slate-900 invisible sm:visible dark:text-gray-200">
             {greeting}, {capitalizeName(fName)}
           </p>
           {/* profile dropdown */}

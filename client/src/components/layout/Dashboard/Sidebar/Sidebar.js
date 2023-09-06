@@ -32,6 +32,7 @@ export default function Sidebar() {
   const [fName, setfName] = useState([]);
   const [lName, setlName] = useState([]);
   const [email, setEmail] = useState([]);
+  const [profilePicture, setProfilePicture] = useState("");
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -47,6 +48,7 @@ export default function Sidebar() {
     setfName(userReq.data.fName);
     setlName(userReq.data.lName);
     setEmail(userReq.data.email);
+    setProfilePicture(userReq.data.profilePicture);
   }
 
   // capitalizes user's name
@@ -96,16 +98,18 @@ export default function Sidebar() {
 
   return (
     <>
-      <div className="max-h-screen shadow-inner shadow-sm bg-slate-50 border-r border-slate-200 w-20 justify-between flex flex-col pt-6 pb-6">
-        <h1 className="italic font-semibold text-xl mx-auto">V</h1>
+      <div className="max-h-screen shadow-inner bg-slate-50 border-r border-slate-200 w-20 justify-between flex flex-col pt-6 pb-6 dark:bg-gray-700 dark:border-gray-600">
+        <h1 className="italic font-semibold text-xl mx-auto cursor-default dark:text-gray-200">
+          V
+        </h1>
         <div className="flex flex-col space-y-3 mx-auto">
           {tabs.map((tab, i) => (
             <NavLink
               to={tab?.link}
               className={({ isActive }) =>
                 isActive
-                  ? "bg-slate-200 rounded-md p-2 text-slate-900"
-                  : "hover:bg-slate-200 rounded-md p-2 text-slate-900"
+                  ? "bg-slate-200 rounded-md p-2 text-slate-900 dark:text-gray-200 dark:bg-gray-600"
+                  : "hover:bg-slate-200 rounded-md p-2 text-slate-900 dark:text-gray-200 dark:hover:bg-gray-600"
               }
             >
               {React.createElement(tab?.icon, {

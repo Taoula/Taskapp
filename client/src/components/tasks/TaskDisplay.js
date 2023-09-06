@@ -262,15 +262,15 @@ export default function TaskDisplay() {
     <>
       {/* Tasks menu */}
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-medium">Library</h1>
+        <h1 className="text-3xl font-medium dark:text-white">Library</h1>
         <div className="flex gap-4">
           {/* search for task */}
           <div className="flex items-center">
-            <p className="border border-gray-200 bg-stone-50 text-slate-900 rounded-l-lg px-4 py-2 text-sm">
+            <p className="border border-gray-200 bg-stone-50 text-slate-900 rounded-l-lg px-4 py-2 text-sm dark:bg-gray-700 dark:text-gray-200 dark:border-gray-500">
               Search
             </p>
             <div className="relative">
-              <div className="pointer-events-non text-slate-900 absolute inset-y-0 right-0 flex items-center pr-3">
+              <div className="pointer-events-non text-slate-900 dark:text-gray-200 absolute inset-y-0 right-0 flex items-center pr-3">
                 <MagnifyingGlass size={20} />
               </div>
               <input
@@ -278,18 +278,18 @@ export default function TaskDisplay() {
                 autoComplete="off"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="block w-full pl-4 pr-8 text-sm rounded-r-lg border border-gray-200 border-l-0 focus:outline-none focus:ring-0 focus:border-gray-200"
+                className="block w-full pl-4 pr-8 text-sm rounded-r-lg border border-gray-200 border-l-0 focus:outline-none focus:ring-0 focus:border-gray-200 dark:bg-gray-600 dark:focus:border-gray-500 dark:text-gray-200 dark:border-gray-500"
               />
             </div>
           </div>
 
           {/* filter tasks */}
           <Menu as="div" className="relative flex text-left">
-            <p className="border border-gray-200 bg-stone-50 text-slate-900 rounded-l-lg px-4 py-2 text-sm">
+            <p className="border border-gray-200 bg-stone-50 text-slate-900 rounded-l-lg px-4 py-2 text-sm dark:bg-gray-700 dark:text-gray-200 dark:border-gray-500">
               Filter
             </p>
             <Menu.Button>
-              <div className="px-2 py-2 rounded-r-lg border border-gray-200 border-l-0 hover:bg-gray-200 hover:cursor-pointer hover:duration-100 duration-100">
+              <div className="px-2 py-2 rounded-r-lg border border-gray-200 border-l-0 hover:bg-gray-200 hover:cursor-pointer hover:duration-100 duration-100 dark:hover:bg-gray-500 dark:bg-gray-600 dark:focus:border-gray-500 dark:text-gray-200 dark:border-gray-500">
                 <Funnel size={20} />
               </div>
             </Menu.Button>
@@ -303,14 +303,16 @@ export default function TaskDisplay() {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="z-10 origin-top-right absolute right-0 mt-12 w-48 rounded-md shadow-xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <Menu.Items className="z-10 origin-top-right absolute right-0 mt-12 w-48 rounded-md shadow-xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-700">
                 <div className="py-1">
                   <Menu.Item>
                     {({ active }) => (
                       <button
                         onClick={() => handleFilterSelect("", "")}
                         className={`${
-                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                          active
+                            ? "bg-gray-100 text-gray-900 dark:text-white dark:bg-gray-600"
+                            : "text-gray-700 dark:text-white"
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
@@ -326,11 +328,15 @@ export default function TaskDisplay() {
                       <button
                         onClick={() => handleFilterSelect("1", "")}
                         className={`${
-                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                          active
+                            ? "bg-gray-100 text-gray-900 dark:text-white dark:bg-red-600/50"
+                            : "text-gray-700 dark:text-white"
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
-                        <span className="text-red-600">High priority</span>
+                        <span className="text-red-600 dark:text-white">
+                          High priority
+                        </span>
                         {filterPriority === "1" && filterActive === "" && (
                           <Check className="h-5 w-5" aria-hidden="true" />
                         )}
@@ -342,11 +348,15 @@ export default function TaskDisplay() {
                       <button
                         onClick={() => handleFilterSelect("2", "")}
                         className={`${
-                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                          active
+                            ? "bg-gray-100 text-gray-900 dark:text-white dark:bg-yellow-600/50"
+                            : "text-gray-700 dark:text-white"
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
-                        <span className="text-yellow-600">Medium priority</span>
+                        <span className="text-yellow-600 dark:text-white">
+                          Medium priority
+                        </span>
                         {filterPriority === "2" && filterActive === "" && (
                           <Check className="h-5 w-5" aria-hidden="true" />
                         )}
@@ -358,11 +368,15 @@ export default function TaskDisplay() {
                       <button
                         onClick={() => handleFilterSelect("3", "")}
                         className={`${
-                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                          active
+                            ? "bg-gray-100 text-gray-900 dark:text-white dark:bg-green-600/50"
+                            : "text-gray-700 dark:text-white"
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
-                        <span className="text-green-600">Low priority</span>
+                        <span className="text-green-600 dark:text-white">
+                          Low priority
+                        </span>
                         {filterPriority === "3" && filterActive === "" && (
                           <Check className="h-5 w-5" aria-hidden="true" />
                         )}
@@ -374,11 +388,15 @@ export default function TaskDisplay() {
                       <button
                         onClick={() => handleFilterSelect("", "true")}
                         className={`${
-                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                          active
+                            ? "bg-gray-100 text-gray-900 dark:text-white dark:bg-blue-600/50"
+                            : "text-gray-700 dark:text-white"
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
-                        <span className="text-blue-600">Active</span>
+                        <span className="text-blue-600 dark:text-white">
+                          Active
+                        </span>
                         {filterPriority === "" && filterActive === "true" && (
                           <Check className="h-5 w-5" aria-hidden="true" />
                         )}
@@ -390,7 +408,9 @@ export default function TaskDisplay() {
                       <button
                         onClick={() => handleFilterSelect("", "false")}
                         className={`${
-                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                          active
+                            ? "bg-gray-100 text-gray-900 dark:text-white dark:bg-gray-600"
+                            : "text-gray-700 dark:text-white"
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
@@ -408,11 +428,11 @@ export default function TaskDisplay() {
 
           {/* sort tasks */}
           <Menu as="div" className="relative flex text-left">
-            <p className="border border-gray-200 bg-stone-50 text-slate-900 rounded-l-lg px-4 py-2 text-sm">
+            <p className="border border-gray-200 bg-stone-50 text-slate-900 rounded-l-lg px-4 py-2 text-sm dark:bg-gray-700 dark:text-gray-200 dark:border-gray-500">
               Sort
             </p>
             <Menu.Button>
-              <div className="px-2 py-2 rounded-r-lg border border-gray-200 border-l-0 hover:bg-gray-200 hover:cursor-pointer hover:duration-100 duration-100">
+              <div className="px-2 py-2 rounded-r-lg border border-gray-200 border-l-0 hover:bg-gray-200 hover:cursor-pointer hover:duration-100 duration-100 dark:hover:bg-gray-500 dark:bg-gray-600 dark:focus:border-gray-500 dark:text-gray-200 dark:border-gray-500">
                 <SortAscending size={20} />
               </div>
             </Menu.Button>
@@ -426,14 +446,16 @@ export default function TaskDisplay() {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="z-10 origin-top-right absolute right-0 mt-12 w-48 rounded-md shadow-xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <Menu.Items className="z-10 origin-top-right absolute right-0 mt-12 w-48 rounded-md shadow-xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-700">
                 <div className="py-1">
                   <Menu.Item>
                     {({ active }) => (
                       <button
                         onClick={() => handleSortSelect("oldestToNewest")}
                         className={`${
-                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                          active
+                            ? "bg-gray-100 text-gray-900 dark:text-white dark:bg-gray-600"
+                            : "text-gray-700 dark:text-white"
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
@@ -449,7 +471,9 @@ export default function TaskDisplay() {
                       <button
                         onClick={() => handleSortSelect("newestToOldest")}
                         className={`${
-                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                          active
+                            ? "bg-gray-100 text-gray-900 dark:text-white dark:bg-gray-600"
+                            : "text-gray-700 dark:text-white"
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
@@ -465,7 +489,9 @@ export default function TaskDisplay() {
                       <button
                         onClick={() => handleSortSelect("priorityHighToLow")}
                         className={`${
-                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                          active
+                            ? "bg-gray-100 text-gray-900 dark:text-white dark:bg-gray-600"
+                            : "text-gray-700 dark:text-white"
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
@@ -481,7 +507,9 @@ export default function TaskDisplay() {
                       <button
                         onClick={() => handleSortSelect("priorityLowToHigh")}
                         className={`${
-                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                          active
+                            ? "bg-gray-100 text-gray-900 dark:text-white dark:bg-gray-600"
+                            : "text-gray-700 dark:text-white"
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
@@ -497,7 +525,9 @@ export default function TaskDisplay() {
                       <button
                         onClick={() => handleSortSelect("durationAscending")}
                         className={`${
-                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                          active
+                            ? "bg-gray-100 text-gray-900 dark:text-white dark:bg-gray-600"
+                            : "text-gray-700 dark:text-white"
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
@@ -513,7 +543,9 @@ export default function TaskDisplay() {
                       <button
                         onClick={() => handleSortSelect("durationDescending")}
                         className={`${
-                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                          active
+                            ? "bg-gray-100 text-gray-900 dark:text-white dark:bg-gray-600"
+                            : "text-gray-700 dark:text-white"
                         }
                   flex justify-between w-full px-4 py-2 text-sm font-normal`}
                       >
@@ -531,12 +563,12 @@ export default function TaskDisplay() {
 
           {/* add task */}
           <div className="flex items-center">
-            <p className="border border-gray-200 bg-stone-50 text-slate-900 rounded-l-lg px-4 py-2 text-sm">
+            <p className="border border-gray-200 bg-stone-50 text-slate-900 rounded-l-lg px-4 py-2 text-sm dark:bg-gray-700 dark:text-gray-200 dark:border-gray-500">
               Add task
             </p>
             <div
               onClick={() => setOpen(true)}
-              className="px-2 py-2 rounded-r-lg border border-gray-200 border-l-0 hover:bg-gray-200 hover:cursor-pointer hover:duration-100 duration-100"
+              className="px-2 py-2 rounded-r-lg border border-gray-200 border-l-0 hover:bg-gray-200 hover:cursor-pointer hover:duration-100 duration-100 dark:hover:bg-gray-500 dark:bg-gray-600 dark:focus:border-gray-500 dark:text-gray-200 dark:border-gray-500"
             >
               <Plus size={20} />
             </div>
@@ -546,13 +578,13 @@ export default function TaskDisplay() {
             {taskLayout === 1 ? (
               <SquaresFour
                 size={30}
-                className="text-slate-900 hover:text-slate-900 duration-200"
+                className="text-slate-900 hover:text-slate-900 duration-200 dark:text-indigo-500 dark:hover:text-indigo-500"
                 weight="fill"
               />
             ) : (
               <SquaresFour
                 size={30}
-                className="text-slate-400 hover:text-slate-900 duration-200"
+                className="text-slate-400 hover:text-slate-900 duration-200 dark:text-gray-400 dark:hover:text-indigo-500"
                 weight="fill"
                 onClick={() => handleLayoutChange(1)}
               />
@@ -561,13 +593,13 @@ export default function TaskDisplay() {
             {taskLayout === 2 ? (
               <Rows
                 size={30}
-                className="text-slate-900 hover:text-slate-900 duration-200"
+                className="text-slate-900 hover:text-slate-900 duration-200 dark:text-indigo-500 dark:hover:text-indigo-500"
                 weight="fill"
               />
             ) : (
               <Rows
                 size={30}
-                className="text-slate-400 hover:text-slate-900 duration-200"
+                className="text-slate-400 hover:text-slate-900 duration-200 dark:text-gray-400 dark:hover:text-indigo-500"
                 weight="fill"
                 onClick={() => handleLayoutChange(2)}
               />
@@ -576,13 +608,13 @@ export default function TaskDisplay() {
             {taskLayout === 3 ? (
               <Table
                 size={30}
-                className="text-slate-900 hover:text-slate-900 duration-200"
+                className="text-slate-900 hover:text-slate-900 duration-200 dark:text-indigo-500 dark:hover:text-indigo-500"
                 weight="fill"
               />
             ) : (
               <Table
                 size={30}
-                className="text-slate-400 hover:text-slate-900 duration-200"
+                className="text-slate-400 hover:text-slate-900 duration-200 dark:text-gray-400 dark:hover:text-indigo-500"
                 weight="fill"
                 onClick={() => handleLayoutChange(3)}
               />
@@ -619,7 +651,7 @@ export default function TaskDisplay() {
             taskState.numberOfActiveTasks === 0 &&
             taskState.numberOfInactiveTasks === 0
               ? "flex"
-              : "grid grid-cols-3 gap-3"
+              : "grid grid-cols-2 gap-2"
           }`}
         >
           {taskState.numberOfActiveTasks === 0 &&
@@ -637,71 +669,38 @@ export default function TaskDisplay() {
 
       {taskLayout === 3 && (
         <>
-          {/* <div class="flex flex-col mt-6">
-            <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-              <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                <div class="overflow-hidden border border-gray-200 rounded-md">
-                  <table class="w-full table-auto divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                      <tr>
-                        <th class="py-4 text-sm font-normal text-center text-gray-500 w-1/5">
-                          Name
-                        </th>
-                        <th class="py-4 text-sm font-normal text-center text-gray-500 w-1/5">
-                          Duration
-                        </th>
-                        <th class="py-4 text-sm font-normal text-center text-gray-500 w-1/5">
-                          Priority
-                        </th>
-                        <th class="py-4 text-sm font-normal text-center text-gray-500 w-1/5">
-                          Time
-                        </th>
-                        <th class="py-4 text-sm font-normal text-center text-gray-500 w-1/5">
-                          Actions
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                      <>{renderTasks()}</>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div> */}
-
-          <div class="relative overflow-x-auto rounded-md border border-gray-200 ">
-            <table class="w-full text-sm text-left text-gray-500 divide-y divide-gray-200">
-              <thead class="text-xs text-gray-700 bg-gray-50">
+          <div class="relative overflow-x-auto rounded-md border border-gray-200 dark:border-gray-500">
+            <table class="w-full text-sm text-left text-gray-500 divide-y divide-gray-200 dark:divide-gray-500">
+              <thead class="text-xs text-gray-700 bg-gray-50 dark:bg-gray-700">
                 <tr>
                   <th scope="col" class="p-4"></th>
                   <th
                     scope="col"
-                    class="px-6 py-4 text-sm font-normal text-gray-500"
+                    class="px-6 py-4 text-sm font-normal text-gray-500 dark:text-gray-200"
                   >
                     Name
                   </th>
                   <th
                     scope="col"
-                    class="px-6 py-4 text-sm font-normal text-gray-500"
+                    class="px-6 py-4 text-sm font-normal text-gray-500 dark:text-gray-200"
                   >
                     Duration
                   </th>
                   <th
                     scope="col"
-                    class="px-6 py-4 text-sm font-normal text-gray-500"
+                    class="px-6 py-4 text-sm font-normal text-gray-500 dark:text-gray-200"
                   >
                     Priority
                   </th>
                   <th
                     scope="col"
-                    class="px-6 py-4 text-sm font-normal text-gray-500"
+                    class="px-6 py-4 text-sm font-normal text-gray-500 dark:text-gray-200"
                   >
                     Time
                   </th>
                   <th
                     scope="col"
-                    class="px-6 py-4 text-sm font-normal text-gray-500"
+                    class="px-6 py-4 text-sm font-normal text-gray-500 dark:text-gray-200"
                   >
                     Actions
                   </th>
@@ -712,488 +711,6 @@ export default function TaskDisplay() {
               </tbody>
             </table>
           </div>
-
-          {/* <div class="flex flex-col mt-6">
-            <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-              <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
-                  <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                    <thead class="bg-gray-50 dark:bg-gray-800">
-                      <tr>
-                        <th
-                          scope="col"
-                          class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                        >
-                          <button class="flex items-center gap-x-3 focus:outline-none">
-                            <span>Company</span>
-
-                            <svg
-                              class="h-3"
-                              viewBox="0 0 10 11"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M2.13347 0.0999756H2.98516L5.01902 4.79058H3.86226L3.45549 3.79907H1.63772L1.24366 4.79058H0.0996094L2.13347 0.0999756ZM2.54025 1.46012L1.96822 2.92196H3.11227L2.54025 1.46012Z"
-                                fill="currentColor"
-                                stroke="currentColor"
-                                stroke-width="0.1"
-                              />
-                              <path
-                                d="M0.722656 9.60832L3.09974 6.78633H0.811638V5.87109H4.35819V6.78633L2.01925 9.60832H4.43446V10.5617H0.722656V9.60832Z"
-                                fill="currentColor"
-                                stroke="currentColor"
-                                stroke-width="0.1"
-                              />
-                              <path
-                                d="M8.45558 7.25664V7.40664H8.60558H9.66065C9.72481 7.40664 9.74667 7.42274 9.75141 7.42691C9.75148 7.42808 9.75146 7.42993 9.75116 7.43262C9.75001 7.44265 9.74458 7.46304 9.72525 7.49314C9.72522 7.4932 9.72518 7.49326 9.72514 7.49332L7.86959 10.3529L7.86924 10.3534C7.83227 10.4109 7.79863 10.418 7.78568 10.418C7.77272 10.418 7.73908 10.4109 7.70211 10.3534L7.70177 10.3529L5.84621 7.49332C5.84617 7.49325 5.84612 7.49318 5.84608 7.49311C5.82677 7.46302 5.82135 7.44264 5.8202 7.43262C5.81989 7.42993 5.81987 7.42808 5.81994 7.42691C5.82469 7.42274 5.84655 7.40664 5.91071 7.40664H6.96578H7.11578V7.25664V0.633865C7.11578 0.42434 7.29014 0.249976 7.49967 0.249976H8.07169C8.28121 0.249976 8.45558 0.42434 8.45558 0.633865V7.25664Z"
-                                fill="currentColor"
-                                stroke="currentColor"
-                                stroke-width="0.3"
-                              />
-                            </svg>
-                          </button>
-                        </th>
-
-                        <th
-                          scope="col"
-                          class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                        >
-                          Status
-                        </th>
-
-                        <th
-                          scope="col"
-                          class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                        >
-                          About
-                        </th>
-
-                        <th
-                          scope="col"
-                          class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                        >
-                          Users
-                        </th>
-
-                        <th
-                          scope="col"
-                          class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                        >
-                          License use
-                        </th>
-
-                        <th scope="col" class="relative py-3.5 px-4">
-                          <span class="sr-only">Edit</span>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                      <tr>
-                        <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
-                          <div>
-                            <h2 class="font-medium text-gray-800 dark:text-white">
-                              Catalog
-                            </h2>
-                            <p class="text-sm font-normal text-gray-600 dark:text-gray-400">
-                              catalogapp.io
-                            </p>
-                          </div>
-                        </td>
-                        <td class="px-12 py-4 text-sm font-medium whitespace-nowrap">
-                          <div class="inline px-3 py-1 text-sm font-normal rounded-full text-emerald-500 gap-x-2 bg-emerald-100/60 dark:bg-gray-800">
-                            Customer
-                          </div>
-                        </td>
-                        <td class="px-4 py-4 text-sm whitespace-nowrap">
-                          <div>
-                            <h4 class="text-gray-700 dark:text-gray-200">
-                              Content curating app
-                            </h4>
-                            <p class="text-gray-500 dark:text-gray-400">
-                              Brings all your news into one place
-                            </p>
-                          </div>
-                        </td>
-                        <td class="px-4 py-4 text-sm whitespace-nowrap">
-                          <div class="flex items-center">
-                            <img
-                              class="object-cover w-6 h-6 -mx-1 border-2 border-white rounded-full dark:border-gray-700 shrink-0"
-                              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=256&q=80"
-                              alt=""
-                            />
-                            <img
-                              class="object-cover w-6 h-6 -mx-1 border-2 border-white rounded-full dark:border-gray-700 shrink-0"
-                              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=256&q=80"
-                              alt=""
-                            />
-                            <img
-                              class="object-cover w-6 h-6 -mx-1 border-2 border-white rounded-full dark:border-gray-700 shrink-0"
-                              src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1256&q=80"
-                              alt=""
-                            />
-                            <img
-                              class="object-cover w-6 h-6 -mx-1 border-2 border-white rounded-full dark:border-gray-700 shrink-0"
-                              src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=256&q=80"
-                              alt=""
-                            />
-                            <p class="flex items-center justify-center w-6 h-6 -mx-1 text-xs text-blue-600 bg-blue-100 border-2 border-white rounded-full">
-                              +4
-                            </p>
-                          </div>
-                        </td>
-
-                        <td class="px-4 py-4 text-sm whitespace-nowrap">
-                          <div class="w-48 h-1.5 bg-blue-200 overflow-hidden rounded-full">
-                            <div class="bg-blue-500 w-2/3 h-1.5"></div>
-                          </div>
-                        </td>
-
-                        <td class="px-4 py-4 text-sm whitespace-nowrap">
-                          <button class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg dark:text-gray-300 hover:bg-gray-100">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke-width="1.5"
-                              stroke="currentColor"
-                              class="w-6 h-6"
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
-                              />
-                            </svg>
-                          </button>
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
-                          <div>
-                            <h2 class="font-medium text-gray-800 dark:text-white">
-                              Circooles
-                            </h2>
-                            <p class="text-sm font-normal text-gray-600 dark:text-gray-400">
-                              getcirooles.com
-                            </p>
-                          </div>
-                        </td>
-                        <td class="px-12 py-4 text-sm font-medium whitespace-nowrap">
-                          <div class="inline px-3 py-1 text-sm font-normal text-gray-500 bg-gray-100 rounded-full dark:text-gray-400 gap-x-2 dark:bg-gray-800">
-                            Churned
-                          </div>
-                        </td>
-                        <td class="px-4 py-4 text-sm whitespace-nowrap">
-                          <div>
-                            <h4 class="text-gray-700 dark:text-gray-200">
-                              Design software
-                            </h4>
-                            <p class="text-gray-500 dark:text-gray-400">
-                              Super lightweight design app
-                            </p>
-                          </div>
-                        </td>
-                        <td class="px-4 py-4 text-sm whitespace-nowrap">
-                          <div class="flex items-center">
-                            <img
-                              class="object-cover w-6 h-6 -mx-1 border-2 border-white rounded-full dark:border-gray-700 shrink-0"
-                              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=256&q=80"
-                              alt=""
-                            />
-                            <img
-                              class="object-cover w-6 h-6 -mx-1 border-2 border-white rounded-full dark:border-gray-700 shrink-0"
-                              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=256&q=80"
-                              alt=""
-                            />
-                            <img
-                              class="object-cover w-6 h-6 -mx-1 border-2 border-white rounded-full dark:border-gray-700 shrink-0"
-                              src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1256&q=80"
-                              alt=""
-                            />
-                            <img
-                              class="object-cover w-6 h-6 -mx-1 border-2 border-white rounded-full dark:border-gray-700 shrink-0"
-                              src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=256&q=80"
-                              alt=""
-                            />
-                            <p class="flex items-center justify-center w-6 h-6 -mx-1 text-xs text-blue-600 bg-blue-100 border-2 border-white rounded-full">
-                              +4
-                            </p>
-                          </div>
-                        </td>
-
-                        <td class="px-4 py-4 text-sm whitespace-nowrap">
-                          <div class="w-48 h-1.5 bg-blue-200 overflow-hidden rounded-full">
-                            <div class="bg-blue-500 w-2/5 h-1.5"></div>
-                          </div>
-                        </td>
-
-                        <td class="px-4 py-4 text-sm whitespace-nowrap">
-                          <button class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg dark:text-gray-300 hover:bg-gray-100">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke-width="1.5"
-                              stroke="currentColor"
-                              class="w-6 h-6"
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
-                              />
-                            </svg>
-                          </button>
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
-                          <div>
-                            <h2 class="font-medium text-gray-800 dark:text-white">
-                              Sisyphus
-                            </h2>
-                            <p class="text-sm font-normal text-gray-600 dark:text-gray-400">
-                              sisyphus.com
-                            </p>
-                          </div>
-                        </td>
-                        <td class="px-12 py-4 text-sm font-medium whitespace-nowrap">
-                          <div class="inline px-3 py-1 text-sm font-normal rounded-full text-emerald-500 gap-x-2 bg-emerald-100/60 dark:bg-gray-800">
-                            Customer
-                          </div>
-                        </td>
-                        <td class="px-4 py-4 text-sm whitespace-nowrap">
-                          <div>
-                            <h4 class="text-gray-700 dark:text-gray-200">
-                              Automation and workflow
-                            </h4>
-                            <p class="text-gray-500 dark:text-gray-400">
-                              Time tracking, invoicing and expenses
-                            </p>
-                          </div>
-                        </td>
-                        <td class="px-4 py-4 text-sm whitespace-nowrap">
-                          <div class="flex items-center">
-                            <img
-                              class="object-cover w-6 h-6 -mx-1 border-2 border-white rounded-full dark:border-gray-700 shrink-0"
-                              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=256&q=80"
-                              alt=""
-                            />
-                            <img
-                              class="object-cover w-6 h-6 -mx-1 border-2 border-white rounded-full dark:border-gray-700 shrink-0"
-                              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=256&q=80"
-                              alt=""
-                            />
-                            <img
-                              class="object-cover w-6 h-6 -mx-1 border-2 border-white rounded-full dark:border-gray-700 shrink-0"
-                              src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1256&q=80"
-                              alt=""
-                            />
-                            <img
-                              class="object-cover w-6 h-6 -mx-1 border-2 border-white rounded-full dark:border-gray-700 shrink-0"
-                              src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=256&q=80"
-                              alt=""
-                            />
-                            <p class="flex items-center justify-center w-6 h-6 -mx-1 text-xs text-blue-600 bg-blue-100 border-2 border-white rounded-full">
-                              +4
-                            </p>
-                          </div>
-                        </td>
-
-                        <td class="px-4 py-4 text-sm whitespace-nowrap">
-                          <div class="w-48 h-1.5 bg-blue-200 overflow-hidden rounded-full">
-                            <div class="bg-blue-500 w-11/12 h-1.5"></div>
-                          </div>
-                        </td>
-
-                        <td class="px-4 py-4 text-sm whitespace-nowrap">
-                          <button class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg dark:text-gray-300 hover:bg-gray-100">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke-width="1.5"
-                              stroke="currentColor"
-                              class="w-6 h-6"
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
-                              />
-                            </svg>
-                          </button>
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
-                          <div>
-                            <h2 class="font-medium text-gray-800 dark:text-white">
-                              Hourglass
-                            </h2>
-                            <p class="text-sm font-normal text-gray-600 dark:text-gray-400">
-                              hourglass.app
-                            </p>
-                          </div>
-                        </td>
-                        <td class="px-12 py-4 text-sm font-medium whitespace-nowrap">
-                          <div class="inline px-3 py-1 text-sm font-normal text-gray-500 bg-gray-100 rounded-full dark:text-gray-400 gap-x-2 dark:bg-gray-800">
-                            Churned
-                          </div>
-                        </td>
-                        <td class="px-4 py-4 text-sm whitespace-nowrap">
-                          <div>
-                            <h4 class="text-gray-700 dark:text-gray-200">
-                              Productivity app
-                            </h4>
-                            <p class="text-gray-500 dark:text-gray-400">
-                              Time management and productivity
-                            </p>
-                          </div>
-                        </td>
-                        <td class="px-4 py-4 text-sm whitespace-nowrap">
-                          <div class="flex items-center">
-                            <img
-                              class="object-cover w-6 h-6 -mx-1 border-2 border-white rounded-full dark:border-gray-700 shrink-0"
-                              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=256&q=80"
-                              alt=""
-                            />
-                            <img
-                              class="object-cover w-6 h-6 -mx-1 border-2 border-white rounded-full dark:border-gray-700 shrink-0"
-                              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=256&q=80"
-                              alt=""
-                            />
-                            <img
-                              class="object-cover w-6 h-6 -mx-1 border-2 border-white rounded-full dark:border-gray-700 shrink-0"
-                              src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1256&q=80"
-                              alt=""
-                            />
-                            <img
-                              class="object-cover w-6 h-6 -mx-1 border-2 border-white rounded-full dark:border-gray-700 shrink-0"
-                              src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=256&q=80"
-                              alt=""
-                            />
-                            <p class="flex items-center justify-center w-6 h-6 -mx-1 text-xs text-blue-600 bg-blue-100 border-2 border-white rounded-full">
-                              +4
-                            </p>
-                          </div>
-                        </td>
-
-                        <td class="px-4 py-4 text-sm whitespace-nowrap">
-                          <div class="w-48 h-1.5 bg-blue-200 overflow-hidden rounded-full">
-                            <div class="bg-blue-500 w-1/3 h-1.5"></div>
-                          </div>
-                        </td>
-
-                        <td class="px-4 py-4 text-sm whitespace-nowrap">
-                          <button class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg dark:text-gray-300 hover:bg-gray-100">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke-width="1.5"
-                              stroke="currentColor"
-                              class="w-6 h-6"
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
-                              />
-                            </svg>
-                          </button>
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
-                          <div>
-                            <h2 class="font-medium text-gray-800 dark:text-white">
-                              Quotient
-                            </h2>
-                            <p class="text-sm font-normal text-gray-600 dark:text-gray-400">
-                              quotient.co
-                            </p>
-                          </div>
-                        </td>
-                        <td class="px-12 py-4 text-sm font-medium whitespace-nowrap">
-                          <div class="inline px-3 py-1 text-sm font-normal rounded-full text-emerald-500 gap-x-2 bg-emerald-100/60 dark:bg-gray-800">
-                            Customer
-                          </div>
-                        </td>
-                        <td class="px-4 py-4 text-sm whitespace-nowrap">
-                          <div>
-                            <h4 class="text-gray-700 dark:text-gray-200">
-                              Sales CRM
-                            </h4>
-                            <p class="text-gray-500 dark:text-gray-400">
-                              Web-based sales doc management
-                            </p>
-                          </div>
-                        </td>
-                        <td class="px-4 py-4 text-sm whitespace-nowrap">
-                          <div class="flex items-center">
-                            <img
-                              class="object-cover w-6 h-6 -mx-1 border-2 border-white rounded-full dark:border-gray-700 shrink-0"
-                              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=256&q=80"
-                              alt=""
-                            />
-                            <img
-                              class="object-cover w-6 h-6 -mx-1 border-2 border-white rounded-full dark:border-gray-700 shrink-0"
-                              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=256&q=80"
-                              alt=""
-                            />
-                            <img
-                              class="object-cover w-6 h-6 -mx-1 border-2 border-white rounded-full dark:border-gray-700 shrink-0"
-                              src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1256&q=80"
-                              alt=""
-                            />
-                            <img
-                              class="object-cover w-6 h-6 -mx-1 border-2 border-white rounded-full dark:border-gray-700 shrink-0"
-                              src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=256&q=80"
-                              alt=""
-                            />
-                            <p class="flex items-center justify-center w-6 h-6 -mx-1 text-xs text-blue-600 bg-blue-100 border-2 border-white rounded-full">
-                              +4
-                            </p>
-                          </div>
-                        </td>
-
-                        <td class="px-4 py-4 text-sm whitespace-nowrap">
-                          <div class="w-48 h-1.5 bg-blue-200 overflow-hidden rounded-full">
-                            <div class="bg-blue-500 w-1/6 h-1.5"></div>
-                          </div>
-                        </td>
-
-                        <td class="px-4 py-4 text-sm whitespace-nowrap">
-                          <button class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg dark:text-gray-300 hover:bg-gray-100">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke-width="1.5"
-                              stroke="currentColor"
-                              class="w-6 h-6"
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
-                              />
-                            </svg>
-                          </button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div> */}
         </>
       )}
 
