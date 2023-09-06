@@ -5,13 +5,17 @@ const auth = require("../middleware/auth");
 router.post("/", auth, async(req, res) => {
     try{
         const userId = req.user;
-        const newUserStat = new UserStat({
-            userId, entries: [], daysCompleted: 0, streak: 0
-        })
-
-        const savedUserStat = await newUserStat.save()
-
-        res.json(savedUserStat)
+        const existing = await UserStat.findOne({userId})
+        if (existing == null){
+            const newUserStat = new UserStat({
+                userId, entries: [], daysCompleted: 0, streak: 0
+            })
+    
+            const savedUserStat = await newUserStat.save()
+    
+            res.json(savedUserStat)
+        }
+        res.json("already exists!")
     } catch (err){
         console.log(err)
         res.status(500).send()

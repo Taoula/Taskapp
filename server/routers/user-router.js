@@ -135,29 +135,27 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/logout", (req, res) => {
-  res
-    .cookie("token", "", {
-      httpOnly: true,
-      expires: new Date(0),
-    })
-    .send();
+router.get("/logout", (req, res, next) => {
+  req.logout(function(err) {
+    if (err) { return next(err); }
+    res.sendStatus(200)
+  });
 });
 
+//TODO SECURE
 router.get("/loggedIn", (req, res) => {
   try {
-    const token = req.cookies.token;
-
-    if (!token) return res.json(false);
-
-    jwt.verify(token, process.env.JWT_SECRET);
-    res.send(true);
+    if (req.user == undefined || req.user == null ) {
+      res.json(false)
+    } else {
+      res.send(true)
+    }
   } catch (err) {
     console.error(err);
     res.json(false);
   }
 });
-
+ 
 router.get("/", auth, async (req, res) => {
   console.log("gettin user")
   try {

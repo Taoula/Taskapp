@@ -5,14 +5,19 @@ const auth = require("../middleware/auth");
 router.post("/", auth, async(req, res) => {
     try {
         const userId = req.user;
+        const existing = await Schedule.findOne({userId})
+        if (existing == null){
+            const newSchedule = new Schedule({
+                userId, entries: [], defaults: {wake: null, sleep: null}
+            })
+    
+            const savedSchedule = await newSchedule.save()
+    
+            res.json(savedSchedule);
+        }
 
-        const newSchedule = new Schedule({
-            userId, entries: [], defaults: {wake: null, sleep: null}
-        })
+        res.json("already exists")
 
-        const savedSchedule = await newSchedule.save()
-
-        res.json(savedSchedule);
     } catch (err){
         console.error(err)
         res.status(500).send()

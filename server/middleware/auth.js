@@ -2,8 +2,6 @@ const jwt = require("jsonwebtoken");
 
 function auth(req, res, next) {
     try {
-        console.log("BRUH")
-        console.log(req.session.passport)
         if (req.session.passport == undefined || req.session.passport.user == undefined){
             return res.status(401).json({errorMessage: "Unauthorized"})
         }

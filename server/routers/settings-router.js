@@ -5,16 +5,22 @@ const auth = require("../middleware/auth");
 router.post("/", auth, async (req, res) => {
   try {
     const userId = req.user;
-    const newSettings = new Settings({
-      userId,
-      theme: "light",
-      freeTimeMethod: "default",
-      freeTimeProportions: [1, 1, 1],
-      showPopUps: true,
-    });
+    const existing = await Settings.findOne({ userId })
 
-    const savedSettings = await newSettings.save();
-    res.json(savedSettings);
+    if (existing == null){
+      const newSettings = new Settings({
+        userId,
+        theme: "light",
+        freeTimeMethod: "default",
+        freeTimeProportions: [1, 1, 1],
+        showPopUps: true,
+      });
+  
+      const savedSettings = await newSettings.save();
+      res.json(savedSettings);
+    }
+
+    res.json("already exists")
   } catch (err) {
     console.error(err);
     res.status(500).send();

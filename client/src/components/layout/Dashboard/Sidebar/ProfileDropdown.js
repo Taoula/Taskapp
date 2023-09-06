@@ -18,6 +18,7 @@ export default function ProfileDropdown() {
   const [email, setEmail] = useState([]);
 
   async function logOut() {
+    console.log("LOGOUT")
     await axios.get("http://localhost:8282/auth/logout");
     getLoggedIn();
     history("/");
