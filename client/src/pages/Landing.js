@@ -14,6 +14,10 @@ export default function Landing() {
   };
 
   useEffect(() => {
+    if (sessionStorage.getItem("formData") != null) {
+      sessionStorage.clear();
+    }
+
     const handleScroll = () => {
       if (window.pageYOffset === 0) {
         setScrollToFeatures(false);
