@@ -14,10 +14,11 @@ passport.use(
 		},
 		async function (accessToken, refreshToken, profile, callback) {
 			try {
-                const foundUser = await User.find({ googleId: profile.id })
+                const foundUser = await User.findOne({ googleId: profile.id })
+                
                 //console.log(profile)
                 //TODO reoptimize?
-                if (foundUser.length == 0){
+                if (foundUser == null){
                     const fName = profile.name.givenName
                     const lName = profile.name.familyName
                     const email = profile.emails[0].value
@@ -31,6 +32,9 @@ passport.use(
                     const savedUser = await newUser.save()
                     return callback(null, savedUser);
 
+                } else {
+                    console.log("FUID" + foundUser._id)
+                    return callback(null, foundUser)
                 }
                 } catch(err){
                     console.error(err)
@@ -40,6 +44,8 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
+    console.log("su is " + user)
+    console.log("suid is " + user._id)
 	done(null, user._id)
 });
 
