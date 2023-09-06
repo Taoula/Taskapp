@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Folder from "./Folder";
 import useToggle from "../../hooks/use-toggle";
-import useGlobalStore from "../../context/useGlobalStore";
 import Task from "./Task";
 import "tw-elements";
 import DashboardFooter from "../layout/Dashboard/DashboardFooter";
 import CreateTaskSlideover from "./CreateTaskSlideover";
+import CreateFolderSlideover from "./CreateFolderSlideover";
 import { Menu, Transition } from "@headlessui/react";
+import useGlobalStore from "../../context/useGlobalStore";
 import CompletedTask from "./CompletedTask";
 import {
   MagnifyingGlass,
@@ -19,6 +21,7 @@ import {
   SortAscending,
   CheckSquare,
   Square,
+  ArrowLeft,
 } from "phosphor-react";
 import sameDate from "../../methods/same-date";
 import dateSearch from "../../methods/date-search";
@@ -26,7 +29,17 @@ import dateSearch from "../../methods/date-search";
 export default function TaskDisplay() {
   const [showCreateTask, setShowCreateTask] = useState(false);
   const [open, setOpen] = useState(false);
-  const { taskLayout, setTaskLayout } = useGlobalStore();
+  const [openF, setOpenF] = useState(false)
+  const [folderName, setFolderName] = useState("Library")
+
+  const { currentFolder, changeFolder, taskLayout, setTaskLayout } = useGlobalStore(
+    (state) => ({
+      currentFolder: state.currentFolder,
+      changeFolder: state.changeFolder,
+      taskLayout: state.taskLayout,
+      setTaskLayout: state.setTaskLayout
+    })
+  );
 
   const [sortOption, setSortOption] = useState("oldestToNewest");
 
@@ -35,6 +48,7 @@ export default function TaskDisplay() {
   }
 
   function sortByPriorityHighToLow(tasks) {
+    console.log("sorthightolow")
     return [...tasks].sort((a, b) => {
       const indexA = dateSearch(currentDay, a.entries);
       const indexB = dateSearch(currentDay, b.entries);
@@ -43,6 +57,7 @@ export default function TaskDisplay() {
   }
 
   function sortByPriorityLowToHigh(tasks) {
+    console.log("sortlowhigh")
     return [...tasks].sort((a, b) => {
       const indexA = dateSearch(currentDay, a.entries);
       const indexB = dateSearch(currentDay, b.entries);
@@ -51,6 +66,7 @@ export default function TaskDisplay() {
   }
 
   function sortByDurationAscending(tasks) {
+    console.log("sortdura")
     return [...tasks].sort((a, b) => {
       const indexA = dateSearch(currentDay, a.entries);
       const indexB = dateSearch(currentDay, b.entries);
@@ -59,6 +75,7 @@ export default function TaskDisplay() {
   }
 
   function sortByDurationDescending(tasks) {
+    console.log("sortdurd")
     return [...tasks].sort((a, b) => {
       const indexA = dateSearch(currentDay, a.entries);
       const indexB = dateSearch(currentDay, b.entries);
@@ -88,6 +105,7 @@ export default function TaskDisplay() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterPriority, setFilterPriority] = useState("");
   const [filterActive, setFilterActive] = useState("");
+  const [folders, setFolders] = useState({folders: []})
 
   function handleFilterSelect(priority, active) {
     setFilterPriority(priority);
@@ -102,9 +120,12 @@ export default function TaskDisplay() {
   useEffect(() => {
     console.log("useeffect");
     getTasks();
+    //getFolders();
   }, [currentDay]);
 
+  //replace to getTasks&Folders
   async function getTasks() {
+    console.log("getTasks()")
     // Get all tasks
     const taskReqInit = await axios.get("http://localhost:8282/task/");
     console.log(taskReqInit.data);
@@ -173,7 +194,7 @@ export default function TaskDisplay() {
 
     // Set all state values at once
     setTaskState({
-      tasks: taskReq.data,
+      tasks: taskReq.data.filter((task) => task.parent === currentFolder),
       numberOfInactiveTasks: inactiveIterator,
       numberOfActiveTasks: activeIterator,
       numberOfCompleteTasks: completeIterator,
@@ -181,7 +202,10 @@ export default function TaskDisplay() {
     });
   }
 
+
+
   function renderTasks() {
+    console.log("renderTasks()")
     if (taskState === null) {
       return <div></div>;
     }
@@ -258,11 +282,31 @@ export default function TaskDisplay() {
       });
   }
 
+  async function renderFolders(){
+    const folderReq = await axios.get("http://localhost:8282/folder/")
+    let tempFolders = []
+    for(let i = 0; i < folderReq.data.length; i++){
+      let folderToAdd = {
+        name: folderReq.data[i].name,
+        _id: folderReq.data[i]._id,
+        parent: folderReq.data[i].parent,
+        color: folderReq.data[i].color,
+        children: folderReq.data[i].children
+      }
+      tempFolders.push(folderToAdd)
+    }
+
+    tempFolders = tempFolders.filter((folder) => folder.parent === currentFolder)
+
+    return tempFolders.map((folder) => {
+      return <Folder folder={folder}></Folder>
+    })
+  }
   return (
     <>
       {/* Tasks menu */}
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-medium dark:text-white">Library</h1>
+        <h1 className="text-3xl font-medium dark:text-white">{folderName} {currentFolder != "global" && <ArrowLeft Size={20}/> }</h1>
         <div className="flex gap-4">
           {/* search for task */}
           <div className="flex items-center">
@@ -574,6 +618,18 @@ export default function TaskDisplay() {
             </div>
           </div>
 
+          <div className="flex items-center">
+            <p className="border border-gray-200 bg-stone-50 text-slate-900 rounded-l-lg px-4 py-2 text-sm dark:bg-gray-700 dark:text-gray-200 dark:border-gray-500">
+              Add folder
+            </p>
+            <div
+              onClick={() => setOpenF(true)}
+              className="px-2 py-2 rounded-r-lg border border-gray-200 border-l-0 hover:bg-gray-200 hover:cursor-pointer hover:duration-100 duration-100 dark:hover:bg-gray-500 dark:bg-gray-600 dark:focus:border-gray-500 dark:text-gray-200 dark:border-gray-500"
+            >
+              <Plus size={20} />
+            </div>
+          </div>
+
           <div className="flex items-center gap-1">
             {taskLayout === 1 ? (
               <SquaresFour
@@ -640,7 +696,7 @@ export default function TaskDisplay() {
               </p> */}
             </>
           ) : (
-            <>{renderTasks()}</>
+            <>{ renderFolders()}{renderTasks()}</>
           )}
         </div>
       )}
@@ -720,6 +776,12 @@ export default function TaskDisplay() {
         setOpen={setOpen}
         getTasks={getTasks}
       ></CreateTaskSlideover>
+      
+      <CreateFolderSlideover
+        open={openF}
+        setOpen={setOpenF}
+        getTasks={getTasks}
+      ></CreateFolderSlideover>
     </>
   );
 }

@@ -38,3 +38,4 @@ app.use("/schedule", require("./routers/schedule-router"));
 app.use("/taskStat", require("./routers/taskStat-router"));
 app.use("/userStat", require("./routers/userStat-router"));
 app.use("/settings", require("./routers/settings-router"));
+app.use("/folder", require("./routers/folder-router"))

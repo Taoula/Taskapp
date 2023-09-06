@@ -19,6 +19,7 @@ import { AiOutlineExclamation } from "react-icons/ai";
 import { MdSplitscreen } from "react-icons/md";
 import axios from "axios";
 import { TimeField } from "@mui/x-date-pickers/TimeField";
+import useGlobalStore from "../../context/useGlobalStore";
 const dayjs = require("dayjs");
 dayjs().format();
 
@@ -33,6 +34,7 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
   const [notes, setNotes] = useState([]);
   const [divisions, setDivisions] = useState(1);
   const [advancedOptions, setAdvancedOptions] = useState(false);
+  const { currentFolder } = useGlobalStore((state) => ({currentFolder: state.currentFolder}));
 
   useEffect(() => {
     // Check if name, duration, and priority have values
@@ -76,6 +78,7 @@ export default function CreateTaskSlideover({ open, setOpen, getTasks }) {
         name,
         entries,
         defaults,
+        parent: currentFolder,
       };
 
       await axios
