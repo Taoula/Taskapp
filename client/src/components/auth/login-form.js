@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useSettingStore from "../../context/useSettingStore";
 import axios from "axios";
@@ -19,6 +19,12 @@ import BreakpointLabel from "../BreakpointLabel";
 export default function LoginForm() {
   const { getLoggedIn } = useContext(AuthContext);
   const history = useNavigate();
+
+  useEffect(() => {
+    if (sessionStorage.getItem("formData") != null) {
+      sessionStorage.clear();
+    }
+  });
 
   // email
   const [email, setEmail] = useState("");
